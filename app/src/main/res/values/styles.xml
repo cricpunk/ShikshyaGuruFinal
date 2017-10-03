@@ -1,0 +1,46 @@
+<resources>
+
+    <!--Theme 1.    Splash screen-->
+    <style name="SplashScreen" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="android:windowBackground">@drawable/splash_screen_bg</item>
+    </style>
+
+    <!--Theme 2.    Theme for Well come activity-->
+    <style name="WellComeTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <!--Theme 3.    Sign up login screen-->
+    <style name="BaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <!--Theme 4.    Same status and nav bar color-->
+    <style name="NavStatusBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/statusBarColor</item>
+        <item name="android:windowBackground">@color/statusBarColor</item>
+    </style>
+
+    <!--Theme 5.    Search tool bar theme-->
+    <style name="Base.Theme.FloatingSearchDemo" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="colorPrimary">#ffffff</item>
+    </style>
+    <style name="AppTheme" parent="Base.Theme.FloatingSearchDemo"/>
+
+    <!--Theme 6.    Observable scroll toolbar theme-->
+    <style name="Toolbar" parent="Theme.AppCompat.Light.NoActionBar">
+
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+</resources>
+

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.shikshyaguru.shikshyaguru">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <!--Splash activity start-->
+        <activity
+            android:name="._1_splash_activity.SplashActivity"
+            android:theme="@style/SplashScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <!--Splash Activity end-->
+
+        <!--Well come activity start-->
+        <activity
+            android:name="._2_wellcome_activity.WelcomeSliderActivity"
+            android:theme="@style/WellComeTheme" />
+        <!--Well come Activity end-->
+
+        <!--Sign up and Log in Activity start-->
+        <activity
+            android:name="._3_signup_activity.model.FragmentViewPager"
+            android:theme="@style/BaseTheme" />
+        <!--Sign up and Log in Activity end-->
+
+        <activity
+            android:name="._3_signup_activity.model.ViewPagerActivity"
+            android:theme="@style/BaseTheme" />
+
+        <activity
+            android:name="._4_home_page_activity.views.HomePageActivity"
+            android:theme="@style/NavStatusBar" />
+
+        <activity android:name="._4_home_page_activity.views.expanding_view_pager.InfoActivity" />
+
+        <activity android:name="._5_news_activity.views.NewsHomePageActivity" />
+
+        <activity android:name="._6_institutions_activity.views.InstitutionsHomePageActivity" />
+
+        <activity android:name="._7_user_activity.views.UserHomePageActivity" />
+
+        <!--<activity android:name="._5_news_section.views.TabsHeaderActivity"/>-->
+    </application>
+
+</manifest>
