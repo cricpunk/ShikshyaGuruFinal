@@ -28,9 +28,6 @@
         <!--Well come Activity end-->
 
         <!--Sign up and Log in Activity start-->
-        <activity
-            android:name="._3_signup_activity.model.FragmentViewPager"
-            android:theme="@style/BaseTheme" />
         <!--Sign up and Log in Activity end-->
 
         <activity
@@ -48,6 +45,7 @@
         <activity android:name="._6_institutions_activity.views.InstitutionsHomePageActivity" />
 
         <activity android:name="._7_user_activity.views.UserHomePageActivity" />
+        <activity android:name="._4_home_page_activity.views.expanding_view_pager.MainActivity" />
 
         <!--<activity android:name="._5_news_section.views.TabsHeaderActivity"/>-->
     </application>

@@ -3,19 +3,24 @@ package com.shikshyaguru.shikshyaguru._4_home_page_activity.views;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SnapHelper;
 import android.text.Html;
+
+import android.text.Spanned;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,25 +29,21 @@ import com.arlib.floatingsearchview.FloatingSearchView;
 import com.arlib.floatingsearchview.suggestions.SearchSuggestionsAdapter;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.arlib.floatingsearchview.util.Util;
-import com.daimajia.slider.library.SliderLayout;
-import com.daimajia.slider.library.SliderTypes.TextSliderView;
-import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
-import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
-import com.github.ksoichiro.android.observablescrollview.ScrollState;
-import com.nineoldandroids.view.ViewHelper;
+import com.github.rubensousa.gravitysnaphelper.GravitySnapHelper;
 import com.shikshyaguru.shikshyaguru.R;
 import com.shikshyaguru.shikshyaguru._0_1_searching_mechanism.model.ColorWrapper;
 import com.shikshyaguru.shikshyaguru._0_1_searching_mechanism.model.DataHelper;
 import com.shikshyaguru.shikshyaguru._0_1_searching_mechanism.model.InstitutionsSuggestion;
 import com.shikshyaguru.shikshyaguru._0_1_searching_mechanism.views.BaseExampleFragment;
+import com.shikshyaguru.shikshyaguru._0_2_recyclerview_slider_effect.RecyclerViewSliderEffect;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.logic.Controller;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.FakeDataSource;
+import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.HomePageOptionsListItem;
+import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.HomePageSliderListItem;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.InstitutionsListItemParent;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.ListOfInstitutionsHeading;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.NewsListItem;
 import com.shikshyaguru.shikshyaguru._5_news_activity.views.NewsHomePageActivity;
-import com.shikshyaguru.shikshyaguru._5_news_activity.views.NewsLoaderFragment;
-import com.shikshyaguru.shikshyaguru.animation_collection.ToolbarAnimation;
 
 import java.util.List;
 
@@ -53,38 +54,42 @@ import java.util.List;
  */
 
 public class HomePageMainFragment extends BaseExampleFragment implements
-        ObservableScrollViewCallbacks,
         ViewInterface,
+AppBarLayout.OnOffsetChangedListener,
         View.OnClickListener {
 
+//  ####################### ROOT SECTION #######################
     private final String TAG = "HOME PAGE MAIN FRAGMENT";
+    private LayoutInflater layoutInflater;
+
+//  ####################### SEARCH BAR SECTION #######################
     public static final long FIND_SUGGESTION_SIMULATED_DELAY = 250;
     public static FloatingSearchView mSearchView;
-    private AppBarLayout mAppBar;
     private boolean mIsDarkSearchTheme = false;
     private String mLastQuery = "";
 
-    private CardView mCardView;
-    private View anchorSliderBg;
-    private ObservableScrollView mScrollView;
-    private SliderLayout imageSlider;
+//  ####################### SLIDER SECTION #######################
+    private List<HomePageSliderListItem> listOfSliderCandidates;
+    private RecyclerView recyclerViewSlider;
 
+//  ####################### OPTIONS SECTION #######################
+    private List<HomePageOptionsListItem> listOfOptions;
+    private RecyclerView recyclerViewOptions;
+
+//  ####################### NEWS SECTION #######################
     private static final String EXTRA_NEWS = "EXTRA_NEWS";
     private static final String INSTITUTIONS_ICON = "INSTITUTIONS_ICON";
-//    private static final String INSTITUTIONS_NAME = "INSTITUTIONS_NAME";
-//    private static final String INSTITUTIONS_RATING = "INSTITUTIONS_RATING";
-//    private static final String INSTITUTIONS_CITY_NAME = "INSTITUTIONS_CITY_NAME";
-
+    //private static final String INSTITUTIONS_NAME = "INSTITUTIONS_NAME";
+    //private static final String INSTITUTIONS_RATING = "INSTITUTIONS_RATING";
+    //private static final String INSTITUTIONS_CITY_NAME = "INSTITUTIONS_CITY_NAME";
     private List<NewsListItem> listOfNewsData;
+    private RecyclerView recyclerViewNews;
+
+//  ####################### INSTITUTIONS COLLECTION SECTION #######################
     private List<ListOfInstitutionsHeading> listOfInstitutionsHeadings;
+    private RecyclerView recyclerViewInstitutionsCollection;
 
-    private LayoutInflater layoutInflater;
-    private RecyclerView newsRecyclerView;
-    private RecyclerView institutionsCollectionRecyclerView;
-
-
-    private Button button;
-
+//  ####################### CONTROLLER #######################
     private Controller controller;
 
     public HomePageMainFragment() {
@@ -96,37 +101,50 @@ public class HomePageMainFragment extends BaseExampleFragment implements
         return inflater.inflate(R.layout._4_1_hp_main_fragment, container, false);
     }
 
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        ButterKnife.bind(getActivity());
 
-        mSearchView = (FloatingSearchView) view.findViewById(R.id.floating_search_view);
-        mAppBar = (AppBarLayout) view.findViewById(R.id.appbar);
+        searchBarSection(view);
+        sliderSection(view);
+        optionsSection(view);
+        newsSection(view);
+        institutionsCollectionSection(view);
 
-        mCardView = (CardView) view.findViewById(R.id.cv_img_slider);
-        anchorSliderBg = view.findViewById(R.id.anchor_slider_bg);
-        imageSlider = (SliderLayout) view.findViewById(R.id.image_slider_layout);
-        button = (Button) view.findViewById(R.id.button);
-        button.setOnClickListener(this);
-
-        mScrollView = (ObservableScrollView) view.findViewById(R.id.scrollable);
-        mScrollView.setScrollViewCallbacks(this);
-
-        TextView allNews = (TextView) view.findViewById(R.id.lbl_all_news);
-        allNews.setOnClickListener(this);
-
-        newsRecyclerView = (RecyclerView) view.findViewById(R.id.rec_news);
-        institutionsCollectionRecyclerView = (RecyclerView) view.findViewById(R.id.rec_institutions_collection);
-
-        // This is dependency injection
+        // THIS IS DEPENDENCY INJECTION FOR CONTROLLER CLASS
         controller = new Controller(this, new FakeDataSource());
 
-        slider();
+    }
+
+    private void searchBarSection(View view) {
+        mSearchView = (FloatingSearchView) view.findViewById(R.id.floating_search_view);
+        AppBarLayout mAppBar = (AppBarLayout) view.findViewById(R.id.appbar);
+        mAppBar.addOnOffsetChangedListener(this);
         setupDrawer();
         setupSearchBar();
+    }
 
+    private void sliderSection(View view) {
+        recyclerViewSlider = (RecyclerView) view.findViewById(R.id.rec_hp_slider);
+    }
+
+    private void optionsSection(View view) {
+        recyclerViewOptions = (RecyclerView) view.findViewById(R.id.rec_hp_options);
+    }
+
+    private void newsSection(View view) {
+        //ConstraintLayout rootNewsSection = (ConstraintLayout) view.findViewById(R.id.root_news_section);
+        //View newsHeaderBG = view.findViewById(R.id.v_news_header_bg);
+        TextView news = (TextView) view.findViewById(R.id.lbl_news);
+        news.setText(R.string.news);
+        TextView allNews = (TextView) view.findViewById(R.id.lbl_all_news);
+        allNews.setText(R.string.allNews);
+        allNews.setOnClickListener(this);
+        recyclerViewNews = (RecyclerView) view.findViewById(R.id.rec_news);
+    }
+
+    private void institutionsCollectionSection(View view) {
+        recyclerViewInstitutionsCollection = (RecyclerView) view.findViewById(R.id.rec_institutions_collection);
     }
 
     @Override
@@ -134,16 +152,10 @@ public class HomePageMainFragment extends BaseExampleFragment implements
         switch (v.getId()) {
             case R.id.lbl_all_news:
                 controller.onAllNewsClick();
-                break;
-            case R.id.button:
-//                Toast.makeText(getContext(), "Clicked", Toast.LENGTH_SHORT).show();
-
-                break;
             default:
                 break;
         }
     }
-
 
     @Override
     public boolean onActivityBackPress() {
@@ -151,73 +163,111 @@ public class HomePageMainFragment extends BaseExampleFragment implements
         //to close, then we don't want to close the activity. if mSearchView.setSearchFocused(false)
         //returns false, we know that the search was already closed so the call didn't change the focus
         //state and it makes sense to call supper onBackPressed() and close the activity
-        if (!mSearchView.setSearchFocused(false)) {
-            return false;
-        }
-        return true;
+        return mSearchView.setSearchFocused(false);
+        //if (!mSearchView.setSearchFocused(false)) {
+        //return false;
+        //}
+        //return true;
     }
 
     @Override
-    public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
-        ViewHelper.setTranslationY(imageSlider, scrollY / 2);
-        ViewHelper.setTranslationY(mCardView, (float) (scrollY / 2.5));
-        ViewHelper.setTranslationY(anchorSliderBg, (float) (scrollY / 1.5));
+    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+        mSearchView.setTranslationY(verticalOffset);
+    }
+
+//  ############################# VIEW INTERFACE IMPLEMENTATIONS START #############################
+
+    public void setUpSliderAdapterAndView(List<HomePageSliderListItem> listOfSliderCandidates) {
+        this.listOfSliderCandidates = listOfSliderCandidates;
+        RecyclerView.LayoutManager layoutManager = new CustomLinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerViewSlider.setLayoutManager(layoutManager);
+        final CustomSliderAdapter customSliderAdapter = new CustomSliderAdapter();
+        recyclerViewSlider.setAdapter(customSliderAdapter);
+        recyclerViewSlider.setHasFixedSize(true);
+        PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
+        pagerSnapHelper.attachToRecyclerView(recyclerViewSlider);
+        autoScrollRecyclerView(customSliderAdapter);
+
+        recyclerViewSlider.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int scrollState) {
+//                updateState(scrollState);
+            }
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int i, int i2) {
+                RecyclerViewSliderEffect.scrollListenerOnScrolled(recyclerView);
+            }
+        });
+
+        recyclerViewSlider.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                RecyclerViewSliderEffect.layoutChangeListenerOnLayoutChange(recyclerViewSlider);
+            }
+        });
     }
 
     @Override
-    public void onDownMotionEvent() {
-
+    public void setUpOptionsAdapterAndView(List<HomePageOptionsListItem> listOfOptions) {
+        this.listOfOptions = listOfOptions;
+        recyclerViewOptions.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        CustomOptionsAdapter customOptionsAdapter = new CustomOptionsAdapter();
+        recyclerViewOptions.setAdapter(customOptionsAdapter);
     }
-
-    @Override
-    public void onUpOrCancelMotionEvent(ScrollState scrollState) {
-        ToolbarAnimation animation = new ToolbarAnimation(mAppBar, mScrollView, mSearchView);
-        animation.onUpOrCancelMotionEvent(scrollState);
-    }
-
-    @Override
-    public void onStop() {
-        imageSlider.stopAutoCycle();
-        super.onStop();
-    }
-
-    public void slider() {
-        TextSliderView textSliderView = new TextSliderView(getContext());
-        textSliderView
-                .description("This is demo")
-                .image(R.drawable.example);
-        imageSlider.addSlider(textSliderView);
-    }
-
 
     @Override
     public void setupNewsHeadlinesAdapterAndView(List<NewsListItem> listOfNewsData) {
         this.listOfNewsData = listOfNewsData;
-        newsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerViewNews.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         CustomNewsAdapter customNewsAdapter = new CustomNewsAdapter();
-        newsRecyclerView.setAdapter(customNewsAdapter);
+        recyclerViewNews.setAdapter(customNewsAdapter);
+        recyclerViewNews.setHasFixedSize(true);
+        PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
+        pagerSnapHelper.attachToRecyclerView(recyclerViewNews);
+
+        recyclerViewNews.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int scrollState) {
+//                updateState(scrollState);
+            }
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int i, int i2) {
+                //scrollListenerOnScrolled(recyclerView);
+                RecyclerViewSliderEffect.scrollListenerOnScrolled(recyclerView);
+            }
+        });
+
+        recyclerViewNews.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                //layoutChangeListenerOnLayoutChange(recyclerViewSlider);
+                RecyclerViewSliderEffect.layoutChangeListenerOnLayoutChange(recyclerViewNews);
+            }
+        });
     }
 
     @Override
-    public void setupInstitutionsCollectionAdapterAndView(List<ListOfInstitutionsHeading> listOfInstitutionsHeadings) {
-        this.listOfInstitutionsHeadings = listOfInstitutionsHeadings;
-        institutionsCollectionRecyclerView.setNestedScrollingEnabled(false);
-        institutionsCollectionRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        CustomInstitutionsCollectionAdapter customInstitutionsCollectionAdapter = new CustomInstitutionsCollectionAdapter();
-        institutionsCollectionRecyclerView.setAdapter(customInstitutionsCollectionAdapter);
+    public void openNewsHomePage() {
+        Intent intent = new Intent(getContext(), NewsHomePageActivity.class);
+        intent.putExtra("REQUEST_CODE", "news_home");
+        startActivity(intent);
     }
 
     @Override
     public void openSingleNewsActivity(String news) {
         Intent intent = new Intent(getContext(), NewsHomePageActivity.class);
         intent.putExtra(EXTRA_NEWS, news);
+        intent.putExtra("REQUEST_CODE", "news_loader");
         startActivity(intent);
     }
 
     @Override
-    public void openNewsHomePage() {
-        Intent intent = new Intent(getContext(), NewsHomePageActivity.class);
-        startActivity(intent);
+    public void setupInstitutionsCollectionAdapterAndView(List<ListOfInstitutionsHeading> listOfInstitutionsHeadings) {
+        this.listOfInstitutionsHeadings = listOfInstitutionsHeadings;
+        recyclerViewInstitutionsCollection.setNestedScrollingEnabled(false);
+        recyclerViewInstitutionsCollection.setLayoutManager(new LinearLayoutManager(getContext()));
+        CustomInstitutionsCollectionAdapter customInstitutionsCollectionAdapter = new CustomInstitutionsCollectionAdapter();
+        recyclerViewInstitutionsCollection.setAdapter(customInstitutionsCollectionAdapter);
     }
 
     @Override
@@ -225,6 +275,46 @@ public class HomePageMainFragment extends BaseExampleFragment implements
         Intent intent = new Intent(getContext(), NewsHomePageActivity.class);
         intent.putExtra(INSTITUTIONS_ICON, institutionsIcon);
         startActivity(intent);
+    }
+
+//  ############################# VIEW INTERFACE IMPLEMENTATIONS END #############################
+
+
+    private class CustomOptionsAdapter extends RecyclerView.Adapter<CustomOptionsAdapter.OptionsViewHolder> {
+
+        @Override
+        public OptionsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = layoutInflater.inflate(R.layout.rec_hp_options, parent, false);
+            return new OptionsViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(OptionsViewHolder holder, int position) {
+            HomePageOptionsListItem currentItem = listOfOptions.get(position);
+            holder.optionName.setText(currentItem.getOptionName());
+        }
+
+        @Override
+        public int getItemCount() {
+            return listOfOptions.size();
+        }
+
+        class OptionsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+            private CardView cvOptionName;
+            private TextView optionName;
+
+            OptionsViewHolder(View itemView) {
+                super(itemView);
+                optionName = (TextView) itemView.findViewById(R.id.lbl_option_name);
+                cvOptionName = (CardView) itemView.findViewById(R.id.cv_option_name);
+                cvOptionName.setOnClickListener(this);
+            }
+
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "Clicked : " + getAdapterPosition(), Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     private class CustomNewsAdapter extends RecyclerView.Adapter<CustomNewsAdapter.CustomNewsViewHolder> {
@@ -299,7 +389,8 @@ public class HomePageMainFragment extends BaseExampleFragment implements
             CustomInstitutionAdapter customInstitutionAdapter = new CustomInstitutionAdapter();
             customInstitutionAdapter.setDataInside(currentItem.getRelatedInstitutionData());
             holder.institutionsRecyclerViewInside.setAdapter(customInstitutionAdapter);
-
+            SnapHelper snapHelper = new GravitySnapHelper(Gravity.START);
+            snapHelper.attachToRecyclerView(holder.institutionsRecyclerViewInside);
         }
 
 
@@ -320,6 +411,7 @@ public class HomePageMainFragment extends BaseExampleFragment implements
                 this.institutionSeeAll = (TextView) itemView.findViewById(R.id.lbl_see_all);
                 this.institutionsRecyclerViewInside = (RecyclerView) itemView.findViewById(R.id.rec_institutions);
                 institutionSeeAll.setOnClickListener(this);
+
             }
 
             @Override
@@ -391,6 +483,56 @@ public class HomePageMainFragment extends BaseExampleFragment implements
                 InstitutionsListItemParent institutionListItem = (InstitutionsListItemParent) dataInside.get(this.getAdapterPosition());
                 controller.onInstitutionsItemClick(institutionListItem);
             }
+        }
+    }
+
+    private class CustomSliderAdapter extends RecyclerView.Adapter<CustomSliderAdapter.SliderViewHolder> {
+
+        @Override
+        public SliderViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = layoutInflater.inflate(R.layout._4_8_hp_slider, parent, false);
+            return new SliderViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(SliderViewHolder holder, int position) {
+            HomePageSliderListItem currentItem = listOfSliderCandidates.get(position);
+            holder.candidateImage.setImageResource(currentItem.getImage());
+            holder.candidateName.setText(currentItem.getInstitutionName());
+            holder.candidateCity.setText(currentItem.getCityName());
+        }
+
+        @Override
+        public int getItemCount() {
+            return listOfSliderCandidates.size();
+        }
+
+        class SliderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+            private CardView sliderCardView;
+            private ImageView candidateImage;
+            private TextView candidateName;
+            private TextView candidateCity;
+            private TextView candidateSlogan;
+
+            SliderViewHolder(View view) {
+                super(view);
+
+                sliderCardView = (CardView) view.findViewById(R.id.cv_candidates_slider);
+                candidateImage = (ImageView) view.findViewById(R.id.iv_candidate_slider_image);
+                candidateName = (TextView) view.findViewById(R.id.lbl_candidate_name);
+                candidateCity = (TextView) view.findViewById(R.id.lbl_candidate_city);
+                candidateSlogan = (TextView) view.findViewById(R.id.lbl_candidate_slogan);
+
+                sliderCardView.setOnClickListener(this);
+            }
+
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "Card View Clicked at : " + getAdapterPosition(), Toast.LENGTH_SHORT).show();
+            }
+
+
         }
     }
 
@@ -561,97 +703,46 @@ public class HomePageMainFragment extends BaseExampleFragment implements
                 String text = institutionsSuggestion.getBody()
                         .replaceFirst(mSearchView.getQuery(),
                                 "<font color=\"" + textLight + "\">" + mSearchView.getQuery() + "</font>");
-                textView.setText(Html.fromHtml(text));
+                textView.setText(fromHtml(text));
             }
 
         });
     }
 
+    @SuppressWarnings("deprecation")
+    public static Spanned fromHtml(String html) {
+        Spanned result;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            result = Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY);
+        } else {
+            result = Html.fromHtml(html);
+        }
+        return result;
+    }
+
+    private void autoScrollRecyclerView(final CustomSliderAdapter adapter) {
+        final int speedScroll = 3000;
+        final Handler handler = new Handler();
+        final Runnable runnable = new Runnable() {
+            int count = 0;
+            boolean flag = true;
+            @Override
+            public void run() {
+                if(count < adapter.getItemCount()){
+                    if(count==adapter.getItemCount()-1){
+                        flag = false;
+                    }else if(count == 0){
+                        flag = true;
+                    }
+                    if(flag) count++;
+                    else count--;
+
+                    recyclerViewSlider.smoothScrollToPosition(count);
+                    handler.postDelayed(this,speedScroll);
+                }
+            }
+        };
+        handler.postDelayed(runnable,speedScroll);
+    }
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-//    setupWindowAnimations();
-//        TravelViewPagerAdapter adapter = new TravelViewPagerAdapter(getFragmentManager());
-//        adapter.addAll(generateTravelList());
-//        imageSlider.setAdapter(adapter);
-//        ExpandingPagerFactory.setupViewPager(imageSlider);
-//
-//        imageSlider.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-//            @Override
-//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//                ExpandingFragment expandingFragment = ExpandingPagerFactory.getCurrentFragment(imageSlider);
-//                if (expandingFragment != null && expandingFragment.isOpenend()) {
-//                    expandingFragment.close();
-//                }
-//            }
-//
-//            @Override
-//            public void onPageSelected(int position) {
-//            }
-//
-//            @Override
-//            public void onPageScrollStateChanged(int state) {
-//
-//            }
-//        });
-
-
-//    ====================================View Pager================================
-
-//    @Override
-//    public void onExpandingClick(View v) {
-//        //v is expanding fragment layout
-//
-//        View view = v.findViewById(R.id.image);
-//        Travel travel = generateTravelList().get(imageSlider.getCurrentItem());
-//        startInfoActivity(view, travel);
-//    }
-
-//    @Override
-//    public void onBackPressed() {
-//        if(!ExpandingPagerFactory.onBackPressed(imageSlider)){
-//            super.onBackPressed();
-//        }
-//    }
-
-//    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-//    private void setupWindowAnimations() {
-//        Explode slideTransition = new Explode();
-//        getActivity().getWindow().setReenterTransition(slideTransition);
-//        getActivity().getWindow().setExitTransition(slideTransition);
-//    }
-//
-//    private List<Travel> generateTravelList() {
-//        List<Travel> travels = new ArrayList<>();
-//        for (int i = 0; i < 5; ++i) {
-//            travels.add(new Travel("Seychelles", R.drawable.seychelles));
-//            travels.add(new Travel("Shang Hai", R.drawable.shh));
-//            travels.add(new Travel("New York", R.drawable.newyork));
-//            travels.add(new Travel("castle", R.drawable.p1));
-//        }
-//        return travels;
-//    }
-
-//    @SuppressWarnings("unchecked")
-//    private void startInfoActivity(View view, Travel travel) {
-//        Activity activity = getActivity();
-//        ActivityCompat.startActivity(activity,
-//                InfoActivity.newInstance(activity, travel),
-//                ActivityOptionsCompat.makeSceneTransitionAnimation(
-//                        activity,
-//                        new Pair<>(view, getString(R.string.transition_image)))
-//                        .toBundle());
-//    }
-
-//    ====================================View Pager================================

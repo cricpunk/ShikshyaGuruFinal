@@ -49,6 +49,40 @@ public class FakeDataSource implements DataSourceInterface {
             "Heading 6"
     };
 
+    private final int[] HP_SLIDER_IMAGE = {
+            R.drawable.example,
+            R.drawable.example,
+            R.drawable.example,
+            R.drawable.example,
+            R.drawable.example,
+            R.drawable.example,
+            R.drawable.example,
+            R.drawable.example,
+            R.drawable.example,
+            R.drawable.example
+    };
+
+    private final String[] SLIDER_CANDIDATES_NAME = {
+            "Candidate 1",
+            "Candidate 2",
+            "Candidate 3",
+            "Candidate 4",
+            "Candidate 5",
+            "Candidate 6",
+            "Candidate 7",
+            "Candidate 8",
+            "Candidate 9",
+            "Candidate 10"
+    };
+
+    private final String[] OPTIONS = {
+            "Top Categories",
+            "Nepal",
+            "User Choice",
+            "Country",
+            "Editor Choice"
+    };
+
     private final String[] NEWS_HEADLINES = {
             "Islington college introduced new courses for the computing student",
             "Herald college introduced new courses for the computing student",
@@ -65,10 +99,10 @@ public class FakeDataSource implements DataSourceInterface {
     };
 
     private final int[] INSTITUTIONS_ICON = {
-            R.drawable.colleges_universities,
-            R.drawable.main_logo,
-            R.drawable.talking,
-            R.drawable.paper_plane
+            R.drawable.bg_radius,
+            R.drawable.bg_radius,
+            R.drawable.bg_radius,
+            R.drawable.bg_radius
     };
 
     private final String[] INSTITUTIONS_RATING = {
@@ -99,16 +133,16 @@ public class FakeDataSource implements DataSourceInterface {
     };
 
     private final int[] COLLEGES_ICON = {
-            R.drawable.colleges_universities,
-            R.drawable.main_logo,
-            R.drawable.talking,
-            R.drawable.paper_plane,
-            R.drawable.colleges_universities,
-            R.drawable.main_logo,
-            R.drawable.talking,
-            R.drawable.paper_plane,
-            R.drawable.talking,
-            R.drawable.paper_plane
+            R.drawable.bg_radius,
+            R.drawable.bg_radius,
+            R.drawable.bg_radius,
+            R.drawable.bg_radius,
+            R.drawable.bg_radius,
+            R.drawable.bg_radius,
+            R.drawable.bg_radius,
+            R.drawable.bg_radius,
+            R.drawable.bg_radius,
+            R.drawable.bg_radius
     };
 
     private final String[] COLLEGES_RATING = {
@@ -221,6 +255,35 @@ public class FakeDataSource implements DataSourceInterface {
     }
 
     @Override
+    public List<HomePageSliderListItem> getListOfSliderCandidates() {
+        ArrayList<HomePageSliderListItem> listOfData = new ArrayList<>();
+        for (int i = 0; i < SLIDER_CANDIDATES_NAME.length; i++) {
+            int randOne = random.nextInt(4);
+            HomePageSliderListItem homePageSliderListItem = new HomePageSliderListItem(
+                    HP_SLIDER_IMAGE[i],
+                    SLIDER_CANDIDATES_NAME[i],
+                    INSTITUTIONS_CITY_NAME[randOne]
+            );
+            listOfData.add(homePageSliderListItem);
+        }
+        return listOfData;
+    }
+
+    @Override
+    public List<HomePageOptionsListItem> getListOfOptions() {
+        ArrayList<HomePageOptionsListItem> listOfOptionsData = new ArrayList<>();
+
+        for (String OPTION : OPTIONS) {
+            HomePageOptionsListItem homePageOptionsListItem = new HomePageOptionsListItem(
+                    OPTION
+            );
+
+            listOfOptionsData.add(homePageOptionsListItem);
+        }
+        return listOfOptionsData;
+    }
+
+    @Override
     public List<NewsListItem> getListOfNewsData() {
 
         ArrayList<NewsListItem> listOfNewsData = new ArrayList<>();
@@ -242,11 +305,6 @@ public class FakeDataSource implements DataSourceInterface {
         ArrayList<CollegeListItem> listOfData = new ArrayList<>();
 
         for (int i = 0; i < COLLEGES.length; i++) {
-
-//            int randOne = random.nextInt(4);
-//            int randTwo = random.nextInt(4);
-//            int randThree = random.nextInt(4);
-//            int randFour = random.nextInt(4);
 
             CollegeListItem institutionsListItem = new CollegeListItem(
                     COLLEGES_ICON[i],

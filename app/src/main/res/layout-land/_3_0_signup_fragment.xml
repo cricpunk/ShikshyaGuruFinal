@@ -8,7 +8,6 @@
     tools:context="com.shikshyaguru.shikshyaguru._3_signup_activity.model.FragmentViewPager">
 
     <android.support.v7.widget.CardView
-        android:id="@+id/signUpCardView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -19,7 +18,6 @@
         app:layout_constraintVertical_bias="0.0">
 
         <android.support.constraint.ConstraintLayout
-            android:id="@+id/completeLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/bg_screen3">
@@ -41,7 +39,6 @@
                 tools:ignore="ContentDescription" />
 
             <TextView
-                android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
@@ -165,7 +162,6 @@
                         tools:ignore="ContentDescription" />
 
                     <TextView
-                        android:id="@+id/teacherText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="0dp"
@@ -195,7 +191,6 @@
                         tools:ignore="SmallSp" />
 
                     <TextView
-                        android:id="@+id/institutionText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="0dp"
@@ -310,7 +305,6 @@
                         app:layout_constraintTop_toBottomOf="@+id/passwordLayout">
 
                         <com.rengwuxian.materialedittext.MaterialEditText
-                            android:id="@+id/confirmPassword"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="0dp"
@@ -329,7 +323,6 @@
 
 
                     <Button
-                        android:id="@+id/signUpButton"
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_marginBottom="16dp"

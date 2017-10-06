@@ -21,19 +21,31 @@ public class Controller {
         this.view = view;
         this.dataSource = dataSource;
 
+        setUpSliderWithData();
+        setUpOptionsWithData();
         setUpNewsHeadlinesWithData();
         setUpInstitutionsCollectionWithData();
+
     }
+
+
 
     public Controller(DrawerInterface drawerInterface, DataSourceInterface dataSource) {
         this.dataSource = dataSource;
         this.drawerInterface = drawerInterface;
-
         setUpDrawerMainHeaderWithData();
     }
 
     private void setUpDrawerMainHeaderWithData() {
         drawerInterface.setUpDrawerMainHeader(dataSource.getListOfDrawerMainHeader());
+    }
+
+    private void setUpSliderWithData() {
+        view.setUpSliderAdapterAndView(dataSource.getListOfSliderCandidates());
+    }
+
+    private void setUpOptionsWithData() {
+        view.setUpOptionsAdapterAndView(dataSource.getListOfOptions());
     }
 
     private void setUpNewsHeadlinesWithData() {

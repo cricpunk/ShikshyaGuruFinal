@@ -8,13 +8,10 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.shikshyaguru.shikshyaguru.R;
 import com.shikshyaguru.shikshyaguru._0_1_searching_mechanism.views.BaseExampleFragment;
-
 import java.util.List;
-
 
 /*
  * Created by Pankaj Koirala on 9/24/2017.
@@ -27,6 +24,7 @@ public class HomePageActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout mDrawerLayout;
+
 //    @Bind(R.id.image_slider_layout) ViewPager imageSlider;
 //    @Bind(R.id.back)ViewGroup back;
 

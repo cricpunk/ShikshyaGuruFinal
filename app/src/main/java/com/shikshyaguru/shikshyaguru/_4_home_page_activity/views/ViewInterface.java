@@ -1,5 +1,7 @@
 package com.shikshyaguru.shikshyaguru._4_home_page_activity.views;
 
+import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.HomePageOptionsListItem;
+import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.HomePageSliderListItem;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.ListOfInstitutionsHeading;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.NewsListItem;
 
@@ -40,5 +42,9 @@ public interface ViewInterface {
     // Setting institutions collections recycler view adapter with data
     // Whole card view is displayed in a recycler view dynamically
     void setupInstitutionsCollectionAdapterAndView(List<ListOfInstitutionsHeading> listOfInstitutionsHeadings);
+
+    void setUpSliderAdapterAndView(List<HomePageSliderListItem> listOfSliderCandidates);
+
+    void setUpOptionsAdapterAndView(List<HomePageOptionsListItem> listOfOptions);
 
 }

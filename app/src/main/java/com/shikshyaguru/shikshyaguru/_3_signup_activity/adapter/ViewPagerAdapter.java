@@ -14,12 +14,12 @@ import android.view.ViewGroup;
  */
 
 
-    public abstract class SignUpLogInViewPagerAdapter extends FragmentStatePagerAdapter {
+    public abstract class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
         // Sparse array to keep track of registered fragments in memory
         private SparseArray<Fragment> registeredFragments = new SparseArray<>();
 
-        public SignUpLogInViewPagerAdapter(FragmentManager fragmentManager) {
+        public ViewPagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
         }
 

@@ -9,7 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.shikshyaguru.shikshyaguru.R;
-import com.shikshyaguru.shikshyaguru._3_signup_activity.adapter.SignUpLogInViewPagerAdapter;
+import com.shikshyaguru.shikshyaguru._3_signup_activity.adapter.ViewPagerAdapter;
 import com.shikshyaguru.shikshyaguru._3_signup_activity.fragments.CenterFragment;
 import com.shikshyaguru.shikshyaguru._3_signup_activity.fragments.LoginFragment;
 import com.shikshyaguru.shikshyaguru._3_signup_activity.fragments.SignUpFragment;
@@ -21,9 +21,46 @@ import com.shikshyaguru.shikshyaguru._3_signup_activity.fragments.SignUpFragment
  */
 
 public class ViewPagerActivity extends AppCompatActivity{
-    SignUpLogInViewPagerAdapter adapterViewPager;
+    private ViewPagerAdapter viewPagerAdapter;
+    private ViewPager viewPager;
 
-    private static class MyPagerAdapter extends SignUpLogInViewPagerAdapter {
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout._3_3_view_pager);
+        viewPager = (ViewPager) findViewById(R.id.signUpLoginUpViewPager);
+        viewPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(viewPagerAdapter);
+
+        viewPager.setCurrentItem(1);
+        viewPager.setClipToPadding(false);
+        viewPager.setPadding(80,0,80,0);
+        viewPager.setPageMargin(40);
+        viewPagerPageChangeListener();
+    }
+
+    private void viewPagerPageChangeListener() {
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//                new ZoomOutPageTransformer().transformPage(viewPager, -1);
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+//                Toast.makeText(ViewPagerActivity.this,
+//                        "Selected page position: " + position, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                resizeFragmentHeight(viewPager.getCurrentItem());
+            }
+        });
+    }
+
+    private static class MyPagerAdapter extends ViewPagerAdapter {
         private static int NUM_ITEMS = 3;
 
         MyPagerAdapter(FragmentManager fragmentManager) {
@@ -59,45 +96,10 @@ public class ViewPagerActivity extends AppCompatActivity{
 
     }
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout._3_3_view_pager);
-        final ViewPager viewPager = (ViewPager) findViewById(R.id.signUpLoginUpViewPager);
-        adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(adapterViewPager);
-        viewPager.setCurrentItem(1);
-
-
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//                new ZoomOutPageTransformer().transformPage(viewPager, -1);
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-//                Toast.makeText(ViewPagerActivity.this,
-//                        "Selected page position: " + position, Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-                dont(viewPager.getCurrentItem());
-            }
-        });
-
-        viewPager.setClipToPadding(false);
-        viewPager.setPadding(80,0,80,0);
-        viewPager.setPageMargin(40);
-
-    }
-
-    public void dont(int position) {
-        SignUpFragment signUpFragment = (SignUpFragment) adapterViewPager.getRegisteredFragment(0);
-        CenterFragment centerFragment = (CenterFragment) adapterViewPager.getRegisteredFragment(1);
-        LoginFragment loginFragment = (LoginFragment) adapterViewPager.getRegisteredFragment(2);
+    public void resizeFragmentHeight(int position) {
+        SignUpFragment signUpFragment = (SignUpFragment) viewPagerAdapter.getRegisteredFragment(0);
+        CenterFragment centerFragment = (CenterFragment) viewPagerAdapter.getRegisteredFragment(1);
+        LoginFragment loginFragment = (LoginFragment) viewPagerAdapter.getRegisteredFragment(2);
 
         ConstraintLayout signIn = (ConstraintLayout) signUpFragment.getActivity().findViewById(R.id.signUp_full_layout);
         ConstraintLayout center = (ConstraintLayout) centerFragment.getActivity().findViewById(R.id.center_full_layout);

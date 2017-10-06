@@ -39,4 +39,10 @@ public interface DataSourceInterface {
 
     //Get list of Drawer main header
     List<DrawerListItem> getListOfDrawerMainHeader();
+
+    //Get list of Home Page slider candidates
+    List<HomePageSliderListItem> getListOfSliderCandidates();
+
+    //Get list of Home Page Options name
+    List<HomePageOptionsListItem> getListOfOptions();
 }
