@@ -3,7 +3,6 @@ package com.shikshyaguru.shikshyaguru._4_home_page_activity.views;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.content.res.ResourcesCompat;
@@ -36,7 +35,7 @@ import com.shikshyaguru.shikshyaguru._0_1_searching_mechanism.model.DataHelper;
 import com.shikshyaguru.shikshyaguru._0_1_searching_mechanism.model.InstitutionsSuggestion;
 import com.shikshyaguru.shikshyaguru._0_1_searching_mechanism.views.BaseExampleFragment;
 import com.shikshyaguru.shikshyaguru._0_2_recyclerview_slider_effect.RecyclerViewSliderEffect;
-import com.shikshyaguru.shikshyaguru._4_home_page_activity.logic.Controller;
+import com.shikshyaguru.shikshyaguru._4_home_page_activity.logic.HomePageController;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.FakeDataSource;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.HomePageOptionsListItem;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.HomePageSliderListItem;
@@ -44,6 +43,7 @@ import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.InstitutionsLis
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.ListOfInstitutionsHeading;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.NewsListItem;
 import com.shikshyaguru.shikshyaguru._5_news_activity.views.NewsHomePageActivity;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionsHomePageActivity;
 
 import java.util.List;
 
@@ -55,7 +55,7 @@ import java.util.List;
 
 public class HomePageMainFragment extends BaseExampleFragment implements
         ViewInterface,
-AppBarLayout.OnOffsetChangedListener,
+        AppBarLayout.OnOffsetChangedListener,
         View.OnClickListener {
 
 //  ####################### ROOT SECTION #######################
@@ -90,7 +90,7 @@ AppBarLayout.OnOffsetChangedListener,
     private RecyclerView recyclerViewInstitutionsCollection;
 
 //  ####################### CONTROLLER #######################
-    private Controller controller;
+    private HomePageController homePageController;
 
     public HomePageMainFragment() {
     }
@@ -112,7 +112,7 @@ AppBarLayout.OnOffsetChangedListener,
         institutionsCollectionSection(view);
 
         // THIS IS DEPENDENCY INJECTION FOR CONTROLLER CLASS
-        controller = new Controller(this, new FakeDataSource());
+        homePageController = new HomePageController(this, new FakeDataSource());
 
     }
 
@@ -151,7 +151,7 @@ AppBarLayout.OnOffsetChangedListener,
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.lbl_all_news:
-                controller.onAllNewsClick();
+                homePageController.onAllNewsClick();
             default:
                 break;
         }
@@ -186,7 +186,7 @@ AppBarLayout.OnOffsetChangedListener,
         recyclerViewSlider.setHasFixedSize(true);
         PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
         pagerSnapHelper.attachToRecyclerView(recyclerViewSlider);
-        autoScrollRecyclerView(customSliderAdapter);
+        RecyclerViewSliderEffect.autoScrollRecyclerView(customSliderAdapter, recyclerViewSlider);
 
         recyclerViewSlider.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -247,14 +247,14 @@ AppBarLayout.OnOffsetChangedListener,
     }
 
     @Override
-    public void openNewsHomePage() {
+    public void openNewsMainFragment() {
         Intent intent = new Intent(getContext(), NewsHomePageActivity.class);
-        intent.putExtra("REQUEST_CODE", "news_home");
+        intent.putExtra("REQUEST_CODE", "news_main");
         startActivity(intent);
     }
 
     @Override
-    public void openSingleNewsActivity(String news) {
+    public void openNewsLoaderFragment(String news) {
         Intent intent = new Intent(getContext(), NewsHomePageActivity.class);
         intent.putExtra(EXTRA_NEWS, news);
         intent.putExtra("REQUEST_CODE", "news_loader");
@@ -271,270 +271,22 @@ AppBarLayout.OnOffsetChangedListener,
     }
 
     @Override
-    public void openInstitutionsHomeActivity(int institutionsIcon, String institutionsName, String institutionsRating, String institutionsCityName) {
-        Intent intent = new Intent(getContext(), NewsHomePageActivity.class);
-        intent.putExtra(INSTITUTIONS_ICON, institutionsIcon);
+    public void openInstitutionsMainFragment() {
+        Intent intent = new Intent(getContext(), InstitutionsHomePageActivity.class);
+        intent.putExtra("REQUEST_CODE", "institutions_main");
         startActivity(intent);
     }
 
+    @Override
+    public void openInstitutionsLoaderFragment1(int institutionsIcon, String institutionsName, String institutionsRating, String institutionsCityName) {
+        Intent intent = new Intent(getContext(), InstitutionsHomePageActivity.class);
+        intent.putExtra("REQUEST_CODE", "institutions_loader");
+        startActivity(intent);
+    }
+
+
+
 //  ############################# VIEW INTERFACE IMPLEMENTATIONS END #############################
-
-
-    private class CustomOptionsAdapter extends RecyclerView.Adapter<CustomOptionsAdapter.OptionsViewHolder> {
-
-        @Override
-        public OptionsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = layoutInflater.inflate(R.layout.rec_hp_options, parent, false);
-            return new OptionsViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(OptionsViewHolder holder, int position) {
-            HomePageOptionsListItem currentItem = listOfOptions.get(position);
-            holder.optionName.setText(currentItem.getOptionName());
-        }
-
-        @Override
-        public int getItemCount() {
-            return listOfOptions.size();
-        }
-
-        class OptionsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-            private CardView cvOptionName;
-            private TextView optionName;
-
-            OptionsViewHolder(View itemView) {
-                super(itemView);
-                optionName = (TextView) itemView.findViewById(R.id.lbl_option_name);
-                cvOptionName = (CardView) itemView.findViewById(R.id.cv_option_name);
-                cvOptionName.setOnClickListener(this);
-            }
-
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), "Clicked : " + getAdapterPosition(), Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    private class CustomNewsAdapter extends RecyclerView.Adapter<CustomNewsAdapter.CustomNewsViewHolder> {
-
-        @Override
-        public CustomNewsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = layoutInflater.inflate(R.layout._4_5_rec_news_items, parent, false);
-            return new CustomNewsViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(CustomNewsViewHolder holder, int position) {
-            NewsListItem currentItem = listOfNewsData.get(position);
-            holder.newsHeadlines.setText(currentItem.getNews());
-        }
-
-        @Override
-        public int getItemCount() {
-            // Helps the adapter decide how many items it will need to manage
-            return listOfNewsData.size();
-        }
-
-        // This class is bridge between NewsListItem(Data) class and news_recycler_view(View) layout
-        class CustomNewsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-            private ViewGroup container;
-            private TextView newsHeadlines;
-            //            private TextView newsHeading;
-
-
-            CustomNewsViewHolder(View itemView) {
-                super(itemView);
-
-                newsHeadlines = (TextView) itemView.findViewById(R.id.lbl_news_headlines);
-//                newsHeading = (TextView) itemView.findViewById(R.id.lbl_news_heading);
-//                newsHeading.setText("News");
-                container = (ViewGroup) itemView.findViewById(R.id.root_news_headlines);
-                container.setOnClickListener(this);
-                //allNews.setOnClickListener(this);
-            }
-
-            @Override
-            public void onClick(View v) {
-                NewsListItem newsListItem = listOfNewsData.get(this.getAdapterPosition());
-                controller.onNewsListItemClick(newsListItem);
-            }
-        }
-    }
-
-    /*
-     * This adapter class will display card view for each institution category.
-     * Click event for See All text view will be managed from this class.
-     * This class will call CustomInstitutionAdapter to inflate complete institutions list dynamically
-     */
-    class CustomInstitutionsCollectionAdapter extends RecyclerView.Adapter<CustomInstitutionsCollectionAdapter.CustomInstitutionsCollectionViewHolder> {
-
-        @Override
-        public CustomInstitutionsCollectionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = layoutInflater.inflate(R.layout._4_2_institutions_section, parent, false);
-            return new CustomInstitutionsCollectionViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(CustomInstitutionsCollectionViewHolder holder, int position) {
-            ListOfInstitutionsHeading currentItem = listOfInstitutionsHeadings.get(position);
-
-            holder.institutionHeading.setText(currentItem.getInstitutionHeading());
-            holder.institutionSeeAll.setText(R.string.see_all);
-
-            holder.institutionsRecyclerViewInside.setNestedScrollingEnabled(false);
-            holder.institutionsRecyclerViewInside.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-            CustomInstitutionAdapter customInstitutionAdapter = new CustomInstitutionAdapter();
-            customInstitutionAdapter.setDataInside(currentItem.getRelatedInstitutionData());
-            holder.institutionsRecyclerViewInside.setAdapter(customInstitutionAdapter);
-            SnapHelper snapHelper = new GravitySnapHelper(Gravity.START);
-            snapHelper.attachToRecyclerView(holder.institutionsRecyclerViewInside);
-        }
-
-
-        @Override
-        public int getItemCount() {
-            return listOfInstitutionsHeadings.size();
-        }
-
-        class CustomInstitutionsCollectionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-            private TextView institutionHeading;
-            private TextView institutionSeeAll;
-            private RecyclerView institutionsRecyclerViewInside;
-
-            CustomInstitutionsCollectionViewHolder(View itemView) {
-                super(itemView);
-                this.institutionHeading = (TextView) itemView.findViewById(R.id.lbl_institutions);
-                this.institutionSeeAll = (TextView) itemView.findViewById(R.id.lbl_see_all);
-                this.institutionsRecyclerViewInside = (RecyclerView) itemView.findViewById(R.id.rec_institutions);
-                institutionSeeAll.setOnClickListener(this);
-
-            }
-
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), "Clicked item = " + institutionHeading.getText() + getAdapterPosition(), Toast.LENGTH_SHORT).show();
-            }
-
-        }
-    }
-
-    /*
-     * This adapter class is for displaying all institutions horizontally.
-     * Setting those institutions details will be done from this class.
-     * All click event for those institutions will be managed from this class.
-     * This class will be used to inflate complete institutions list dynamically
-     * by CustomInstitutionCollectionAdapter.
-     */
-    private class CustomInstitutionAdapter extends RecyclerView.Adapter<CustomInstitutionAdapter.CustomInstitutionViewHolder> {
-
-        private List<?> dataInside;
-
-        private void setDataInside(List<?> dataInside) {
-            this.dataInside = dataInside;
-        }
-
-        @Override
-        public CustomInstitutionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = layoutInflater.inflate(R.layout._4_3_rec_institutions_items, parent, false);
-            return new CustomInstitutionViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(CustomInstitutionViewHolder holder, int position) {
-            InstitutionsListItemParent currentItem = (InstitutionsListItemParent) dataInside.get(position);
-            holder.institutionIcon.setImageResource(currentItem.getInstitutionsIcon());
-            holder.institutionName.setText(currentItem.getInstitutionsName());
-            holder.institutionRating.setText(currentItem.getInstitutionsRating());
-            holder.institutionCityName.setText(currentItem.getInstitutionCityName());
-        }
-
-        @Override
-        public int getItemCount() {
-            // Helps the adapter decide how many items it will need to manage
-            return dataInside.size();
-        }
-
-        // This class is bridge between NewsListItem(Data) class and news_recycler_view(View) layout
-        class CustomInstitutionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-            private ImageView institutionIcon;
-            private TextView institutionName;
-            private TextView institutionRating;
-            private TextView institutionCityName;
-            private ViewGroup container;
-
-            CustomInstitutionViewHolder(View itemView) {
-                super(itemView);
-
-                this.institutionIcon = (ImageView) itemView.findViewById(R.id.iv_institutions_icon);
-                this.institutionName = (TextView) itemView.findViewById(R.id.lbl_institutions_name);
-                this.institutionRating = (TextView) itemView.findViewById(R.id.lbl_institutions_rating);
-                this.institutionCityName = (TextView) itemView.findViewById(R.id.lbl_institutions_city_name);
-                this.container = (ViewGroup) itemView.findViewById(R.id.root_institutions);
-                this.container.setOnClickListener(this);
-            }
-
-            @Override
-            public void onClick(View v) {
-                InstitutionsListItemParent institutionListItem = (InstitutionsListItemParent) dataInside.get(this.getAdapterPosition());
-                controller.onInstitutionsItemClick(institutionListItem);
-            }
-        }
-    }
-
-    private class CustomSliderAdapter extends RecyclerView.Adapter<CustomSliderAdapter.SliderViewHolder> {
-
-        @Override
-        public SliderViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = layoutInflater.inflate(R.layout._4_8_hp_slider, parent, false);
-            return new SliderViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(SliderViewHolder holder, int position) {
-            HomePageSliderListItem currentItem = listOfSliderCandidates.get(position);
-            holder.candidateImage.setImageResource(currentItem.getImage());
-            holder.candidateName.setText(currentItem.getInstitutionName());
-            holder.candidateCity.setText(currentItem.getCityName());
-        }
-
-        @Override
-        public int getItemCount() {
-            return listOfSliderCandidates.size();
-        }
-
-        class SliderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-            private CardView sliderCardView;
-            private ImageView candidateImage;
-            private TextView candidateName;
-            private TextView candidateCity;
-            private TextView candidateSlogan;
-
-            SliderViewHolder(View view) {
-                super(view);
-
-                sliderCardView = (CardView) view.findViewById(R.id.cv_candidates_slider);
-                candidateImage = (ImageView) view.findViewById(R.id.iv_candidate_slider_image);
-                candidateName = (TextView) view.findViewById(R.id.lbl_candidate_name);
-                candidateCity = (TextView) view.findViewById(R.id.lbl_candidate_city);
-                candidateSlogan = (TextView) view.findViewById(R.id.lbl_candidate_slogan);
-
-                sliderCardView.setOnClickListener(this);
-            }
-
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), "Card View Clicked at : " + getAdapterPosition(), Toast.LENGTH_SHORT).show();
-            }
-
-
-        }
-    }
 
     private void setupDrawer() {
         attachSearchViewActivityDrawer(mSearchView);
@@ -720,29 +472,289 @@ AppBarLayout.OnOffsetChangedListener,
         return result;
     }
 
-    private void autoScrollRecyclerView(final CustomSliderAdapter adapter) {
-        final int speedScroll = 3000;
-        final Handler handler = new Handler();
-        final Runnable runnable = new Runnable() {
-            int count = 0;
-            boolean flag = true;
-            @Override
-            public void run() {
-                if(count < adapter.getItemCount()){
-                    if(count==adapter.getItemCount()-1){
-                        flag = false;
-                    }else if(count == 0){
-                        flag = true;
-                    }
-                    if(flag) count++;
-                    else count--;
+    private class CustomSliderAdapter extends RecyclerView.Adapter<CustomSliderAdapter.SliderViewHolder> {
 
-                    recyclerViewSlider.smoothScrollToPosition(count);
-                    handler.postDelayed(this,speedScroll);
+        @Override
+        public SliderViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = layoutInflater.inflate(R.layout._4_8_hp_slider, parent, false);
+            return new SliderViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(SliderViewHolder holder, int position) {
+            HomePageSliderListItem currentItem = listOfSliderCandidates.get(position);
+            holder.candidateImage.setImageResource(currentItem.getImage());
+            holder.candidateName.setText(currentItem.getInstitutionName());
+            holder.candidateCity.setText(currentItem.getCityName());
+        }
+
+        @Override
+        public int getItemCount() {
+            return listOfSliderCandidates.size();
+        }
+
+        class SliderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+            private CardView sliderCardView;
+            private ImageView candidateImage;
+            private TextView candidateName;
+            private TextView candidateCity;
+            private TextView candidateSlogan;
+
+            SliderViewHolder(View view) {
+                super(view);
+
+                sliderCardView = (CardView) view.findViewById(R.id.cv_candidates_slider);
+                candidateImage = (ImageView) view.findViewById(R.id.iv_candidate_slider_image);
+                candidateName = (TextView) view.findViewById(R.id.lbl_candidate_name);
+                candidateCity = (TextView) view.findViewById(R.id.lbl_candidate_city);
+                candidateSlogan = (TextView) view.findViewById(R.id.lbl_candidate_slogan);
+
+                sliderCardView.setOnClickListener(this);
+            }
+
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "Card View Clicked at : " + getAdapterPosition(), Toast.LENGTH_SHORT).show();
+            }
+
+
+        }
+    }
+
+    private class CustomOptionsAdapter extends RecyclerView.Adapter<CustomOptionsAdapter.OptionsViewHolder> {
+
+        @Override
+        public OptionsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = layoutInflater.inflate(R.layout._6_1_1_rec_hp_options, parent, false);
+            return new OptionsViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(OptionsViewHolder holder, int position) {
+            HomePageOptionsListItem currentItem = listOfOptions.get(position);
+            holder.optionName.setText(currentItem.getOptionName());
+        }
+
+        @Override
+        public int getItemCount() {
+            return listOfOptions.size();
+        }
+
+        class OptionsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+            private CardView cvOptionName;
+            private TextView optionName;
+
+            OptionsViewHolder(View itemView) {
+                super(itemView);
+                optionName = (TextView) itemView.findViewById(R.id.lbl_option_name);
+                cvOptionName = (CardView) itemView.findViewById(R.id.cv_option_name);
+                cvOptionName.setOnClickListener(this);
+            }
+
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "Clicked : " + getAdapterPosition(), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    class CustomNewsAdapter extends RecyclerView.Adapter<CustomNewsAdapter.CustomNewsViewHolder> {
+
+        @Override
+        public CustomNewsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = layoutInflater.inflate(R.layout._4_5_rec_news_items, parent, false);
+            return new CustomNewsViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(CustomNewsViewHolder holder, int position) {
+            NewsListItem currentItem = listOfNewsData.get(position);
+            holder.newsHeadlines.setText(currentItem.getNews());
+        }
+
+        @Override
+        public int getItemCount() {
+            // Helps the adapter decide how many items it will need to manage
+            return listOfNewsData.size();
+        }
+
+        // This class is bridge between NewsListItem(Data) class and news_recycler_view(View) layout
+        class CustomNewsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+            private ViewGroup container;
+            private ImageView newsHeadlinesIcon;
+            private TextView newsHeadlines;
+            private TextView newsPostTime;
+            private TextView newsFrom;
+            private TextView newsWriter;
+            private ImageView moreIcon;
+
+            CustomNewsViewHolder(View itemView) {
+                super(itemView);
+
+                container = (ViewGroup) itemView.findViewById(R.id.root_news_headlines);
+                newsHeadlinesIcon = (ImageView) itemView.findViewById(R.id.iv_news_headline_icon);
+                newsHeadlines = (TextView) itemView.findViewById(R.id.lbl_news_headlines);
+                newsPostTime = (TextView) itemView.findViewById(R.id.lbl_news_post_time);
+                newsFrom = (TextView) itemView.findViewById(R.id.lbl_news_from);
+                newsWriter = (TextView) itemView.findViewById(R.id.lbl_news_writer);
+                moreIcon = (ImageView) itemView.findViewById(R.id.iv_news_headline_more);
+
+                container.setOnClickListener(this);
+                moreIcon.setOnClickListener(this);
+            }
+
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.root_news_headlines:
+                        NewsListItem newsListItem = listOfNewsData.get(this.getAdapterPosition());
+                        homePageController.onNewsListItemClick(newsListItem);
+                        break;
+                    case R.id.iv_news_headline_more:
+                        Toast.makeText(getContext(), "Clicked", Toast.LENGTH_SHORT).show();
+                        break;
+                    default:break;
                 }
             }
-        };
-        handler.postDelayed(runnable,speedScroll);
+        }
+    }
+
+    /*
+     * This adapter class will display card view for each institution category.
+     * Click event for See All text view will be managed from this class.
+     * This class will call CustomInstitutionAdapter to inflate complete institutions list dynamically
+     */
+    class CustomInstitutionsCollectionAdapter extends RecyclerView.Adapter<CustomInstitutionsCollectionAdapter.CustomInstitutionsCollectionViewHolder> {
+
+        @Override
+        public CustomInstitutionsCollectionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = layoutInflater.inflate(R.layout._4_2_institutions_section, parent, false);
+            return new CustomInstitutionsCollectionViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(CustomInstitutionsCollectionViewHolder holder, int position) {
+            ListOfInstitutionsHeading currentItem = listOfInstitutionsHeadings.get(position);
+
+            holder.institutionHeading.setText(currentItem.getInstitutionHeading());
+            holder.institutionSeeAll.setText(R.string.see_all);
+
+            holder.institutionsRecyclerViewInside.setNestedScrollingEnabled(false);
+            holder.institutionsRecyclerViewInside.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+            CustomInstitutionAdapter customInstitutionAdapter = new CustomInstitutionAdapter();
+            customInstitutionAdapter.setDataInside(currentItem.getRelatedInstitutionData());
+            holder.institutionsRecyclerViewInside.setAdapter(customInstitutionAdapter);
+            SnapHelper snapHelper = new GravitySnapHelper(Gravity.START);
+            snapHelper.attachToRecyclerView(holder.institutionsRecyclerViewInside);
+        }
+
+
+        @Override
+        public int getItemCount() {
+            return listOfInstitutionsHeadings.size();
+        }
+
+        class CustomInstitutionsCollectionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+            private TextView institutionHeading;
+            private TextView institutionSeeAll;
+            private RecyclerView institutionsRecyclerViewInside;
+
+            CustomInstitutionsCollectionViewHolder(View itemView) {
+                super(itemView);
+                institutionHeading = (TextView) itemView.findViewById(R.id.lbl_institutions);
+                institutionSeeAll = (TextView) itemView.findViewById(R.id.lbl_see_all);
+                institutionsRecyclerViewInside = (RecyclerView) itemView.findViewById(R.id.rec_institutions);
+                institutionSeeAll.setOnClickListener(this);
+
+            }
+
+            @Override
+            public void onClick(View v) {
+                homePageController.onAllInstitutionsClick();
+            }
+
+        }
+    }
+
+    /*
+     * This adapter class is for displaying all institutions horizontally.
+     * Setting those institutions details will be done from this class.
+     * All click event for those institutions will be managed from this class.
+     * This class will be used to inflate complete institutions list dynamically
+     * by CustomInstitutionCollectionAdapter.
+     */
+    private class CustomInstitutionAdapter extends RecyclerView.Adapter<CustomInstitutionAdapter.CustomInstitutionViewHolder> {
+
+        private List<?> dataInside;
+
+        private void setDataInside(List<?> dataInside) {
+            this.dataInside = dataInside;
+        }
+
+        @Override
+        public CustomInstitutionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = layoutInflater.inflate(R.layout._4_3_rec_institutions_items, parent, false);
+            return new CustomInstitutionViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(CustomInstitutionViewHolder holder, int position) {
+            InstitutionsListItemParent currentItem = (InstitutionsListItemParent) dataInside.get(position);
+            holder.institutionIcon.setImageResource(currentItem.getInstitutionsIcon());
+            holder.institutionName.setText(currentItem.getInstitutionsName());
+            holder.institutionRating.setText(currentItem.getInstitutionsRating());
+            holder.institutionCityName.setText(currentItem.getInstitutionCityName());
+        }
+
+        @Override
+        public int getItemCount() {
+            // Helps the adapter decide how many items it will need to manage
+            return dataInside.size();
+        }
+
+        // This class is bridge between NewsListItem(Data) class and news_recycler_view(View) layout
+        class CustomInstitutionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+            private ViewGroup container;
+            private ImageView institutionIcon;
+            private TextView institutionName;
+            private ImageView institutionMore;
+            private TextView institutionRating;
+            private TextView institutionCityName;
+
+
+            CustomInstitutionViewHolder(View itemView) {
+                super(itemView);
+
+                container = (ViewGroup) itemView.findViewById(R.id.root_institutions);
+                institutionIcon = (ImageView) itemView.findViewById(R.id.iv_institutions_icon);
+                institutionName = (TextView) itemView.findViewById(R.id.lbl_institutions_name);
+                institutionMore = (ImageView) itemView.findViewById(R.id.iv_institutions_more);
+                institutionRating = (TextView) itemView.findViewById(R.id.lbl_institutions_rating);
+                institutionCityName = (TextView) itemView.findViewById(R.id.lbl_institutions_city_name);
+
+                container.setOnClickListener(this);
+                institutionMore.setOnClickListener(this);
+            }
+
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.root_institutions:
+                        InstitutionsListItemParent institutionListItem = (InstitutionsListItemParent) dataInside.get(this.getAdapterPosition());
+                        homePageController.onInstitutionsItemClick(institutionListItem);
+                        break;
+                    case R.id.iv_institutions_more:
+                        Toast.makeText(getContext(), "Clicked", Toast.LENGTH_SHORT).show();
+                        break;
+                    default:break;
+                }
+
+            }
+        }
     }
 
 }

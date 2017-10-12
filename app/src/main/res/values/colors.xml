@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <color name="colorAppMain">#2196F3</color>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
@@ -51,5 +53,11 @@
 
     <color name="statusBarColor">#2196F3</color>
     <color name="drawerHeaderItemBg">#D9FFFFFF</color>
+
+    <color name="text_enabled">#FFFFFFFF</color>
+    <color name="text_disabled">#66FFFFFF</color>
+
+    <color name="colorBackground">#E0E0E0</color>
+    <color name="colorCardViewBackground">#FAFAFA</color>
 
 </resources>

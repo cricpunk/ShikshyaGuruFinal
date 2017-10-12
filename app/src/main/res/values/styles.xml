@@ -17,9 +17,10 @@
 
     <!--Theme 3.    Sign up login screen-->
     <style name="BaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/colorAppMain</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="windowActionBarOverlay">true</item>
+        <item name="colorPrimary">@android:color/transparent</item>
     </style>
 
     <!--Theme 4.    Same status and nav bar color-->
@@ -40,6 +41,28 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+
+    <style name="cardViewMarginShort">
+        <item name="android:layout_marginLeft">@dimen/margin_short</item>
+        <item name="android:layout_marginRight">@dimen/margin_short</item>
+        <item name="android:layout_marginBottom">@dimen/margin_short</item>
+    </style>
+
+    <style name="leftRightStandard">
+        <item name="android:layout_marginLeft">@dimen/margin_standard</item>
+        <item name="android:layout_marginRight">@dimen/margin_standard</item>
+    </style>
+
+    <style name="topBottomStandard">
+        <item name="android:layout_marginTop">@dimen/margin_standard</item>
+        <item name="android:layout_marginBottom">@dimen/margin_standard</item>
+    </style>
+
+    <style name="leftRightShort">
+        <item name="android:layout_marginLeft">@dimen/margin_short</item>
+        <item name="android:layout_marginRight">@dimen/margin_short</item>
     </style>
 
 </resources>

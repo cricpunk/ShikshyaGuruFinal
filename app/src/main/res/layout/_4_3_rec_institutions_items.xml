@@ -15,7 +15,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
+        app:layout_constraintBottom_toTopOf="@+id/l_institutions_bottom"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -26,7 +26,7 @@
 
 
     <RelativeLayout
-        android:id="@+id/relativeLayout"
+        android:id="@+id/l_institutions_bottom"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:baselineAligned="false"
@@ -48,7 +48,7 @@
             android:textSize="14sp" />
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/iv_institutions_more"
             android:layout_width="wrap_content"
             android:layout_height="28dp"
             android:layout_alignParentEnd="true"

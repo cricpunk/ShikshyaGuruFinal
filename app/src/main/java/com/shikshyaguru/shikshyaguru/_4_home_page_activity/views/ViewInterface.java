@@ -13,10 +13,10 @@ import java.util.List;
  * Kathmandu Nepal
  *
  ***************************************************************************************************
- ** Controller cannot directly communicate with views. This view interface helps to make           *
+ ** InstitutionsController cannot directly communicate with views. This view interface helps to make           *
  ** communication between controller and views.                                                    *
  ** Views implements methods specified in this interface and cover all logic part inside.          *
- ** Controller call method from this interface to make communication with views.                   *
+ ** InstitutionsController call method from this interface to make communication with views.                   *
  ***************************************************************************************************
  */
 
@@ -26,9 +26,10 @@ public interface ViewInterface {
      * Opening new activity for displaying _5_2_nhp_news_loader_fragment after clicking _5_2_nhp_news_loader_fragment headlines in recycler view
      * We are talking about _5_2_nhp_news_loader_fragment headline which is displayed in home page.
      */
-    void openSingleNewsActivity(String news);
 
-    void openNewsHomePage();
+    void setUpSliderAdapterAndView(List<HomePageSliderListItem> listOfSliderCandidates);
+
+    void setUpOptionsAdapterAndView(List<HomePageOptionsListItem> listOfOptions);
 
     /**
      * Setting _5_2_nhp_news_loader_fragment recycler view adapter with data
@@ -36,15 +37,19 @@ public interface ViewInterface {
      */
     void setupNewsHeadlinesAdapterAndView(List<NewsListItem> listOfNewsData);
 
-    // Opening new activity for displaying institutions home page after clicking institutions in recycler view
-    void openInstitutionsHomeActivity(int institutionsIcon, String institutionsName, String institutionsRating, String institutionsCityName);
+    void openNewsMainFragment();
+
+    void openNewsLoaderFragment(String news);
 
     // Setting institutions collections recycler view adapter with data
     // Whole card view is displayed in a recycler view dynamically
     void setupInstitutionsCollectionAdapterAndView(List<ListOfInstitutionsHeading> listOfInstitutionsHeadings);
 
-    void setUpSliderAdapterAndView(List<HomePageSliderListItem> listOfSliderCandidates);
+    // Opening new activity for displaying institutions home page after clicking institutions in recycler view
+    void openInstitutionsLoaderFragment1(int institutionsIcon, String institutionsName, String institutionsRating, String institutionsCityName);
 
-    void setUpOptionsAdapterAndView(List<HomePageOptionsListItem> listOfOptions);
+    void openInstitutionsMainFragment();
+
+
 
 }

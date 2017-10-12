@@ -28,7 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.shikshyaguru.shikshyaguru.R;
-import com.shikshyaguru.shikshyaguru._4_home_page_activity.logic.Controller;
+import com.shikshyaguru.shikshyaguru._4_home_page_activity.logic.HomePageController;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.DrawerListItem;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.FakeDataSource;
 
@@ -48,7 +48,7 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
     private LayoutInflater layoutInflater;
     private List<DrawerListItem> listOfDrawerHeader;
     private RecyclerView mDrawerMainHeaderRecyclerView;
-    private Controller controller;
+    private HomePageController homePageController;
 
     public NavigationDrawerFragment() {
         //Required empty public constructor
@@ -75,7 +75,7 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
         super.onViewCreated(view, savedInstanceState);
         mDrawerMainHeaderRecyclerView = (RecyclerView) view.findViewById(R.id.rec_drawer_header);
 
-        controller = new Controller(this, new FakeDataSource());
+        homePageController = new HomePageController(this, new FakeDataSource());
     }
 
     public void setUpNavigationDrawer(int fragmentId, DrawerLayout drawerlayout, final Window getWindow) {

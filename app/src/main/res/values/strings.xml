@@ -69,5 +69,11 @@ Quam libero nulla netus eu porta curae, ut nulla bibendum facilisis et urna sed,
     <string name="news_writer">Pankaj Koirala</string>
     <string name="three_dots">More Icon (Three Dots)</string>
 
+    <string name="demo_introduction">
+        <![CDATA[Islington College is an autonomous private education institution dedicated to excellent academic performance and student experience. Established in 1997, the college has had nearly a couple of decades long experience in providing quality and industry-ready IT and Business Education to Nepalese students, making it a leading Academic Institution in Nepal. Having grown from strength to strength, the College is now directly affiliated with UK university.
+ Islington College is an autonomous private education institution dedicated to excellent academic performance and student experience. Established in 1997, the college has had nearly a couple of decades long experience in providing quality and industry-ready IT and Business Education to Nepalese students, making it a leading Academic Institution in Nepal. Having grown from strength to strength, the College is now directly affiliated with UK university.
+ ]]>
+    </string>
+
 
 </resources>

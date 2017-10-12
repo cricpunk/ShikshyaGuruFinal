@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/root_news_headlines"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_news_headlines"
     android:layout_width="match_parent"
-    android:layout_margin="@dimen/margin_extra_short"
-    android:layout_height="100dp">
+    android:layout_height="100dp"
+    android:layout_margin="@dimen/margin_extra_short">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -15,9 +15,9 @@
             android:id="@+id/iv_news_headline_icon"
             android:layout_width="130dp"
             android:layout_height="0dp"
+            android:contentDescription="@string/news_headlines_icon"
             android:paddingTop="4dp"
             android:scaleType="centerCrop"
-            android:contentDescription="@string/news_headlines_icon"
             app:layout_constraintBottom_toTopOf="@+id/h_guideline_1"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -57,9 +57,9 @@
             android:paddingEnd="0dp"
             android:paddingLeft="@dimen/margin_short"
             android:paddingRight="0dp"
-            android:textColor="#9E9E9E"
             android:paddingStart="@dimen/margin_short"
             android:text="@string/news_post_time"
+            android:textColor="#9E9E9E"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="@+id/h_guideline_1" />
@@ -86,7 +86,6 @@
             android:id="@+id/lbl_news_writer"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:textStyle="bold"
             android:gravity="center_vertical"
             android:paddingEnd="@dimen/margin_short"
             android:paddingLeft="@dimen/margin_short"
@@ -102,9 +101,9 @@
             android:id="@+id/iv_news_headline_more"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
             android:contentDescription="@string/three_dots"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@+id/h_guideline_1"

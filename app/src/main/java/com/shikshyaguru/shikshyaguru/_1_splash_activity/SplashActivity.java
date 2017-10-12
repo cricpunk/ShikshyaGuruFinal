@@ -17,6 +17,7 @@ import android.widget.ImageView;
 
 import com.shikshyaguru.shikshyaguru.R;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.HomePageActivity;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionsHomePageActivity;
 import com.shikshyaguru.shikshyaguru.animation_collection.Animator;
 
 //import com.shikshyaguru.shikshyaguru._4_home_page.views.HomePageActivity;
@@ -45,7 +46,7 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(SplashActivity.this, HomePageActivity.class);
+                Intent intent = new Intent(SplashActivity.this, InstitutionsHomePageActivity.class);
                 startActivity(intent);
                 finish();
             }

@@ -12,12 +12,12 @@ import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.ViewInterface;
  * Kathmandu Nepal
  */
 
-public class Controller {
+public class HomePageController {
     private ViewInterface view;
     private DataSourceInterface dataSource;
     private DrawerInterface drawerInterface;
 
-    public Controller(ViewInterface view, DataSourceInterface dataSource) {
+    public HomePageController(ViewInterface view, DataSourceInterface dataSource) {
         this.view = view;
         this.dataSource = dataSource;
 
@@ -30,7 +30,7 @@ public class Controller {
 
 
 
-    public Controller(DrawerInterface drawerInterface, DataSourceInterface dataSource) {
+    public HomePageController(DrawerInterface drawerInterface, DataSourceInterface dataSource) {
         this.dataSource = dataSource;
         this.drawerInterface = drawerInterface;
         setUpDrawerMainHeaderWithData();
@@ -52,20 +52,26 @@ public class Controller {
         view.setupNewsHeadlinesAdapterAndView(dataSource.getListOfNewsData());
     }
 
+    public void onAllNewsClick() {
+        view.openNewsMainFragment();
+    }
+
+    public void onNewsListItemClick(NewsListItem newsListItem) {
+        view.openNewsLoaderFragment(newsListItem.getNews());
+    }
+
     private void setUpInstitutionsCollectionWithData() {
         view.setupInstitutionsCollectionAdapterAndView(dataSource.getTotalInstitutionsHeading());
     }
 
-    public void onNewsListItemClick(NewsListItem newsListItem) {
-        view.openSingleNewsActivity(newsListItem.getNews());
+    public void onAllInstitutionsClick() {
+        view.openInstitutionsMainFragment();
     }
 
     public void onInstitutionsItemClick(InstitutionsListItemParent il) {
-        view.openInstitutionsHomeActivity(il.getInstitutionsIcon(), il.getInstitutionsName(), il.getInstitutionsRating(), il.getInstitutionCityName());
+        view.openInstitutionsLoaderFragment1(il.getInstitutionsIcon(), il.getInstitutionsName(), il.getInstitutionsRating(), il.getInstitutionCityName());
     }
 
-    public void onAllNewsClick() {
-        view.openNewsHomePage();
-    }
+
 
 }

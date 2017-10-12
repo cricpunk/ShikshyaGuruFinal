@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import com.shikshyaguru.shikshyaguru.R;
+import com.shikshyaguru.shikshyaguru._0_3_dynamic_fragment_loader.DynamicFragmentLoader;
 
  /*
   * Created by cricpunk on 9/13/17.
@@ -31,7 +32,12 @@ public class NewsHomePageActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-        loadFragment(bundle);
+//        loadFragment(bundle, R.id.news_home_page_fragment_holder);
+        DynamicFragmentLoader.loadFragment(
+                new NewsMainFragment(),
+                bundle,
+                R.id.news_home_page_fragment_holder,
+                getSupportFragmentManager());
     }
 
     /*
@@ -47,32 +53,32 @@ public class NewsHomePageActivity extends AppCompatActivity {
      ###############################################################################################
      *
      */
-    private void loadFragment(Bundle bundle) {
+    private void loadFragment(Bundle bundle, int fragHolderId) {
         if (bundle != null) {
             String requestCode = (String) bundle.get("REQUEST_CODE");
             if (requestCode != null) {
                 switch (requestCode) {
                     case "news_home":
-                        showFragment(new NewsMainFragment());
+                        showFragment(new NewsMainFragment(), fragHolderId);
                         break;
                     case "news_loader":
-                        showFragment(new NewsLoaderFragment());
+                        showFragment(new NewsLoaderFragment(), fragHolderId);
                         break;
                     default:
                         break;
                 }
             } else {
-                showFragment(new NewsMainFragment());
+                showFragment(new NewsMainFragment(), fragHolderId);
             }
         } else {
-            showFragment(new NewsMainFragment());
+            showFragment(new NewsMainFragment(), fragHolderId);
         }
     }
 
-    private void showFragment(Fragment fragment) {
+    private void showFragment(Fragment fragment, int fragHolderId) {
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.news_home_page_fragment_holder, fragment).commit();
+                .replace(fragHolderId, fragment).commit();
     }
 
 }
