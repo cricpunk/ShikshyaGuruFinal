@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Theme 1.    Sign up login screen-->
+    <style name="BaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowBackground">@color/colorAppMain</item>
+    </style>
+
+    <!--Theme 2.    Same status and nav bar color-->
+    <style name="NavStatusBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowTranslucentNavigation">true</item>
+    </style>
+
+    <!--Theme 3.    Observable scroll toolbar theme-->
+    <style name="Toolbar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowTranslucentNavigation">true</item>
+    </style>
+
+</resources>
