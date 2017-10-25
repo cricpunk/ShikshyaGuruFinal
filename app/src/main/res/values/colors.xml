@@ -60,4 +60,6 @@
     <color name="colorBackground">#E0E0E0</color>
     <color name="colorCardViewBackground">#FAFAFA</color>
 
+    <color name="card_black">#424242</color>
+
 </resources>

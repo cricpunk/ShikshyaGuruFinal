@@ -5,11 +5,13 @@ package com.shikshyaguru.shikshyaguru._6_institutions_activity.views;
  * Koiralapankaj007@gmail.com
  */
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -40,7 +42,8 @@ import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fr
 
 public class InstitutionsLoaderFragment extends Fragment implements AppBarLayout.OnOffsetChangedListener{
 
-    CollapsingToolbarLayout layout;
+    private SmartTabLayout viewPagerTab;
+    private CollapsingToolbarLayout collapsingToolbar;
 
     @Nullable
     @Override
@@ -52,8 +55,6 @@ public class InstitutionsLoaderFragment extends Fragment implements AppBarLayout
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-
 
         initToolbarAndLayout(view);
         initSmartTabLayout(view);
@@ -70,8 +71,8 @@ public class InstitutionsLoaderFragment extends Fragment implements AppBarLayout
             getSupportActionBar.setDisplayShowTitleEnabled(false);
         }
 
+        collapsingToolbar = (CollapsingToolbarLayout) view.findViewById(R.id.ctbl_inst_loader_frag);
         AppBarLayout mAppBar = (AppBarLayout) view.findViewById(R.id.abl_inst_loader_frag);
-        layout = (CollapsingToolbarLayout) view.findViewById(R.id.ctbl_inst_loader_frag);
         mAppBar.addOnOffsetChangedListener(this);
     }
 
@@ -93,27 +94,58 @@ public class InstitutionsLoaderFragment extends Fragment implements AppBarLayout
                 .create()
         );
 
-        ViewPager viewPager = (ViewPager) view.findViewById(R.id.vp_inst_loader_frag);
+        final ViewPager viewPager = (ViewPager) view.findViewById(R.id.vp_inst_loader_frag);
         viewPager.setAdapter(adapter);
 
-        SmartTabLayout viewPagerTab = (SmartTabLayout) view.findViewById(R.id.stl_inst_loader_frag);
+        viewPagerTab = (SmartTabLayout) view.findViewById(R.id.stl_inst_loader_frag);
         viewPagerTab.setViewPager(viewPager);
-
+        viewPagerTab.setOnPageChangeListener(onPageChangeListener);
     }
+
+    private ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            if (position == 5 || position == 6) {
+                viewPagerTab.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.card_black));
+                collapsingToolbar.setContentScrimColor(ContextCompat.getColor(getContext(), R.color.card_black));
+                getActivity().getWindow().setBackgroundDrawableResource(R.color.card_black);
+            } else {
+                viewPagerTab.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorAppMain));
+                collapsingToolbar.setContentScrimColor(ContextCompat.getColor(getContext(), R.color.colorAppMain));
+                getActivity().getWindow().setBackgroundDrawableResource(R.color.colorAppMain);
+            }
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+
+        }
+    };
 
     private void initFloatingActionMenu(View view) {
         FloatingActionMenu floatingActionMenu = (FloatingActionMenu) view.findViewById(R.id.fam_inst_loader_frag);
         FloatingActionButton navigation = (FloatingActionButton) view.findViewById(R.id.fab_navigation_inst_loader_frag);
+        FloatingActionButton facebook = (FloatingActionButton) view.findViewById(R.id.fab_facebook_inst_loader_frag);
+        FloatingActionButton website = (FloatingActionButton) view.findViewById(R.id.fab_website_inst_loader_frag);
         FloatingActionButton share = (FloatingActionButton) view.findViewById(R.id.fab_share_inst_loader_frag);
         FloatingActionButton review = (FloatingActionButton) view.findViewById(R.id.fab_review_inst_loader_frag);
         FloatingActionButton favourite = (FloatingActionButton) view.findViewById(R.id.fab_favourite_inst_loader_frag);
 
         navigation.setImageResource(R.drawable.ic_navigation);
+        facebook.setImageResource(R.drawable.ic_facebook_f);
+        website.setImageResource(R.drawable.ic_website);
         share.setImageResource(R.drawable.ic_share_3);
         review.setImageResource(R.drawable.ic_review_message);
         favourite.setImageResource(R.drawable.ic_heart);
 
         navigation.setOnClickListener(floatingActionButtonClickListener);
+        facebook.setOnClickListener(floatingActionButtonClickListener);
+        website.setOnClickListener(floatingActionButtonClickListener);
         share.setOnClickListener(floatingActionButtonClickListener);
         review.setOnClickListener(floatingActionButtonClickListener);
         favourite.setOnClickListener(floatingActionButtonClickListener);
@@ -133,6 +165,12 @@ public class InstitutionsLoaderFragment extends Fragment implements AppBarLayout
             switch (v.getId()) {
                 case R.id.fab_navigation_inst_loader_frag:
                     Toast.makeText(getContext(), "Navigation", Toast.LENGTH_SHORT).show();
+                    break;
+                case R.id.fab_facebook_inst_loader_frag:
+                    Toast.makeText(getContext(), "Facebook", Toast.LENGTH_SHORT).show();
+                    break;
+                case R.id.fab_website_inst_loader_frag:
+                    Toast.makeText(getContext(), "Website", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.fab_share_inst_loader_frag:
                     Toast.makeText(getContext(), "Share", Toast.LENGTH_SHORT).show();

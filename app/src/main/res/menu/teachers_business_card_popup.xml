@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/teachers_card_popup_visit_profile"
+        android:title="@string/visit_profile" />
+
+    <item
+        android:id="@+id/teachers_card_popup_send_message"
+        android:title="@string/send_message" />
+
+    <item
+        android:id="@+id/teachers_card_popup_rate"
+        android:title="@string/rating" />
+
+</menu>

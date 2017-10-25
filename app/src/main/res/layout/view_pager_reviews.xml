@@ -1,6 +1,512 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_reviews_nested_scroll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorCardViewBackground">
 
-</LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/lbl_ratingReviewHeading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorCardViewBackground"
+            android:padding="@dimen/margin_standard"
+            android:text="@string/ratings_and_reviews" />
+
+        <LinearLayout
+            android:id="@+id/l_display_rating"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lbl_ratingReviewHeading"
+            android:background="@color/colorCardViewBackground"
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/margin_short"
+            android:paddingTop="@dimen/margin_short"
+            android:weightSum="4">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.5"
+                android:background="@drawable/border_right"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/margin_short"
+                android:paddingTop="@dimen/margin_short">
+
+                <TextView
+                    android:id="@+id/lbl_inst_loader_vp_review_overall_rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_horizontal"
+                    android:drawableEnd="@drawable/ic_star_large"
+                    android:drawablePadding="5dp"
+                    android:drawableRight="@drawable/ic_star_large"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/margin_extra_short"
+                    tools:text="4.1"
+                    android:textAlignment="center"
+                    android:textColor="#222222"
+                    android:textSize="36sp" />
+
+                <TextView
+                    android:id="@+id/lbl_inst_loader_vp_review_total_rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/margin_extra_short"
+                    tools:text="123456 ratings and"
+                    android:textAlignment="center"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/lbl_inst_loader_vp_review_total_review"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center_vertical"
+                    tools:text="123456 reviews"
+                    android:textAlignment="center"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/margin_standard"
+                android:layout_marginLeft="@dimen/margin_standard"
+                android:layout_marginRight="@dimen/margin_standard"
+                android:layout_marginStart="@dimen/margin_standard"
+                android:layout_weight="2.5"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/margin_short"
+                android:paddingTop="@dimen/margin_short">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="5">
+
+                    <TextView
+                        android:id="@+id/lbl_inst_loader_vp_review_five_star"
+                        style="@style/ratingTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="20dp"
+                        android:layout_weight="0.8"
+                        android:text="@string/_5" />
+
+                    <ProgressBar
+                        android:id="@+id/pb_inst_loader_vp_reviews_5_star"
+                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                        android:layout_width="0dp"
+                        android:layout_height="5dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="@dimen/margin_short"
+                        android:layout_marginRight="@dimen/margin_short"
+                        android:layout_weight="3"
+                        android:indeterminate="false" />
+
+                    <TextView
+                        android:id="@+id/lbl_inst_loader_vp_review_total_five_star"
+                        style="@style/ratingTotalCountTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.2"
+                        tools:text="1,23,456" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="5">
+
+                    <TextView
+                        android:id="@+id/lbl_inst_loader_vp_review_four_star"
+                        style="@style/ratingTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="20dp"
+                        android:layout_weight="0.8"
+                        android:text="@string/_4" />
+
+                    <ProgressBar
+                        android:id="@+id/pb_inst_loader_vp_reviews_4_star"
+                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                        android:layout_width="0dp"
+                        android:layout_height="5dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="@dimen/margin_short"
+                        android:layout_marginRight="@dimen/margin_short"
+                        android:layout_weight="3"
+                        android:indeterminate="false" />
+
+                    <TextView
+                        android:id="@+id/lbl_inst_loader_vp_review_total_four_star"
+                        style="@style/ratingTotalCountTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.2"
+                        tools:text="1,23,456" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="5">
+
+                    <TextView
+                        android:id="@+id/lbl_inst_loader_vp_review_three_star"
+                        style="@style/ratingTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="20dp"
+                        android:layout_weight="0.8"
+                        android:text="@string/_3" />
+
+                    <ProgressBar
+                        android:id="@+id/pb_inst_loader_vp_reviews_3_star"
+                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                        android:layout_width="0dp"
+                        android:layout_height="5dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="@dimen/margin_short"
+                        android:layout_marginRight="@dimen/margin_short"
+                        android:layout_weight="3"
+                        android:indeterminate="false" />
+
+                    <TextView
+                        android:id="@+id/lbl_inst_loader_vp_review_total_three_star"
+                        style="@style/ratingTotalCountTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.2"
+                        tools:text="1,23,456" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="5">
+
+                    <TextView
+                        android:id="@+id/lbl_inst_loader_vp_review_two_star"
+                        style="@style/ratingTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="20dp"
+                        android:layout_weight="0.8"
+                        android:text="@string/_2" />
+
+                    <ProgressBar
+                        android:id="@+id/pb_inst_loader_vp_reviews_2_star"
+                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                        android:layout_width="0dp"
+                        android:layout_height="5dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="@dimen/margin_short"
+                        android:layout_marginRight="@dimen/margin_short"
+                        android:layout_weight="3"
+                        android:indeterminate="false" />
+
+                    <TextView
+                        android:id="@+id/lbl_inst_loader_vp_review_total_two_star"
+                        style="@style/ratingTotalCountTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.2"
+                        tools:text="1,23,456" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="5">
+
+                    <TextView
+                        android:id="@+id/lbl_inst_loader_vp_review_one_star"
+                        style="@style/ratingTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="20dp"
+                        android:layout_weight="0.8"
+                        android:text="@string/_1" />
+
+                    <ProgressBar
+                        android:id="@+id/pb_inst_loader_vp_reviews_1_star"
+                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                        android:layout_width="0dp"
+                        android:layout_height="5dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="@dimen/margin_short"
+                        android:layout_marginRight="@dimen/margin_short"
+                        android:layout_weight="3"
+                        android:indeterminate="false" />
+
+                    <TextView
+                        android:id="@+id/lbl_inst_loader_vp_review_total_one_star"
+                        style="@style/ratingTotalCountTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.2"
+                        tools:text="1,23,456" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/l_circular_progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/l_display_rating"
+            android:background="@color/colorCardViewBackground"
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/margin_short"
+            android:paddingTop="@dimen/margin_short"
+            android:weightSum="4">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <ProgressBar
+                    android:id="@+id/cpb_inst_loader_vp_reviews_eq"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_centerHorizontal="true"
+                    android:indeterminate="false"
+                    android:max="100"
+                    android:progress="75"
+                    android:progressDrawable="@drawable/circular_rating_bar"
+                    android:secondaryProgress="100" />
+
+                <TextView
+                    android:id="@+id/lbl_inst_loader_vp_review_education_rating"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center_vertical"
+                    tools:text="4.3"
+                    android:textAlignment="center"
+                    android:textColor="#222222"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/lbl_inst_loader_vp_review_education"
+                    style="@style/circularRatingHeading"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/cpb_inst_loader_vp_reviews_eq"
+                    android:text="@string/education" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <ProgressBar
+                    android:id="@+id/cpb_inst_loader_vp_reviews_is"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_centerHorizontal="true"
+                    android:indeterminate="false"
+                    android:max="100"
+                    android:progress="75"
+                    android:progressDrawable="@drawable/circular_rating_bar"
+                    android:secondaryProgress="100" />
+
+                <TextView
+                    android:id="@+id/lbl_inst_loader_vp_review_infrastructure_rating"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center_vertical"
+                    tools:text="4.3"
+                    android:textAlignment="center"
+                    android:textColor="#222222"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/lbl_inst_loader_vp_review_infrastructure"
+                    style="@style/circularRatingHeading"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/cpb_inst_loader_vp_reviews_is"
+                    android:text="@string/infrastructure" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <ProgressBar
+                    android:id="@+id/cpb_inst_loader_vp_reviews_tec"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_centerHorizontal="true"
+                    android:indeterminate="false"
+                    android:max="100"
+                    android:progress="75"
+                    android:progressDrawable="@drawable/circular_rating_bar"
+                    android:secondaryProgress="100" />
+
+                <TextView
+                    android:id="@+id/lbl_inst_loader_vp_review_teachers_rating"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center_vertical"
+                    tools:text="4.3"
+                    android:textAlignment="center"
+                    android:textColor="#222222"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/lbl_inst_loader_vp_review_teachers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/cpb_inst_loader_vp_reviews_tec"
+                    android:layout_centerHorizontal="true"
+                    android:paddingLeft="@dimen/margin_short"
+                    android:paddingRight="@dimen/margin_short"
+                    android:text="@string/teachers"
+                    android:textAlignment="center"
+                    android:textColor="#222222"
+                    android:textSize="12sp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <ProgressBar
+                    android:id="@+id/cpb_inst_loader_vp_reviews_mgt"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_centerHorizontal="true"
+                    android:indeterminate="false"
+                    android:max="100"
+                    android:progress="75"
+                    android:progressDrawable="@drawable/circular_rating_bar"
+                    android:secondaryProgress="100" />
+
+                <TextView
+                    android:id="@+id/lbl_inst_loader_vp_reviews_mgmt_rating"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center_vertical"
+                    tools:text="4.3"
+                    android:textAlignment="center"
+                    android:textColor="#222222"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/lbl_inst_loader_vp_reviews_mgmt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/cpb_inst_loader_vp_reviews_mgt"
+                    android:layout_centerHorizontal="true"
+                    android:paddingLeft="@dimen/margin_short"
+                    android:paddingRight="@dimen/margin_short"
+                    android:text="@string/management"
+                    android:textAlignment="center"
+                    android:textColor="#222222"
+                    android:textSize="12sp" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/l_rating"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/l_circular_progress_bar"
+            android:background="@color/colorCardViewBackground"
+            android:paddingTop="@dimen/margin_extra_short">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="50dp"
+                android:background="@color/colorBackground" />
+
+            <com.github.siyamed.shapeimageview.CircularImageView
+                android:id="@+id/iv_inst_loader_vp_reviews_user"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="16dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/me"
+                app:siBorderColor="#FAFAFA"
+                app:siBorderWidth="2dp" />
+
+
+            <include
+                layout="@layout/rating_bar_colln"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iv_inst_loader_vp_reviews_user" />
+
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/lbl_reviews_highlight_heading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/l_rating"
+            android:background="@drawable/border_bottom"
+            android:gravity="center_vertical"
+            android:padding="@dimen/margin_standard"
+            android:text="@string/reviews_highlights"
+            android:textAlignment="center"
+            android:textColor="#222222"
+            android:textSize="18sp" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rec_reviews"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lbl_reviews_highlight_heading" />
+
+    </RelativeLayout>
+
+</android.support.v4.widget.NestedScrollView>

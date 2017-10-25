@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/border_bottom"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin_standard">
+
+        <TextView
+            android:id="@+id/lbl_inst_loader_vp_reviews_rec_rating"
+            style="@style/ratingTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:background="@color/colorBackground"
+            android:drawablePadding="2dp"
+            android:text="@string/_5"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/lbl_inst_loader_vp_reviews_rec_heading"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_alignBaseline="@+id/lbl_inst_loader_vp_reviews_rec_rating"
+            android:layout_alignBottom="@+id/lbl_inst_loader_vp_reviews_rec_rating"
+            android:layout_toEndOf="@+id/lbl_inst_loader_vp_reviews_rec_rating"
+            android:layout_toRightOf="@+id/lbl_inst_loader_vp_reviews_rec_rating"
+            android:paddingLeft="@dimen/margin_short"
+            android:paddingRight="@dimen/margin_short"
+            android:text="@string/review_heading"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/lbl_inst_loader_vp_reviews_rec_review"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/lbl_inst_loader_vp_reviews_rec_heading"
+            android:layout_marginEnd="@dimen/margin_standard"
+            android:layout_marginRight="@dimen/margin_standard"
+            android:paddingBottom="@dimen/margin_short"
+            android:paddingTop="@dimen/margin_short"
+            android:text="@string/review"
+            android:textColor="#CC222222" />
+
+        <TextView
+            android:id="@+id/lbl_inst_loader_vp_reviews_rec_name_date"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/lbl_inst_loader_vp_reviews_rec_review"
+            android:gravity="center_vertical"
+            android:text="@string/name_date"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/iv_inst_loader_vp_reviews_rec_like"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_alignBottom="@+id/lbl_inst_loader_vp_reviews_rec_name_date"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/lbl_inst_loader_vp_reviews_rec_like_count"
+            android:layout_toStartOf="@+id/lbl_inst_loader_vp_reviews_rec_like_count"
+            app:srcCompat="@drawable/ic_like"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/lbl_inst_loader_vp_reviews_rec_like_count"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_alignBottom="@+id/lbl_inst_loader_vp_reviews_rec_name_date"
+            android:layout_toLeftOf="@+id/iv_inst_loader_vp_reviews_rec_dislike"
+            android:layout_toStartOf="@+id/iv_inst_loader_vp_reviews_rec_dislike"
+            android:gravity="center_vertical"
+            android:paddingEnd="@dimen/margin_extra_short"
+            android:paddingLeft="0dp"
+            android:paddingRight="@dimen/margin_extra_short"
+            android:paddingStart="0dp"
+            android:text="@string/like_count"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/iv_inst_loader_vp_reviews_rec_dislike"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_alignBottom="@+id/lbl_inst_loader_vp_reviews_rec_name_date"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/lbl_inst_loader_vp_reviews_rec_dislike_count"
+            android:layout_toStartOf="@+id/lbl_inst_loader_vp_reviews_rec_dislike_count"
+            android:rotation="-180"
+            app:srcCompat="@drawable/ic_like"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/lbl_inst_loader_vp_reviews_rec_dislike_count"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_alignBottom="@+id/lbl_inst_loader_vp_reviews_rec_name_date"
+            android:layout_toLeftOf="@+id/iv_inst_loader_vp_reviews_rec_more"
+            android:layout_toStartOf="@+id/iv_inst_loader_vp_reviews_rec_more"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/margin_extra_short"
+            android:paddingRight="@dimen/margin_extra_short"
+            android:text="@string/dislike_count"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/iv_inst_loader_vp_reviews_rec_more"
+            android:layout_width="12dp"
+            android:layout_height="20dp"
+            android:layout_alignBottom="@+id/lbl_inst_loader_vp_reviews_rec_name_date"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            app:srcCompat="@drawable/ic_more"
+            tools:ignore="ContentDescription" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

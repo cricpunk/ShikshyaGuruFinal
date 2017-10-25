@@ -74,6 +74,53 @@ Quam libero nulla netus eu porta curae, ut nulla bibendum facilisis et urna sed,
  Islington College is an autonomous private education institution dedicated to excellent academic performance and student experience. Established in 1997, the college has had nearly a couple of decades long experience in providing quality and industry-ready IT and Business Education to Nepalese students, making it a leading Academic Institution in Nepal. Having grown from strength to strength, the College is now directly affiliated with UK university.
  ]]>
     </string>
+    <string name="send_us_a_message">SEND US A MESSAGE</string>
+    <string name="name">Name</string>
+    <string name="phone">Phone</string>
+    <string name="message">Message</string>
+    <string name="address">Kamal Marg, Kamal Pokhari, Kathmandu, Nepal</string>
+    <string name="telephone_number">Tel : 441-2929, 980-1022446</string>
+    <string name="email_id">Email : info@islington.edu.np</string>
+    <string name="like_us">Like Us</string>
+    <string name="follow_us">Follow Us</string>
+    <string name="subscribe_us">Subscribe Us</string>
+    <string name="website">www.http://islington.edu.np</string>
+    <string name="_5">5</string>
+    <string name="_4">4</string>
+    <string name="_3">3</string>
+    <string name="_2">2</string>
+    <string name="_1">1</string>
 
+    <string name="review">This is sort review on islington college. Review should be provided wisely so careful while
+    providing review. My name is pankaj koirala and i am a android developer. I am beginner and i have faced lot of
+    difficulties while developing this application. Finally android become bit familiar to me.</string>
+    <string name="name_date">PANKAJ KOIRALA 7 Aug, 2017</string>
+    <string name="review_heading">Best till date</string>
+    <string name="like_count">9k</string>
+    <string name="dislike_count">5k</string>
+    <string name="your_reviews">Your reviews</string>
+    <string name="rate_us">Rate Us</string>
+    <string name="hated_it">Hated it</string>
+    <string name="your_short_review">Your short review</string>
+    <string name="finish">Finish</string>
+    <string name="education_quality">Education quality</string>
+    <string name="infrastructure_quality">Infrastructure quality</string>
+    <string name="teachers_quality">Teachers quality</string>
+    <string name="management_quality">Management quality</string>
+    <string name="education">Education</string>
+    <string name="infrastructure">Infrastructure</string>
+    <string name="teachers">Teachers</string>
+    <string name="management">Management</string>
+    <string name="ratings_and_reviews"><![CDATA[Ratings & Reviews]]></string>
+    <string name="reviews_highlights">Reviews highlights</string>
+    <string name="total_ratings">ratings and</string>
+    <string name="submit">Submit</string>
+    <string name="pankaj">Pankaj Koirala</string>
+    <string name="lecturer_tutor">Lecturer / Tutor</string>
+    <string name="demo">This is demo text</string>
+    <string name="phone_no">977 0123-456-789</string>
+    <string name="visit_profile">Visit profile</string>
+    <string name="send_message">Send message</string>
+    <string name="rating">Rating</string>
 
 </resources>

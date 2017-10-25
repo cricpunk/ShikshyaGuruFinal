@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_rating_section"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
+    android:background="@color/colorBackground"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/l_rating_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/l_rating_overall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_standard"
+            android:visibility="visible">
+
+            <TextView
+                android:id="@+id/lbl_inst_loader_vp_review_overall_rating_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="@string/rate_us"
+                android:textColor="#CC222222" />
+
+            <RatingBar
+                android:id="@+id/rb_inst_loader_vp_review_overall_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lbl_inst_loader_vp_review_overall_rating_heading"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/margin_short"
+                android:numStars="5"
+                android:stepSize="1" />
+
+            <TextView
+                android:id="@+id/lbl_inst_loader_vp_review_overall_rating_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rb_inst_loader_vp_review_overall_rating"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="24dp"
+                android:layout_marginTop="@dimen/margin_extra_short"
+                android:text="@string/hated_it" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/l_rating_education"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_standard"
+            android:visibility="invisible">
+
+            <TextView
+                android:id="@+id/lbl_inst_loader_vp_review_edu_quality_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="@string/education_quality"
+                android:textColor="#CC222222" />
+
+            <RatingBar
+                android:id="@+id/rb_inst_loader_vp_review_edu_quality_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lbl_inst_loader_vp_review_edu_quality_heading"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/margin_short"
+                android:numStars="5"
+                android:stepSize="1" />
+
+            <TextView
+                android:id="@+id/lbl_inst_loader_vp_review_edu_quality_rating_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rb_inst_loader_vp_review_edu_quality_rating"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="24dp"
+                android:layout_marginTop="@dimen/margin_extra_short"
+                android:text="@string/hated_it" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/l_rating_infrastructure"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_standard"
+            android:visibility="invisible">
+
+            <TextView
+                android:id="@+id/lbl_inst_loader_vp_review_infrastructure_rating_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="@string/infrastructure_quality"
+                android:textColor="#CC222222" />
+
+            <RatingBar
+                android:id="@+id/rb_inst_loader_vp_review_infrastructure_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lbl_inst_loader_vp_review_infrastructure_rating_heading"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/margin_short"
+                android:numStars="5"
+                android:stepSize="1" />
+
+            <TextView
+                android:id="@+id/lbl_inst_loader_vp_review_infrastructure_rating_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rb_inst_loader_vp_review_infrastructure_rating"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="24dp"
+                android:layout_marginTop="@dimen/margin_extra_short"
+                android:text="@string/hated_it" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/l_rating_teachers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_standard"
+            android:visibility="invisible">
+
+            <TextView
+                android:id="@+id/lbl_inst_loader_vp_review_teachers_rating_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="@string/teachers_quality"
+                android:textColor="#CC222222" />
+
+            <RatingBar
+                android:id="@+id/rb_inst_loader_vp_review_teachers_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lbl_inst_loader_vp_review_teachers_rating_heading"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/margin_short"
+                android:numStars="5"
+                android:stepSize="1" />
+
+            <TextView
+                android:id="@+id/lbl_inst_loader_vp_review_teachers_rating_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rb_inst_loader_vp_review_teachers_rating"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="24dp"
+                android:layout_marginTop="@dimen/margin_extra_short"
+                android:text="@string/hated_it" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/l_rating_management"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_standard"
+            android:visibility="invisible">
+
+            <TextView
+                android:id="@+id/lbl_inst_loader_vp_review_management_rating_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="@string/management_quality"
+                android:textColor="#CC222222" />
+
+            <RatingBar
+                android:id="@+id/rb_inst_loader_vp_review_management_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lbl_inst_loader_vp_review_management_rating_heading"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/margin_short"
+                android:numStars="5"
+                android:stepSize="1" />
+
+            <TextView
+                android:id="@+id/lbl_inst_loader_vp_review_management_rating_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rb_inst_loader_vp_review_management_rating"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="24dp"
+                android:layout_marginTop="@dimen/margin_extra_short"
+                android:text="@string/hated_it" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/l_rating_review"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_standard"
+            android:visibility="invisible">
+
+            <TextView
+                android:id="@+id/lbl_inst_loader_vp_review_short_review_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="@string/your_short_review"
+                android:textColor="#CC222222" />
+
+            <EditText
+                android:id="@+id/et_inst_loader_vp_review_short_review"
+                style="@style/leftRightPaddingStandard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lbl_inst_loader_vp_review_short_review_heading"
+                android:layout_marginBottom="45dp"
+                android:layout_marginTop="32dp"
+                android:background="@drawable/et_background_transparent"
+                android:gravity="center_vertical"
+                android:hint="@string/your_reviews"
+                android:textColor="#CC222222"
+                android:textSize="14sp" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/l_rating_top">
+
+        <ImageView
+            android:id="@+id/iv_inst_loader_vp_review_submit_next_finish"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_centerHorizontal="true"
+            android:rotation="90"
+            app:srcCompat="@drawable/ic_more"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/lbl_inst_loader_vp_review_submit_next_finish"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="@dimen/margin_standard"
+            android:layout_marginRight="@dimen/margin_standard"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:text="@string/submit"
+            android:textAllCaps="true"
+            android:textColor="#222222"
+            tools:ignore="RelativeOverlap" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

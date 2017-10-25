@@ -1,4 +1,4 @@
-package com.shikshyaguru.shikshyaguru.animation_collection;
+package com.shikshyaguru.shikshyaguru._0_4_animation_collection;
 
 import android.content.Context;
 import android.view.ViewGroup;

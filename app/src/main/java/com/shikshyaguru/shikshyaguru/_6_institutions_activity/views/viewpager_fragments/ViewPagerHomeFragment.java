@@ -20,21 +20,20 @@ import android.widget.Toast;
 
 import com.shikshyaguru.shikshyaguru.R;
 import com.shikshyaguru.shikshyaguru._0_2_recyclerview_slider_effect.RecyclerViewSliderEffect;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.CollegeHomeIntroData;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.CollegesHomeNewsAndEventsData;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.CollegesHomeFakeDataSource;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionHomeIntroData;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionHomeNewsAndEventsData;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionFakeDataSource;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter.InstitutionsController;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionViewInterface;
 
 import java.util.List;
 
-public class ViewPagerHomeFragment extends Fragment implements InstitutionViewInterface {
+public class ViewPagerHomeFragment extends Fragment implements ViewPagerHomeInterface {
 
     private LayoutInflater inflater;
     InstitutionsController controller;
 
-    private List<CollegesHomeNewsAndEventsData> newsAndEventData;
-    private List<CollegeHomeIntroData> introData;
+    private List<InstitutionHomeNewsAndEventsData> newsAndEventData;
+    private List<InstitutionHomeIntroData> introData;
     private RecyclerView recyclerViewNewsAndEvent;
     private RecyclerView recyclerViewIntro;
 
@@ -55,7 +54,7 @@ public class ViewPagerHomeFragment extends Fragment implements InstitutionViewIn
 
         initNewsSection(view);
         initIntroSection(view);
-        controller = new InstitutionsController(this, new CollegesHomeFakeDataSource());
+        controller = new InstitutionsController(this, new InstitutionFakeDataSource());
     }
 
 
@@ -74,7 +73,7 @@ public class ViewPagerHomeFragment extends Fragment implements InstitutionViewIn
     }
 
     @Override
-    public void setUpNewsAdapterAndView(List<CollegesHomeNewsAndEventsData> newsAndEventsData) {
+    public void setUpNewsAdapterAndView(List<InstitutionHomeNewsAndEventsData> newsAndEventsData) {
         this.newsAndEventData = newsAndEventsData;
         recyclerViewNewsAndEvent.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         NewsAdapter adapter = new NewsAdapter();
@@ -105,7 +104,7 @@ public class ViewPagerHomeFragment extends Fragment implements InstitutionViewIn
     }
 
     @Override
-    public void setUpHomeIntroAdapterAndView(List<CollegeHomeIntroData> introData) {
+    public void setUpHomeIntroAdapterAndView(List<InstitutionHomeIntroData> introData) {
         this.introData = introData;
         recyclerViewIntro.setNestedScrollingEnabled(false);
         recyclerViewIntro.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -123,7 +122,7 @@ public class ViewPagerHomeFragment extends Fragment implements InstitutionViewIn
 
         @Override
         public void onBindViewHolder(NewsViewHolder holder, int position) {
-            CollegesHomeNewsAndEventsData currentItem = newsAndEventData.get(position);
+            InstitutionHomeNewsAndEventsData currentItem = newsAndEventData.get(position);
             holder.newsHeadlines.setText(currentItem.getNewsAndEvents());
         }
 
@@ -185,7 +184,7 @@ public class ViewPagerHomeFragment extends Fragment implements InstitutionViewIn
         @Override
         public void onBindViewHolder(IntroViewHolder holder, int position) {
 
-            CollegeHomeIntroData currentItem = introData.get(position);
+            InstitutionHomeIntroData currentItem = introData.get(position);
             int introId = Integer.parseInt(currentItem.getIntro());
 
             holder.image.setImageResource(currentItem.getImage());

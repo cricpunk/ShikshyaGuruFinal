@@ -48,9 +48,9 @@ public class SignUpFragment extends Fragment implements View.OnFocusChangeListen
         ConstraintLayout layout = (ConstraintLayout) view.findViewById(R.id.signUp_full_layout);
         layout.setPadding(0,120,0,120);
 
-        final EditText password = (EditText) view.findViewById(R.id.password);
-        final EditText userName = (EditText) view.findViewById(R.id.userName);
-        final EditText email = (EditText) view.findViewById(R.id.email);
+        EditText password = (EditText) view.findViewById(R.id.password);
+        EditText userName = (EditText) view.findViewById(R.id.userName);
+        EditText email = (EditText) view.findViewById(R.id.email);
 
         password.setOnFocusChangeListener(this);
         userName.setOnFocusChangeListener(this);

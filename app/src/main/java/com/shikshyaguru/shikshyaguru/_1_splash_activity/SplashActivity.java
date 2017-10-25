@@ -16,9 +16,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
 import com.shikshyaguru.shikshyaguru.R;
-import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.HomePageActivity;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionsHomePageActivity;
-import com.shikshyaguru.shikshyaguru.animation_collection.Animator;
+import com.shikshyaguru.shikshyaguru._0_4_animation_collection.Animator;
 
 //import com.shikshyaguru.shikshyaguru._4_home_page.views.HomePageActivity;
 

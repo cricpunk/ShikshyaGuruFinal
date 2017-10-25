@@ -5,13 +5,13 @@ package com.shikshyaguru.shikshyaguru._6_institutions_activity.model;
  * Koiralapankaj007@gmail.com
  */
 
-public class CollegeHomeIntroData {
+public class InstitutionHomeIntroData {
 
     private int image;
     private String introHeading;
     private String intro;
 
-    public CollegeHomeIntroData(int image, String introHeading, String intro) {
+    public InstitutionHomeIntroData(int image, String introHeading, String intro) {
         this.image = image;
         this.introHeading = introHeading;
         this.intro = intro;

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_marginBottom="@dimen/margin_short"
+    android:layout_marginTop="@dimen/margin_short"
+    android:layout_weight="1">
+
+    <ImageView
+        android:id="@+id/iv_teachers_business_card_content_icon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_centerVertical="true"
+        android:background="@drawable/background_radius"
+        android:padding="8dp"
+        app:srcCompat="@drawable/ic_phone"
+        tools:ignore="ContentDescription" />
+
+    <View
+        android:id="@+id/view1"
+        android:layout_width="8dp"
+        android:layout_height="1dp"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/iv_teachers_business_card_content_icon"
+        android:layout_toRightOf="@+id/iv_teachers_business_card_content_icon"
+        android:background="#FFFFFF" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="18dp"
+        android:layout_height="match_parent"
+        android:layout_toEndOf="@+id/view1"
+        android:layout_toRightOf="@+id/view1"
+        android:background="@drawable/border_three_side" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="2dp"
+        android:layout_marginLeft="-8dp"
+        android:layout_marginStart="-8dp"
+        android:layout_marginTop="2dp"
+        android:layout_toEndOf="@+id/view2"
+        android:layout_toRightOf="@+id/view2"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/lbl_teachers_business_card_content1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="@string/phone_no"
+            android:textColor="#FFFFFF"
+            android:textIsSelectable="true"
+            android:textSize="10sp"
+            tools:ignore="SmallSp" />
+
+        <TextView
+            android:id="@+id/lbl_teachers_business_card_content2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:textColor="#FFFFFF"
+            android:textIsSelectable="true"
+            android:textSize="10sp"
+            tools:ignore="SmallSp"
+            tools:text="@string/phone_no" />
+
+    </LinearLayout>
+
+</RelativeLayout>
+

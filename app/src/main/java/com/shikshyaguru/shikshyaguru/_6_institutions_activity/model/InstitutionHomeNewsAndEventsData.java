@@ -5,11 +5,11 @@ package com.shikshyaguru.shikshyaguru._6_institutions_activity.model;
  * Koiralapankaj007@gmail.com
  */
 
-public class CollegesHomeNewsAndEventsData {
+public class InstitutionHomeNewsAndEventsData {
 
     private String newsAndEvents;
 
-    public CollegesHomeNewsAndEventsData(String newsAndEvents) {
+    public InstitutionHomeNewsAndEventsData(String newsAndEvents) {
         this.newsAndEvents = newsAndEvents;
     }
 

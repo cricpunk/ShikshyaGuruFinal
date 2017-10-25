@@ -1,6 +1,200 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-</LinearLayout>
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorBackground">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:focusableInTouchMode="true"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:background="#FFFFFF"
+                android:minHeight="300dp" />
+
+            <LinearLayout
+                android:id="@+id/top"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    style="@style/leftRightPaddingStandard"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/contact_us"
+                    tools:ignore="ContentDescription" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/top"
+                android:layout_marginTop="360dp"
+                android:background="#FFFFFF"
+                android:minHeight="300dp" />
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cv_vp_contact_form"
+                style="@style/leftRightShort"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/top"
+                android:layout_marginBottom="35dp"
+                android:layout_marginTop="@dimen/margin_standard"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="10dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#FAFAFA"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:paddingBottom="@dimen/margin_standard">
+
+                    <TextView
+                        android:id="@+id/lbl_send_us_message"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:paddingBottom="@dimen/margin_standard"
+                        android:paddingTop="@dimen/margin_standard"
+                        android:text="@string/send_us_a_message"
+                        android:textAlignment="center"
+                        android:textColor="#222222"
+                        android:textSize="20sp" />
+
+                    <EditText
+                        android:id="@+id/lbl_vp_contact_name"
+                        style="@style/leftRightPaddingStandard"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/lbl_send_us_message"
+                        android:background="@drawable/et_background"
+                        android:gravity="center_vertical"
+                        android:hint="@string/name"
+                        android:inputType="textPersonName"
+                        android:textColor="#CC222222" />
+
+                    <EditText
+                        android:id="@+id/lbl_vp_contact_phone"
+                        style="@style/leftRightPaddingStandard"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/lbl_vp_contact_name"
+                        android:background="@drawable/et_background"
+                        android:gravity="center_vertical"
+                        android:hint="@string/phone"
+                        android:inputType="phone"
+                        android:textColor="#CC222222" />
+
+                    <EditText
+                        android:id="@+id/lbl_vp_contact_email"
+                        style="@style/leftRightPaddingStandard"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/lbl_vp_contact_phone"
+                        android:background="@drawable/et_background"
+                        android:gravity="center_vertical"
+                        android:hint="@string/email"
+                        android:inputType="textEmailAddress"
+                        android:textColor="#CC222222" />
+
+                    <EditText
+                        android:id="@+id/lbl_vp_contact_message"
+                        style="@style/leftRightPaddingStandard"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/lbl_vp_contact_email"
+                        android:layout_marginBottom="32dp"
+                        android:background="@drawable/et_background"
+                        android:gravity="top|start"
+                        android:hint="@string/message"
+                        android:lines="8"
+                        android:textColor="#CC222222" />
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <RelativeLayout
+                android:id="@+id/fl_map_holder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cv_vp_contact_form"
+                android:background="#FAFAFA"
+                android:orientation="vertical">
+
+                <com.google.android.gms.maps.MapView
+                    android:id="@+id/map_vp_contact"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/map_vp_contact"
+                    android:layout_marginTop="@dimen/margin_short"
+                    android:background="#E6222222"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/textPadding"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/margin_standard"
+                        android:text="@string/address" />
+
+                    <TextView
+                        style="@style/textPadding"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/telephone_number" />
+
+                    <TextView
+                        style="@style/textPadding"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/email_id" />
+
+                    <TextView
+                        style="@style/textPadding"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="@dimen/margin_standard"
+                        android:text="@string/website" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_vp_contact_send"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:clickable="true"
+            app:layout_anchor="@id/cv_vp_contact_form"
+            app:layout_anchorGravity="bottom|center"
+            fab:fab_colorNormal="@color/colorAppMain"
+            fab:fab_colorPressed="#CC2196F3"
+            fab:fab_colorRipple="#99FFFFFF" />
+
+    </android.support.design.widget.CoordinatorLayout>
+
+</android.support.v4.widget.NestedScrollView>
