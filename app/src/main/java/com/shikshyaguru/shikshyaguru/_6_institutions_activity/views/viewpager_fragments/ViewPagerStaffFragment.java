@@ -38,7 +38,7 @@ public class ViewPagerStaffFragment extends Fragment implements ViewPagerStaffIn
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         this.inflater = inflater;
-        return inflater.inflate(R.layout.view_pager_staff, container, false);
+        return inflater.inflate(R.layout._6_2_7_0_view_pager_staff, container, false);
     }
 
     @Override

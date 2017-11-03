@@ -41,7 +41,7 @@ public class ViewPagerHomeFragment extends Fragment implements ViewPagerHomeInte
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         this.inflater = inflater;
-        return inflater.inflate(R.layout._6_2_1_view_pager_home, container, false);
+        return inflater.inflate(R.layout._6_2_1_0_view_pager_home, container, false);
     }
 
     @Override
@@ -177,7 +177,7 @@ public class ViewPagerHomeFragment extends Fragment implements ViewPagerHomeInte
 
         @Override
         public IntroViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = inflater.inflate(R.layout._6_2_2_rec_vp_home_intro, parent, false);
+            View view = inflater.inflate(R.layout._6_2_1_1_rec_vp_home_intro, parent, false);
             return new IntroViewHolder(view);
         }
 

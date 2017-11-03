@@ -38,7 +38,7 @@ public class ViewPagerTeachersFragment extends Fragment implements ViewPagerTeac
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         this.inflater = inflater;
-        return inflater.inflate(R.layout.view_pager_teachers, container, false);
+        return inflater.inflate(R.layout._6_2_6_0_view_pager_teachers, container, false);
     }
 
     @Override

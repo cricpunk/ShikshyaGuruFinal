@@ -19,7 +19,7 @@ public class ViewPagerActivitiesFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.view_pager_activities, container, false);
+        return inflater.inflate(R.layout._6_2_8_0_view_pager_activities, container, false);
     }
 
     @Override

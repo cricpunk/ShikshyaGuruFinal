@@ -8,6 +8,7 @@ package com.shikshyaguru.shikshyaguru._6_institutions_activity.model;
 import com.shikshyaguru.shikshyaguru.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -146,6 +147,28 @@ public class InstitutionFakeDataSource implements InstitutionDataSourceInterface
     @Override
     public List<StaffData> getStaffData() {
         return null;
+    }
+
+    @Override
+    public InstitutionProgrammesData getInstitutionProgrammesData() {
+        InstitutionProgrammesData programmesData = new InstitutionProgrammesData();
+
+        // 1,2,3 in programmesCoursesName represent programmesLevelName id. 1 = +2, 2 = Bachelors, 3 = Masters.
+        String[] programmesLevelName = {"+2", "Bachelors", "Masters"};
+        HashMap<String, String[]> programmesCourses = new HashMap<>();
+
+        String[] programmesCoursesName0 = {"Management", "Science"};
+        String[] programmesCoursesName1 = {"BIM", "BBA", "BScCSIT", "BBS"};
+        String[] programmesCoursesName2 = {"MIM", "MBA", "MBS"};
+
+        programmesCourses.put(programmesLevelName[0], programmesCoursesName0);
+        programmesCourses.put(programmesLevelName[1], programmesCoursesName1);
+        programmesCourses.put(programmesLevelName[2], programmesCoursesName2);
+
+        programmesData.setProgrammesLevelName(programmesLevelName);
+        programmesData.setProgrammesCoursesName(programmesCourses);
+
+        return programmesData;
     }
 
 }

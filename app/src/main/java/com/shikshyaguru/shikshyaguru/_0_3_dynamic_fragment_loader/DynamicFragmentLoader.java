@@ -13,6 +13,7 @@ import com.shikshyaguru.shikshyaguru._5_news_activity.views.NewsLoaderFragment;
 import com.shikshyaguru.shikshyaguru._5_news_activity.views.NewsMainFragment;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionMainFragment;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionsLoaderFragment;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerProgrammesCoursesLoader;
 
 public class DynamicFragmentLoader {
 
@@ -32,6 +33,10 @@ public class DynamicFragmentLoader {
                         break;
                     case "institutions_loader":
                         showFragment(new InstitutionsLoaderFragment(), fragHolderId, fragmentManager);
+                        break;
+                    case "courses_loader" :
+                        showFragment(new ViewPagerProgrammesCoursesLoader(), fragHolderId, fragmentManager);
+                        break;
                     default:
                         break;
                 }

@@ -22,4 +22,6 @@ public interface InstitutionDataSourceInterface {
 
     List<StaffData> getStaffData();
 
+    InstitutionProgrammesData getInstitutionProgrammesData();
+
 }

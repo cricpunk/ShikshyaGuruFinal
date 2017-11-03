@@ -7,6 +7,7 @@ package com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter;
 
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionDataSourceInterface;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerHomeInterface;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerProgrammesInterface;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerReviewInterface;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerStaffInterface;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerTeachersInterface;
@@ -14,6 +15,7 @@ import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fr
 public class InstitutionsController {
 
     private ViewPagerHomeInterface homeInterface;
+    private ViewPagerProgrammesInterface programmesInterface;
     private ViewPagerTeachersInterface teachersInterface;
     private ViewPagerStaffInterface staffInterface;
     private ViewPagerReviewInterface reviewInterface;
@@ -25,6 +27,13 @@ public class InstitutionsController {
 
         setUpNewsAndEvents();
         setUpHomeIntro();
+    }
+
+    public InstitutionsController(ViewPagerProgrammesInterface programmesInterface, InstitutionDataSourceInterface dataSource) {
+        this.programmesInterface = programmesInterface;
+        this.dataSource = dataSource;
+
+        setUpProgrammesLevel();
     }
 
     public InstitutionsController(ViewPagerReviewInterface reviewInterface, InstitutionDataSourceInterface dataSource) {
@@ -55,6 +64,14 @@ public class InstitutionsController {
 
     private void setUpHomeIntro() {
         homeInterface.setUpHomeIntroAdapterAndView(dataSource.getInstitutionHomeIntroData());
+    }
+
+    private void setUpProgrammesLevel() {
+        programmesInterface.setUpProgrammesLevel(dataSource.getInstitutionProgrammesData());
+    }
+
+    public void onCoursesClickListener() {
+        programmesInterface.onCoursesClickListener();
     }
 
     private void setUpRatings() {

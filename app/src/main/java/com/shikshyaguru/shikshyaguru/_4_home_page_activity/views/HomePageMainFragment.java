@@ -53,7 +53,7 @@ import java.util.List;
  * Koiralapankaj007@gmail.com
  */
 
-public class HomePageMainFragment extends BaseExampleFragment implements
+public class  HomePageMainFragment extends BaseExampleFragment implements
         ViewInterface,
         AppBarLayout.OnOffsetChangedListener,
         View.OnClickListener {
@@ -526,7 +526,7 @@ public class HomePageMainFragment extends BaseExampleFragment implements
 
         @Override
         public OptionsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = layoutInflater.inflate(R.layout._6_1_1_rec_hp_options, parent, false);
+            View view = layoutInflater.inflate(R.layout._4_9_rec_hp_options, parent, false);
             return new OptionsViewHolder(view);
         }
 

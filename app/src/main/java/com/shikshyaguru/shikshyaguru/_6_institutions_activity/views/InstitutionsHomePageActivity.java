@@ -22,7 +22,6 @@ public class InstitutionsHomePageActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-//        loadFragment(bundle, R.id.news_home_page_fragment_holder);
         DynamicFragmentLoader.loadFragment(
                 new InstitutionsLoaderFragment(),
                 bundle,

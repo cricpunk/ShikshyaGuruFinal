@@ -4,7 +4,7 @@
     <style name="SplashScreen" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowFullscreen">true</item>
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="android:windowBackground">@drawable/splash_screen_bg</item>
+        <item name="android:windowBackground">@color/black70</item>
     </style>
 
     <!--Theme 2.    Theme for Well come activity-->

@@ -63,7 +63,7 @@ public class ViewPagerReviewsFragment extends Fragment implements ViewPagerRevie
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         this.inflater = inflater;
-        return inflater.inflate(R.layout.view_pager_reviews, container, false);
+        return inflater.inflate(R.layout._6_2_11_0_view_pager_reviews, container, false);
 
     }
 

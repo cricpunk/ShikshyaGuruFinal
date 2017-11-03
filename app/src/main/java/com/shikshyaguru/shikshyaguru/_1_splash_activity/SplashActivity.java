@@ -7,41 +7,77 @@ package com.shikshyaguru.shikshyaguru._1_splash_activity;
  */
 
 import android.content.Intent;
-import android.graphics.drawable.Animatable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ImageView;
-
+import android.widget.TextView;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.shikshyaguru.shikshyaguru.R;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionsHomePageActivity;
-import com.shikshyaguru.shikshyaguru._0_4_animation_collection.Animator;
-
-//import com.shikshyaguru.shikshyaguru._4_home_page.views.HomePageActivity;
 
 public class SplashActivity extends AppCompatActivity {
 
-    Animator animator = new Animator();
+    private ImageView orgLogo;
+    private TextView orgName;
+    private TextView orgSlogan;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout._1_splash_screen);
 
-        ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.splash_full_layout);
+        //RelativeLayout layout = findViewById(R.id.root_splash);
+        //KenBurnsView background = findViewById(R.id.iv_splash_background);
+        orgLogo = findViewById(R.id.iv_splash_org_logo);
+        orgName =  findViewById(R.id.lbl_splash_org_name);
+        orgSlogan = findViewById(R.id.lbl_splash_org_slogan);
+        orgLogo.setVisibility(View.INVISIBLE);
+        orgName.setVisibility(View.INVISIBLE);
+        orgSlogan.setVisibility(View.INVISIBLE);
 
-        //Fade in up Animation
-        animator.fadeInUp(getApplicationContext(), layout);
+        animateLogo();
+        animateText();
+        startActivity();
+    }
 
-        ImageView imageView = (ImageView) findViewById(R.id.orgLogo);
-        Drawable drawable = imageView.getDrawable();
+    private void animateLogo() {
 
-        if (drawable instanceof Animatable) {
-            ((Animatable) drawable).start();
-        }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                orgLogo.setVisibility(View.VISIBLE);
+                YoYo.with(Techniques.SlideInDown)
+                        .duration(3000)
+                        .playOn(orgLogo);
+            }
+        }, 1500);
+    }
 
+    private void animateText() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                orgName.setVisibility(View.VISIBLE);
+                orgSlogan.setVisibility(View.VISIBLE);
+
+                YoYo.with(Techniques.FadeInDown)
+                        .duration(4000)
+                        .playOn(orgName);
+
+                YoYo.with(Techniques.FadeInUp)
+                        .duration(4000)
+                        .playOn(orgSlogan);
+
+            }
+        }, 3500);
+    }
+
+    private void startActivity() {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -49,7 +85,7 @@ public class SplashActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             }
-        }, 1000);
+        }, 2000);
     }
 
 }

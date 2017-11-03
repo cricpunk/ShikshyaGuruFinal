@@ -23,7 +23,7 @@
             android:background="@color/bg_screen3">
 
             <ImageView
-                android:id="@+id/orgLogo"
+                android:id="@+id/iv_splash_background"
                 android:layout_width="75dp"
                 android:layout_height="75dp"
                 android:layout_marginEnd="8dp"
@@ -50,9 +50,9 @@
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toTopOf="@+id/inputFieldCardView"
-                app:layout_constraintLeft_toLeftOf="@+id/orgLogo"
-                app:layout_constraintRight_toRightOf="@+id/orgLogo"
-                app:layout_constraintTop_toBottomOf="@+id/orgLogo"
+                app:layout_constraintLeft_toLeftOf="@+id/iv_splash_background"
+                app:layout_constraintRight_toRightOf="@+id/iv_splash_background"
+                app:layout_constraintTop_toBottomOf="@+id/iv_splash_background"
                 app:layout_constraintVertical_bias="0.0" />
 
             <android.support.constraint.Guideline
