@@ -68,7 +68,7 @@ public class ViewPagerProgrammesFragment extends Fragment implements ViewPagerPr
 
         @Override
         public ProgrammesLevelViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = inflater.inflate(R.layout._6_2_2_1_rec_vp_offers_level_item, parent, false);
+            View view = inflater.inflate(R.layout._6_2_2_1_rec_vp_programmes_level_item, parent, false);
             return new ProgrammesLevelViewHolder(view);
         }
 

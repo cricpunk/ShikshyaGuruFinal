@@ -387,7 +387,7 @@ public class ViewPagerReviewsFragment extends Fragment implements ViewPagerRevie
 
         @Override
         public ReviewsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = inflater.inflate(R.layout.rec_review_item, parent, false);
+            View view = inflater.inflate(R.layout._6_2_11_2_rec_review_item, parent, false);
             return new ReviewsViewHolder(view);
         }
 

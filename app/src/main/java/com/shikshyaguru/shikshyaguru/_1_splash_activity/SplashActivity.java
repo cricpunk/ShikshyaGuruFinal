@@ -16,7 +16,10 @@ import android.widget.TextView;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.shikshyaguru.shikshyaguru.R;
+import com.shikshyaguru.shikshyaguru._2_wellcome_activity.WelcomeSliderActivity;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionsHomePageActivity;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionsLoaderFragment;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerProgrammesCoursesLoader;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -81,11 +84,11 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(SplashActivity.this, InstitutionsHomePageActivity.class);
+                Intent intent = new Intent(SplashActivity.this, WelcomeSliderActivity.class);
                 startActivity(intent);
                 finish();
             }
-        }, 2000);
+        }, 7000);
     }
 
 }

@@ -124,15 +124,15 @@
 
                     <include
                         android:id="@+id/inc_teachers_business_card_subject"
-                        layout="@layout/teachers_business_card_include" />
+                        layout="@layout/_6_2_6_2_teachers_business_card_include" />
 
                     <include
                         android:id="@+id/inc_teachers_business_card_phone"
-                        layout="@layout/teachers_business_card_include" />
+                        layout="@layout/_6_2_6_2_teachers_business_card_include" />
 
                     <include
                         android:id="@+id/inc_teachers_business_card_email"
-                        layout="@layout/teachers_business_card_include" />
+                        layout="@layout/_6_2_6_2_teachers_business_card_include" />
 
                 </LinearLayout>
 

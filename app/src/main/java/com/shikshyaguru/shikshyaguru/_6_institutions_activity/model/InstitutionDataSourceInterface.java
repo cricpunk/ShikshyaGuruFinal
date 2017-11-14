@@ -24,4 +24,6 @@ public interface InstitutionDataSourceInterface {
 
     InstitutionProgrammesData getInstitutionProgrammesData();
 
+    InstitutionsProgrammesCoursesData getInstitutionCoursesData();
+
 }

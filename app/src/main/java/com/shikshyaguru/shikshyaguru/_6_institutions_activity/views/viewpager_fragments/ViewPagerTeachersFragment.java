@@ -10,7 +10,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -50,7 +49,7 @@ public class ViewPagerTeachersFragment extends Fragment implements ViewPagerTeac
 
     @Override
     public void setUpTeachersList(List<TeachersData> teachersData) {
-        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.rec_teachers);
+        RecyclerView recyclerView = rootView.findViewById(R.id.rec_teachers);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         TeachersAdapter adapter = new TeachersAdapter();
         recyclerView.setAdapter(adapter);
@@ -60,7 +59,7 @@ public class ViewPagerTeachersFragment extends Fragment implements ViewPagerTeac
 
         @Override
         public TeachersStaffViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = inflater.inflate(R.layout.teachers_business_card, parent, false);
+            View view = inflater.inflate(R.layout._6_2_6_1_teachers_business_card, parent, false);
             return new TeachersViewHolder(view);
         }
 
@@ -105,7 +104,7 @@ public class ViewPagerTeachersFragment extends Fragment implements ViewPagerTeac
 
             @Override
             public void onClick(View v) {
-                Context wrapper = new ContextThemeWrapper(getActivity(), R.style.teachersBusinessCardPopup);
+                Context wrapper = new android.view.ContextThemeWrapper(getActivity(), R.style.teachersBusinessCardPopup);
                 PopupMenu popupMenu = new PopupMenu(wrapper, more, Gravity.END);
                 popupMenu.getMenuInflater().inflate(R.menu.teachers_business_card_popup, popupMenu.getMenu());
 

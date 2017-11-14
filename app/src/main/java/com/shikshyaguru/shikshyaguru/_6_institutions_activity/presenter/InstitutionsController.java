@@ -5,8 +5,11 @@ package com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter;
  * Koiralapankaj007@gmail.com
  */
 
+import android.widget.Button;
+
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionDataSourceInterface;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerHomeInterface;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerProgrammesCoursesLoaderInterface;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerProgrammesInterface;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerReviewInterface;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerStaffInterface;
@@ -16,6 +19,7 @@ public class InstitutionsController {
 
     private ViewPagerHomeInterface homeInterface;
     private ViewPagerProgrammesInterface programmesInterface;
+    private ViewPagerProgrammesCoursesLoaderInterface coursesLoaderInterface;
     private ViewPagerTeachersInterface teachersInterface;
     private ViewPagerStaffInterface staffInterface;
     private ViewPagerReviewInterface reviewInterface;
@@ -34,6 +38,13 @@ public class InstitutionsController {
         this.dataSource = dataSource;
 
         setUpProgrammesLevel();
+    }
+
+    public InstitutionsController(ViewPagerProgrammesCoursesLoaderInterface coursesLoaderInterface, InstitutionDataSourceInterface dataSource) {
+        this.coursesLoaderInterface = coursesLoaderInterface;
+        this.dataSource = dataSource;
+
+        setUpCoursesAdapter();
     }
 
     public InstitutionsController(ViewPagerReviewInterface reviewInterface, InstitutionDataSourceInterface dataSource) {
@@ -72,6 +83,18 @@ public class InstitutionsController {
 
     public void onCoursesClickListener() {
         programmesInterface.onCoursesClickListener();
+    }
+
+    private void setUpCoursesAdapter() {
+        coursesLoaderInterface.setUpOptionsAdapter(dataSource.getInstitutionCoursesData());
+    }
+
+    public void onYearBtnClickListener(String year) {
+        coursesLoaderInterface.onYearBtnClickListener(year);
+    }
+
+    public void onMoreIconClickListener(Button button) {
+        coursesLoaderInterface.onMoreIconClickListener(button);
     }
 
     private void setUpRatings() {

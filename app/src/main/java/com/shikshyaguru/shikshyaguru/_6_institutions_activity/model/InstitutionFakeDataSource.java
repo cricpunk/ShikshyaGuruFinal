@@ -171,4 +171,28 @@ public class InstitutionFakeDataSource implements InstitutionDataSourceInterface
         return programmesData;
     }
 
+    @Override
+    public InstitutionsProgrammesCoursesData getInstitutionCoursesData() {
+        List<String[]> subjectOptionsCollection = new ArrayList<>();
+        String[] compulsorySubject = { "Compulsory English", "Compulsory Nepali", "Accountancy" };
+
+        String[] option1 = { "Hotel Management", "Computer Science" };
+        String[] option2 = { "Hotel Management", "Economics" };
+        String[] option3 = { "Business Studies", "Computer Science" };
+        String[] option4 = { "Economics", "Computer Science" };
+        String[] option5 = { "Business Studies", "Economics" };
+        String[] option6 = { "Travel and Tourism", "Economics", "Extra one" };
+        subjectOptionsCollection.add(option1);
+        subjectOptionsCollection.add(option2);
+        subjectOptionsCollection.add(option3);
+        subjectOptionsCollection.add(option4);
+        subjectOptionsCollection.add(option5);
+        subjectOptionsCollection.add(option6);
+
+        InstitutionsProgrammesCoursesData coursesData = new InstitutionsProgrammesCoursesData(
+                compulsorySubject, subjectOptionsCollection
+        );
+        return coursesData;
+    }
+
 }

@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.shikshyaguru.shikshyaguru.R;
 import com.shikshyaguru.shikshyaguru._0_3_dynamic_fragment_loader.DynamicFragmentLoader;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerProgrammesCoursesLoader;
 
 public class InstitutionsHomePageActivity extends AppCompatActivity {
 

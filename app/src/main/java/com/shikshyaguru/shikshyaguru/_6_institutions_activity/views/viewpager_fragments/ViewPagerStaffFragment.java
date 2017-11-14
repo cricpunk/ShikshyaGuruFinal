@@ -60,7 +60,7 @@ public class ViewPagerStaffFragment extends Fragment implements ViewPagerStaffIn
 
         @Override
         public TeachersStaffViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = inflater.inflate(R.layout.teachers_business_card, parent, false);
+            View view = inflater.inflate(R.layout._6_2_6_1_teachers_business_card, parent, false);
             return new StaffViewHolder(view);
         }
 

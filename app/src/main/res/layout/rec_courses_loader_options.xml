@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_marginTop="@dimen/margin_standard"
+    android:layout_marginLeft="@dimen/margin_short"
+    android:layout_marginRight="@dimen/margin_short"
+    android:layout_height="wrap_content">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/lbl_rec_courses_loader_option"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:background="@color/colorAppMain"
+                android:drawableRight="@drawable/ic_more_small"
+                android:drawableEnd="@drawable/ic_more_small"
+                android:gravity="center"
+                android:padding="@dimen/margin_short"
+                android:text="Option 1"
+                android:textAllCaps="true"
+                android:textColor="#FAFAFA" />
+
+            <Button
+                android:id="@+id/btn_rec_courses_loader_more"
+                android:layout_width="32dp"
+                android:layout_height="35dp"
+                android:layout_alignBottom="@+id/lbl_rec_courses_loader_option"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:background="#00000000" />
+
+            <LinearLayout
+                android:id="@+id/ll_courses_loader_subjects"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lbl_rec_courses_loader_option"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/margin_short"
+                android:paddingBottom="@dimen/margin_short">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_dot"
+                    android:drawablePadding="@dimen/margin_extra_short"
+                    android:drawableStart="@drawable/ic_dot"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/margin_extra_short"
+                    android:text="Compulsory English"
+                    android:textColor="#E6222222"
+                    android:visibility="gone" />
+
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+</android.support.constraint.ConstraintLayout>
