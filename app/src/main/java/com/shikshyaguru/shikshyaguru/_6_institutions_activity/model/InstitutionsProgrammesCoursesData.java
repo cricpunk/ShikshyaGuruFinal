@@ -9,27 +9,44 @@ import java.util.List;
 
 public class InstitutionsProgrammesCoursesData {
 
-    private String[] compulsorySubjects;
-    private List<String[]> subjectOptionsCollection;
+    private String[] compulsorySubjectsXi;
+    private List<String[]> subjectOptionsCollectionXi;
 
-    public InstitutionsProgrammesCoursesData(String[] compulsorySubjects, List<String[]> subjectOptionsCollection) {
-        this.compulsorySubjects = compulsorySubjects;
-        this.subjectOptionsCollection = subjectOptionsCollection;
+    private String[] compulsorySubjectsXii;
+    private List<String[]> subjectOptionsCollectionXii;
+
+    public InstitutionsProgrammesCoursesData() {
     }
 
-    public String[] getCompulsorySubjects() {
-        return compulsorySubjects;
+    public String[] getCompulsorySubjectsXi() {
+        return compulsorySubjectsXi;
     }
 
-    public void setCompulsorySubjects(String[] compulsorySubjects) {
-        this.compulsorySubjects = compulsorySubjects;
+    public void setCompulsorySubjectsXi(String[] compulsorySubjectsXi) {
+        this.compulsorySubjectsXi = compulsorySubjectsXi;
     }
 
-    public List<String[]> getSubjectOptionsCollection() {
-        return subjectOptionsCollection;
+    public List<String[]> getSubjectOptionsCollectionXi() {
+        return subjectOptionsCollectionXi;
     }
 
-    public void setSubjectOptionsCollection(List<String[]> subjectOptionsCollection) {
-        this.subjectOptionsCollection = subjectOptionsCollection;
+    public void setSubjectOptionsCollectionXi(List<String[]> subjectOptionsCollectionXi) {
+        this.subjectOptionsCollectionXi = subjectOptionsCollectionXi;
+    }
+
+    public String[] getCompulsorySubjectsXii() {
+        return compulsorySubjectsXii;
+    }
+
+    public void setCompulsorySubjectsXii(String[] compulsorySubjectsXii) {
+        this.compulsorySubjectsXii = compulsorySubjectsXii;
+    }
+
+    public List<String[]> getSubjectOptionsCollectionXii() {
+        return subjectOptionsCollectionXii;
+    }
+
+    public void setSubjectOptionsCollectionXii(List<String[]> subjectOptionsCollectionXii) {
+        this.subjectOptionsCollectionXii = subjectOptionsCollectionXii;
     }
 }

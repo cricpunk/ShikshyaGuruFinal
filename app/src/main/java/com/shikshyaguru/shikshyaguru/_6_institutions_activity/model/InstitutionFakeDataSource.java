@@ -173,8 +173,10 @@ public class InstitutionFakeDataSource implements InstitutionDataSourceInterface
 
     @Override
     public InstitutionsProgrammesCoursesData getInstitutionCoursesData() {
-        List<String[]> subjectOptionsCollection = new ArrayList<>();
-        String[] compulsorySubject = { "Compulsory English", "Compulsory Nepali", "Accountancy" };
+        String[] compulsorySubjectXi = { "Compulsory English", "Compulsory Nepali", "Accountancy" };
+        String[] compulsorySubjectXii = { "Compulsory English", "Business Math", "Accountancy" };
+        List<String[]> subjectOptionsCollectionXi = new ArrayList<>();
+        //List<String[]> subjectOptionsCollectionXii = new ArrayList<>();
 
         String[] option1 = { "Hotel Management", "Computer Science" };
         String[] option2 = { "Hotel Management", "Economics" };
@@ -182,16 +184,20 @@ public class InstitutionFakeDataSource implements InstitutionDataSourceInterface
         String[] option4 = { "Economics", "Computer Science" };
         String[] option5 = { "Business Studies", "Economics" };
         String[] option6 = { "Travel and Tourism", "Economics", "Extra one" };
-        subjectOptionsCollection.add(option1);
-        subjectOptionsCollection.add(option2);
-        subjectOptionsCollection.add(option3);
-        subjectOptionsCollection.add(option4);
-        subjectOptionsCollection.add(option5);
-        subjectOptionsCollection.add(option6);
 
-        InstitutionsProgrammesCoursesData coursesData = new InstitutionsProgrammesCoursesData(
-                compulsorySubject, subjectOptionsCollection
-        );
+        subjectOptionsCollectionXi.add(option1);
+        subjectOptionsCollectionXi.add(option2);
+        subjectOptionsCollectionXi.add(option3);
+        subjectOptionsCollectionXi.add(option4);
+        subjectOptionsCollectionXi.add(option5);
+        subjectOptionsCollectionXi.add(option6);
+
+        InstitutionsProgrammesCoursesData coursesData = new InstitutionsProgrammesCoursesData();
+        coursesData.setCompulsorySubjectsXi(compulsorySubjectXi);
+        coursesData.setCompulsorySubjectsXii(compulsorySubjectXii);
+        coursesData.setSubjectOptionsCollectionXi(subjectOptionsCollectionXi);
+        coursesData.setSubjectOptionsCollectionXii(subjectOptionsCollectionXi);
+
         return coursesData;
     }
 

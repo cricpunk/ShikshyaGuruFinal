@@ -84,11 +84,11 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(SplashActivity.this, WelcomeSliderActivity.class);
+                Intent intent = new Intent(SplashActivity.this, InstitutionsHomePageActivity.class);
                 startActivity(intent);
                 finish();
             }
-        }, 7000);
+        }, 2000);
     }
 
 }

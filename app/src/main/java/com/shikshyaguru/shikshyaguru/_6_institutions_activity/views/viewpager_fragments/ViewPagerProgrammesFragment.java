@@ -58,9 +58,10 @@ public class ViewPagerProgrammesFragment extends Fragment implements ViewPagerPr
     }
 
     @Override
-    public void onCoursesClickListener() {
+    public void onCoursesClickListener(String courseName) {
         Intent intent = new Intent(getContext(), InstitutionsHomePageActivity.class);
         intent.putExtra("REQUEST_CODE", "courses_loader");
+        intent.putExtra("COURSE_NAME", courseName);
         startActivity(intent);
     }
 
@@ -152,7 +153,7 @@ public class ViewPagerProgrammesFragment extends Fragment implements ViewPagerPr
 
             @Override
             public void onClick(View v) {
-                controller.onCoursesClickListener();
+                controller.onCoursesClickListener(String.valueOf(coursesName.getText()));
             }
         }
     }

@@ -1,11 +1,7 @@
 package com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments;
 
-import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.LightingColorFilter;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
@@ -33,6 +29,7 @@ import com.shikshyaguru.shikshyaguru.R;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionFakeDataSource;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionsProgrammesCoursesData;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter.InstitutionsController;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionsHomePageActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,6 +38,8 @@ import java.util.List;
 public class ViewPagerProgrammesCoursesLoader extends Fragment implements
         ViewPagerProgrammesCoursesLoaderInterface,
         View.OnClickListener{
+
+    private String title;
 
     private LayoutInflater inflater;
     private View rootView;
@@ -51,9 +50,10 @@ public class ViewPagerProgrammesCoursesLoader extends Fragment implements
     private View dotXi;
     private View dotXii;
 
+    private boolean isXi;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         this.inflater = inflater;
         return inflater.inflate(R.layout._6_2_2_3_fragment_view_pager_programmes_courses_loader, container, false);
@@ -62,11 +62,120 @@ public class ViewPagerProgrammesCoursesLoader extends Fragment implements
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        this.rootView = view;
 
-        initYearButtons();
-        initToolbarAndLayout();
+        if (getArguments() != null) {
+            title = getArguments().getString("COURSE_NAME");
+        }
+
+        // To make onOptionItemSelected working we have to setHasOptionsMenu true in fragment.
+        setHasOptionsMenu(true);
+        this.rootView = view;
         this.controller = new InstitutionsController(this, new InstitutionFakeDataSource());
+        initToolbarAndLayout();
+        initYearButtons();
+        isXi = true;
+        controller.setUpCoursesAdapter();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+//                if (getFragmentManager().getBackStackEntryCount() > 0) {
+//                    getFragmentManager().popBackStack();
+//                } else {
+//                    Toast.makeText(getContext(), "Does not work", Toast.LENGTH_SHORT).show();
+//                }
+
+                Intent intent = new Intent(getContext(), InstitutionsHomePageActivity.class);
+                intent.putExtra("REQUEST_CODE", "institutions_loader");
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
+
+    @Override
+    public void onYearBtnClickListener(String year) {
+
+        if (year.equals("xi")) {
+            isXi = true;
+            controller.setUpCoursesAdapter();
+            changeBackground(xi, xii, dotXi, dotXii);
+        } else {
+            isXi = false;
+            controller.setUpCoursesAdapter();
+            changeBackground(xii, xi, dotXii, dotXi);
+        }
+    }
+
+    @Override
+    public void setUpOptionsAdapter(InstitutionsProgrammesCoursesData coursesData) {
+        this.coursesData = coursesData;
+        RecyclerView coursesOptionRecyclerView = rootView.findViewById(R.id.rec_inst_loader_vp_programmes_courses_loader);
+        coursesOptionRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        CoursesOptionAdapter adapter = new CoursesOptionAdapter();
+        coursesOptionRecyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onMoreIconClickListener(Button button) {
+        //Context contextWrapper = new android.view.ContextThemeWrapper(getActivity(), R.style.teachersBusinessCardPopup);
+        PopupMenu popupMenu = new PopupMenu(getContext(), button, Gravity.END);
+        popupMenu.getMenuInflater().inflate(R.menu.courses_options_popup, popupMenu.getMenu());
+
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if (isXi) {
+                    switch (item.getItemId()) {
+                        case R.id.courses_option_fee_structure:
+                            Toast.makeText(getContext(), "Fee structure XI", Toast.LENGTH_SHORT).show();
+                            break;
+                        case R.id.courses_option_class_shift:
+                            Toast.makeText(getContext(), "Class shift XI", Toast.LENGTH_SHORT).show();
+                            break;
+                        case R.id.courses_option_routine:
+                            Toast.makeText(getContext(), "Routine XI", Toast.LENGTH_SHORT).show();
+                            break;
+                        default:
+                            break;
+                    }
+                } else {
+                    switch (item.getItemId()) {
+                        case R.id.courses_option_fee_structure:
+                            Toast.makeText(getContext(), "Fee structure XII", Toast.LENGTH_SHORT).show();
+                            break;
+                        case R.id.courses_option_class_shift:
+                            Toast.makeText(getContext(), "Class shift XII", Toast.LENGTH_SHORT).show();
+                            break;
+                        case R.id.courses_option_routine:
+                            Toast.makeText(getContext(), "Routine XII", Toast.LENGTH_SHORT).show();
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                return true;
+            }
+        });
+        popupMenu.show();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.lbl_courses_loader_xi:
+                controller.onYearBtnClickListener("xi");
+                break;
+            case R.id.lbl_courses_loader_xii:
+                controller.onYearBtnClickListener("xii");
+                break;
+            default:
+                break;
+        }
     }
 
     private void initToolbarAndLayout() {
@@ -76,7 +185,9 @@ public class ViewPagerProgrammesCoursesLoader extends Fragment implements
         ActionBar getSupportActionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
         if (getSupportActionBar != null) {
             getSupportActionBar.setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar.setDisplayShowTitleEnabled(false);
+            //getSupportActionBar.setDisplayShowHomeEnabled(true);
+            getSupportActionBar.setTitle(title);
+            //getSupportActionBar.setDisplayShowTitleEnabled(false);
         }
 
         AppBarLayout mAppBar = rootView.findViewById(R.id.abl_inst_loader_vp_programmes_courses_loader);
@@ -86,6 +197,7 @@ public class ViewPagerProgrammesCoursesLoader extends Fragment implements
 
             }
         });
+
     }
 
     private void initYearButtons() {
@@ -98,16 +210,6 @@ public class ViewPagerProgrammesCoursesLoader extends Fragment implements
         changeBackground(xi, xii, dotXi, dotXii);
         xi.setOnClickListener(this);
         xii.setOnClickListener(this);
-    }
-
-    @Override
-    public void onYearBtnClickListener(String year) {
-
-        if (year.equals("xi")) {
-            changeBackground(xi, xii, dotXi, dotXii);
-        } else {
-            changeBackground(xii, xi, dotXii, dotXi);
-        }
     }
 
     private void changeBackground(TextView active, TextView inactive, View dotActive, View dotInactive) {
@@ -140,76 +242,34 @@ public class ViewPagerProgrammesCoursesLoader extends Fragment implements
         dotInactive.setVisibility(View.GONE);
     }
 
-    @Override
-    public void setUpOptionsAdapter(InstitutionsProgrammesCoursesData coursesData) {
-        this.coursesData = coursesData;
-        RecyclerView coursesOptionRecyclerView = rootView.findViewById(R.id.rec_inst_loader_vp_programmes_courses_loader);
-        coursesOptionRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        CoursesOptionAdapter adapter = new CoursesOptionAdapter();
-        coursesOptionRecyclerView.setAdapter(adapter);
-    }
-
-    @Override
-    public void onMoreIconClickListener(Button button) {
-        //Context contextWrapper = new android.view.ContextThemeWrapper(getActivity(), R.style.teachersBusinessCardPopup);
-        PopupMenu popupMenu = new PopupMenu(getContext(), button, Gravity.END);
-        popupMenu.getMenuInflater().inflate(R.menu.courses_options_popup, popupMenu.getMenu());
-
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.courses_option_fee_structure:
-                        Toast.makeText(getContext(), "Fee structure", Toast.LENGTH_SHORT).show();
-                        break;
-                    case R.id.courses_option_class_shift:
-                        Toast.makeText(getContext(), "Class shift", Toast.LENGTH_SHORT).show();
-                        break;
-                    case R.id.courses_option_routine:
-                        Toast.makeText(getContext(), "Routine", Toast.LENGTH_SHORT).show();
-                        break;
-                    default:
-                        break;
-
-                }
-                return true;
-            }
-        });
-        popupMenu.show();
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.lbl_courses_loader_xi:
-                controller.onYearBtnClickListener("xi");
-                break;
-            case R.id.lbl_courses_loader_xii:
-                controller.onYearBtnClickListener("xii");
-                break;
-            default:
-                break;
-        }
-    }
-
     private class CoursesOptionAdapter extends RecyclerView.Adapter<CoursesOptionAdapter.CoursesOptionViewHolder> {
 
         @Override
         public CoursesOptionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = inflater.inflate(R.layout.rec_courses_loader_options, parent, false);
+            View view = inflater.inflate(R.layout._6_2_2_4_rec_11_12_courses_loader_options, parent, false);
             return new CoursesOptionViewHolder(view);
         }
 
         @Override
         public void onBindViewHolder(CoursesOptionViewHolder holder, int position) {
-            holder.optionHeading.setText("Option" + " " + (position+1));
+            holder.optionHeading.setText(String.valueOf("Option" + " " + (position+1)));
 
             //Creating total subjects list
             List<String> totalSubjectsList = new ArrayList<>();
-            //Adding compulsorySubjects to totalSubjectsList
-            Collections.addAll(totalSubjectsList, coursesData.getCompulsorySubjects());
-            //Adding optionalSubjects to totalSubjectsList
-            Collections.addAll(totalSubjectsList, coursesData.getSubjectOptionsCollection().get(position));
+
+            if (isXi) {
+                //Adding compulsorySubjects of grade XI to totalSubjectsList
+                Collections.addAll(totalSubjectsList, coursesData.getCompulsorySubjectsXi());
+                //Adding optionalSubjects  of grade XI to totalSubjectsList
+                Collections.addAll(totalSubjectsList, coursesData.getSubjectOptionsCollectionXi().get(position));
+            } else {
+                //Adding compulsorySubjects of grade XII to totalSubjectsList
+                Collections.addAll(totalSubjectsList, coursesData.getCompulsorySubjectsXii());
+                //Adding optionalSubjects of grade XII to totalSubjectsList
+                Collections.addAll(totalSubjectsList, coursesData.getSubjectOptionsCollectionXii().get(position));
+            }
+
+
             //Converting total subjects list list to string array
             String[] totalSubjects = totalSubjectsList.toArray(new String[totalSubjectsList.size()]);
 
@@ -230,7 +290,12 @@ public class ViewPagerProgrammesCoursesLoader extends Fragment implements
 
         @Override
         public int getItemCount() {
-            return coursesData.getSubjectOptionsCollection().size();
+            if (isXi) {
+                return coursesData.getSubjectOptionsCollectionXi().size();
+            } else {
+                return coursesData.getSubjectOptionsCollectionXii().size();
+            }
+
         }
 
         class CoursesOptionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -252,6 +317,32 @@ public class ViewPagerProgrammesCoursesLoader extends Fragment implements
             @Override
             public void onClick(View v) {
                 controller.onMoreIconClickListener(btnMore);
+            }
+        }
+    }
+
+    private class BachelorCoursesAdapter extends RecyclerView.Adapter<BachelorCoursesAdapter.BachelorCoursesViewHolder> {
+
+        @Override
+        public BachelorCoursesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = inflater.inflate(R.layout._6_2_2_4_rec_11_12_courses_loader_options, parent, false);
+            return new BachelorCoursesViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(BachelorCoursesViewHolder holder, int position) {
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return 0;
+        }
+
+        class BachelorCoursesViewHolder extends RecyclerView.ViewHolder {
+
+            BachelorCoursesViewHolder(View itemView) {
+                super(itemView);
             }
         }
     }

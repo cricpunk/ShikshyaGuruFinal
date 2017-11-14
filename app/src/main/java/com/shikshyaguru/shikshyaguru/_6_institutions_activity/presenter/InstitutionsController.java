@@ -43,8 +43,6 @@ public class InstitutionsController {
     public InstitutionsController(ViewPagerProgrammesCoursesLoaderInterface coursesLoaderInterface, InstitutionDataSourceInterface dataSource) {
         this.coursesLoaderInterface = coursesLoaderInterface;
         this.dataSource = dataSource;
-
-        setUpCoursesAdapter();
     }
 
     public InstitutionsController(ViewPagerReviewInterface reviewInterface, InstitutionDataSourceInterface dataSource) {
@@ -81,11 +79,11 @@ public class InstitutionsController {
         programmesInterface.setUpProgrammesLevel(dataSource.getInstitutionProgrammesData());
     }
 
-    public void onCoursesClickListener() {
-        programmesInterface.onCoursesClickListener();
+    public void onCoursesClickListener(String courseName) {
+        programmesInterface.onCoursesClickListener(courseName);
     }
 
-    private void setUpCoursesAdapter() {
+    public void setUpCoursesAdapter() {
         coursesLoaderInterface.setUpOptionsAdapter(dataSource.getInstitutionCoursesData());
     }
 

@@ -8,6 +8,7 @@ package com.shikshyaguru.shikshyaguru._0_3_dynamic_fragment_loader;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
 import com.shikshyaguru.shikshyaguru._5_news_activity.views.NewsLoaderFragment;
 import com.shikshyaguru.shikshyaguru._5_news_activity.views.NewsMainFragment;
@@ -20,6 +21,7 @@ public class DynamicFragmentLoader {
     public static void loadFragment(Fragment defaultFrag, Bundle bundle, int fragHolderId, FragmentManager fragmentManager) {
         if (bundle != null) {
             String requestCode = (String) bundle.get("REQUEST_CODE");
+
             if (requestCode != null) {
                 switch (requestCode) {
                     case "news_main":
@@ -35,7 +37,12 @@ public class DynamicFragmentLoader {
                         showFragment(new InstitutionsLoaderFragment(), fragHolderId, fragmentManager);
                         break;
                     case "courses_loader" :
-                        showFragment(new ViewPagerProgrammesCoursesLoader(), fragHolderId, fragmentManager);
+                        Bundle bundle1 = new Bundle();
+                        bundle1.putString("COURSE_NAME", (String) bundle.get("COURSE_NAME"));
+                        ViewPagerProgrammesCoursesLoader coursesLoader = new ViewPagerProgrammesCoursesLoader();
+                        coursesLoader.setArguments(bundle1);
+
+                        showFragment(coursesLoader, fragHolderId, fragmentManager);
                         break;
                     default:
                         break;
@@ -49,9 +56,9 @@ public class DynamicFragmentLoader {
     }
 
     private static void showFragment(Fragment fragment, int fragHolderId, FragmentManager fragmentManager) {
-        fragmentManager
-                .beginTransaction()
-                .replace(fragHolderId, fragment).commit();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(fragHolderId, fragment);
+        transaction.commit();
     }
 
 }

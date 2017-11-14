@@ -11,5 +11,5 @@ public interface ViewPagerProgrammesInterface {
 
     void setUpProgrammesLevel(InstitutionProgrammesData programmesData);
 
-    void onCoursesClickListener();
+    void onCoursesClickListener(String courseName);
 }

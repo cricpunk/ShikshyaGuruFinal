@@ -113,7 +113,7 @@
             android:id="@+id/stl_inst_loader_frag"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:background="@drawable/gradient_bottom_border"
+            android:background="@color/colorAppMain"
             android:clipToPadding="false"
             android:paddingLeft="4dp"
             android:paddingRight="4dp"
