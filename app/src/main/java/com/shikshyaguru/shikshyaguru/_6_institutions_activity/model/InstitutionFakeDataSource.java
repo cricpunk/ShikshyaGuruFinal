@@ -20,31 +20,46 @@ public class InstitutionFakeDataSource implements InstitutionDataSourceInterface
     private int randTwo;
     private int randThree;
 
-    final String[] NEWS_AND_EVENTS = {
+    private final String[] NEWS_AND_EVENTS = {
             "News and events from college 1", "News and events from college 1",
             "News and events from college 1", "News and events from college 1",
             "News and events from college 1", "News and events from college 1"
     };
-    final String[] INTRO_HEADING = {
+    private final String[] INTRO_HEADING = {
             "Introduction",
             "CEO Message",
             "For Students"
     };
-    final String[] INTRO = {
+    private final String[] INTRO = {
             String.valueOf(R.string.demo_introduction),
             String.valueOf(R.string.demo_introduction),
             String.valueOf(R.string.demo_introduction)
     };
-    final int[] INTRO_IMAGE = {
+    private final int[] INTRO_IMAGE = {
             R.drawable.slider1, R.drawable.slider1, R.drawable.slider1
     };
-    final String[] RATING = {"4.2", "3.5", "4.8"};
-    final String[] REVIEW_HEADING = {"Very nice", "Worthy joining", "Useless college"};
-    final String[] REVIEW = {String.valueOf(R.string.review), String.valueOf(R.string.review), String.valueOf(R.string.review)};
-    final String[] USER_NAME = {"Pankaj Koirala", "Bidhya Sapkota", "Neymar Jr."};
-    final String[] REVIEW_DATE = {"7 Aug, 2016", "17 Aug, 2016", "24 Jan, 2017"};
-    final int[] LIKE_COUNT = {125, 569, 920};
-    final int[] DISLIKE_COUNT = {25, 69, 20};
+    private final String[] NAME = {
+            "Mr.Sulav Budhathoki","Dr. Benson Soong","Mr. Kelvin Ng"
+    };
+    private final String[] ACADEMIC_QUALIFICATION = {
+            "PhD","MBA","MBA"
+    };
+    private final String[] INSTITUTIONS = {
+            "Cambridge","Cambridge","LMU"
+    };
+    private final String[] POST = {
+            "Executive Chairman","Chief Academic Officer","Chief Operating Officer"
+    };
+    private final int[] MY_IMAGE = {
+            R.drawable.me, R.drawable.me, R.drawable.me
+    };
+    private final String[] RATING = {"4.2", "3.5", "4.8"};
+    private final String[] REVIEW_HEADING = {"Very nice", "Worthy joining", "Useless college"};
+    private final String[] REVIEW = {String.valueOf(R.string.review), String.valueOf(R.string.review), String.valueOf(R.string.review)};
+    private final String[] USER_NAME = {"Pankaj Koirala", "Bidhya Sapkota", "Neymar Jr."};
+    private final String[] REVIEW_DATE = {"7 Aug, 2016", "17 Aug, 2016", "24 Jan, 2017"};
+    private final int[] LIKE_COUNT = {125, 569, 920};
+    private final int[] DISLIKE_COUNT = {25, 69, 20};
 
     @Override
     public List<InstitutionHomeNewsAndEventsData> getInstitutionHomeNewsAndEventData() {
@@ -140,12 +155,12 @@ public class InstitutionFakeDataSource implements InstitutionDataSourceInterface
     }
 
     @Override
-    public List<TeachersData> getTeachersData() {
+    public List<InstitutionsTeachersData> getTeachersData() {
         return null;
     }
 
     @Override
-    public List<StaffData> getStaffData() {
+    public List<InstitutionsStaffData> getStaffData() {
         return null;
     }
 
@@ -199,6 +214,30 @@ public class InstitutionFakeDataSource implements InstitutionDataSourceInterface
         coursesData.setSubjectOptionsCollectionXii(subjectOptionsCollectionXi);
 
         return coursesData;
+    }
+
+    @Override
+    public List<InstitutionsManagementData> getInstitutionManagementData() {
+        List<InstitutionsManagementData> listOfData = new ArrayList<>();
+
+        for (int i = 0; i < SIZE ; i++) {
+
+            randOne = random.nextInt(3);
+            randTwo = random.nextInt(3);
+            randThree = random.nextInt(3);
+            int randFour = random.nextInt(3);
+            int randFive = random.nextInt(3);
+            int randSix = random.nextInt(3);
+
+            InstitutionsManagementData managementData = new InstitutionsManagementData(
+                    NAME[randOne],POST[randTwo],ACADEMIC_QUALIFICATION[randThree],
+                    INSTITUTIONS[randFour],INTRO[randFive],MY_IMAGE[randSix]
+            );
+
+            listOfData.add(managementData);
+
+        }
+        return listOfData;
     }
 
 }

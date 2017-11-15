@@ -81,9 +81,9 @@ public class InstitutionsLoaderFragment extends Fragment implements AppBarLayout
                 getFragmentManager(), FragmentPagerItems.with(getContext())
                 .add("Home", ViewPagerHomeFragment.class)
                 .add("Programmes", ViewPagerProgrammesFragment.class)
-                .add("Gallery", ViewPagerGalleryFragment.class)
-                .add("Management", ViewPagerManagementFragment.class)
                 .add("Students", ViewPagerStudentsFragment.class)
+                .add("Management", ViewPagerManagementFragment.class)
+                .add("Gallery", ViewPagerGalleryFragment.class)
                 .add("Teachers", ViewPagerTeachersFragment.class)
                 .add("Staff's", ViewPagerStaffFragment.class)
                 .add("Activities", ViewPagerActivitiesFragment.class)
@@ -109,7 +109,7 @@ public class InstitutionsLoaderFragment extends Fragment implements AppBarLayout
 
         @Override
         public void onPageSelected(int position) {
-            if (position == 5 || position == 6) {
+            if (position == 3 || position == 5 || position == 6) {
                 viewPagerTab.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.card_black));
                 collapsingToolbar.setContentScrimColor(ContextCompat.getColor(getContext(), R.color.card_black));
                 getActivity().getWindow().setBackgroundDrawableResource(R.color.card_black);

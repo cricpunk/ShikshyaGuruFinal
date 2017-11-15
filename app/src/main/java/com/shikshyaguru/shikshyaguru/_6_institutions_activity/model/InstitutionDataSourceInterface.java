@@ -18,12 +18,14 @@ public interface InstitutionDataSourceInterface {
 
     InstitutionRatingsData getInstitutionRatingsData();
 
-    List<TeachersData> getTeachersData();
+    List<InstitutionsTeachersData> getTeachersData();
 
-    List<StaffData> getStaffData();
+    List<InstitutionsStaffData> getStaffData();
 
     InstitutionProgrammesData getInstitutionProgrammesData();
 
     InstitutionsProgrammesCoursesData getInstitutionCoursesData();
+
+    List<InstitutionsManagementData> getInstitutionManagementData();
 
 }

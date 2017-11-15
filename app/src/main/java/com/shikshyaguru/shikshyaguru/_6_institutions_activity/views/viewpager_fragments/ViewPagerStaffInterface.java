@@ -5,12 +5,12 @@ package com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_f
  * Koiralapankaj007@gmail.com
  */
 
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.StaffData;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionsStaffData;
 
 import java.util.List;
 
 public interface ViewPagerStaffInterface {
 
-    void setUpStaffList(List<StaffData> staffData);
+    void setUpStaffList(List<InstitutionsStaffData> institutionsStaffData);
 
 }

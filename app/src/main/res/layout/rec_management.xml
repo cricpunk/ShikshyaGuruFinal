@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#616161"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/l_name_holder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/margin_standard"
+            android:background="@drawable/ic_chat_symbol"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingBottom="24dp"
+            android:paddingLeft="@dimen/margin_standard"
+            android:paddingRight="@dimen/margin_standard"
+            android:paddingTop="@dimen/margin_short">
+
+            <TextView
+                android:id="@+id/lbl_inst_loader_vp_management_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/margin_standard"
+                android:paddingRight="@dimen/margin_standard"
+                android:text="@string/pankaj"
+                android:textColor="#E6FFFFFF"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/lbl_inst_loader_vp_management_post"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/margin_standard"
+                android:paddingRight="@dimen/margin_standard"
+                android:text="@string/executive_chairman"
+                android:textColor="#CCFFFFFF" />
+
+        </LinearLayout>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cv_image_holder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/l_name_holder"
+            android:layout_marginLeft="@dimen/margin_standard"
+            android:layout_marginRight="@dimen/margin_standard"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="5dp">
+
+            <ImageView
+                android:id="@+id/iv_inst_loader_vp_management_mgmt_head"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/me"
+                tools:ignore="ContentDescription" />
+
+            <ImageView
+                android:id="@+id/iv_inst_loader_vp_management_more"
+                android:layout_width="20dp"
+                android:layout_height="30dp"
+                android:layout_gravity="end"
+                android:layout_marginRight="@dimen/margin_extra_short"
+                android:layout_marginEnd="@dimen/margin_extra_short"
+                android:layout_marginTop="@dimen/margin_extra_short"
+                app:srcCompat="@drawable/ic_more_small"
+                tools:ignore="ContentDescription" />
+
+        </android.support.v7.widget.CardView>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cv_image_holder"
+            android:layout_marginTop="-100dp"
+            android:background="#333333"
+            android:paddingBottom="@dimen/margin_standard"
+            android:paddingTop="90dp">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_standard"
+                android:layout_marginRight="@dimen/margin_standard"
+                app:cardBackgroundColor="#B3000000"
+                app:cardCornerRadius="10dp">
+
+                <TextView
+                    android:id="@+id/lbl_inst_loader_vp_management_message"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/margin_short"
+                    android:paddingLeft="@dimen/margin_standard"
+                    android:paddingRight="@dimen/margin_standard"
+                    android:paddingTop="@dimen/margin_standard"
+                    android:text="@string/demo_introduction"
+                    android:textAlignment="center"
+                    android:textColor="#B3CCCCCC" />
+
+            </android.support.v7.widget.CardView>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

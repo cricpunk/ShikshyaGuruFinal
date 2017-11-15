@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/root_management_nested_scroll"
+<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rec_inst_loader_vp_management"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorCardViewBackground">
-
-</android.support.v4.widget.NestedScrollView>
+    android:layout_height="wrap_content"
+    android:background="#333333"
+    android:clipToPadding="false"
+    android:paddingBottom="76dp" />

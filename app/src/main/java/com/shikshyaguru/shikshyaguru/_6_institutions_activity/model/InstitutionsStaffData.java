@@ -5,5 +5,5 @@ package com.shikshyaguru.shikshyaguru._6_institutions_activity.model;
  * Koiralapankaj007@gmail.com
  */
 
-public class StaffData {
+public class InstitutionsStaffData {
 }

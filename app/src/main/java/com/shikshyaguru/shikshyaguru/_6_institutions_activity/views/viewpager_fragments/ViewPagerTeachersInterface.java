@@ -5,11 +5,11 @@ package com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_f
  * Koiralapankaj007@gmail.com
  */
 
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.TeachersData;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionsTeachersData;
 
 import java.util.List;
 
 public interface ViewPagerTeachersInterface {
 
-    void setUpTeachersList(List<TeachersData> teachersData);
+    void setUpTeachersList(List<InstitutionsTeachersData> institutionsTeachersData);
 }
