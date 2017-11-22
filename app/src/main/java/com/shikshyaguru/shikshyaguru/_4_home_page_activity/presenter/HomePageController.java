@@ -1,4 +1,4 @@
-package com.shikshyaguru.shikshyaguru._4_home_page_activity.logic;
+package com.shikshyaguru.shikshyaguru._4_home_page_activity.presenter;
 
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.DataSourceInterface;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.InstitutionsListItemParent;
@@ -28,8 +28,6 @@ public class HomePageController {
 
     }
 
-
-
     public HomePageController(DrawerInterface drawerInterface, DataSourceInterface dataSource) {
         this.dataSource = dataSource;
         this.drawerInterface = drawerInterface;
@@ -38,6 +36,10 @@ public class HomePageController {
 
     private void setUpDrawerMainHeaderWithData() {
         drawerInterface.setUpDrawerMainHeader(dataSource.getListOfDrawerMainHeader());
+    }
+
+    public void onUserProfileClick() {
+        drawerInterface.onUserProfileClickListener(dataSource.getUserData());
     }
 
     private void setUpSliderWithData() {

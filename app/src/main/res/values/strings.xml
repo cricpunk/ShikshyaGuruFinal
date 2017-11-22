@@ -94,6 +94,8 @@ Quam libero nulla netus eu porta curae, ut nulla bibendum facilisis et urna sed,
     <string name="review">This is sort review on islington college. Review should be provided wisely so careful while
     providing review. My name is pankaj koirala and i am a android developer. I am beginner and i have faced lot of
     difficulties while developing this application. Finally android become bit familiar to me.</string>
+
+
     <string name="name_date">PANKAJ KOIRALA 7 Aug, 2017</string>
     <string name="review_heading">Best till date</string>
     <string name="like_count">9k</string>
@@ -130,5 +132,20 @@ Quam libero nulla netus eu porta curae, ut nulla bibendum facilisis et urna sed,
     <string name="class_shift">Class shift</string>
     <string name="routine">Routine</string>
     <string name="executive_chairman">Executive Chairman</string>
+    <string name="designation">CEO, Google</string>
+    <string name="pankaj_email">koiralapankaj007@gmail.com</string>
+    <string name="saying">Don\'t promise when you\'re happy. Don\'t reply when you\'re andry and don\'t decide when you\'re sad.</string>
+    <string name="islington_college">Islington College</string>
+    <string name="follow">Follow</string>
+    <string name="student_1">Student</string>
+    <string name="question_s">Question\'s</string>
+    <string name="_687">687</string>
+    <string name="following">Following</string>
+    <string name="_2057">2057</string>
+    <string name="_1025">1025</string>
+    <string name="followers">Follower\'s</string>
+    <string name="_356">356</string>
+    <string name="answers">Answer\'s</string>
+    <string name="ask_question">Ask Question</string>
 
 </resources>

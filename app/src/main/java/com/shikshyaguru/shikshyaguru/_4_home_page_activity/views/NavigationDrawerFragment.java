@@ -7,6 +7,7 @@ package com.shikshyaguru.shikshyaguru._4_home_page_activity.views;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,7 +20,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -28,27 +28,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.shikshyaguru.shikshyaguru.R;
-import com.shikshyaguru.shikshyaguru._4_home_page_activity.logic.HomePageController;
+import com.shikshyaguru.shikshyaguru._4_home_page_activity.presenter.HomePageController;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.DrawerListItem;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.FakeDataSource;
+import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.UserData;
+import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.UserHomePageActivity;
 
 import java.util.List;
 
-public class NavigationDrawerFragment extends Fragment implements DrawerInterface {
+public class NavigationDrawerFragment extends Fragment implements DrawerInterface, View.OnClickListener {
 
-    public static final String PREF_FILE_NAME = "testpref";
-    public static final String KEY_USER_LERNED_DRAWER = "user_learned_drawer";
-    private ActionBarDrawerToggle mDrawerToggle;
-    private DrawerLayout mDrawerLayout;
-    private View mDrawerFragment;
-    private Window getWindow;
+    private View rootView;
+    public static final String PREF_FILE_NAME = "testPref";
+    public static final String USER_LEARNED_DRAWER = "user_learned_drawer";
     private boolean mUserLearnedDrawer;
     private boolean mFromSavedInstanceState;
 
     private LayoutInflater layoutInflater;
     private List<DrawerListItem> listOfDrawerHeader;
-    private RecyclerView mDrawerMainHeaderRecyclerView;
-    private HomePageController homePageController;
+    private HomePageController controller;
 
     public NavigationDrawerFragment() {
         //Required empty public constructor
@@ -57,7 +55,7 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mUserLearnedDrawer = Boolean.valueOf(readFromPreferences(getActivity(), KEY_USER_LERNED_DRAWER, "false"));
+        mUserLearnedDrawer = Boolean.valueOf(readFromPreferences(getActivity(), USER_LEARNED_DRAWER));
         if (savedInstanceState != null) {
             mFromSavedInstanceState = true;
         }
@@ -73,23 +71,26 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mDrawerMainHeaderRecyclerView = (RecyclerView) view.findViewById(R.id.rec_drawer_header);
+        this.rootView = view;
+        navigationDrawerSection();
+        controller = new HomePageController(this, new FakeDataSource());
+    }
 
-        homePageController = new HomePageController(this, new FakeDataSource());
+    private void navigationDrawerSection() {
+        ImageView userProfile = rootView.findViewById(R.id.iv_nav_drawer_user_profile_pic);
+        userProfile.setOnClickListener(this);
     }
 
     public void setUpNavigationDrawer(int fragmentId, DrawerLayout drawerlayout, final Window getWindow) {
-        mDrawerLayout = drawerlayout;
-        this.getWindow = getWindow;
-        mDrawerFragment = getActivity().findViewById(fragmentId);
-        mDrawerToggle = new ActionBarDrawerToggle(getActivity(), drawerlayout, R.string.drawer_open, R.string.drawer_close) {
+        View mDrawerFragment = getActivity().findViewById(fragmentId);
+        ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(getActivity(), drawerlayout, R.string.drawer_open, R.string.drawer_close) {
 
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
                 if (!mUserLearnedDrawer) {
                     mUserLearnedDrawer = true;
-                    saveToPreferences(getActivity(), KEY_USER_LERNED_DRAWER, mUserLearnedDrawer + "");
+                    saveToPreferences(getActivity(), USER_LEARNED_DRAWER, mUserLearnedDrawer + "");
                 }
                 getActivity().invalidateOptionsMenu();
             }
@@ -118,9 +119,9 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
         };
 
         if (!mUserLearnedDrawer && !mFromSavedInstanceState) {
-            mDrawerLayout.openDrawer(mDrawerFragment);
+            drawerlayout.openDrawer(mDrawerFragment);
         }
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        drawerlayout.setDrawerListener(mDrawerToggle);
     }
 
     public static void saveToPreferences(Context context, String preferenceName, String preferenceValue) {
@@ -130,17 +131,36 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
         editor.apply();
     }
 
-    public static String readFromPreferences(Context context, String preferenceName, String preferenceValue) {
+    public static String readFromPreferences(Context context, String preferenceName) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE);
-        return sharedPreferences.getString(preferenceName, preferenceValue);
+        return sharedPreferences.getString(preferenceName, "false");
     }
+
+//    public static String readFromPreferences(Context context, String preferenceName, String preferenceValue) {
+//        SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE);
+//        return sharedPreferences.getString(preferenceName, preferenceValue);
+//    }
 
     @Override
     public void setUpDrawerMainHeader(List<DrawerListItem> drawerListItems) {
         this.listOfDrawerHeader = drawerListItems;
+        RecyclerView mDrawerMainHeaderRecyclerView = rootView.findViewById(R.id.rec_drawer_header);
         mDrawerMainHeaderRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         DrawerHeaderAdapter drawerHeaderAdapter = new DrawerHeaderAdapter();
         mDrawerMainHeaderRecyclerView.setAdapter(drawerHeaderAdapter);
+    }
+
+    @Override
+    public void onUserProfileClickListener(UserData userData) {
+        Intent intent = new Intent(getContext(), UserHomePageActivity.class);
+        intent.putExtra("REQUEST_CODE", "user_main");
+        startActivity(intent);
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        controller.onUserProfileClick();
     }
 
     private class DrawerHeaderAdapter extends RecyclerView.Adapter<DrawerHeaderAdapter.DrawerHeaderViewHolder> {
@@ -163,7 +183,7 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
             return listOfDrawerHeader.size();
         }
 
-        class DrawerHeaderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnTouchListener {
+        class DrawerHeaderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
             private ImageView mDrawerHeaderIcon;
             private TextView mDrawerHeader;
@@ -172,11 +192,10 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
             DrawerHeaderViewHolder(View itemView) {
                 super(itemView);
 
-                mDrawerHeaderIcon = (ImageView) itemView.findViewById(R.id.iv_drawer_header_icon);
-                mDrawerHeader = (TextView) itemView.findViewById(R.id.lbl_drawer_header);
-                rootView = (ConstraintLayout) itemView.findViewById(R.id.root_drawer_item);
+                mDrawerHeaderIcon = itemView.findViewById(R.id.iv_drawer_header_icon);
+                mDrawerHeader = itemView.findViewById(R.id.lbl_drawer_header);
+                rootView = itemView.findViewById(R.id.root_drawer_item);
                 rootView.setOnClickListener(this);
-                rootView.setOnTouchListener(this);
             }
 
             @Override
@@ -184,20 +203,6 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
                 Toast.makeText(getContext(), "Clicked At : " + this.getAdapterPosition(), Toast.LENGTH_SHORT).show();
             }
 
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-//                        rootView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.drawerHeaderItemClick));
-                        break;
-                    case MotionEvent.ACTION_UP:
-//                        rootView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.drawerHeaderItemBg));
-                        break;
-                    default:
-                        break;
-                }
-                return false;
-            }
         }
     }
 

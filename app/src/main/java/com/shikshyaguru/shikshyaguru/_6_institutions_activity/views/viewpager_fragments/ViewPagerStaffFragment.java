@@ -23,7 +23,7 @@ import android.widget.Toast;
 
 import com.shikshyaguru.shikshyaguru.R;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionFakeDataSource;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionsStaffData;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionStaffData;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter.InstitutionsController;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.teacher_staff_adapter.TeachersStaffAdapter;
 
@@ -49,7 +49,7 @@ public class ViewPagerStaffFragment extends Fragment implements ViewPagerStaffIn
     }
 
     @Override
-    public void setUpStaffList(List<InstitutionsStaffData> institutionsStaffData) {
+    public void setUpStaffList(List<InstitutionStaffData> institutionStaffData) {
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.rec_staff);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         StaffAdapter adapter = new StaffAdapter();

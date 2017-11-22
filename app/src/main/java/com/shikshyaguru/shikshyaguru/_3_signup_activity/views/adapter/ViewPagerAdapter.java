@@ -1,4 +1,4 @@
-package com.shikshyaguru.shikshyaguru._3_signup_activity.adapter;
+package com.shikshyaguru.shikshyaguru._3_signup_activity.views.adapter;
 
 
 import android.support.v4.app.Fragment;

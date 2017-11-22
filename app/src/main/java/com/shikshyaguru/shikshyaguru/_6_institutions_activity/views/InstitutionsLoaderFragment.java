@@ -109,14 +109,15 @@ public class InstitutionsLoaderFragment extends Fragment implements AppBarLayout
 
         @Override
         public void onPageSelected(int position) {
-            if (position == 3 || position == 5 || position == 6) {
+            if (position == 2 || position == 3 || position == 5 || position == 6) {
                 viewPagerTab.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.card_black));
                 collapsingToolbar.setContentScrimColor(ContextCompat.getColor(getContext(), R.color.card_black));
-                getActivity().getWindow().setBackgroundDrawableResource(R.color.card_black);
+                collapsingToolbar.setStatusBarScrimColor(ContextCompat.getColor(getContext(), R.color.card_black));
+                //getActivity().getWindow().setBackgroundDrawableResource(R.color.card_black);
             } else {
                 viewPagerTab.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorAppMain));
                 collapsingToolbar.setContentScrimColor(ContextCompat.getColor(getContext(), R.color.colorAppMain));
-                getActivity().getWindow().setBackgroundDrawableResource(R.color.colorAppMain);
+                collapsingToolbar.setStatusBarScrimColor(ContextCompat.getColor(getContext(), R.color.colorAppMain));
             }
         }
 
@@ -191,4 +192,5 @@ public class InstitutionsLoaderFragment extends Fragment implements AppBarLayout
     public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
 //        layout.setTranslationY(verticalOffset);
     }
+
 }

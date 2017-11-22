@@ -1,5 +1,9 @@
 package com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments;
 
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionStudentAlumniData;
+
+import java.util.List;
+
 /**
  * Project Name => ShikshyaGuru
  * Created by   => Pankaj Koirala
@@ -8,4 +12,7 @@ package com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_f
  */
 
 public interface ViewPagerStudentsInterface {
+
+    void setUpStudentAlumni(List<InstitutionStudentAlumniData> studentAlumniData);
+
 }

@@ -1,0 +1,35 @@
+<com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sothree="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/sliding_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="bottom"
+    android:background="@color/background"
+    sothree:umanoDragView="@+id/dragView"
+    sothree:umanoOverlay="true"
+    sothree:umanoFadeColor="@color/transparent"
+    sothree:umanoPanelHeight="330dp"
+    sothree:umanoParallaxOffset="100dp"
+    sothree:umanoScrollableView="@+id/scrollView"
+    sothree:umanoShadowHeight="0dp">
+
+    <!-- BACKGROUND CONTENT -->
+    <include
+        android:id="@+id/i_background_content"
+        layout="@layout/_7_1_1_bg_content" />
+
+    <!-- MAIN LAYOUT -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="82dp"
+        android:fitsSystemWindows="true">
+
+        <include
+            android:id="@+id/i_main_content"
+            layout="@layout/_7_1_2_main_content" />
+
+    </RelativeLayout>
+
+
+</com.sothree.slidinguppanel.SlidingUpPanelLayout>

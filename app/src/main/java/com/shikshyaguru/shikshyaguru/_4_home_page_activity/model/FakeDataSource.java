@@ -284,6 +284,11 @@ public class FakeDataSource implements DataSourceInterface {
     }
 
     @Override
+    public UserData getUserData() {
+        return null;
+    }
+
+    @Override
     public List<NewsListItem> getListOfNewsData() {
 
         ArrayList<NewsListItem> listOfNewsData = new ArrayList<>();

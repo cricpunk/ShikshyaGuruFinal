@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_students_nested_scroll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorCardViewBackground">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/l_inst_loader_vp_student_alumni"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:background="#616161"/>
+
+            <TextView
+                android:id="@+id/lbl_inst_loader_vp_student_alumni_heading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="@dimen/margin_short"
+                android:textSize="18sp"
+                android:textColor="#FFFFFF"
+                android:text="Alumni" />
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rec_inst_loader_vp_student_alumni"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lbl_inst_loader_vp_student_alumni_heading" />
+
+            <LinearLayout
+                android:layout_below="@+id/rec_inst_loader_vp_student_alumni"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="500dp"
+            android:layout_below="@+id/l_inst_loader_vp_student_alumni"
+            android:background="#222222">
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+</android.support.v4.widget.NestedScrollView>

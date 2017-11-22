@@ -82,6 +82,8 @@ public class InstitutionsController {
     public InstitutionsController(ViewPagerStudentsInterface studentsInterface, InstitutionDataSourceInterface dataSource) {
         this.studentsInterface = studentsInterface;
         this.dataSource = dataSource;
+
+        setUpStudentAlumni();
     }
 
     // (04) Constructor for View pager management page interface.
@@ -167,6 +169,10 @@ public class InstitutionsController {
 
     public void onMoreIconClickListener(Button button) {
         coursesLoaderInterface.onMoreIconClickListener(button);
+    }
+
+    private void setUpStudentAlumni() {
+        studentsInterface.setUpStudentAlumni(dataSource.getListOfStudentAlumniData());
     }
 
     private void setUpManagementList() {

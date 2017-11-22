@@ -7,11 +7,11 @@ package com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_f
 
 import android.widget.Button;
 
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionsProgrammesCoursesData;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionProgrammesCoursesData;
 
 public interface ViewPagerProgrammesCoursesLoaderInterface {
 
-    void setUpOptionsAdapter(InstitutionsProgrammesCoursesData coursesData);
+    void setUpOptionsAdapter(InstitutionProgrammesCoursesData coursesData);
 
     void onMoreIconClickListener(Button button);
 

@@ -1,109 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_inst_loader_vp_programmes_courses_loader"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:background="@color/background">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/abl_inst_loader_vp_programmes_courses_loader"
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fitsSystemWindows="true"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        android:layout_height="match_parent"
+        android:background="@color/background">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/tb_inst_loader_vp_programmes_courses_loader"
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/abl_inst_loader_vp_programmes_courses_loader"
             android:layout_width="match_parent"
-            android:layout_height="?android:attr/actionBarSize"
-            android:background="@color/colorAppMain"
-            app:layout_collapseMode="pin"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <RelativeLayout
-            android:id="@+id/stl_inst_loader_frag"
-            android:layout_width="match_parent"
-            android:layout_height="?android:attr/actionBarSize"
-            android:background="@color/colorAppMain"
-            android:gravity="center">
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/tb_inst_loader_vp_programmes_courses_loader"
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/actionBarSize"
+                android:background="@color/colorAppMain"
+                app:layout_collapseMode="pin"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
             <RelativeLayout
-                android:id="@+id/l_courses_loader_xi"
-                android:layout_width="wrap_content"
-                android:layout_height="35dp">
+                android:id="@+id/stl_inst_loader_frag"
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/actionBarSize"
+                android:background="@color/colorAppMain"
+                android:gravity="center">
 
-                <TextView
-                    android:id="@+id/lbl_courses_loader_xi"
-                    android:layout_width="35dp"
+                <RelativeLayout
+                    android:id="@+id/l_courses_loader_xi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp">
+
+                    <TextView
+                        android:id="@+id/lbl_courses_loader_xi"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_marginEnd="@dimen/margin_2dp"
+                        android:layout_marginRight="@dimen/margin_2dp"
+                        android:background="@drawable/circle_white"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center"
+                        android:textColor="@color/colorAppMain"
+                        tools:text="XI" />
+
+                    <View
+                        android:id="@+id/v_course_loader_xi_dot"
+                        android:layout_width="5dp"
+                        android:layout_height="5dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:background="@drawable/circle_perfect"
+                        android:minHeight="5dp"
+                        android:visibility="gone" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="35dp"
-                    android:layout_marginEnd="@dimen/margin_2dp"
-                    android:layout_marginRight="@dimen/margin_2dp"
-                    android:background="@drawable/circle_white"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:gravity="center"
-                    android:text="XI"
-                    android:textColor="@color/colorAppMain" />
+                    android:layout_toEndOf="@+id/l_courses_loader_xi"
+                    android:layout_toRightOf="@+id/l_courses_loader_xi">
 
-                <View
-                    android:id="@+id/v_course_loader_xi_dot"
-                    android:layout_width="5dp"
-                    android:layout_height="5dp"
-                    android:background="@drawable/circle_perfect"
-                    android:layout_alignParentBottom="true"
-                    android:visibility="gone"
-                    android:layout_centerHorizontal="true"
-                    android:minHeight="5dp" />
+                    <TextView
+                        android:id="@+id/lbl_courses_loader_xii"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_marginLeft="@dimen/margin_2dp"
+                        android:layout_marginStart="@dimen/margin_2dp"
+                        android:background="@drawable/circle_white"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center"
+                        android:textColor="@color/colorAppMain"
+                        tools:text="XII" />
+
+                    <View
+                        android:id="@+id/v_course_loader_xii_dot"
+                        android:layout_width="5dp"
+                        android:layout_height="5dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:background="@drawable/circle_perfect"
+                        android:minHeight="5dp"
+                        android:visibility="gone" />
+
+                </RelativeLayout>
 
             </RelativeLayout>
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:layout_toEndOf="@+id/l_courses_loader_xi"
-                android:layout_toRightOf="@+id/l_courses_loader_xi">
+        </android.support.design.widget.AppBarLayout>
 
-                <TextView
-                    android:id="@+id/lbl_courses_loader_xii"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_marginLeft="@dimen/margin_2dp"
-                    android:layout_marginStart="@dimen/margin_2dp"
-                    android:background="@drawable/circle_white"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:gravity="center"
-                    android:text="XII"
-                    android:textColor="@color/colorAppMain" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rec_inst_loader_vp_programmes_courses_loader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorBackground"
+            android:clipToPadding="false"
+            android:fitsSystemWindows="true"
+            android:paddingBottom="@dimen/margin_standard"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-                <View
-                    android:id="@+id/v_course_loader_xii_dot"
-                    android:layout_width="5dp"
-                    android:layout_height="5dp"
-                    android:visibility="gone"
-                    android:background="@drawable/circle_perfect"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:minHeight="5dp" />
+    </android.support.design.widget.CoordinatorLayout>
 
-            </RelativeLayout>
-
-
-
-        </RelativeLayout>
-
-    </android.support.design.widget.AppBarLayout>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rec_inst_loader_vp_programmes_courses_loader"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorBackground"
-        android:clipToPadding="false"
-        android:paddingBottom="@dimen/margin_standard"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-</android.support.design.widget.CoordinatorLayout>
+</RelativeLayout>

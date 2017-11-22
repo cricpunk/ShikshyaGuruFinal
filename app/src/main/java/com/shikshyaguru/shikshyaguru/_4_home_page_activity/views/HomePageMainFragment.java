@@ -35,7 +35,7 @@ import com.shikshyaguru.shikshyaguru._0_1_searching_mechanism.model.DataHelper;
 import com.shikshyaguru.shikshyaguru._0_1_searching_mechanism.model.InstitutionsSuggestion;
 import com.shikshyaguru.shikshyaguru._0_1_searching_mechanism.views.BaseExampleFragment;
 import com.shikshyaguru.shikshyaguru._0_2_recyclerview_slider_effect.RecyclerViewSliderEffect;
-import com.shikshyaguru.shikshyaguru._4_home_page_activity.logic.HomePageController;
+import com.shikshyaguru.shikshyaguru._4_home_page_activity.presenter.HomePageController;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.FakeDataSource;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.HomePageOptionsListItem;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.HomePageSliderListItem;

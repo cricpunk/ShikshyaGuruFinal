@@ -16,4 +16,12 @@
         <item name="android:windowTranslucentNavigation">true</item>
     </style>
 
+    <style name="UserProfileTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@color/colorAppMain</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="colorPrimary">@android:color/transparent</item>
+        <item name="android:windowActionBarOverlay">true</item>
+    </style>
+
 </resources>

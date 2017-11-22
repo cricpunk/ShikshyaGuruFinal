@@ -7,7 +7,7 @@ package com.shikshyaguru.shikshyaguru._6_institutions_activity.model;
 
 import java.util.List;
 
-public class InstitutionsProgrammesCoursesData {
+public class InstitutionProgrammesCoursesData {
 
     private String[] compulsorySubjectsXi;
     private List<String[]> subjectOptionsCollectionXi;
@@ -15,7 +15,7 @@ public class InstitutionsProgrammesCoursesData {
     private String[] compulsorySubjectsXii;
     private List<String[]> subjectOptionsCollectionXii;
 
-    public InstitutionsProgrammesCoursesData() {
+    public InstitutionProgrammesCoursesData() {
     }
 
     public String[] getCompulsorySubjectsXi() {

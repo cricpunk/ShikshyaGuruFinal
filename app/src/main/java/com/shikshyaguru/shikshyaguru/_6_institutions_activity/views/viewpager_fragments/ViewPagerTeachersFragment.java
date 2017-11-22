@@ -22,7 +22,7 @@ import android.widget.Toast;
 
 import com.shikshyaguru.shikshyaguru.R;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionFakeDataSource;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionsTeachersData;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionTeachersData;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter.InstitutionsController;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.teacher_staff_adapter.TeachersStaffAdapter;
 
@@ -48,7 +48,7 @@ public class ViewPagerTeachersFragment extends Fragment implements ViewPagerTeac
     }
 
     @Override
-    public void setUpTeachersList(List<InstitutionsTeachersData> institutionsTeachersData) {
+    public void setUpTeachersList(List<InstitutionTeachersData> institutionTeachersData) {
         RecyclerView recyclerView = rootView.findViewById(R.id.rec_teachers);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         TeachersAdapter adapter = new TeachersAdapter();

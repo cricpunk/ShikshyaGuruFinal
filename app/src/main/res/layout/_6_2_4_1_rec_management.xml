@@ -54,17 +54,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/l_name_holder"
+            app:cardBackgroundColor="#616161"
             android:layout_marginLeft="@dimen/margin_standard"
             android:layout_marginRight="@dimen/margin_standard"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="5dp">
+            app:cardElevation="0.1dp">
 
-            <ImageView
+            <com.github.siyamed.shapeimageview.mask.PorterShapeImageView
                 android:id="@+id/iv_inst_loader_vp_management_mgmt_head"
                 android:layout_width="match_parent"
                 android:layout_height="350dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/me"
+                app:siShape="@drawable/shape_top_radius"
                 tools:ignore="ContentDescription" />
 
             <ImageView
@@ -72,9 +73,9 @@
                 android:layout_width="20dp"
                 android:layout_height="30dp"
                 android:layout_gravity="end"
-                android:layout_marginRight="@dimen/margin_extra_short"
                 android:layout_marginEnd="@dimen/margin_extra_short"
-                android:layout_marginTop="@dimen/margin_extra_short"
+                android:layout_marginRight="@dimen/margin_extra_short"
+                android:layout_marginTop="@dimen/margin_short"
                 app:srcCompat="@drawable/ic_more_small"
                 tools:ignore="ContentDescription" />
 

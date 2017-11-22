@@ -1,6 +1,6 @@
 package com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments;
 
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionsManagementData;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionManagementData;
 
 import java.util.List;
 
@@ -13,6 +13,6 @@ import java.util.List;
 
 public interface ViewPagerManagementInterface {
 
-    void setUpManagementAdapter(List<InstitutionsManagementData> managementData);
+    void setUpManagementAdapter(List<InstitutionManagementData> managementData);
 
 }

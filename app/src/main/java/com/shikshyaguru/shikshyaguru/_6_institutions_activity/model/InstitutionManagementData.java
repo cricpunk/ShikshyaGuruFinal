@@ -7,7 +7,7 @@ package com.shikshyaguru.shikshyaguru._6_institutions_activity.model;
  * Email Id     => koiralapankaj007@gmail.com
  */
 
-public class InstitutionsManagementData {
+public class InstitutionManagementData {
 
     private String name;
     private String post;
@@ -16,7 +16,7 @@ public class InstitutionsManagementData {
     private String message;
     private int image;
 
-    public InstitutionsManagementData(String name, String post, String academicQualification, String institution, String message, int image) {
+    public InstitutionManagementData(String name, String post, String academicQualification, String institution, String message, int image) {
         this.name = name;
         this.post = post;
         this.academicQualification = academicQualification;

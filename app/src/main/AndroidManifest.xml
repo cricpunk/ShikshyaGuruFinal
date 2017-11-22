@@ -42,9 +42,10 @@
 
         <activity
             android:name="._6_institutions_activity.views.InstitutionsHomePageActivity"
-            android:theme="@style/BaseTheme" />
+            android:theme="@style/UserProfileTheme" />
 
-        <activity android:name="._7_user_activity.views.UserHomePageActivity" />
+        <activity android:name="._7_user_activity.views.views.UserHomePageActivity"
+            android:theme="@style/UserProfileTheme"/>
 
 
         <!--<activity android:name="._5_news_section.views.TabsHeaderActivity"/>-->

@@ -9,10 +9,10 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.shikshyaguru.shikshyaguru.R;
-import com.shikshyaguru.shikshyaguru._3_signup_activity.adapter.ViewPagerAdapter;
-import com.shikshyaguru.shikshyaguru._3_signup_activity.fragments.CenterFragment;
-import com.shikshyaguru.shikshyaguru._3_signup_activity.fragments.LoginFragment;
-import com.shikshyaguru.shikshyaguru._3_signup_activity.fragments.SignUpFragment;
+import com.shikshyaguru.shikshyaguru._3_signup_activity.views.adapter.ViewPagerAdapter;
+import com.shikshyaguru.shikshyaguru._3_signup_activity.views.fragments.CenterFragment;
+import com.shikshyaguru.shikshyaguru._3_signup_activity.views.fragments.LoginFragment;
+import com.shikshyaguru.shikshyaguru._3_signup_activity.views.fragments.SignUpFragment;
 
 /**
  * Created by cricpunk on 7/13/17.

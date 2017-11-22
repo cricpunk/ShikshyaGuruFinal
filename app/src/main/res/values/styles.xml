@@ -44,6 +44,13 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="UserProfileTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@color/colorAppMain</item>
+        <item name="colorPrimary">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="windowActionBarOverlay">true</item>
+        <!--<item name="android:windowActionBarOverlay">true</item>-->
+    </style>
 
     <style name="cardViewMarginShort">
         <item name="android:layout_marginLeft">@dimen/margin_short</item>

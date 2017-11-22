@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -20,6 +21,8 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -27,7 +30,7 @@ import android.widget.Toast;
 
 import com.shikshyaguru.shikshyaguru.R;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionFakeDataSource;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionsProgrammesCoursesData;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionProgrammesCoursesData;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter.InstitutionsController;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionsHomePageActivity;
 
@@ -43,7 +46,7 @@ public class ViewPagerProgrammesCoursesLoader extends Fragment implements
 
     private LayoutInflater inflater;
     private View rootView;
-    private InstitutionsProgrammesCoursesData coursesData;
+    private InstitutionProgrammesCoursesData coursesData;
     private InstitutionsController controller;
     private TextView xi;
     private TextView xii;
@@ -56,6 +59,14 @@ public class ViewPagerProgrammesCoursesLoader extends Fragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         this.inflater = inflater;
+        Window window = getActivity().getWindow();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.setStatusBarColor(ContextCompat.getColor(getContext(), R.color.colorAppMain));
+        }
+
+
         return inflater.inflate(R.layout._6_2_2_3_fragment_view_pager_programmes_courses_loader, container, false);
     }
 
@@ -112,7 +123,7 @@ public class ViewPagerProgrammesCoursesLoader extends Fragment implements
     }
 
     @Override
-    public void setUpOptionsAdapter(InstitutionsProgrammesCoursesData coursesData) {
+    public void setUpOptionsAdapter(InstitutionProgrammesCoursesData coursesData) {
         this.coursesData = coursesData;
         RecyclerView coursesOptionRecyclerView = rootView.findViewById(R.id.rec_inst_loader_vp_programmes_courses_loader);
         coursesOptionRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -203,6 +214,9 @@ public class ViewPagerProgrammesCoursesLoader extends Fragment implements
     private void initYearButtons() {
         xi = rootView.findViewById(R.id.lbl_courses_loader_xi);
         xii = rootView.findViewById(R.id.lbl_courses_loader_xii);
+
+        xi.setText("XI");
+        xii.setText("XII");
 
         dotXi = rootView.findViewById(R.id.v_course_loader_xi_dot);
         dotXii = rootView.findViewById(R.id.v_course_loader_xii_dot);

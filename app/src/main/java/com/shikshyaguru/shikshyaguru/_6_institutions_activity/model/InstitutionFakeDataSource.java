@@ -155,12 +155,12 @@ public class InstitutionFakeDataSource implements InstitutionDataSourceInterface
     }
 
     @Override
-    public List<InstitutionsTeachersData> getTeachersData() {
+    public List<InstitutionTeachersData> getTeachersData() {
         return null;
     }
 
     @Override
-    public List<InstitutionsStaffData> getStaffData() {
+    public List<InstitutionStaffData> getStaffData() {
         return null;
     }
 
@@ -187,7 +187,7 @@ public class InstitutionFakeDataSource implements InstitutionDataSourceInterface
     }
 
     @Override
-    public InstitutionsProgrammesCoursesData getInstitutionCoursesData() {
+    public InstitutionProgrammesCoursesData getInstitutionCoursesData() {
         String[] compulsorySubjectXi = { "Compulsory English", "Compulsory Nepali", "Accountancy" };
         String[] compulsorySubjectXii = { "Compulsory English", "Business Math", "Accountancy" };
         List<String[]> subjectOptionsCollectionXi = new ArrayList<>();
@@ -207,7 +207,7 @@ public class InstitutionFakeDataSource implements InstitutionDataSourceInterface
         subjectOptionsCollectionXi.add(option5);
         subjectOptionsCollectionXi.add(option6);
 
-        InstitutionsProgrammesCoursesData coursesData = new InstitutionsProgrammesCoursesData();
+        InstitutionProgrammesCoursesData coursesData = new InstitutionProgrammesCoursesData();
         coursesData.setCompulsorySubjectsXi(compulsorySubjectXi);
         coursesData.setCompulsorySubjectsXii(compulsorySubjectXii);
         coursesData.setSubjectOptionsCollectionXi(subjectOptionsCollectionXi);
@@ -217,8 +217,8 @@ public class InstitutionFakeDataSource implements InstitutionDataSourceInterface
     }
 
     @Override
-    public List<InstitutionsManagementData> getInstitutionManagementData() {
-        List<InstitutionsManagementData> listOfData = new ArrayList<>();
+    public List<InstitutionManagementData> getInstitutionManagementData() {
+        List<InstitutionManagementData> listOfData = new ArrayList<>();
 
         for (int i = 0; i < SIZE ; i++) {
 
@@ -229,7 +229,7 @@ public class InstitutionFakeDataSource implements InstitutionDataSourceInterface
             int randFive = random.nextInt(3);
             int randSix = random.nextInt(3);
 
-            InstitutionsManagementData managementData = new InstitutionsManagementData(
+            InstitutionManagementData managementData = new InstitutionManagementData(
                     NAME[randOne],POST[randTwo],ACADEMIC_QUALIFICATION[randThree],
                     INSTITUTIONS[randFour],INTRO[randFive],MY_IMAGE[randSix]
             );
@@ -238,6 +238,11 @@ public class InstitutionFakeDataSource implements InstitutionDataSourceInterface
 
         }
         return listOfData;
+    }
+
+    @Override
+    public List<InstitutionStudentAlumniData> getListOfStudentAlumniData() {
+        return null;
     }
 
 }

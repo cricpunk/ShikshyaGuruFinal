@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="210dp"
+    android:layout_margin="@dimen/margin_extra_short">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/tumblr">
+
+            <com.github.siyamed.shapeimageview.CircularImageView
+                android:id="@+id/iv_alumni"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/margin_standard"
+                android:layout_marginStart="@dimen/margin_standard"
+                android:scaleType="centerCrop"
+                android:src="@drawable/me"
+                app:siBorderColor="#FAFAFA"
+                app:siBorderWidth="2dp" />
+
+            <ImageView
+                android:id="@+id/v_bubbles_holder"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                android:layout_marginLeft="-55dp"
+                android:layout_marginStart="-55dp"
+                android:layout_toEndOf="@+id/iv_alumni"
+                android:layout_toRightOf="@+id/iv_alumni"
+                android:minHeight="110dp"
+                android:padding="40dp"
+                android:rotation="270"
+                app:srcCompat="@drawable/ic_bubbles_circles"
+                tools:ignore="ContentDescription" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/margin_short"
+                android:layout_marginLeft="-40dp"
+                android:layout_marginRight="@dimen/margin_short"
+                android:layout_marginStart="-40dp"
+                android:layout_toEndOf="@+id/v_bubbles_holder"
+                android:layout_toRightOf="@+id/v_bubbles_holder"
+                android:background="@drawable/background_three_side_radius"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/lbl_alumni_message"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingBottom="@dimen/margin_short"
+                    android:paddingLeft="@dimen/margin_standard"
+                    android:paddingRight="@dimen/margin_standard"
+                    android:paddingTop="@dimen/margin_short"
+                    android:text="@string/review"
+                    android:textColor="#E6FAFAFA"
+                    android:textSize="12sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="40dp"
+                    android:background="#50FAFAFA" />
+
+                <TextView
+                    android:id="@+id/lbl_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/pankaj"
+                    android:textColor="#CCFAFAFA"
+                    android:textSize="15sp"
+                    android:paddingTop="@dimen/margin_extra_short"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/lbl_designation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginTop="-4dp"
+                    android:paddingBottom="@dimen/margin_short"
+                    android:text="@string/designation"
+                    android:textColor="#B3FAFAFA"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+</android.support.constraint.ConstraintLayout>

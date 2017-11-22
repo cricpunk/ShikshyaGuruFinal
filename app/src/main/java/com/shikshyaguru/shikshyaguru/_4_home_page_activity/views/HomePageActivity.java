@@ -25,16 +25,12 @@ public class HomePageActivity extends AppCompatActivity implements
 
     private DrawerLayout mDrawerLayout;
 
-//    @Bind(R.id.image_slider_layout) ViewPager imageSlider;
-//    @Bind(R.id.back)ViewGroup back;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout._4_0_home_page_activity);
 
-//        ButterKnife.bind(new HomePageMainFragment(), this);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.home_page_drawer_layout);
+        mDrawerLayout = findViewById(R.id.home_page_drawer_layout);
 
 //        NavigationView navigationView = (NavigationView) findViewById(R.id.home_page_nav_view);
 //        navigationView.setNavigationItemSelectedListener(this);

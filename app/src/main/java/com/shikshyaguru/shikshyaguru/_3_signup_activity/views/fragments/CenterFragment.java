@@ -1,4 +1,4 @@
-package com.shikshyaguru.shikshyaguru._3_signup_activity.fragments;
+package com.shikshyaguru.shikshyaguru._3_signup_activity.views.fragments;
 
 
 import android.os.Bundle;

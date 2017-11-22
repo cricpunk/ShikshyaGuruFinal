@@ -15,6 +15,8 @@ import com.shikshyaguru.shikshyaguru._5_news_activity.views.NewsMainFragment;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionMainFragment;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionsLoaderFragment;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerProgrammesCoursesLoader;
+import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.UserLoaderFragment;
+import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.UserMainFragment;
 
 public class DynamicFragmentLoader {
 
@@ -41,8 +43,13 @@ public class DynamicFragmentLoader {
                         bundle1.putString("COURSE_NAME", (String) bundle.get("COURSE_NAME"));
                         ViewPagerProgrammesCoursesLoader coursesLoader = new ViewPagerProgrammesCoursesLoader();
                         coursesLoader.setArguments(bundle1);
-
                         showFragment(coursesLoader, fragHolderId, fragmentManager);
+                        break;
+                    case "user_main":
+                        showFragment(new UserMainFragment(), fragHolderId, fragmentManager);
+                        break;
+                    case "user_loader":
+                        showFragment(new UserLoaderFragment(), fragHolderId, fragmentManager);
                         break;
                     default:
                         break;

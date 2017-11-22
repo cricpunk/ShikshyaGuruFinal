@@ -9,7 +9,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -24,7 +23,7 @@ import android.widget.Toast;
 
 import com.shikshyaguru.shikshyaguru.R;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionFakeDataSource;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionsManagementData;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionManagementData;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter.InstitutionsController;
 
 import java.util.List;
@@ -33,7 +32,7 @@ public class ViewPagerManagementFragment extends Fragment implements ViewPagerMa
 
     private LayoutInflater inflater;
     private View rootView;
-    private List<InstitutionsManagementData> managementData;
+    private List<InstitutionManagementData> managementData;
 
     @Nullable
     @Override
@@ -50,7 +49,7 @@ public class ViewPagerManagementFragment extends Fragment implements ViewPagerMa
     }
 
     @Override
-    public void setUpManagementAdapter(List<InstitutionsManagementData> managementData) {
+    public void setUpManagementAdapter(List<InstitutionManagementData> managementData) {
         this.managementData = managementData;
         RecyclerView mgmtRecyclerView = rootView.findViewById(R.id.rec_inst_loader_vp_management);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -64,13 +63,13 @@ public class ViewPagerManagementFragment extends Fragment implements ViewPagerMa
 
         @Override
         public MgmtViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = inflater.inflate(R.layout.rec_management, parent, false);
+            View view = inflater.inflate(R.layout._6_2_4_1_rec_management, parent, false);
             return new MgmtViewHolder(view);
         }
 
         @Override
         public void onBindViewHolder(MgmtViewHolder holder, int position) {
-            InstitutionsManagementData currentItem = managementData.get(position);
+            InstitutionManagementData currentItem = managementData.get(position);
             int messageId = Integer.parseInt(currentItem.getMessage());
 
             holder.image.setImageResource(currentItem.getImage());
