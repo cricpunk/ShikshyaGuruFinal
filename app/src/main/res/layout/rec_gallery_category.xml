@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_vp_gallery_rec_item"
+    android:layout_width="match_parent"
+    android:background="@color/black_main_bg"
+    android:layout_height="220dp">
+
+    <View
+        android:id="@+id/v_inst_loader_vp_gallery_category_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black_main_bg"/>
+
+    <ImageView
+        android:id="@+id/iv_inst_loader_vp_gallery_category_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/model6"
+        android:scaleType="centerCrop"
+        tools:ignore="ContentDescription" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/lbl_inst_loader_vp_gallery_category_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/student_life"
+            android:textAllCaps="true"
+            android:textColor="#99FAFAFA"
+            android:paddingLeft="@dimen/margin_standard"
+            android:paddingRight="@dimen/margin_standard"
+            android:paddingBottom="@dimen/margin_short"
+            android:layout_centerHorizontal="true"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/lbl_inst_loader_vp_gallery_category_total_image"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/margin_short"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/lbl_inst_loader_vp_gallery_category_name"
+            android:text="@string/_25"
+            android:background="@drawable/circle_perfect"
+            android:textColor="#000000"
+            android:textAllCaps="true"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
+</RelativeLayout>
