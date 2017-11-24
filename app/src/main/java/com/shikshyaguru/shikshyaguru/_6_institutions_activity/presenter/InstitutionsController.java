@@ -10,9 +10,11 @@ package com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter;
      * ==============================================
      * (01) Constructor for View pager home page interface.
      * (02) Constructor for View pager programmes page interface.
+     * (02-01) Constructor for View pager programmes courses loader interface.
      * (03) Constructor for View pager students page interface.
      * (04) Constructor for View pager management page interface.
      * (05) Constructor for View pager gallery page interface.
+     * (05-01) Constructor for View pager gallery loader interface.
      * (06) Constructor for View pager teachers page interface.
      * (07) Constructor for View pager staff page interface.
      * (08) Constructor for View pager activities page interface.
@@ -30,6 +32,7 @@ import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fr
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerActivitiesInterface;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerContactInterface;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerGalleryInterface;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerGalleryLoaderInterface;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerHomeInterface;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerManagementInterface;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerProgrammesCoursesLoaderInterface;
@@ -47,6 +50,7 @@ public class InstitutionsController {
     private ViewPagerStudentsInterface studentsInterface;
     private ViewPagerManagementInterface managementInterface;
     private ViewPagerGalleryInterface galleryInterface;
+    private ViewPagerGalleryLoaderInterface galleryLoaderInterface;
     private ViewPagerTeachersInterface teachersInterface;
     private ViewPagerStaffInterface staffInterface;
     private ViewPagerActivitiesInterface activitiesInterface;
@@ -98,6 +102,16 @@ public class InstitutionsController {
     public InstitutionsController(ViewPagerGalleryInterface galleryInterface, InstitutionDataSourceInterface dataSource) {
         this.galleryInterface = galleryInterface;
         this.dataSource = dataSource;
+
+        setUpGalleryCategory();
+    }
+
+    // (05-01) Constructor for View pager gallery page interface.
+    public InstitutionsController(ViewPagerGalleryLoaderInterface galleryLoaderInterface, InstitutionDataSourceInterface dataSource) {
+        this.galleryLoaderInterface = galleryLoaderInterface;
+        this.dataSource = dataSource;
+
+        setUpGallery();
     }
 
     // (06) Constructor for View pager teachers page interface.
@@ -177,6 +191,18 @@ public class InstitutionsController {
 
     private void setUpManagementList() {
         managementInterface.setUpManagementAdapter(dataSource.getInstitutionManagementData());
+    }
+
+    private void setUpGalleryCategory() {
+        galleryInterface.setUpGalleryCategory(dataSource.getInstitutionGalleryData());
+    }
+
+    private void setUpGallery() {
+        galleryLoaderInterface.setUpGallery(dataSource.getInstitutionGalleryData());
+    }
+
+    public void onGalleryCategoryClick(String category) {
+        galleryInterface.onGalleryCategoryClick(category);
     }
 
     private void setUpTeachersList() {

@@ -3,6 +3,47 @@
     android:id="@+id/root_gallery_nested_scroll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorCardViewBackground">
+    android:background="@color/black_main_bg">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:focusableInTouchMode="true"
+        android:paddingTop="@dimen/margin_standard"
+        android:paddingBottom="76dp">
+
+        <View
+            android:id="@+id/v_vp_gallery_anchor"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/gradient_all_side" />
+
+        <RelativeLayout
+            android:id="@+id/rl_vp_gallery_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/lbl_inst_loader_vp_gallery_category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="32dp"
+                android:text="@string/categories"
+                android:textAllCaps="true"
+                android:textColor="#CCFFFFFF"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rec_inst_loader_vp_gallery"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/margin_short"
+                android:layout_below="@+id/lbl_inst_loader_vp_gallery_category" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
 
 </android.support.v4.widget.NestedScrollView>

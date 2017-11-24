@@ -102,7 +102,7 @@ public class ViewPagerProgrammesFragment extends Fragment implements ViewPagerPr
             private TextView programmesLevelName;
             private RecyclerView recProgrammesLabel;
             private LinearLayout layoutLevel;
-            private RelativeLayout anchorView;
+            private View anchorView;
 
             ProgrammesLevelViewHolder(View itemView) {
                 super(itemView);

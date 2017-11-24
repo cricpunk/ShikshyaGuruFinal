@@ -1,17 +1,16 @@
 package com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
-import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
@@ -21,14 +20,14 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.shikshyaguru.shikshyaguru.R;
+import com.shikshyaguru.shikshyaguru._0_6_widgets.StatusBar;
+import com.shikshyaguru.shikshyaguru._0_6_widgets.Toolbars;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionFakeDataSource;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionProgrammesCoursesData;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter.InstitutionsController;
@@ -40,10 +39,12 @@ import java.util.List;
 
 public class ViewPagerProgrammesCoursesLoader extends Fragment implements
         ViewPagerProgrammesCoursesLoaderInterface,
-        View.OnClickListener{
+        View.OnClickListener {
+
+    private Context context;
+    private Activity activity;
 
     private String title;
-
     private LayoutInflater inflater;
     private View rootView;
     private InstitutionProgrammesCoursesData coursesData;
@@ -56,33 +57,36 @@ public class ViewPagerProgrammesCoursesLoader extends Fragment implements
     private boolean isXi;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         this.inflater = inflater;
-        Window window = getActivity().getWindow();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.setStatusBarColor(ContextCompat.getColor(getContext(), R.color.colorAppMain));
-        }
+        this.context = getContext();
 
+        assert activity != null;
+        this.activity = getActivity();
+
+        assert activity != null;
+        StatusBar.changeStatusBarColor(context, activity.getWindow(), R.color.colorAppMain);
 
         return inflater.inflate(R.layout._6_2_2_3_fragment_view_pager_programmes_courses_loader, container, false);
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        this.rootView = view;
 
         if (getArguments() != null) {
             title = getArguments().getString("COURSE_NAME");
         }
 
+        Toolbar toolbar = view.findViewById(R.id.tb_inst_loader_vp_programmes_courses_loader);
+        Toolbars.setUpToolbar(toolbar, activity, title);
+
         // To make onOptionItemSelected working we have to setHasOptionsMenu true in fragment.
         setHasOptionsMenu(true);
-        this.rootView = view;
+
         this.controller = new InstitutionsController(this, new InstitutionFakeDataSource());
-        initToolbarAndLayout();
         initYearButtons();
         isXi = true;
         controller.setUpCoursesAdapter();
@@ -133,8 +137,8 @@ public class ViewPagerProgrammesCoursesLoader extends Fragment implements
 
     @Override
     public void onMoreIconClickListener(Button button) {
-        //Context contextWrapper = new android.view.ContextThemeWrapper(getActivity(), R.style.teachersBusinessCardPopup);
-        PopupMenu popupMenu = new PopupMenu(getContext(), button, Gravity.END);
+        //Context contextWrapper = new android.view.ContextThemeWrapper(activity, R.style.teachersBusinessCardPopup);
+        PopupMenu popupMenu = new PopupMenu(context, button, Gravity.END);
         popupMenu.getMenuInflater().inflate(R.menu.courses_options_popup, popupMenu.getMenu());
 
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -189,34 +193,12 @@ public class ViewPagerProgrammesCoursesLoader extends Fragment implements
         }
     }
 
-    private void initToolbarAndLayout() {
-        Toolbar toolbar = rootView.findViewById(R.id.tb_inst_loader_vp_programmes_courses_loader);
-
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-        ActionBar getSupportActionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
-        if (getSupportActionBar != null) {
-            getSupportActionBar.setDisplayHomeAsUpEnabled(true);
-            //getSupportActionBar.setDisplayShowHomeEnabled(true);
-            getSupportActionBar.setTitle(title);
-            //getSupportActionBar.setDisplayShowTitleEnabled(false);
-        }
-
-        AppBarLayout mAppBar = rootView.findViewById(R.id.abl_inst_loader_vp_programmes_courses_loader);
-        mAppBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-
-            }
-        });
-
-    }
-
     private void initYearButtons() {
         xi = rootView.findViewById(R.id.lbl_courses_loader_xi);
         xii = rootView.findViewById(R.id.lbl_courses_loader_xii);
 
-        xi.setText("XI");
-        xii.setText("XII");
+        xi.setText(R.string.xi);
+        xii.setText(R.string.xii);
 
         dotXi = rootView.findViewById(R.id.v_course_loader_xi_dot);
         dotXii = rootView.findViewById(R.id.v_course_loader_xii_dot);
@@ -266,7 +248,7 @@ public class ViewPagerProgrammesCoursesLoader extends Fragment implements
 
         @Override
         public void onBindViewHolder(CoursesOptionViewHolder holder, int position) {
-            holder.optionHeading.setText(String.valueOf("Option" + " " + (position+1)));
+            holder.optionHeading.setText(String.valueOf("Option" + " " + (position + 1)));
 
             //Creating total subjects list
             List<String> totalSubjectsList = new ArrayList<>();
@@ -293,10 +275,10 @@ public class ViewPagerProgrammesCoursesLoader extends Fragment implements
                 TextView textView = new TextView(getContext());
                 textView.setLayoutParams(layoutParams);
                 textView.setText(totalSubject);
-                textView.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(getContext(), R.drawable.ic_dot), null, null, null);
+                textView.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(context, R.drawable.ic_dot), null, null, null);
                 textView.setCompoundDrawablePadding(16);
                 textView.setGravity(Gravity.CENTER_VERTICAL);
-                textView.setPadding(8,8,8,8);
+                textView.setPadding(8, 8, 8, 8);
                 textView.setTextColor(Color.parseColor("#E6222222"));
                 holder.subjectsHolder.addView(textView);
             }
@@ -312,7 +294,7 @@ public class ViewPagerProgrammesCoursesLoader extends Fragment implements
 
         }
 
-        class CoursesOptionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        class CoursesOptionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
             private TextView optionHeading;
             private Button btnMore;
@@ -335,7 +317,7 @@ public class ViewPagerProgrammesCoursesLoader extends Fragment implements
         }
     }
 
-    private class BachelorCoursesAdapter extends RecyclerView.Adapter<BachelorCoursesAdapter.BachelorCoursesViewHolder> {
+    /*private class BachelorCoursesAdapter extends RecyclerView.Adapter<BachelorCoursesAdapter.BachelorCoursesViewHolder> {
 
         @Override
         public BachelorCoursesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -359,6 +341,6 @@ public class ViewPagerProgrammesCoursesLoader extends Fragment implements
                 super(itemView);
             }
         }
-    }
+    }*/
 
 }

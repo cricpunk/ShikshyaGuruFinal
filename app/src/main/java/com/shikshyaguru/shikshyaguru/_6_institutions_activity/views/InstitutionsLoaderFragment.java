@@ -27,7 +27,6 @@ import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 import com.shikshyaguru.shikshyaguru.R;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerAboutFragment;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerActivitiesFragment;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerContactFragment;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerGalleryFragment;
@@ -87,7 +86,6 @@ public class InstitutionsLoaderFragment extends Fragment implements AppBarLayout
                 .add("Teachers", ViewPagerTeachersFragment.class)
                 .add("Staff's", ViewPagerStaffFragment.class)
                 .add("Activities", ViewPagerActivitiesFragment.class)
-                .add("About", ViewPagerAboutFragment.class)
                 .add("Contact", ViewPagerContactFragment.class)
                 .add("Reviews", ViewPagerReviewsFragment.class)
                 .create()
@@ -109,10 +107,10 @@ public class InstitutionsLoaderFragment extends Fragment implements AppBarLayout
 
         @Override
         public void onPageSelected(int position) {
-            if (position == 2 || position == 3 || position == 5 || position == 6) {
-                viewPagerTab.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.card_black));
-                collapsingToolbar.setContentScrimColor(ContextCompat.getColor(getContext(), R.color.card_black));
-                collapsingToolbar.setStatusBarScrimColor(ContextCompat.getColor(getContext(), R.color.card_black));
+            if (position == 2 || position == 3 || position == 4 || position == 5 || position == 6) {
+                viewPagerTab.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.black_toolbar));
+                collapsingToolbar.setContentScrimColor(ContextCompat.getColor(getContext(), R.color.black_toolbar));
+                collapsingToolbar.setStatusBarScrimColor(ContextCompat.getColor(getContext(), R.color.black_toolbar));
                 //getActivity().getWindow().setBackgroundDrawableResource(R.color.card_black);
             } else {
                 viewPagerTab.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorAppMain));

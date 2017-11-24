@@ -60,7 +60,8 @@
     <color name="colorBackground">#E0E0E0</color>
     <color name="colorCardViewBackground">#FAFAFA</color>
 
-    <color name="card_black">#424242</color>
+    <color name="black_toolbar">#424242</color>
+    <color name="black_main_bg">#616161</color>
 
     <color name="black70">#B3000000</color>
 

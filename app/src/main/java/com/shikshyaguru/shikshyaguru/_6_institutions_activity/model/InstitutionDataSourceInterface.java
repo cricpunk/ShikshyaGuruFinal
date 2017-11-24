@@ -30,4 +30,6 @@ public interface InstitutionDataSourceInterface {
 
     List<InstitutionStudentAlumniData> getListOfStudentAlumniData();
 
+    InstitutionGalleryData getInstitutionGalleryData();
+
 }

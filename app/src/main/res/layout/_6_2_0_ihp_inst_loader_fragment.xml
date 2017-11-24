@@ -20,11 +20,11 @@
             android:layout_width="match_parent"
             android:layout_height="250dp"
             app:collapsedTitleTextAppearance="@android:color/transparent"
-            app:statusBarScrim="@color/colorAppMain"
             app:contentScrim="@color/colorAppMain"
             app:expandedTitleMarginEnd="64dp"
             app:expandedTitleMarginStart="48dp"
-            app:layout_scrollFlags="scroll|enterAlways">
+            app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
+            app:statusBarScrim="@color/colorAppMain">
 
             <com.flaviofaria.kenburnsview.KenBurnsView
                 android:id="@+id/iv_inst_cover_image"

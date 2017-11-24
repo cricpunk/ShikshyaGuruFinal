@@ -1,5 +1,7 @@
 package com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments;
 
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionGalleryData;
+
 /**
  * Project Name => ShikshyaGuru
  * Created by   => Pankaj Koirala
@@ -8,4 +10,9 @@ package com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_f
  */
 
 public interface ViewPagerGalleryInterface {
+
+    void setUpGalleryCategory(InstitutionGalleryData galleryData);
+
+    void onGalleryCategoryClick(String category);
+
 }

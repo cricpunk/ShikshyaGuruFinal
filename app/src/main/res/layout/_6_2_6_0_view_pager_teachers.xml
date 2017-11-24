@@ -3,7 +3,7 @@
     android:id="@+id/rec_teachers"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#616161"
+    android:background="@color/black_main_bg"
     android:clipToPadding="false"
     android:paddingBottom="76dp" />
 

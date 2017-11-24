@@ -53,6 +53,12 @@ public class InstitutionFakeDataSource implements InstitutionDataSourceInterface
     private final int[] MY_IMAGE = {
             R.drawable.me, R.drawable.me, R.drawable.me
     };
+
+    private final int[] IMAGES = {
+            R.drawable.model1, R.drawable.model2, R.drawable.model3,
+            R.drawable.model4, R.drawable.model5, R.drawable.me
+    };
+
     private final String[] RATING = {"4.2", "3.5", "4.8"};
     private final String[] REVIEW_HEADING = {"Very nice", "Worthy joining", "Useless college"};
     private final String[] REVIEW = {String.valueOf(R.string.review), String.valueOf(R.string.review), String.valueOf(R.string.review)};
@@ -243,6 +249,61 @@ public class InstitutionFakeDataSource implements InstitutionDataSourceInterface
     @Override
     public List<InstitutionStudentAlumniData> getListOfStudentAlumniData() {
         return null;
+    }
+
+    @Override
+    public InstitutionGalleryData getInstitutionGalleryData() {
+        InstitutionGalleryData galleryData = new InstitutionGalleryData();
+
+        ArrayList<Integer> category1 = new ArrayList<>();
+        ArrayList<Integer> category2 = new ArrayList<>();
+        ArrayList<Integer> category3 = new ArrayList<>();
+        ArrayList<Integer> category4 = new ArrayList<>();
+        ArrayList<Integer> category5 = new ArrayList<>();
+        ArrayList<Integer> category6 = new ArrayList<>();
+
+        for (int i = 0; i < 32; i++) {
+            randOne = random.nextInt(6);
+            category1.add(IMAGES[randOne]);
+        }
+
+        for (int i = 0; i < 47; i++) {
+            randOne = random.nextInt(6);
+            category2.add(IMAGES[randOne]);
+        }
+
+        for (int i = 0; i < 40; i++) {
+            randOne = random.nextInt(6);
+            category3.add(IMAGES[randOne]);
+        }
+
+        for (int i = 0; i < 22; i++) {
+            randOne = random.nextInt(6);
+            category4.add(IMAGES[randOne]);
+        }
+
+        for (int i = 0; i < 37; i++) {
+            randOne = random.nextInt(6);
+            category5.add(IMAGES[randOne]);
+        }
+
+        for (int i = 0; i < 15; i++) {
+            randOne = random.nextInt(6);
+            category6.add(IMAGES[randOne]);
+        }
+
+        HashMap<String, ArrayList> categoriesWithImages = new HashMap<>();
+
+        categoriesWithImages.put("Student life", category1);
+        categoriesWithImages.put("College", category2);
+        categoriesWithImages.put("Activities", category3);
+        categoriesWithImages.put("Events", category4);
+        categoriesWithImages.put("Entertainment", category5);
+        categoriesWithImages.put("Extra", category6);
+
+        galleryData.setCategoryWithImages(categoriesWithImages);
+
+        return galleryData;
     }
 
 }
