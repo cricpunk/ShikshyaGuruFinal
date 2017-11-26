@@ -3,6 +3,7 @@ package com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_f
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,7 +23,10 @@ import com.shikshyaguru.shikshyaguru._0_6_widgets.StatusBar;
 import com.shikshyaguru.shikshyaguru._0_6_widgets.Toolbars;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionFakeDataSource;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionGalleryData;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter.InstitutionsController;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter.VPGalleryController;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionsHomePageActivity;
+
+import java.util.ArrayList;
 
 /**
  * Project Name => ShikshyaGuru
@@ -38,6 +42,7 @@ public class ViewPagerGalleryLoader extends Fragment implements ViewPagerGallery
     private LayoutInflater inflater;
     private View rootView;
     private InstitutionGalleryData galleryData;
+    private VPGalleryController controller;
     private String category;
 
     @Nullable
@@ -68,7 +73,7 @@ public class ViewPagerGalleryLoader extends Fragment implements ViewPagerGallery
         Toolbar toolbar = view.findViewById(R.id.tb_inst_loader_vp_Gallery_image_loader);
         Toolbars.setUpToolbar(toolbar, activity, category);
 
-        new InstitutionsController(this, new InstitutionFakeDataSource());
+        controller = new VPGalleryController(this, new InstitutionFakeDataSource());
 
     }
 
@@ -83,6 +88,15 @@ public class ViewPagerGalleryLoader extends Fragment implements ViewPagerGallery
         galleryRecyclerView.setAdapter(adapter);
     }
 
+    @Override
+    public void onImageClick(int position, ArrayList<Integer> images) {
+        Intent intent = new Intent(context, InstitutionsHomePageActivity.class);
+        intent.putExtra("REQUEST_CODE", "open_gallery_image");
+        intent.putExtra("POSITION", position);
+        intent.putIntegerArrayListExtra("IMAGES", images);
+        startActivity(intent);
+    }
+
     class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.GalleryViewHolder> {
 
         @Override
@@ -93,10 +107,15 @@ public class ViewPagerGalleryLoader extends Fragment implements ViewPagerGallery
 
         @Override
         public void onBindViewHolder(GalleryViewHolder holder, int position) {
-            int image = (int) galleryData.getCategoryWithImages().get(category).get(position);
+
             GlideApp.with(context)
-                    .load(image)
+                    .asBitmap()
+                    .load(holder.images.get(position))
+                    .thumbnail(0.1f)
+                    .centerCrop()
+                    .placeholder(R.drawable.main_logo)
                     .into(holder.image);
+
         }
 
         @Override
@@ -104,15 +123,24 @@ public class ViewPagerGalleryLoader extends Fragment implements ViewPagerGallery
             return galleryData.getCategoryWithImages().get(category).size();
         }
 
-        class GalleryViewHolder extends RecyclerView.ViewHolder {
+        class GalleryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
+            private ArrayList<Integer> images;
             private ImageView image;
 
             GalleryViewHolder(View itemView) {
                 super(itemView);
+
+                images = galleryData.getCategoryWithImages().get(category);
+
                 image = itemView.findViewById(R.id.iv_rec_image);
+                image.setOnClickListener(this);
             }
 
+            @Override
+            public void onClick(View view) {
+                controller.onImageClick(getAdapterPosition(), images);
+            }
         }
 
     }

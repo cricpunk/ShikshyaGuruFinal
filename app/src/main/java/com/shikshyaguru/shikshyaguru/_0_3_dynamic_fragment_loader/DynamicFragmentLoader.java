@@ -15,9 +15,11 @@ import com.shikshyaguru.shikshyaguru._5_news_activity.views.NewsMainFragment;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionMainFragment;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionsLoaderFragment;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerGalleryLoader;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerGalleryLoaderImageLoader;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerProgrammesCoursesLoader;
 import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.UserLoaderFragment;
 import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.UserMainFragment;
+
 
 public class DynamicFragmentLoader {
 
@@ -39,11 +41,14 @@ public class DynamicFragmentLoader {
                     case "institutions_loader":
                         showFragment(new InstitutionsLoaderFragment(), fragHolderId, fragmentManager);
                         break;
-                    case "courses_loader" :
+                    case "courses_loader":
                         showFragment(openCourseLoader(bundle), fragHolderId, fragmentManager);
                         break;
-                    case "gallery_loader" :
+                    case "gallery_loader":
                         showFragment(openGalleryLoader(bundle), fragHolderId, fragmentManager);
+                        break;
+                    case "open_gallery_image":
+                        showFragment(openFullImage(bundle), fragHolderId, fragmentManager);
                         break;
                     case "user_main":
                         showFragment(new UserMainFragment(), fragHolderId, fragmentManager);
@@ -82,6 +87,15 @@ public class DynamicFragmentLoader {
         ViewPagerGalleryLoader galleryLoader = new ViewPagerGalleryLoader();
         galleryLoader.setArguments(bundle1);
         return galleryLoader;
+    }
+
+    private static ViewPagerGalleryLoaderImageLoader openFullImage(Bundle bundle) {
+        Bundle bundle1 = new Bundle();
+        bundle1.putInt("POSITION", bundle.getInt("POSITION"));
+        bundle1.putIntegerArrayList("IMAGES", bundle.getIntegerArrayList("IMAGES"));
+        ViewPagerGalleryLoaderImageLoader imageLoader = new ViewPagerGalleryLoaderImageLoader();
+        imageLoader.setArguments(bundle1);
+        return imageLoader;
     }
 
 }

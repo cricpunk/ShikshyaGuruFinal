@@ -24,7 +24,7 @@ import com.shikshyaguru.shikshyaguru.R;
 import com.shikshyaguru.shikshyaguru._0_5_glide.GlideApp;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionFakeDataSource;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionGalleryData;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter.InstitutionsController;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter.VPGalleryController;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionsHomePageActivity;
 
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ public class ViewPagerGalleryFragment extends Fragment implements ViewPagerGalle
     private Context context;
     private LayoutInflater inflater;
     private View rootView;
-    private InstitutionsController controller;
+    private VPGalleryController controller;
     private InstitutionGalleryData galleryData;
 
     @Nullable
@@ -50,7 +50,7 @@ public class ViewPagerGalleryFragment extends Fragment implements ViewPagerGalle
         super.onViewCreated(view, savedInstanceState);
         this.rootView = view;
 
-        controller = new InstitutionsController(this, new InstitutionFakeDataSource());
+        controller = new VPGalleryController(this, new InstitutionFakeDataSource());
         setUpAnchorView();
     }
 

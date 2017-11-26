@@ -16,10 +16,7 @@ import android.widget.TextView;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.shikshyaguru.shikshyaguru.R;
-import com.shikshyaguru.shikshyaguru._2_wellcome_activity.WelcomeSliderActivity;
-import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.HomePageActivity;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionsHomePageActivity;
-import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.UserHomePageActivity;
 
 public class SplashActivity extends AppCompatActivity {
 

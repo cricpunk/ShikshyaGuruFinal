@@ -8,6 +8,7 @@ package com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_f
 import android.animation.ObjectAnimator;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -34,7 +35,7 @@ import com.shikshyaguru.shikshyaguru.R;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionFakeDataSource;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionRatingsData;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionReviewsData;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter.InstitutionsController;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter.VPReviewsController;
 
 import java.util.List;
 
@@ -57,56 +58,56 @@ public class ViewPagerReviewsFragment extends Fragment implements ViewPagerRevie
     private LayoutInflater inflater;
     private List<InstitutionReviewsData> reviewData;
     private RecyclerView reviewRecyclerView;
-    private InstitutionsController controller;
+    private VPReviewsController controller;
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         this.inflater = inflater;
         return inflater.inflate(R.layout._6_2_11_0_view_pager_reviews, container, false);
 
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.rootView = view;
 
-        nestedScrollView = (NestedScrollView) getActivity().findViewById(R.id.root_reviews_nested_scroll);
-        reviewRecyclerView = (RecyclerView) view.findViewById(R.id.rec_reviews);
+        nestedScrollView = getActivity().findViewById(R.id.root_reviews_nested_scroll);
+        reviewRecyclerView = view.findViewById(R.id.rec_reviews);
 
-        controller = new InstitutionsController(this, new InstitutionFakeDataSource());
+        controller = new VPReviewsController(this, new InstitutionFakeDataSource());
         initRatingAndReviewSection();
     }
 
     @Override
     public void setUpRatings(InstitutionRatingsData ratingsData) {
 
-        TextView overallRating = (TextView) rootView.findViewById(R.id.lbl_inst_loader_vp_review_overall_rating);
-        TextView totalRating = (TextView) rootView.findViewById(R.id.lbl_inst_loader_vp_review_total_rating);
-        TextView totalReview = (TextView) rootView.findViewById(R.id.lbl_inst_loader_vp_review_total_review);
+        TextView overallRating = rootView.findViewById(R.id.lbl_inst_loader_vp_review_overall_rating);
+        TextView totalRating = rootView.findViewById(R.id.lbl_inst_loader_vp_review_total_rating);
+        TextView totalReview = rootView.findViewById(R.id.lbl_inst_loader_vp_review_total_review);
 
-        TextView fiveStar = (TextView) rootView.findViewById(R.id.lbl_inst_loader_vp_review_total_five_star);
-        TextView fourStar = (TextView) rootView.findViewById(R.id.lbl_inst_loader_vp_review_total_four_star);
-        TextView threeStar = (TextView) rootView.findViewById(R.id.lbl_inst_loader_vp_review_total_three_star);
-        TextView twoStar = (TextView) rootView.findViewById(R.id.lbl_inst_loader_vp_review_total_two_star);
-        TextView oneStar = (TextView) rootView.findViewById(R.id.lbl_inst_loader_vp_review_total_one_star);
+        TextView fiveStar = rootView.findViewById(R.id.lbl_inst_loader_vp_review_total_five_star);
+        TextView fourStar = rootView.findViewById(R.id.lbl_inst_loader_vp_review_total_four_star);
+        TextView threeStar = rootView.findViewById(R.id.lbl_inst_loader_vp_review_total_three_star);
+        TextView twoStar = rootView.findViewById(R.id.lbl_inst_loader_vp_review_total_two_star);
+        TextView oneStar = rootView.findViewById(R.id.lbl_inst_loader_vp_review_total_one_star);
 
-        TextView educationRating = (TextView) rootView.findViewById(R.id.lbl_inst_loader_vp_review_education_rating);
-        TextView infrastructureRating = (TextView) rootView.findViewById(R.id.lbl_inst_loader_vp_review_infrastructure_rating);
-        TextView teachersRating = (TextView) rootView.findViewById(R.id.lbl_inst_loader_vp_review_teachers_rating);
-        TextView managementRating = (TextView) rootView.findViewById(R.id.lbl_inst_loader_vp_reviews_mgmt_rating);
+        TextView educationRating = rootView.findViewById(R.id.lbl_inst_loader_vp_review_education_rating);
+        TextView infrastructureRating = rootView.findViewById(R.id.lbl_inst_loader_vp_review_infrastructure_rating);
+        TextView teachersRating = rootView.findViewById(R.id.lbl_inst_loader_vp_review_teachers_rating);
+        TextView managementRating = rootView.findViewById(R.id.lbl_inst_loader_vp_reviews_mgmt_rating);
 
-        ProgressBar progressBar5 = (ProgressBar) rootView.findViewById(R.id.pb_inst_loader_vp_reviews_5_star);
-        ProgressBar progressBar4 = (ProgressBar) rootView.findViewById(R.id.pb_inst_loader_vp_reviews_4_star);
-        ProgressBar progressBar3 = (ProgressBar) rootView.findViewById(R.id.pb_inst_loader_vp_reviews_3_star);
-        ProgressBar progressBar2 = (ProgressBar) rootView.findViewById(R.id.pb_inst_loader_vp_reviews_2_star);
-        ProgressBar progressBar1 = (ProgressBar) rootView.findViewById(R.id.pb_inst_loader_vp_reviews_1_star);
+        ProgressBar progressBar5 = rootView.findViewById(R.id.pb_inst_loader_vp_reviews_5_star);
+        ProgressBar progressBar4 = rootView.findViewById(R.id.pb_inst_loader_vp_reviews_4_star);
+        ProgressBar progressBar3 = rootView.findViewById(R.id.pb_inst_loader_vp_reviews_3_star);
+        ProgressBar progressBar2 = rootView.findViewById(R.id.pb_inst_loader_vp_reviews_2_star);
+        ProgressBar progressBar1 = rootView.findViewById(R.id.pb_inst_loader_vp_reviews_1_star);
 
-        ProgressBar progressBarEduQuality = (ProgressBar) rootView.findViewById(R.id.cpb_inst_loader_vp_reviews_eq);
-        ProgressBar progressBarInfraStructure = (ProgressBar) rootView.findViewById(R.id.cpb_inst_loader_vp_reviews_is);
-        ProgressBar progressBarTeachers = (ProgressBar) rootView.findViewById(R.id.cpb_inst_loader_vp_reviews_tec);
-        ProgressBar progressBarManagement = (ProgressBar) rootView.findViewById(R.id.cpb_inst_loader_vp_reviews_mgt);
+        ProgressBar progressBarEduQuality = rootView.findViewById(R.id.cpb_inst_loader_vp_reviews_eq);
+        ProgressBar progressBarInfraStructure = rootView.findViewById(R.id.cpb_inst_loader_vp_reviews_is);
+        ProgressBar progressBarTeachers = rootView.findViewById(R.id.cpb_inst_loader_vp_reviews_tec);
+        ProgressBar progressBarManagement = rootView.findViewById(R.id.cpb_inst_loader_vp_reviews_mgt);
 
         overallRating.setText(String.valueOf(ratingsData.getOverallRating()));
         totalRating.setText(String.valueOf(ratingsData.getTotalRating()) + " " + "ratings and");
@@ -173,18 +174,18 @@ public class ViewPagerReviewsFragment extends Fragment implements ViewPagerRevie
     }
 
     private void initRatingAndReviewSection() {
-        swipeLayout = (RelativeLayout) rootView.findViewById(R.id.root_rating_section);
-        viewPager = (ViewPager) getActivity().findViewById(R.id.vp_inst_loader_frag);
+        swipeLayout = rootView.findViewById(R.id.root_rating_section);
+        viewPager = getActivity().findViewById(R.id.vp_inst_loader_frag);
 
-        overallRating = (RelativeLayout) rootView.findViewById(R.id.l_rating_overall);
-        educationRating = (RelativeLayout) rootView.findViewById(R.id.l_rating_education);
-        infrastructureRating = (RelativeLayout) rootView.findViewById(R.id.l_rating_infrastructure);
-        teachersRating = (RelativeLayout) rootView.findViewById(R.id.l_rating_teachers);
-        managementRating = (RelativeLayout) rootView.findViewById(R.id.l_rating_management);
-        reviews = (RelativeLayout) rootView.findViewById(R.id.l_rating_review);
+        overallRating = rootView.findViewById(R.id.l_rating_overall);
+        educationRating = rootView.findViewById(R.id.l_rating_education);
+        infrastructureRating = rootView.findViewById(R.id.l_rating_infrastructure);
+        teachersRating = rootView.findViewById(R.id.l_rating_teachers);
+        managementRating = rootView.findViewById(R.id.l_rating_management);
+        reviews = rootView.findViewById(R.id.l_rating_review);
 
-        submitNextFinished = (TextView) rootView.findViewById(R.id.lbl_inst_loader_vp_review_submit_next_finish);
-        sliderIndicator = (ImageView) rootView.findViewById(R.id.iv_inst_loader_vp_review_submit_next_finish);
+        submitNextFinished = rootView.findViewById(R.id.lbl_inst_loader_vp_review_submit_next_finish);
+        sliderIndicator = rootView.findViewById(R.id.iv_inst_loader_vp_review_submit_next_finish);
 
         ratingReviewsTouchListener();
         overAllRatingSection();
@@ -300,8 +301,8 @@ public class ViewPagerReviewsFragment extends Fragment implements ViewPagerRevie
     }
 
     private void overAllRatingSection(){
-        RatingBar overallRating = (RatingBar) rootView.findViewById(R.id.rb_inst_loader_vp_review_overall_rating);
-        TextView ratingType = (TextView) rootView.findViewById(R.id.lbl_inst_loader_vp_review_overall_rating_type);
+        RatingBar overallRating = rootView.findViewById(R.id.rb_inst_loader_vp_review_overall_rating);
+        TextView ratingType = rootView.findViewById(R.id.lbl_inst_loader_vp_review_overall_rating_type);
         ratingType.setVisibility(View.INVISIBLE);
 
 
@@ -309,35 +310,35 @@ public class ViewPagerReviewsFragment extends Fragment implements ViewPagerRevie
     }
 
     private void educationQualityRatingSection() {
-        RatingBar eduRating = (RatingBar) rootView.findViewById(R.id.rb_inst_loader_vp_review_edu_quality_rating);
-        TextView ratingType = (TextView) rootView.findViewById(R.id.lbl_inst_loader_vp_review_edu_quality_rating_type);
+        RatingBar eduRating = rootView.findViewById(R.id.rb_inst_loader_vp_review_edu_quality_rating);
+        TextView ratingType = rootView.findViewById(R.id.lbl_inst_loader_vp_review_edu_quality_rating_type);
         ratingType.setVisibility(View.INVISIBLE);
         onRatingBarChanged(eduRating, ratingType);
     }
 
     private void infrastructureRatingSection() {
-        RatingBar infraRating = (RatingBar) rootView.findViewById(R.id.rb_inst_loader_vp_review_infrastructure_rating);
-        TextView ratingType = (TextView) rootView.findViewById(R.id.lbl_inst_loader_vp_review_infrastructure_rating_type);
+        RatingBar infraRating = rootView.findViewById(R.id.rb_inst_loader_vp_review_infrastructure_rating);
+        TextView ratingType = rootView.findViewById(R.id.lbl_inst_loader_vp_review_infrastructure_rating_type);
         ratingType.setVisibility(View.INVISIBLE);
         onRatingBarChanged(infraRating, ratingType);
     }
 
     private void teacherRatingSection() {
-        RatingBar teacherRating = (RatingBar) rootView.findViewById(R.id.rb_inst_loader_vp_review_teachers_rating);
-        TextView ratingType = (TextView) rootView.findViewById(R.id.lbl_inst_loader_vp_review_teachers_rating_type);
+        RatingBar teacherRating = rootView.findViewById(R.id.rb_inst_loader_vp_review_teachers_rating);
+        TextView ratingType = rootView.findViewById(R.id.lbl_inst_loader_vp_review_teachers_rating_type);
         ratingType.setVisibility(View.INVISIBLE);
         onRatingBarChanged(teacherRating, ratingType);
     }
 
     private void managementRatingSection() {
-        RatingBar mgmtRating = (RatingBar) rootView.findViewById(R.id.rb_inst_loader_vp_review_management_rating);
-        TextView ratingType = (TextView) rootView.findViewById(R.id.lbl_inst_loader_vp_review_management_rating_type);
+        RatingBar mgmtRating = rootView.findViewById(R.id.rb_inst_loader_vp_review_management_rating);
+        TextView ratingType = rootView.findViewById(R.id.lbl_inst_loader_vp_review_management_rating_type);
         ratingType.setVisibility(View.INVISIBLE);
         onRatingBarChanged(mgmtRating, ratingType);
     }
 
     private void shortReviewSection() {
-        EditText shortReview = (EditText) rootView.findViewById(R.id.et_inst_loader_vp_review_short_review);
+        EditText shortReview = rootView.findViewById(R.id.et_inst_loader_vp_review_short_review);
     }
 
     private void onRatingBarChanged(RatingBar ratingBar, final TextView ratingType) {
@@ -427,15 +428,15 @@ public class ViewPagerReviewsFragment extends Fragment implements ViewPagerRevie
             ReviewsViewHolder(View itemView) {
                 super(itemView);
 
-                rating = (TextView) itemView.findViewById(R.id.lbl_inst_loader_vp_reviews_rec_rating);
-                reviewHeading = (TextView) itemView.findViewById(R.id.lbl_inst_loader_vp_reviews_rec_heading);
-                review = (TextView) itemView.findViewById(R.id.lbl_inst_loader_vp_reviews_rec_review);
-                nameAndDate = (TextView) itemView.findViewById(R.id.lbl_inst_loader_vp_reviews_rec_name_date);
-                ivLike = (ImageView) itemView.findViewById(R.id.iv_inst_loader_vp_reviews_rec_like);
-                likeCount = (TextView) itemView.findViewById(R.id.lbl_inst_loader_vp_reviews_rec_like_count);
-                ivDislike = (ImageView) itemView.findViewById(R.id.iv_inst_loader_vp_reviews_rec_dislike);
-                dislikeCount = (TextView) itemView.findViewById(R.id.lbl_inst_loader_vp_reviews_rec_dislike_count);
-                ivMore = (ImageView) itemView.findViewById(R.id.iv_inst_loader_vp_reviews_rec_more);
+                rating = itemView.findViewById(R.id.lbl_inst_loader_vp_reviews_rec_rating);
+                reviewHeading = itemView.findViewById(R.id.lbl_inst_loader_vp_reviews_rec_heading);
+                review = itemView.findViewById(R.id.lbl_inst_loader_vp_reviews_rec_review);
+                nameAndDate = itemView.findViewById(R.id.lbl_inst_loader_vp_reviews_rec_name_date);
+                ivLike = itemView.findViewById(R.id.iv_inst_loader_vp_reviews_rec_like);
+                likeCount = itemView.findViewById(R.id.lbl_inst_loader_vp_reviews_rec_like_count);
+                ivDislike = itemView.findViewById(R.id.iv_inst_loader_vp_reviews_rec_dislike);
+                dislikeCount = itemView.findViewById(R.id.lbl_inst_loader_vp_reviews_rec_dislike_count);
+                ivMore = itemView.findViewById(R.id.iv_inst_loader_vp_reviews_rec_more);
 
                 ivLike.setOnClickListener(this);
                 ivDislike.setOnClickListener(this);

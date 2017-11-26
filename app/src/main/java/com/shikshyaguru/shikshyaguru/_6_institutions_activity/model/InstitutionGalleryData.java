@@ -12,13 +12,13 @@ import java.util.HashMap;
 
 public class InstitutionGalleryData {
 
-    private HashMap<String, ArrayList> categoryWithImages;
+    private HashMap<String, ArrayList<Integer>> categoryWithImages;
 
-    public HashMap<String, ArrayList> getCategoryWithImages() {
+    public HashMap<String, ArrayList<Integer>> getCategoryWithImages() {
         return categoryWithImages;
     }
 
-    public void setCategoryWithImages(HashMap<String, ArrayList> categoryWithImages) {
+    public void setCategoryWithImages(HashMap<String, ArrayList<Integer>> categoryWithImages) {
         this.categoryWithImages = categoryWithImages;
     }
 }

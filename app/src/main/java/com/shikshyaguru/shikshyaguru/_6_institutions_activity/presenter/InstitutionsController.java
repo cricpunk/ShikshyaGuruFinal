@@ -1,11 +1,15 @@
+/*
 package com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter;
+*/
 /*
  * Created by Pankaj Koirala on 10/10/2017.
  * Kathmandu, Nepal
  * Koiralapankaj007@gmail.com
- */
+ *//*
 
-    /*
+
+    */
+/*
      * CONTENTS OF THE CLASS INSTITUTIONS CONTROLLER
      * ==============================================
      * (01) Constructor for View pager home page interface.
@@ -23,7 +27,8 @@ package com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter;
      * (11) Constructor for View pager contact page interface.
      *
      *
-     */
+     *//*
+
 
 import android.widget.Button;
 
@@ -98,22 +103,6 @@ public class InstitutionsController {
         setUpManagementList();
     }
 
-    // (05) Constructor for View pager gallery page interface.
-    public InstitutionsController(ViewPagerGalleryInterface galleryInterface, InstitutionDataSourceInterface dataSource) {
-        this.galleryInterface = galleryInterface;
-        this.dataSource = dataSource;
-
-        setUpGalleryCategory();
-    }
-
-    // (05-01) Constructor for View pager gallery page interface.
-    public InstitutionsController(ViewPagerGalleryLoaderInterface galleryLoaderInterface, InstitutionDataSourceInterface dataSource) {
-        this.galleryLoaderInterface = galleryLoaderInterface;
-        this.dataSource = dataSource;
-
-        setUpGallery();
-    }
-
     // (06) Constructor for View pager teachers page interface.
     public InstitutionsController(ViewPagerTeachersInterface teachersInterface, InstitutionDataSourceInterface dataSource) {
         this.teachersInterface = teachersInterface;
@@ -157,69 +146,59 @@ public class InstitutionsController {
         setUpReviews();
     }
 
-    private void setUpNewsAndEvents() {
-        homeInterface.setUpNewsAdapterAndView(dataSource.getInstitutionHomeNewsAndEventData());
-    }
+//    private void setUpNewsAndEvents() {
+//        homeInterface.setUpNewsAdapterAndView(dataSource.getInstitutionHomeNewsAndEventData());
+//    }
+//
+//    private void setUpHomeIntro() {
+//        homeInterface.setUpHomeIntroAdapterAndView(dataSource.getInstitutionHomeIntroData());
+//    }
 
-    private void setUpHomeIntro() {
-        homeInterface.setUpHomeIntroAdapterAndView(dataSource.getInstitutionHomeIntroData());
-    }
+//    private void setUpProgrammesLevel() {
+//        programmesInterface.setUpProgrammesLevel(dataSource.getInstitutionProgrammesData());
+//    }
+//
+//    public void onCoursesClickListener(String courseName) {
+//        programmesInterface.onCoursesClickListener(courseName);
+//    }
+//
+//    public void setUpCoursesAdapter() {
+//        coursesLoaderInterface.setUpOptionsAdapter(dataSource.getInstitutionCoursesData());
+//    }
+//
+//    public void onYearBtnClickListener(String year) {
+//        coursesLoaderInterface.onYearBtnClickListener(year);
+//    }
+//
+//    public void onMoreIconClickListener(Button button) {
+//        coursesLoaderInterface.onMoreIconClickListener(button);
+//    }
 
-    private void setUpProgrammesLevel() {
-        programmesInterface.setUpProgrammesLevel(dataSource.getInstitutionProgrammesData());
-    }
+//    private void setUpStudentAlumni() {
+//        studentsInterface.setUpStudentAlumni(dataSource.getListOfStudentAlumniData());
+//    }
 
-    public void onCoursesClickListener(String courseName) {
-        programmesInterface.onCoursesClickListener(courseName);
-    }
+//    private void setUpManagementList() {
+//        managementInterface.setUpManagementAdapter(dataSource.getInstitutionManagementData());
+//    }
 
-    public void setUpCoursesAdapter() {
-        coursesLoaderInterface.setUpOptionsAdapter(dataSource.getInstitutionCoursesData());
-    }
+//    private void setUpTeachersList() {
+//        teachersInterface.setUpTeachersList(dataSource.getTeachersData());
+//    }
 
-    public void onYearBtnClickListener(String year) {
-        coursesLoaderInterface.onYearBtnClickListener(year);
-    }
+//    private void setupStaffList() {
+//        staffInterface.setUpStaffList(dataSource.getStaffData());
+//    }
 
-    public void onMoreIconClickListener(Button button) {
-        coursesLoaderInterface.onMoreIconClickListener(button);
-    }
+//    private void setUpRatings() {
+//        reviewInterface.setUpRatings(dataSource.getInstitutionRatingsData());
+//    }
+//
+//    private void setUpReviews() {
+//        reviewInterface.setUpReviews(dataSource.getInstitutionReviewData());
+//    }
 
-    private void setUpStudentAlumni() {
-        studentsInterface.setUpStudentAlumni(dataSource.getListOfStudentAlumniData());
-    }
-
-    private void setUpManagementList() {
-        managementInterface.setUpManagementAdapter(dataSource.getInstitutionManagementData());
-    }
-
-    private void setUpGalleryCategory() {
-        galleryInterface.setUpGalleryCategory(dataSource.getInstitutionGalleryData());
-    }
-
-    private void setUpGallery() {
-        galleryLoaderInterface.setUpGallery(dataSource.getInstitutionGalleryData());
-    }
-
-    public void onGalleryCategoryClick(String category) {
-        galleryInterface.onGalleryCategoryClick(category);
-    }
-
-    private void setUpTeachersList() {
-        teachersInterface.setUpTeachersList(dataSource.getTeachersData());
-    }
-
-    private void setupStaffList() {
-        staffInterface.setUpStaffList(dataSource.getStaffData());
-    }
-
-    private void setUpRatings() {
-        reviewInterface.setUpRatings(dataSource.getInstitutionRatingsData());
-    }
-
-    private void setUpReviews() {
-        reviewInterface.setUpReviews(dataSource.getInstitutionReviewData());
-    }
 
 }
 
+*/

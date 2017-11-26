@@ -7,6 +7,7 @@ package com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_f
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -16,13 +17,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.shikshyaguru.shikshyaguru.R;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionFakeDataSource;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionProgrammesData;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter.InstitutionsController;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter.VPProgrammesController;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionsHomePageActivity;
 
 public class ViewPagerProgrammesFragment extends Fragment implements ViewPagerProgrammesInterface {
@@ -30,21 +30,21 @@ public class ViewPagerProgrammesFragment extends Fragment implements ViewPagerPr
     private LayoutInflater inflater;
     private View rootView;
     private InstitutionProgrammesData programmesData;
-    private InstitutionsController controller;
+    private VPProgrammesController controller;
 
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         this.inflater = inflater;
         return inflater.inflate(R.layout._6_2_2_0_view_pager_programmes, container, false);
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.rootView = view;
-        controller = new InstitutionsController(this, new InstitutionFakeDataSource());
+        controller = new VPProgrammesController(this, new InstitutionFakeDataSource());
     }
 
     @Override

@@ -5,7 +5,9 @@ package com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_f
  * Koiralapankaj007@gmail.com
  */
 
+import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -29,14 +31,18 @@ public class ViewPagerContactFragment extends Fragment implements
         View.OnFocusChangeListener,
         OnMapReadyCallback {
 
-    @Nullable
+    private Context context;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        this.context = getActivity();
+
         return inflater.inflate(R.layout._6_2_10_0_view_pager_contact, container, false);
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         sendMessageSection(view);
@@ -46,11 +52,11 @@ public class ViewPagerContactFragment extends Fragment implements
 
 
     private void sendMessageSection(View view) {
-        EditText name = (EditText) view.findViewById(R.id.lbl_vp_contact_name);
-        EditText phoneNumber = (EditText) view.findViewById(R.id.lbl_vp_contact_phone);
-        EditText emailId = (EditText) view.findViewById(R.id.lbl_vp_contact_email);
-        EditText message = (EditText) view.findViewById(R.id.lbl_vp_contact_message);
-        FloatingActionButton sendMessageButton = (FloatingActionButton) view.findViewById(R.id.fab_vp_contact_send);
+        EditText name = view.findViewById(R.id.lbl_vp_contact_name);
+        EditText phoneNumber = view.findViewById(R.id.lbl_vp_contact_phone);
+        EditText emailId = view.findViewById(R.id.lbl_vp_contact_email);
+        EditText message = view.findViewById(R.id.lbl_vp_contact_message);
+        FloatingActionButton sendMessageButton = view.findViewById(R.id.fab_vp_contact_send);
 
         name.setOnFocusChangeListener(this);
         phoneNumber.setOnFocusChangeListener(this);
@@ -60,7 +66,7 @@ public class ViewPagerContactFragment extends Fragment implements
     }
 
     private void googleMap(View view) {
-        MapView mapView = (MapView) view.findViewById(R.id.map_vp_contact);
+        MapView mapView = view.findViewById(R.id.map_vp_contact);
         if (mapView != null) {
             mapView.onCreate(null);
             mapView.onResume();
@@ -76,7 +82,7 @@ public class ViewPagerContactFragment extends Fragment implements
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        MapsInitializer.initialize(getContext());
+        MapsInitializer.initialize(context);
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         googleMap.addMarker(new MarkerOptions()
                 .position(new LatLng(27.7084856, 85.3258456))

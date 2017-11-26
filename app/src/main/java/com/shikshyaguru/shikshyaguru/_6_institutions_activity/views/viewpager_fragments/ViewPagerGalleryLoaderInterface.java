@@ -2,6 +2,8 @@ package com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_f
 
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionGalleryData;
 
+import java.util.ArrayList;
+
 /**
  * Project Name => ShikshyaGuru
  * Created by   => Pankaj Koirala
@@ -12,4 +14,6 @@ import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionG
 public interface ViewPagerGalleryLoaderInterface {
 
     void setUpGallery(InstitutionGalleryData galleryData);
+
+    void onImageClick(int position, ArrayList<Integer> images);
 }

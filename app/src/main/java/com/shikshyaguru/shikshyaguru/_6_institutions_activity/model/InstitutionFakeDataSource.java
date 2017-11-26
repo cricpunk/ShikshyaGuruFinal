@@ -292,7 +292,7 @@ public class InstitutionFakeDataSource implements InstitutionDataSourceInterface
             category6.add(IMAGES[randOne]);
         }
 
-        HashMap<String, ArrayList> categoriesWithImages = new HashMap<>();
+        HashMap<String, ArrayList<Integer>> categoriesWithImages = new HashMap<>();
 
         categoriesWithImages.put("Student life", category1);
         categoriesWithImages.put("College", category2);

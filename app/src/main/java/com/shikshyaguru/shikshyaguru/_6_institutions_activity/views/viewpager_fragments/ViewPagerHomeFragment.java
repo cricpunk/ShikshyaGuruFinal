@@ -6,6 +6,7 @@ package com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_f
  */
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,14 +24,14 @@ import com.shikshyaguru.shikshyaguru._0_2_recyclerview_slider_effect.RecyclerVie
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionHomeIntroData;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionHomeNewsAndEventsData;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionFakeDataSource;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter.InstitutionsController;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter.VPHomeController;
 
 import java.util.List;
 
 public class ViewPagerHomeFragment extends Fragment implements ViewPagerHomeInterface {
 
     private LayoutInflater inflater;
-    InstitutionsController controller;
+    VPHomeController controller;
 
     private List<InstitutionHomeNewsAndEventsData> newsAndEventData;
     private List<InstitutionHomeIntroData> introData;
@@ -39,37 +40,37 @@ public class ViewPagerHomeFragment extends Fragment implements ViewPagerHomeInte
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         this.inflater = inflater;
         return inflater.inflate(R.layout._6_2_1_0_view_pager_home, container, false);
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-//        int position = FragmentPagerItem.getPosition(getArguments());
+//        int viewPagerPosition = FragmentPagerItem.getPosition(getArguments());
 //        TextView title = (TextView) view.findViewById(R.id.item_number);
-//        title.setText(String.valueOf(position));
+//        title.setText(String.valueOf(viewPagerPosition));
 
         initNewsSection(view);
         initIntroSection(view);
-        controller = new InstitutionsController(this, new InstitutionFakeDataSource());
+        controller = new VPHomeController(this, new InstitutionFakeDataSource());
     }
 
 
     private void initNewsSection(View view) {
-        TextView newsAndEventText = (TextView) view.findViewById(R.id.lbl_news);
-        TextView allNews = (TextView) view.findViewById(R.id.lbl_all_news);
-        newsAndEventText.setText("News and Events");
-        allNews.setText("See All");
+        TextView newsAndEventText = view.findViewById(R.id.lbl_news);
+        TextView allNews = view.findViewById(R.id.lbl_all_news);
+        newsAndEventText.setText(R.string.news_events);
+        allNews.setText(R.string.see_all);
 
         View recInclude = view.findViewById(R.id.inc_rec_news);
-        recyclerViewNewsAndEvent = (RecyclerView) recInclude.findViewById(R.id.rec_news);
+        recyclerViewNewsAndEvent = recInclude.findViewById(R.id.rec_news);
     }
 
     private void initIntroSection(View view) {
-        this.recyclerViewIntro = (RecyclerView) view.findViewById(R.id.rec_inst_loader_vp_home_intro);
+        this.recyclerViewIntro = view.findViewById(R.id.rec_inst_loader_vp_home_intro);
     }
 
     @Override

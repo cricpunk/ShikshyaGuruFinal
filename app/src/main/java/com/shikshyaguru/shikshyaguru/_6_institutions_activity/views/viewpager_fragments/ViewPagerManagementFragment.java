@@ -7,6 +7,7 @@ package com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_f
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,7 +25,7 @@ import android.widget.Toast;
 import com.shikshyaguru.shikshyaguru.R;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionFakeDataSource;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionManagementData;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter.InstitutionsController;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter.VPManagementController;
 
 import java.util.List;
 
@@ -36,15 +37,15 @@ public class ViewPagerManagementFragment extends Fragment implements ViewPagerMa
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         this.inflater = inflater;
         return inflater.inflate(R.layout._6_2_4_0_view_pager_management, container, false);
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         this.rootView = view;
-        new InstitutionsController(this, new InstitutionFakeDataSource());
+        new VPManagementController(this, new InstitutionFakeDataSource());
         super.onViewCreated(view, savedInstanceState);
     }
 

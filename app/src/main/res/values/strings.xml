@@ -152,5 +152,10 @@ Quam libero nulla netus eu porta curae, ut nulla bibendum facilisis et urna sed,
     <string name="_25">25</string>
     <string name="xi">XI</string>
     <string name="xii">XII</string>
+    <string name="news_events">News and Events</string>
+
+    <string name="gallery_image_counter">%1$d / %2$d</string>
+    <string name="download">Download</string>
+    <string name="share">Share</string>
 
 </resources>

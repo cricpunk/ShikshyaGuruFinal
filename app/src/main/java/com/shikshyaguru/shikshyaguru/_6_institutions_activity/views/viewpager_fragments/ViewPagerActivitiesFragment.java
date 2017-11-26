@@ -6,6 +6,7 @@ package com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_f
  */
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -18,17 +19,17 @@ public class ViewPagerActivitiesFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout._6_2_8_0_view_pager_activities, container, false);
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-//        int position = FragmentPagerItem.getPosition(getArguments());
+//        int viewPagerPosition = FragmentPagerItem.getPosition(getArguments());
 //        TextView title = (TextView) view.findViewById(R.id.item_number);
-//        title.setText(String.valueOf(position));
+//        title.setText(String.valueOf(viewPagerPosition));
 
 
 

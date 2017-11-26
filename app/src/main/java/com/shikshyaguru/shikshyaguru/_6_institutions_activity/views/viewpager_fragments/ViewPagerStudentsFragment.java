@@ -6,6 +6,7 @@ package com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_f
  */
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,7 +21,7 @@ import com.shikshyaguru.shikshyaguru._0_2_recyclerview_slider_effect.RecyclerVie
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.CustomLinearLayoutManager;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionFakeDataSource;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionStudentAlumniData;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter.InstitutionsController;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter.VPStudentsController;
 
 import java.util.List;
 
@@ -32,15 +33,15 @@ public class ViewPagerStudentsFragment extends Fragment implements ViewPagerStud
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         this.inflater = inflater;
         return inflater.inflate(R.layout._6_2_3_0_view_pager_students, container, false);
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         this.rootView = view;
-        new InstitutionsController(this, new InstitutionFakeDataSource());
+        new VPStudentsController(this, new InstitutionFakeDataSource());
         super.onViewCreated(view, savedInstanceState);
 
     }
