@@ -306,4 +306,19 @@ public class InstitutionFakeDataSource implements InstitutionDataSourceInterface
         return galleryData;
     }
 
+    @Override
+    public InstitutionActivitiesData getInstitutionActivitiesData() {
+
+        InstitutionActivitiesData activitiesData = new InstitutionActivitiesData();
+        String[] categories = {"Name first", "Name second", "Name third"};
+        ArrayList<Integer> firstImages = new ArrayList<>();
+        ArrayList<Integer> secondImages = new ArrayList<>();
+        ArrayList<Integer> thirdImages = new ArrayList<>();
+        ArrayList<String> firstDesc = new ArrayList<>();
+        ArrayList<String> secondDesc = new ArrayList<>();
+        ArrayList<String> thirdDesc = new ArrayList<>();
+
+        return activitiesData;
+    }
+
 }

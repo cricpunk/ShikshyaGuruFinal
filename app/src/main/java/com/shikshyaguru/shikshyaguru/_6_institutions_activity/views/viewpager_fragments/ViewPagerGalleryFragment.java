@@ -93,7 +93,7 @@ public class ViewPagerGalleryFragment extends Fragment implements ViewPagerGalle
 
         @Override
         public GalleryCategoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = inflater.inflate(R.layout.rec_gallery_category, parent, false);
+            View view = inflater.inflate(R.layout._6_2_5_1_view_pager_gallery_category, parent, false);
             return new GalleryCategoryViewHolder(view);
         }
 
@@ -119,7 +119,7 @@ public class ViewPagerGalleryFragment extends Fragment implements ViewPagerGalle
             }
 
             String category = (new ArrayList<>(galleryData.getCategoryWithImages().keySet())).get(position);
-            int image = (int) galleryData.getCategoryWithImages().get(category).get(0);
+            int image = galleryData.getCategoryWithImages().get(category).get(0);
 
             GlideApp.with(context)
                     .load(image)

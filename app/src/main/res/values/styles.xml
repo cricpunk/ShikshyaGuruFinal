@@ -134,13 +134,23 @@
         <item name="android:rotation">90</item>
     </style>
 
-    <style name="teachersBusinessCardPopup" parent="Base.ThemeOverlay.AppCompat.Dark">
-        <item name="popupMenuStyle">@style/popUpMenu</item>
+    <style name="darkPopup" parent="Base.ThemeOverlay.AppCompat.Dark">
+        <item name="popupMenuStyle">@style/popUpMenuDark</item>
     </style>
 
-    <style name="popUpMenu" parent="Base.ThemeOverlay.AppCompat.Dark">
+    <style name="defaultPopup" parent="Base.ThemeOverlay.AppCompat.Light">
+        <item name="popupMenuStyle">@style/popUpMenuDefault</item>
+    </style>
+
+    <style name="popUpMenuDark" parent="Base.ThemeOverlay.AppCompat.Dark">
         <item name="android:textColor">#BFFAFAFA</item>
         <item name="android:popupBackground">#424242</item>
+        <item name="android:dropDownHorizontalOffset">-16dp</item>
+    </style>
+
+    <style name="popUpMenuDefault" parent="Base.ThemeOverlay.AppCompat.Light">
+        <item name="android:textColor">#212121</item>
+        <item name="android:popupBackground">#FAFAFA</item>
         <item name="android:dropDownHorizontalOffset">-16dp</item>
     </style>
 

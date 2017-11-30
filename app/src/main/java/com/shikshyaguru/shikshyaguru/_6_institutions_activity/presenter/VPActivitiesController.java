@@ -18,6 +18,12 @@ public class VPActivitiesController {
     public VPActivitiesController(ViewPagerActivitiesInterface activitiesInterface, InstitutionDataSourceInterface dataSource) {
         this.activitiesInterface = activitiesInterface;
         this.dataSource = dataSource;
+
+        setUpActivitiesCategoryAdapter();
+    }
+
+    private void setUpActivitiesCategoryAdapter() {
+        activitiesInterface.setUpActivitiesCategory(dataSource.getInstitutionActivitiesData());
     }
 
 }

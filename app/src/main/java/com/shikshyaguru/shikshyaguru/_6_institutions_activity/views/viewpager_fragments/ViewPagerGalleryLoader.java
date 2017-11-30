@@ -58,7 +58,7 @@ public class ViewPagerGalleryLoader extends Fragment implements ViewPagerGallery
         Window window = activity.getWindow();
 
         StatusBar.changeStatusBarColor(context, window, R.color.black_toolbar);
-        return inflater.inflate(R.layout.fragment_view_pager_gallery_loader, container, false);
+        return inflater.inflate(R.layout._6_2_5_2_view_pager_gallery_loader, container, false);
     }
 
     @Override
@@ -101,7 +101,7 @@ public class ViewPagerGalleryLoader extends Fragment implements ViewPagerGallery
 
         @Override
         public GalleryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = inflater.inflate(R.layout.rec_image, parent, false);
+            View view = inflater.inflate(R.layout._6_2_5_3_rec_gallery_loader_image, parent, false);
             return new GalleryViewHolder(view);
         }
 

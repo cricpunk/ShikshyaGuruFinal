@@ -1,7 +1,6 @@
 package com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -9,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.PopupMenu;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -20,20 +20,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.fenjuly.library.ArrowDownloadButton;
 import com.shikshyaguru.shikshyaguru.R;
-import com.shikshyaguru.shikshyaguru._0_5_glide.GlideApp;
 
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.ExecutionException;
 
 import static com.google.android.gms.internal.zzagr.runOnUiThread;
 
@@ -61,7 +55,7 @@ public class ViewPagerGalleryLoaderImageLoader extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         this.inflater = inflater;
         this.context = getContext();
-        return inflater.inflate(R.layout.display_full_image, container, false);
+        return inflater.inflate(R.layout._6_2_5_4_gallery_loader_image_swipe, container, false);
     }
 
     @Override
@@ -118,7 +112,7 @@ public class ViewPagerGalleryLoaderImageLoader extends Fragment {
         @Override
         public Object instantiateItem(@NonNull ViewGroup container, int position) {
 
-            View view = inflater.inflate(R.layout.full_image, container, false);
+            View view = inflater.inflate(R.layout._6_2_5_5_full_size_image, container, false);
             final SubsamplingScaleImageView imageView = view.findViewById(R.id.ivss_full_image);
 
 
@@ -162,7 +156,10 @@ public class ViewPagerGalleryLoaderImageLoader extends Fragment {
         @Override
         public void onClick(View view) {
 
-            PopupMenu popupMenu = new PopupMenu(context, moreButton, Gravity.TOP);
+            Context wrapper = new ContextThemeWrapper(getActivity(), R.style.defaultPopup);
+            //PopupMenu popupMenu = new PopupMenu(wrapper, more, Gravity.END);
+
+            PopupMenu popupMenu = new PopupMenu(wrapper, moreButton, Gravity.END);
             popupMenu.getMenuInflater().inflate(R.menu.image_popup, popupMenu.getMenu());
 
             popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {

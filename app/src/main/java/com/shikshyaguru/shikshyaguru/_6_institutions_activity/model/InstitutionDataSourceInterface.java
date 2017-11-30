@@ -32,4 +32,6 @@ public interface InstitutionDataSourceInterface {
 
     InstitutionGalleryData getInstitutionGalleryData();
 
+    InstitutionActivitiesData getInstitutionActivitiesData();
+
 }

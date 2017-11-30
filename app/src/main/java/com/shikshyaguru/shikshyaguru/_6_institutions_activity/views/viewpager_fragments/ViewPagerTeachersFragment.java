@@ -105,7 +105,7 @@ public class ViewPagerTeachersFragment extends Fragment implements ViewPagerTeac
 
             @Override
             public void onClick(View v) {
-                Context wrapper = new android.view.ContextThemeWrapper(getActivity(), R.style.teachersBusinessCardPopup);
+                Context wrapper = new android.view.ContextThemeWrapper(getActivity(), R.style.darkPopup);
                 PopupMenu popupMenu = new PopupMenu(wrapper, more, Gravity.END);
                 popupMenu.getMenuInflater().inflate(R.menu.teachers_business_card_popup, popupMenu.getMenu());
 

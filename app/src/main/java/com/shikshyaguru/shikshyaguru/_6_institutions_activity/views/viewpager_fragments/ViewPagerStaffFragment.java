@@ -106,7 +106,7 @@ public class ViewPagerStaffFragment extends Fragment implements ViewPagerStaffIn
 
             @Override
             public void onClick(View v) {
-                Context wrapper = new ContextThemeWrapper(getActivity(), R.style.teachersBusinessCardPopup);
+                Context wrapper = new ContextThemeWrapper(getActivity(), R.style.darkPopup);
                 PopupMenu popupMenu = new PopupMenu(wrapper, more, Gravity.END);
                 popupMenu.getMenuInflater().inflate(R.menu.teachers_business_card_popup, popupMenu.getMenu());
 
