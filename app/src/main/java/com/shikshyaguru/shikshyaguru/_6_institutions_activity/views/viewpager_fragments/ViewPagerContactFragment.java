@@ -16,20 +16,11 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.github.clans.fab.FloatingActionButton;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.shikshyaguru.shikshyaguru.R;
 import com.shikshyaguru.shikshyaguru._0_4_animation_collection.CircularReveal;
 
 public class ViewPagerContactFragment extends Fragment implements
-        View.OnFocusChangeListener,
-        OnMapReadyCallback {
+        View.OnFocusChangeListener {
 
     private Context context;
 
@@ -46,7 +37,6 @@ public class ViewPagerContactFragment extends Fragment implements
         super.onViewCreated(view, savedInstanceState);
 
         sendMessageSection(view);
-        googleMap(view);
 
     }
 
@@ -65,14 +55,7 @@ public class ViewPagerContactFragment extends Fragment implements
         sendMessageButton.setImageResource(R.drawable.ic_send);
     }
 
-    private void googleMap(View view) {
-        MapView mapView = view.findViewById(R.id.map_vp_contact);
-        if (mapView != null) {
-            mapView.onCreate(null);
-            mapView.onResume();
-            mapView.getMapAsync(this);
-        }
-    }
+
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
@@ -80,20 +63,4 @@ public class ViewPagerContactFragment extends Fragment implements
         circularReveal.circularReveal();
     }
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        MapsInitializer.initialize(context);
-        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        googleMap.addMarker(new MarkerOptions()
-                .position(new LatLng(27.7084856, 85.3258456))
-                .title("Islington College")
-                .snippet("This is islington college slogan."));
-        CameraPosition liberty = CameraPosition.builder()
-                .target(new LatLng(27.7084856, 85.3258456))
-                .zoom(16)
-                .bearing(0)
-                .tilt(45)
-                .build();
-        googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(liberty));
-    }
 }

@@ -5,11 +5,13 @@
     android:id="@+id/login_full_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBackground"
     tools:context="com.shikshyaguru.shikshyaguru._3_signUp_activity.model.FragmentViewPager">
 
     <android.support.v7.widget.CardView
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_margin="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -215,6 +217,7 @@
                         android:text="@string/sign_up"
                         android:textColor="#651FFF"
                         android:textSize="12sp"
+                        android:id="@+id/lbl_login_fragment_sign_up"
                         android:layout_marginLeft="8dp"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintBaseline_toBaselineOf="@+id/forgetPasswordText"
@@ -276,12 +279,12 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toLeftOf="@+id/teacherIcon"
+                        app:layout_constraintRight_toLeftOf="@+id/ico_teacher"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0.0" />
 
                     <ImageView
-                        android:id="@+id/teacherIcon"
+                        android:id="@+id/ico_teacher"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_gravity="center_vertical"
@@ -290,17 +293,17 @@
                         android:layout_marginRight="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
-                        app:layout_constraintBottom_toBottomOf="@+id/studentIcon"
+                        app:layout_constraintBottom_toBottomOf="@+id/ico_student"
                         app:layout_constraintHorizontal_bias="0.922"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toLeftOf="@+id/studentIcon"
-                        app:layout_constraintTop_toTopOf="@+id/studentIcon"
+                        app:layout_constraintRight_toLeftOf="@+id/ico_student"
+                        app:layout_constraintTop_toTopOf="@+id/ico_student"
                         app:layout_constraintVertical_bias="1.0"
                         app:srcCompat="@drawable/ic_teacher"
                         tools:ignore="ContentDescription" />
 
                     <ImageView
-                        android:id="@+id/studentIcon"
+                        android:id="@+id/ico_student"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_marginBottom="0dp"
@@ -318,7 +321,7 @@
                         tools:ignore="ContentDescription" />
 
                     <ImageView
-                        android:id="@+id/institutionIcon"
+                        android:id="@+id/ico_institution"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_marginEnd="8dp"
@@ -327,11 +330,11 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:cropToPadding="false"
-                        app:layout_constraintBottom_toBottomOf="@+id/studentIcon"
+                        app:layout_constraintBottom_toBottomOf="@+id/ico_student"
                         app:layout_constraintHorizontal_bias="0.08"
-                        app:layout_constraintLeft_toRightOf="@+id/studentIcon"
+                        app:layout_constraintLeft_toRightOf="@+id/ico_student"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/studentIcon"
+                        app:layout_constraintTop_toTopOf="@+id/ico_student"
                         app:layout_constraintVertical_bias="1.0"
                         app:srcCompat="@drawable/ic_planet_earth"
                         tools:ignore="ContentDescription" />
@@ -343,9 +346,9 @@
                         android:text="@string/teacher"
                         android:textColor="#651FFF"
                         android:textSize="10sp"
-                        app:layout_constraintLeft_toLeftOf="@+id/teacherIcon"
-                        app:layout_constraintRight_toRightOf="@+id/teacherIcon"
-                        app:layout_constraintTop_toBottomOf="@+id/teacherIcon"
+                        app:layout_constraintLeft_toLeftOf="@+id/ico_teacher"
+                        app:layout_constraintRight_toRightOf="@+id/ico_teacher"
+                        app:layout_constraintTop_toBottomOf="@+id/ico_teacher"
                         tools:ignore="SmallSp" />
 
                     <TextView
@@ -356,9 +359,9 @@
                         android:text="@string/student"
                         android:textColor="#651FFF"
                         android:textSize="10sp"
-                        app:layout_constraintLeft_toLeftOf="@+id/studentIcon"
-                        app:layout_constraintRight_toRightOf="@+id/studentIcon"
-                        app:layout_constraintTop_toBottomOf="@+id/studentIcon"
+                        app:layout_constraintLeft_toLeftOf="@+id/ico_student"
+                        app:layout_constraintRight_toRightOf="@+id/ico_student"
+                        app:layout_constraintTop_toBottomOf="@+id/ico_student"
                         tools:ignore="SmallSp" />
 
                     <TextView
@@ -368,9 +371,9 @@
                         android:text="@string/institution"
                         android:textColor="#651FFF"
                         android:textSize="10sp"
-                        app:layout_constraintLeft_toLeftOf="@+id/institutionIcon"
-                        app:layout_constraintRight_toRightOf="@+id/institutionIcon"
-                        app:layout_constraintTop_toBottomOf="@+id/institutionIcon"
+                        app:layout_constraintLeft_toLeftOf="@+id/ico_institution"
+                        app:layout_constraintRight_toRightOf="@+id/ico_institution"
+                        app:layout_constraintTop_toBottomOf="@+id/ico_institution"
                         tools:ignore="SmallSp" />
 
                     <TextView
@@ -419,12 +422,12 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toLeftOf="@+id/facebookIcon"
+                        app:layout_constraintRight_toLeftOf="@+id/ico_facebook"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0.0" />
 
                     <ImageView
-                        android:id="@+id/facebookIcon"
+                        android:id="@+id/ico_facebook"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_gravity="center_vertical"
@@ -433,11 +436,11 @@
                         android:layout_marginRight="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
-                        app:layout_constraintBottom_toBottomOf="@+id/googlePlusIcon"
+                        app:layout_constraintBottom_toBottomOf="@+id/ico_twitter"
                         app:layout_constraintHorizontal_bias="0.92"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toLeftOf="@+id/googlePlusIcon"
-                        app:layout_constraintTop_toTopOf="@+id/googlePlusIcon"
+                        app:layout_constraintRight_toLeftOf="@+id/ico_twitter"
+                        app:layout_constraintTop_toTopOf="@+id/ico_twitter"
                         app:layout_constraintVertical_bias="1.0"
                         app:srcCompat="@drawable/ic_facebook"
                         tools:ignore="ContentDescription" />
@@ -451,17 +454,17 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:cropToPadding="false"
-                        app:layout_constraintBottom_toBottomOf="@+id/googlePlusIcon"
+                        app:layout_constraintBottom_toBottomOf="@+id/ico_twitter"
                         app:layout_constraintHorizontal_bias="0.2"
-                        app:layout_constraintLeft_toRightOf="@+id/googlePlusIcon"
+                        app:layout_constraintLeft_toRightOf="@+id/ico_twitter"
                         app:layout_constraintRight_toLeftOf="@+id/textView"
-                        app:layout_constraintTop_toTopOf="@+id/googlePlusIcon"
+                        app:layout_constraintTop_toTopOf="@+id/ico_twitter"
                         app:layout_constraintVertical_bias="1.0"
                         app:srcCompat="@drawable/ic_google_plus"
                         tools:ignore="ContentDescription" />
 
                     <ImageView
-                        android:id="@+id/googlePlusIcon"
+                        android:id="@+id/ico_twitter"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_marginBottom="8dp"

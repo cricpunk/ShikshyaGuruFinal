@@ -1,5 +1,6 @@
 package com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,8 +29,6 @@ import com.shikshyaguru.shikshyaguru.R;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import static com.google.android.gms.internal.zzagr.runOnUiThread;
 
 /**
  * Project Name => ShikshyaGuru
@@ -156,7 +155,7 @@ public class ViewPagerGalleryLoaderImageLoader extends Fragment {
         @Override
         public void onClick(View view) {
 
-            Context wrapper = new ContextThemeWrapper(getActivity(), R.style.defaultPopup);
+            @SuppressLint("RestrictedApi") Context wrapper = new ContextThemeWrapper(getActivity(), R.style.defaultPopup);
             //PopupMenu popupMenu = new PopupMenu(wrapper, more, Gravity.END);
 
             PopupMenu popupMenu = new PopupMenu(wrapper, moreButton, Gravity.END);
@@ -191,13 +190,13 @@ public class ViewPagerGalleryLoaderImageLoader extends Fragment {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        progress = progress + 1;
-                        download.setProgress(progress);
-                    }
-                });
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        progress = progress + 1;
+//                        download.setProgress(progress);
+//                    }
+//                });
             }
         }, 800, 20);
 

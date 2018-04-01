@@ -1,8 +1,7 @@
-package com.shikshyaguru.shikshyaguru._3_signUp_activity.views.fragments;
+package com.shikshyaguru.shikshyaguru._3_signUp_activity.views;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,36 +20,21 @@ import com.shikshyaguru.shikshyaguru.R;
 
 public class SignUpFragment extends Fragment implements View.OnFocusChangeListener, View.OnClickListener{
 
-    // newInstance constructor for creating fragment with arguments
-    public static SignUpFragment newInstance(int page, String title) {
-        SignUpFragment signUpFragment = new SignUpFragment();
-        Bundle args = new Bundle();
-        args.putInt("someInt", page);
-        args.putString("someTitle", title);
-        signUpFragment.setArguments(args);
-        return signUpFragment;
-    }
-
     // Store instance variables based on arguments passed
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        int page = getArguments().getInt("someInt", 0);
-//        String title = getArguments().getString("someTitle");
     }
 
     // Inflate the view for the fragment based on layout XML
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout._3_0_signup_fragment, container, false);
+        View view = inflater.inflate(R.layout._3_6_sign_up_fragment_new, container, false);
 
-        ConstraintLayout layout = (ConstraintLayout) view.findViewById(R.id.signUp_full_layout);
-        layout.setPadding(0,120,0,120);
-
-        EditText password = (EditText) view.findViewById(R.id.password);
-        EditText userName = (EditText) view.findViewById(R.id.userName);
-        EditText email = (EditText) view.findViewById(R.id.email);
+        EditText password = view.findViewById(R.id.password);
+        EditText userName = view.findViewById(R.id.userName);
+        EditText email = view.findViewById(R.id.email);
 
         password.setOnFocusChangeListener(this);
         userName.setOnFocusChangeListener(this);

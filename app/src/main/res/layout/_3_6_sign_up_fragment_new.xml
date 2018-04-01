@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/login_full_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/iv_org_logo"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+        app:srcCompat="@mipmap/ic_launcher"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/tv_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_org_logo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="@string/sign_up"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp" />
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tv_login"
+        android:layout_marginTop="@dimen/margin_28dp">
+
+        <ImageView
+            android:id="@+id/ico_teacher"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/ico_student"
+            app:layout_constraintHorizontal_bias="0.922"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/ico_student"
+            app:layout_constraintTop_toTopOf="@+id/ico_student"
+            app:layout_constraintVertical_bias="1.0"
+            app:srcCompat="@drawable/ic_teacher"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/ico_student"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_learning_1"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/ico_institution"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:cropToPadding="false"
+            app:layout_constraintBottom_toBottomOf="@+id/ico_student"
+            app:layout_constraintHorizontal_bias="0.087"
+            app:layout_constraintLeft_toRightOf="@+id/ico_student"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/ico_student"
+            app:layout_constraintVertical_bias="1.0"
+            app:srcCompat="@drawable/ic_planet_earth"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="1dp"
+            android:text="@string/teacher"
+            android:textColor="#FAFAFA"
+            android:textSize="10sp"
+            app:layout_constraintLeft_toLeftOf="@+id/ico_teacher"
+            app:layout_constraintRight_toRightOf="@+id/ico_teacher"
+            app:layout_constraintTop_toBottomOf="@+id/ico_teacher"
+            tools:ignore="SmallSp" />
+
+        <TextView
+            android:id="@+id/studentText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="1dp"
+            android:text="@string/student"
+            android:textColor="#FAFAFA"
+            android:textSize="10sp"
+            app:layout_constraintLeft_toLeftOf="@+id/ico_student"
+            app:layout_constraintRight_toRightOf="@+id/ico_student"
+            app:layout_constraintTop_toBottomOf="@+id/ico_student"
+            tools:ignore="SmallSp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="1dp"
+            android:text="@string/institution"
+            android:textColor="#FAFAFA"
+            android:textSize="10sp"
+            app:layout_constraintLeft_toLeftOf="@+id/ico_institution"
+            app:layout_constraintRight_toRightOf="@+id/ico_institution"
+            app:layout_constraintTop_toBottomOf="@+id/ico_institution"
+            tools:ignore="SmallSp" />
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/userNameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="@dimen/margin_standard"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/studentText">
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/userName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_user"
+                android:hint="@string/user_name"
+                android:inputType="textPassword"
+                android:textSize="16sp"
+                app:met_baseColor="#FFFFFF"
+                app:met_textColor="#212121"
+                app:met_underlineColor="#FAFAFA" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/emailLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:layout_marginStart="32dp"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="@+id/userNameLayout"
+            app:layout_constraintRight_toRightOf="@+id/userNameLayout"
+            app:layout_constraintTop_toBottomOf="@+id/userNameLayout">
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_marginTop="0dp"
+                android:drawableEnd="@drawable/ic_mail"
+                android:hint="@string/email"
+                android:inputType="textPassword"
+                android:textSize="16sp"
+                app:met_baseColor="#FFFFFF"
+                app:met_textColor="#212121"
+                app:met_underlineColor="#FAFAFA" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/passwordLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:layout_marginStart="32dp"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="@+id/emailLayout"
+            app:layout_constraintRight_toRightOf="@+id/emailLayout"
+            app:layout_constraintTop_toBottomOf="@+id/emailLayout">
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_password"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:textSize="16sp"
+                app:met_baseColor="#FFFFFF"
+                app:met_textColor="#212121"
+                app:met_underlineColor="#FAFAFA" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/confirmPasswordLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:layout_marginStart="32dp"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="@+id/passwordLayout"
+            app:layout_constraintRight_toRightOf="@+id/passwordLayout"
+            app:layout_constraintTop_toBottomOf="@+id/passwordLayout">
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableEnd="@drawable/ic_password"
+                android:hint="@string/confirm_password"
+                android:inputType="textPassword"
+                android:textSize="16sp"
+                app:met_baseColor="#FFFFFF"
+                app:met_textColor="#212121"
+                app:met_underlineColor="#FAFAFA" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/btn_sign_up"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginStart="32dp"
+            android:background="@drawable/rounded_bg"
+            android:gravity="center_vertical"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            android:text="@string/sign_up"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="@+id/confirmPasswordLayout"
+            app:layout_constraintRight_toRightOf="@+id/confirmPasswordLayout"
+            app:layout_constraintTop_toBottomOf="@+id/confirmPasswordLayout"
+            app:layout_constraintVertical_bias="0.17" />
+
+        <TextView
+            android:id="@+id/lbl_sign_in"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/sign_in"
+            android:textColor="#FAFAFA"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.9"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_sign_up"
+            app:layout_constraintVertical_bias="0.1" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</RelativeLayout>

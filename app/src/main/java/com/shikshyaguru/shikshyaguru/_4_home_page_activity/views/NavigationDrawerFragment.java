@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
@@ -27,7 +28,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.shikshyaguru.shikshyaguru.R;
+import com.shikshyaguru.shikshyaguru._0_5_glide.GlideApp;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.presenter.HomePageController;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.DrawerListItem;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.FakeDataSource;
@@ -35,6 +39,7 @@ import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.UserData;
 import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.UserHomePageActivity;
 
 import java.util.List;
+import java.util.Objects;
 
 public class NavigationDrawerFragment extends Fragment implements DrawerInterface, View.OnClickListener {
 
@@ -48,6 +53,9 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
     private List<DrawerListItem> listOfDrawerHeader;
     private HomePageController controller;
 
+    private FirebaseAuth mAuth;
+    FirebaseUser currentUser;
+
     public NavigationDrawerFragment() {
         //Required empty public constructor
     }
@@ -55,21 +63,25 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mUserLearnedDrawer = Boolean.valueOf(readFromPreferences(getActivity(), USER_LEARNED_DRAWER));
+        mUserLearnedDrawer = Boolean.valueOf(readFromPreferences(Objects.requireNonNull(getActivity()), USER_LEARNED_DRAWER));
         if (savedInstanceState != null) {
             mFromSavedInstanceState = true;
         }
+
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+
     }
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         this.layoutInflater = inflater;
         return inflater.inflate(R.layout._4_6_navigation_drawer_fragment, container, false);
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.rootView = view;
         navigationDrawerSection();
@@ -78,11 +90,24 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
 
     private void navigationDrawerSection() {
         ImageView userProfile = rootView.findViewById(R.id.iv_nav_drawer_user_profile_pic);
+        TextView userName = rootView.findViewById(R.id.lbl_nav_drawer_user_name);
+        TextView userEmail = rootView.findViewById(R.id.lbl_nav_drawer_user_email);
+
+        GlideApp.with(Objects.requireNonNull(getContext()))
+                .asBitmap()
+                .load(currentUser.getPhotoUrl())
+                .thumbnail(0.1f)
+                .centerCrop()
+                .placeholder(R.drawable.ic_user)
+                .into(userProfile);
+
+        userName.setText(currentUser.getDisplayName());
+        userEmail.setText(currentUser.getEmail());
         userProfile.setOnClickListener(this);
     }
 
     public void setUpNavigationDrawer(int fragmentId, DrawerLayout drawerlayout, final Window getWindow) {
-        View mDrawerFragment = getActivity().findViewById(fragmentId);
+        View mDrawerFragment = Objects.requireNonNull(getActivity()).findViewById(fragmentId);
         ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(getActivity(), drawerlayout, R.string.drawer_open, R.string.drawer_close) {
 
             @Override
@@ -165,14 +190,15 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
 
     private class DrawerHeaderAdapter extends RecyclerView.Adapter<DrawerHeaderAdapter.DrawerHeaderViewHolder> {
 
+        @NonNull
         @Override
-        public DrawerHeaderViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public DrawerHeaderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = layoutInflater.inflate(R.layout._4_7_rec_drawer_items, parent, false);
             return new DrawerHeaderViewHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(DrawerHeaderViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull DrawerHeaderViewHolder holder, int position) {
             DrawerListItem currentItem = listOfDrawerHeader.get(position);
             holder.mDrawerHeaderIcon.setImageResource(currentItem.getIcon());
             holder.mDrawerHeader.setText(currentItem.getHeader());

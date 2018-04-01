@@ -38,7 +38,7 @@
                     android:layout_marginStart="@dimen/margin_standard"
                     android:layout_marginTop="@dimen/margin_standard"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/me"
+                    android:src="@drawable/ic_user"
                     app:siBorderColor="#FAFAFA"
                     app:siBorderWidth="1dp"
                     tools:ignore="ContentDescription" />
@@ -51,15 +51,13 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/lbl_nav_drawer_user_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="-5dp"
                         android:layout_marginEnd="@dimen/margin_standard"
                         android:layout_marginLeft="@dimen/margin_standard"
                         android:layout_marginRight="@dimen/margin_standard"
                         android:layout_marginStart="@dimen/margin_standard"
-                        android:drawableEnd="@drawable/ic_arrow_drop_down"
-                        android:drawableRight="@drawable/ic_arrow_drop_down"
                         android:gravity="center_vertical"
                         android:text="@string/pankaj"
                         android:textColor="#D9FFFFFF"
@@ -67,6 +65,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/lbl_nav_drawer_user_email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/margin_standard"

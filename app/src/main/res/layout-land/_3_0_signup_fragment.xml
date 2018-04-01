@@ -109,7 +109,7 @@
                     android:layout_height="match_parent">
 
                     <ImageView
-                        android:id="@+id/teacherIcon"
+                        android:id="@+id/ico_teacher"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_gravity="center_vertical"
@@ -119,16 +119,16 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginRight="8dp"
                         android:layout_marginTop="8dp"
-                        app:layout_constraintBottom_toTopOf="@+id/studentIcon"
-                        app:layout_constraintLeft_toLeftOf="@+id/studentIcon"
-                        app:layout_constraintRight_toRightOf="@+id/studentIcon"
+                        app:layout_constraintBottom_toTopOf="@+id/ico_student"
+                        app:layout_constraintLeft_toLeftOf="@+id/ico_student"
+                        app:layout_constraintRight_toRightOf="@+id/ico_student"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0.547"
                         app:srcCompat="@drawable/ic_teacher"
                         tools:ignore="ContentDescription" />
 
                     <ImageView
-                        android:id="@+id/studentIcon"
+                        android:id="@+id/ico_student"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_marginBottom="8dp"
@@ -144,7 +144,7 @@
                         tools:ignore="ContentDescription" />
 
                     <ImageView
-                        android:id="@+id/institutionIcon"
+                        android:id="@+id/ico_institution"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_marginBottom="8dp"
@@ -154,8 +154,8 @@
                         android:cropToPadding="false"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintHorizontal_bias="1.0"
-                        app:layout_constraintLeft_toLeftOf="@+id/studentIcon"
-                        app:layout_constraintRight_toRightOf="@+id/studentIcon"
+                        app:layout_constraintLeft_toLeftOf="@+id/ico_student"
+                        app:layout_constraintRight_toRightOf="@+id/ico_student"
                         app:layout_constraintTop_toBottomOf="@+id/studentText"
                         app:layout_constraintVertical_bias="0.079"
                         app:srcCompat="@drawable/ic_planet_earth"
@@ -170,9 +170,9 @@
                         android:text="@string/teacher"
                         android:textColor="#651FFF"
                         android:textSize="10sp"
-                        app:layout_constraintLeft_toLeftOf="@+id/teacherIcon"
-                        app:layout_constraintRight_toRightOf="@+id/teacherIcon"
-                        app:layout_constraintTop_toBottomOf="@+id/teacherIcon"
+                        app:layout_constraintLeft_toLeftOf="@+id/ico_teacher"
+                        app:layout_constraintRight_toRightOf="@+id/ico_teacher"
+                        app:layout_constraintTop_toBottomOf="@+id/ico_teacher"
                         tools:ignore="SmallSp" />
 
                     <TextView
@@ -185,9 +185,9 @@
                         android:text="@string/student"
                         android:textColor="#651FFF"
                         android:textSize="10sp"
-                        app:layout_constraintLeft_toLeftOf="@+id/studentIcon"
-                        app:layout_constraintRight_toRightOf="@+id/studentIcon"
-                        app:layout_constraintTop_toBottomOf="@+id/studentIcon"
+                        app:layout_constraintLeft_toLeftOf="@+id/ico_student"
+                        app:layout_constraintRight_toRightOf="@+id/ico_student"
+                        app:layout_constraintTop_toBottomOf="@+id/ico_student"
                         tools:ignore="SmallSp" />
 
                     <TextView
@@ -199,9 +199,9 @@
                         android:text="@string/institution"
                         android:textColor="#651FFF"
                         android:textSize="10sp"
-                        app:layout_constraintLeft_toLeftOf="@+id/institutionIcon"
-                        app:layout_constraintRight_toRightOf="@+id/institutionIcon"
-                        app:layout_constraintTop_toBottomOf="@+id/institutionIcon"
+                        app:layout_constraintLeft_toLeftOf="@+id/ico_institution"
+                        app:layout_constraintRight_toRightOf="@+id/ico_institution"
+                        app:layout_constraintTop_toBottomOf="@+id/ico_institution"
                         tools:ignore="SmallSp" />
 
                     <android.support.design.widget.TextInputLayout
@@ -213,7 +213,7 @@
                         android:layout_marginRight="16dp"
                         android:layout_marginEnd="16dp"
                         android:layout_marginTop="8dp"
-                        app:layout_constraintLeft_toRightOf="@+id/studentIcon"
+                        app:layout_constraintLeft_toRightOf="@+id/ico_student"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "697329831707",
+    "firebase_url": "https://shikshyaguru-182814.firebaseio.com",
+    "project_id": "shikshyaguru-182814",
+    "storage_bucket": "shikshyaguru-182814.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:697329831707:android:7c38eaf3d5830d8b",
+        "android_client_info": {
+          "package_name": "com.shikshyaguru.shikshyaguru"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "697329831707-flec96s089orqs5fuiujsj68fngrnt4v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.shikshyaguru.shikshyaguru",
+            "certificate_hash": "e73deb7e0aeab0d540708c8b91ba38f41226e68b"
+          }
+        },
+        {
+          "client_id": "697329831707-vscd8e34tatukmec8dg171du665r68c7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDSRgsR_sw8AowK6DV-ykKV2GbaSKYi20"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "697329831707-vscd8e34tatukmec8dg171du665r68c7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -3,6 +3,7 @@ package com.shikshyaguru.shikshyaguru._4_home_page_activity.views;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.content.res.ResourcesCompat;
@@ -96,13 +97,13 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.layoutInflater = inflater;
         return inflater.inflate(R.layout._4_1_hp_main_fragment, container, false);
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         searchBarSection(view);
@@ -117,19 +118,19 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
     }
 
     private void searchBarSection(View view) {
-        mSearchView = (FloatingSearchView) view.findViewById(R.id.floating_search_view);
-        AppBarLayout mAppBar = (AppBarLayout) view.findViewById(R.id.appbar);
+        mSearchView = view.findViewById(R.id.floating_search_view);
+        AppBarLayout mAppBar = view.findViewById(R.id.appbar);
         mAppBar.addOnOffsetChangedListener(this);
         setupDrawer();
         setupSearchBar();
     }
 
     private void sliderSection(View view) {
-        recyclerViewSlider = (RecyclerView) view.findViewById(R.id.rec_hp_slider);
+        recyclerViewSlider = view.findViewById(R.id.rec_hp_slider);
     }
 
     private void optionsSection(View view) {
-        recyclerViewOptions = (RecyclerView) view.findViewById(R.id.rec_hp_options);
+        recyclerViewOptions = view.findViewById(R.id.rec_hp_options);
     }
 
     private void newsSection(View view) {

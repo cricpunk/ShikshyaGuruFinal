@@ -10,6 +10,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
+import com.shikshyaguru.shikshyaguru._3_signUp_activity.views.LoginFragment;
+import com.shikshyaguru.shikshyaguru._3_signUp_activity.views.SignUpFragment;
 import com.shikshyaguru.shikshyaguru._5_news_activity.views.NewsLoaderFragment;
 import com.shikshyaguru.shikshyaguru._5_news_activity.views.NewsMainFragment;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionMainFragment;
@@ -24,11 +26,18 @@ import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.UserMainFragme
 public class DynamicFragmentLoader {
 
     public static void loadFragment(Fragment defaultFrag, Bundle bundle, int fragHolderId, FragmentManager fragmentManager) {
+
         if (bundle != null) {
             String requestCode = (String) bundle.get("REQUEST_CODE");
 
             if (requestCode != null) {
                 switch (requestCode) {
+                    case "login":
+                        showFragment(new LoginFragment(), fragHolderId, fragmentManager);
+                        break;
+                    case "sign_up":
+                        showFragment(new SignUpFragment(), fragHolderId, fragmentManager);
+                        break;
                     case "news_main":
                         showFragment(new NewsMainFragment(), fragHolderId, fragmentManager);
                         break;
