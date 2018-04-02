@@ -154,5 +154,11 @@
         <item name="android:dropDownHorizontalOffset">-16dp</item>
     </style>
 
+    <style name="DarkDialog" parent="Theme.AppCompat.Dialog">
+        <item name="colorAccent">@color/white</item>
+        <item name="android:textColorPrimary">#CCCCCC</item>
+        <item name="android:background">@color/colorAppMain</item>
+    </style>
+
 </resources>
 

@@ -26,16 +26,24 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.shikshyaguru.shikshyaguru.R;
 import com.shikshyaguru.shikshyaguru._0_5_glide.GlideApp;
-import com.shikshyaguru.shikshyaguru._4_home_page_activity.presenter.HomePageController;
+import com.shikshyaguru.shikshyaguru._0_7_shared_preferences.PrefManager;
+import com.shikshyaguru.shikshyaguru._3_signUp_activity.views.AuthenticationActivity;
+import com.shikshyaguru.shikshyaguru._3_signUp_activity.views.LoginFragment;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.DrawerListItem;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.FakeDataSource;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.UserData;
+import com.shikshyaguru.shikshyaguru._4_home_page_activity.presenter.HomePageController;
 import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.UserHomePageActivity;
 
 import java.util.List;
@@ -226,7 +234,70 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
 
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Clicked At : " + this.getAdapterPosition(), Toast.LENGTH_SHORT).show();
+
+                switch (this.getAdapterPosition()) {
+
+                    case 5:
+                        logout();
+                        break;
+
+                    default:
+                        break;
+                }
+                //Toast.makeText(getContext(), "Clicked At : " + this.getAdapterPosition(), Toast.LENGTH_SHORT).show();
+            }
+
+            private void logout() {
+
+                // Logout from firebase first then logout from service providers as well
+                mAuth.signOut();
+
+                switch (LoginFragment.USER_PROVIDER) {
+
+                    case "facebook.com":
+                        //Log out from facebook
+                        LoginManager.getInstance().logOut();
+                        updateUi();
+                        break;
+
+                    case "twitter.com":
+                        mAuth.signOut();
+                        updateUi();
+                        break;
+
+                    case "google.com":
+
+                        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                                .requestIdToken(getString(R.string.default_web_client_id))
+                                .requestEmail()
+                                .build();
+                        GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(Objects.requireNonNull(getContext()), gso);
+
+                        mGoogleSignInClient.signOut().addOnCompleteListener(Objects.requireNonNull(getActivity()),
+                                new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        updateUi();
+                                    }
+                                });
+                        break;
+
+                    default:
+                        break;
+
+                }
+
+
+
+
+            }
+
+            private void updateUi() {
+                PrefManager prefManager = new PrefManager(Objects.requireNonNull(getContext()), LoginFragment.PREF_NAME);
+                prefManager.setUserLoggedIn(false);
+                //Start login activity
+                startActivity(new Intent(getContext(), AuthenticationActivity.class));
+                Objects.requireNonNull(getActivity()).finish();
             }
 
         }

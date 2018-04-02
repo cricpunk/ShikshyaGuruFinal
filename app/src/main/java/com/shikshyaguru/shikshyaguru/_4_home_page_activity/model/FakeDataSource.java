@@ -25,13 +25,7 @@ public class FakeDataSource implements DataSourceInterface {
             R.drawable.ic_mail_black,
             R.drawable.ic_mail_black,
             R.drawable.ic_mail_black,
-            R.drawable.ic_mail_black,
-            R.drawable.ic_mail_black,
-            R.drawable.ic_mail_black,
-            R.drawable.ic_mail_black,
-            R.drawable.ic_mail_black,
-            R.drawable.ic_mail_black,
-            R.drawable.ic_mail_black
+            R.drawable.ic_logout
     };
 
     private final String[] DRAWER_MAIN_HEADER = {
@@ -40,13 +34,7 @@ public class FakeDataSource implements DataSourceInterface {
             "Heading 3",
             "Heading 4",
             "Heading 5",
-            "Heading 6",
-            "Heading 1",
-            "Heading 2",
-            "Heading 3",
-            "Heading 4",
-            "Heading 5",
-            "Heading 6"
+            "Logout"
     };
 
     private final int[] HP_SLIDER_IMAGE = {

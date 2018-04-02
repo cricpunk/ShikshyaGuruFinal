@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/login_full_layout"
+    android:id="@+id/login_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -38,7 +38,7 @@
         android:layout_marginTop="50dp">
 
         <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/et_user_name"
+            android:id="@+id/et_login_user_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableEnd="@drawable/ic_user"
@@ -64,7 +64,7 @@
         android:layout_marginTop="8dp">
 
         <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/et_password"
+            android:id="@+id/et_login_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableEnd="@drawable/ic_password"
@@ -185,7 +185,7 @@
                 app:layout_constraintRight_toLeftOf="@+id/ico_student"
                 app:layout_constraintTop_toTopOf="@+id/ico_student"
                 app:layout_constraintVertical_bias="1.0"
-                app:srcCompat="@drawable/ic_teacher"
+                android:background="@drawable/ic_teacher"
                 tools:ignore="ContentDescription" />
 
             <ImageView
@@ -203,7 +203,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.3"
-                app:srcCompat="@drawable/ic_learning_1"
+                android:background="@drawable/ic_learning_1"
                 tools:ignore="ContentDescription" />
 
             <ImageView
@@ -222,7 +222,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/ico_student"
                 app:layout_constraintVertical_bias="1.0"
-                app:srcCompat="@drawable/ic_planet_earth"
+                android:background="@drawable/ic_planet_earth"
                 tools:ignore="ContentDescription" />
 
             <TextView

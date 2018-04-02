@@ -7,6 +7,10 @@
     <string name="facebook_app_id">1920163144685238</string>
     <string name="fb_login_protocol_scheme">fb1920163144685238</string>
 
+    <!--Twitter authentication-->
+    <string name="twitter_consumer_key">S4RKfOsIvkP2aUcSP8XoCfRBB</string>
+    <string name="twitter_consumer_secret">tJVMmUOERhUcYc1Lg6l2pM7yCyGbDSE403StCj3Y8O3bvkW8RN</string>
+
     <!--Splash screen-->
     <string name="splash_logo_desc">Organization logo for splash screen</string>
     <string name="splash_heading">Shikshya Guru</string>

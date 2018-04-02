@@ -211,7 +211,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/studentText">
 
                         <com.rengwuxian.materialedittext.MaterialEditText
-                            android:id="@+id/userName"
+                            android:id="@+id/et_sign_up_user_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="0dp"
@@ -240,7 +240,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/userNameLayout">
 
                         <com.rengwuxian.materialedittext.MaterialEditText
-                            android:id="@+id/email"
+                            android:id="@+id/et_sign_up_email"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="0dp"
@@ -268,7 +268,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/emailLayout">
 
                         <com.rengwuxian.materialedittext.MaterialEditText
-                            android:id="@+id/password"
+                            android:id="@+id/et_sign_up_password"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="0dp"

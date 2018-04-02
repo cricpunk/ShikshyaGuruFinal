@@ -49,7 +49,7 @@ public class WelcomeSliderActivity extends AppCompatActivity {
         prefManager = new PrefManager(this, PREF_NAME);
 
         if (!prefManager.isFirstTimeLaunch()) {
-            launchHomeActivity();
+            launchAuthenticationActivity();
             finish();
         }
 
@@ -88,7 +88,7 @@ public class WelcomeSliderActivity extends AppCompatActivity {
         btnSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                launchHomeActivity();
+                launchAuthenticationActivity();
             }
         });
 
@@ -102,7 +102,7 @@ public class WelcomeSliderActivity extends AppCompatActivity {
                     // move to next screen
                     viewPager.setCurrentItem(current);
                 } else {
-                    launchHomeActivity();
+                    launchAuthenticationActivity();
                 }
             }
         });
@@ -132,15 +132,9 @@ public class WelcomeSliderActivity extends AppCompatActivity {
         return viewPager.getCurrentItem() + i;
     }
 
-    private void launchHomeActivity() {
-        
+    private void launchAuthenticationActivity() {
         prefManager.setFirstTimeLaunch(false);
-
-        Intent intent = new Intent(this, AuthenticationActivity.class);
-        intent.putExtra("REQUEST_CODE", "login");
-
-        startActivity(intent);
-
+        startActivity(new Intent(this, AuthenticationActivity.class));
         finish();
     }
 

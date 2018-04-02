@@ -13,7 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.shikshyaguru.shikshyaguru.R;
 import com.shikshyaguru.shikshyaguru._0_3_dynamic_fragment_loader.DynamicFragmentLoader;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionsLoaderFragment;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.vansuita.gaussianblur.GaussianBlur;
 
 public class AuthenticationActivity extends AppCompatActivity{
@@ -35,10 +35,25 @@ public class AuthenticationActivity extends AppCompatActivity{
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         DynamicFragmentLoader.loadFragment(
-                new InstitutionsLoaderFragment(),
+                new LoginFragment(),
                 bundle,
                 R.id.authentication_page_fragment_holder,
                 getSupportFragmentManager());
+
+    }
+
+    /** This method is implemented just for twitter login purpose
+     *  In this project login functions is handled from fragment which is the reason twitter wont
+     *  work from fragment directly. We need to implement this method in activity class as well.
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == TwitterAuthConfig.DEFAULT_AUTH_REQUEST_CODE) {
+            // Titter onActivityResult for its callback.
+            LoginFragment.mTwitterAuthClient.onActivityResult(requestCode, resultCode, data);
+        }
 
     }
 
