@@ -101,17 +101,20 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
         TextView userName = rootView.findViewById(R.id.lbl_nav_drawer_user_name);
         TextView userEmail = rootView.findViewById(R.id.lbl_nav_drawer_user_email);
 
-        GlideApp.with(Objects.requireNonNull(getContext()))
-                .asBitmap()
-                .load(currentUser.getPhotoUrl())
-                .thumbnail(0.1f)
-                .centerCrop()
-                .placeholder(R.drawable.ic_user)
-                .into(userProfile);
+        if (currentUser != null) {
+            GlideApp.with(Objects.requireNonNull(getContext()))
+                    .asBitmap()
+                    .load(currentUser.getPhotoUrl())
+                    .thumbnail(0.1f)
+                    .centerCrop()
+                    .placeholder(R.drawable.ic_user)
+                    .into(userProfile);
 
-        userName.setText(currentUser.getDisplayName());
-        userEmail.setText(currentUser.getEmail());
+            userName.setText(currentUser.getDisplayName());
+            userEmail.setText(currentUser.getEmail());
+        }
         userProfile.setOnClickListener(this);
+
     }
 
     public void setUpNavigationDrawer(int fragmentId, DrawerLayout drawerlayout, final Window getWindow) {
@@ -237,7 +240,43 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
 
                 switch (this.getAdapterPosition()) {
 
+                    // Profile
+                    case 0:
+                        logout();
+                        break;
+
+                    // Logout
+                    case 1:
+                        logout();
+                        break;
+
+                    // Logout
+                    case 2:
+                        logout();
+                        break;
+
+                    // Logout
+                    case 3:
+                        logout();
+                        break;
+
+                    // Logout
+                    case 4:
+                        logout();
+                        break;
+
+                    // Logout
                     case 5:
+                        logout();
+                        break;
+
+                    // Logout
+                    case 6:
+                        logout();
+                        break;
+
+                    // Logout
+                    case 7:
                         logout();
                         break;
 

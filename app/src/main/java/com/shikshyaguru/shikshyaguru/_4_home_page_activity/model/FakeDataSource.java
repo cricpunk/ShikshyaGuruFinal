@@ -20,20 +20,24 @@ public class FakeDataSource implements DataSourceInterface {
     private Random random = new Random();
 
     private final int[] DRAWER_MAIN_HEADER_ICONS = {
-            R.drawable.ic_mail_black,
-            R.drawable.ic_mail_black,
-            R.drawable.ic_mail_black,
-            R.drawable.ic_mail_black,
-            R.drawable.ic_mail_black,
-            R.drawable.ic_logout
+            R.drawable.ic_profile_d,
+            R.drawable.ic_message_d,
+            R.drawable.ic_favourites_d,
+            R.drawable.ic_followers_d,
+            R.drawable.ic_following_d,
+            R.drawable.ic_question_d,
+            R.drawable.ic_answer_d,
+            R.drawable.ic_logout_d
     };
 
     private final String[] DRAWER_MAIN_HEADER = {
-            "Heading 1",
-            "Heading 2",
-            "Heading 3",
-            "Heading 4",
-            "Heading 5",
+            "Profile",
+            "Messages",
+            "Favourites",
+            "Followers",
+            "Following",
+            "Questions",
+            "Answers",
             "Logout"
     };
 
