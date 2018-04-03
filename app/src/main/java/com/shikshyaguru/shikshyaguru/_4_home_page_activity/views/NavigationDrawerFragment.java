@@ -249,13 +249,11 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
 
             private void logout() {
 
-                // Logout from firebase first then logout from service providers as well
-                mAuth.signOut();
-
                 switch (LoginFragment.USER_PROVIDER) {
 
                     case "facebook.com":
                         //Log out from facebook
+                        mAuth.signOut();
                         LoginManager.getInstance().logOut();
                         updateUi();
                         break;
@@ -277,9 +275,15 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
                                 new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
+                                        mAuth.signOut();
                                         updateUi();
                                     }
                                 });
+                        break;
+
+                    case "custom":
+                        mAuth.signOut();
+                        updateUi();
                         break;
 
                     default:

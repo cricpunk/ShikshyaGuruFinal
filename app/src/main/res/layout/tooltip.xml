@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:background="#BF222222"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/lbl_tooltip_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin_extra_short"
+        android:textColor="#4CAF50"
+        android:text="This is demo tooltip"/>
+
+
+</RelativeLayout>

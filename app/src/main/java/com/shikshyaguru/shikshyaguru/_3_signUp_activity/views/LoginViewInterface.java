@@ -5,7 +5,7 @@ package com.shikshyaguru.shikshyaguru._3_signUp_activity.views;
  * Koiralapankaj007@gmail.com
  */
 
-public interface AuthenticationViewInterface {
+public interface LoginViewInterface {
     
     void loginBtnClick();
 

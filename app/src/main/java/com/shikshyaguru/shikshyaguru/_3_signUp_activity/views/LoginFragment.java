@@ -64,9 +64,11 @@ import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
  * Kathmandu Nepal
  */
 
-public class LoginFragment extends Fragment implements AuthenticationViewInterface, View.OnClickListener{
+public class LoginFragment extends Fragment implements LoginViewInterface, View.OnClickListener{
 
     public static String USER_PROVIDER = null;
+    public static final String CUSTOM_USER_PROVIDER = "custom";
+
     public static final String NO_INTERNET_CONNECTION = "Please check your internet connection !";
     public static final String SELECT_USER_TYPE = "Please select from icons which define you most (Student/Teacher/Institution).";
     public static final String COLOR_GREEN = "#4CAF50";
@@ -243,7 +245,7 @@ public class LoginFragment extends Fragment implements AuthenticationViewInterfa
         }
     }
 
-    // Click handlers, implemented AuthenticationViewInterface
+    // Click handlers, implemented LoginViewInterface
     @Override
     public void loginBtnClick() {
 
@@ -264,6 +266,7 @@ public class LoginFragment extends Fragment implements AuthenticationViewInterfa
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d(TAG, "signInWithEmail:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
+                                USER_PROVIDER = CUSTOM_USER_PROVIDER;
                                 updateUI(user);
                             } else {
                                 // If sign in fails, display a message to the user.
@@ -286,6 +289,7 @@ public class LoginFragment extends Fragment implements AuthenticationViewInterfa
         Intent intent = new Intent(getContext(), AuthenticationActivity.class);
         intent.putExtra("REQUEST_CODE", "sign_up");
         startActivity(intent);
+        Objects.requireNonNull(getActivity()).finish();
     }
 
     @Override
@@ -315,6 +319,7 @@ public class LoginFragment extends Fragment implements AuthenticationViewInterfa
         if (InternetConnection.hasInternetConnection(Objects.requireNonNull(getContext()))) {
 
             if (prefManager.isUserTypeSet()) {
+
                 LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("email", "public_profile"));
                 LoginManager.getInstance().registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
                     @Override

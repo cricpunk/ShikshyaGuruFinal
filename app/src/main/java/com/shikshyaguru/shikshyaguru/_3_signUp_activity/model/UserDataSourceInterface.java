@@ -6,4 +6,7 @@ package com.shikshyaguru.shikshyaguru._3_signUp_activity.model;
  */
 
 public interface UserDataSourceInterface {
+
+    void createNewUser(String uId, NewUserData newUserData);
+
 }

@@ -5,53 +5,85 @@ package com.shikshyaguru.shikshyaguru._3_signUp_activity.presenter;
  * Koiralapankaj007@gmail.com
  */
 
+import com.shikshyaguru.shikshyaguru._3_signUp_activity.model.NewUserData;
 import com.shikshyaguru.shikshyaguru._3_signUp_activity.model.UserDataSourceInterface;
-import com.shikshyaguru.shikshyaguru._3_signUp_activity.views.AuthenticationViewInterface;
+import com.shikshyaguru.shikshyaguru._3_signUp_activity.views.LoginViewInterface;
+import com.shikshyaguru.shikshyaguru._3_signUp_activity.views.SignUpViewInterface;
 
 public class AuthenticationController {
 
-    private AuthenticationViewInterface viewInterface;
+    private LoginViewInterface loginViewInterface;
+    private SignUpViewInterface signUpViewInterface;
     private UserDataSourceInterface dataSource;
 
-    public AuthenticationController(AuthenticationViewInterface viewInterface, UserDataSourceInterface dataSource) {
-        this.viewInterface = viewInterface;
+    public AuthenticationController(LoginViewInterface viewInterface, UserDataSourceInterface dataSource) {
+        this.loginViewInterface = viewInterface;
+        this.dataSource = dataSource;
+    }
+
+    public AuthenticationController(SignUpViewInterface signUpViewInterface, UserDataSourceInterface dataSource) {
+        this.signUpViewInterface = signUpViewInterface;
         this.dataSource = dataSource;
     }
 
     public void onLoginBtnClick() {
-        viewInterface.loginBtnClick();
+        loginViewInterface.loginBtnClick();
     }
 
     public void onSignUpClick() {
-        viewInterface.signUpClick();
+        loginViewInterface.signUpClick();
     }
 
     public void onForgetPasswordClick() {
-        viewInterface.forgetPasswordClick();
+        loginViewInterface.forgetPasswordClick();
     }
 
     public void onStudentIconClick() {
-        viewInterface.studentIconClick();
+        loginViewInterface.studentIconClick();
     }
 
     public void onTeacherIconClick() {
-        viewInterface.teacherIconClick();
+        loginViewInterface.teacherIconClick();
     }
 
     public void onInstitutionIconClick() {
-        viewInterface.institutionIconClick();
+        loginViewInterface.institutionIconClick();
     }
 
     public void onFacebookIconClick() {
-        viewInterface.facebookIconClick();
+        loginViewInterface.facebookIconClick();
     }
 
     public void onTwitterIconClick() {
-        viewInterface.twitterIconClick();
+        loginViewInterface.twitterIconClick();
     }
 
     public void onGoogleIconClick() {
-        viewInterface.googleIconClick();
+        loginViewInterface.googleIconClick();
+    }
+
+    public void onStudentIconClickSU() {
+        signUpViewInterface.studentIconClick();
+    }
+
+    public void onTeacherClickSU() {
+        signUpViewInterface.teacherIconClick();
+    }
+
+    public void onInstitutionClickSU() {
+        signUpViewInterface.institutionIconClick();
+    }
+
+    public void onSignUpBtnClick() {
+        signUpViewInterface.signUpBtnClick();
+    }
+
+    public void onSignInClick() {
+        signUpViewInterface.signInClick();
+    }
+
+    public void createNewUser(String uId, NewUserData newUserData) {
+        dataSource.createNewUser(uId, newUserData);
     }
 
 }
