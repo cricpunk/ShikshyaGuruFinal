@@ -5,11 +5,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -56,6 +56,8 @@ import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 import java.util.Arrays;
 import java.util.Objects;
 
+import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
+
 /**
  * Created by cricpunk on 7/12/17.
  * Pankaj Koirala
@@ -79,10 +81,11 @@ public class LoginFragment extends Fragment implements AuthenticationViewInterfa
     private int userType = 0;
     RelativeLayout currentLayout;
     EditText userName, password;
-    Button loginBtn;
+    CircularProgressButton loginBtn;
     TextView signUpTv, forgetPasswordTv;
     ImageView studentIcon, teacherIcon, institutionIcon;
     ImageView facebookIcon, twitterIcon, googlePlusIcon;
+    CardView userTypeCardView, socialTypeCardView;
 
     private PrefManager prefManager;
     private AuthenticationController controller;
@@ -107,9 +110,18 @@ public class LoginFragment extends Fragment implements AuthenticationViewInterfa
         configureGoogle();
         configureTwitter();
 
+        initComponents(view);
+
         if (prefManager.isUserLoggedIn()) {
             // If user is already logged in then update UI
             updateUI(mAuth.getCurrentUser());
+        }
+
+        if (prefManager.isUserTypeSet()) {
+            userTypeCardView.setVisibility(View.GONE);
+            // Set top margin for social type cardview
+            socialTypeCardView.setLayoutParams(Styles.sSetMargin(socialTypeCardView, 0, 100, 0, 0));
+
         }
 
         return view;
@@ -118,8 +130,6 @@ public class LoginFragment extends Fragment implements AuthenticationViewInterfa
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        initComponents(view);
 
         controller = new AuthenticationController(this, new UsersDataSource());
     }
@@ -139,6 +149,8 @@ public class LoginFragment extends Fragment implements AuthenticationViewInterfa
         facebookIcon = view.findViewById(R.id.ico_facebook);
         twitterIcon = view.findViewById(R.id.ico_twitter);
         googlePlusIcon = view.findViewById(R.id.ico_google_plus);
+        userTypeCardView = view.findViewById(R.id.cv_user_type);
+        socialTypeCardView = view.findViewById(R.id.cv_social_type);
 
         userName.setOnFocusChangeListener(Styles.textViewAnimation);
         password.setOnFocusChangeListener(Styles.textViewAnimation);
@@ -241,6 +253,7 @@ public class LoginFragment extends Fragment implements AuthenticationViewInterfa
 
         if (!(un.trim().equals("")) && !(pass.trim().equals(""))) {
 
+            loginBtn.startAnimation();
             mAuth.signInWithEmailAndPassword(email, pass)
                     .addOnCompleteListener(Objects.requireNonNull(getActivity()), new OnCompleteListener<AuthResult>() {
 
@@ -256,6 +269,7 @@ public class LoginFragment extends Fragment implements AuthenticationViewInterfa
                                 // If sign in fails, display a message to the user.
                                 Log.w(TAG, "signInWithEmail:failure", task.getException());
                                 //updateUI(null);
+                                loginBtn.revertAnimation();
                                 PopupCollections.simpleSnackBar(currentLayout, Objects.requireNonNull(task.getException()).getLocalizedMessage(), COLOR_RED);
                             }
                         }
@@ -300,8 +314,7 @@ public class LoginFragment extends Fragment implements AuthenticationViewInterfa
         // Check internet connectivity
         if (InternetConnection.hasInternetConnection(Objects.requireNonNull(getContext()))) {
 
-            if (userType != 0 ) {
-
+            if (prefManager.isUserTypeSet()) {
                 LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("email", "public_profile"));
                 LoginManager.getInstance().registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
                     @Override
@@ -328,6 +341,34 @@ public class LoginFragment extends Fragment implements AuthenticationViewInterfa
 
                 });
 
+            } else if (userType != 0 ) {
+                // This part will called only once. If user type is not set then this part will be trigger
+                // Insert data from this part into firebase database
+                LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("email", "public_profile"));
+                LoginManager.getInstance().registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        Log.d(TAG, "facebook:onSuccess:" + loginResult);
+                        //Display progress dialogue
+                        PopupCollections.authenticationProgress(getContext()).show();
+                        handleFacebookAccessToken(loginResult.getAccessToken());
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        Log.d(TAG, "facebook:onCancel");
+                        updateUI(null);
+                        PopupCollections.simpleSnackBar(currentLayout, "Cancel login process..", COLOR_GREEN);
+                    }
+
+                    @Override
+                    public void onError(FacebookException error) {
+                        Log.d(TAG, "facebook:onError", error);
+                        updateUI(null);
+                        PopupCollections.simpleSnackBar(currentLayout, error.getMessage(), COLOR_RED);
+                    }
+
+                });
             } else {
                 PopupCollections.simpleSnackBar(currentLayout, SELECT_USER_TYPE, COLOR_GREEN);
             }
@@ -344,8 +385,8 @@ public class LoginFragment extends Fragment implements AuthenticationViewInterfa
         // Check internet connectivity
         if (InternetConnection.hasInternetConnection(Objects.requireNonNull(getContext()))) {
 
-            if (userType != 0 ) {
-
+            // If user type is set there is no need to validate user type icon selection
+            if (prefManager.isUserTypeSet()) {
                 mTwitterAuthClient = new TwitterAuthClient();
                 mTwitterAuthClient.authorize(Objects.requireNonNull(getActivity()), new Callback<TwitterSession>() {
 
@@ -364,11 +405,30 @@ public class LoginFragment extends Fragment implements AuthenticationViewInterfa
                         PopupCollections.simpleSnackBar(currentLayout, exception.getMessage(), COLOR_RED);
                     }
                 });
+            } else if (userType != 0 ) {
+                // This part will called only once. If user type is not set then this part will be trigger
+                // Insert data from this part into firebase database
+                mTwitterAuthClient = new TwitterAuthClient();
+                mTwitterAuthClient.authorize(Objects.requireNonNull(getActivity()), new Callback<TwitterSession>() {
 
+                    @Override
+                    public void success(Result<TwitterSession> result) {
+                        Log.d(TAG, "twitterLogin:success" + result);
+                        // Display authentication progress bar
+                        PopupCollections.authenticationProgress(getContext()).show();
+                        handleTwitterSession(result.data);
+                    }
+
+                    @Override
+                    public void failure(TwitterException exception) {
+                        Log.w(TAG, "twitterLogin:failure", exception);
+                        updateUI(null);
+                        PopupCollections.simpleSnackBar(currentLayout, exception.getMessage(), COLOR_RED);
+                    }
+                });
             } else {
                 PopupCollections.simpleSnackBar(currentLayout, SELECT_USER_TYPE, COLOR_GREEN);
             }
-
         } else {
             PopupCollections.simpleSnackBar(currentLayout, NO_INTERNET_CONNECTION, COLOR_GREEN);
         }
@@ -381,11 +441,15 @@ public class LoginFragment extends Fragment implements AuthenticationViewInterfa
 
         if (InternetConnection.hasInternetConnection(Objects.requireNonNull(getContext()))) {
 
-            if (userType != 0 ) {
-
+            // If user type is set there is no need to validate user type icon selection
+            if (prefManager.isUserTypeSet()) {
                 Intent googleSignInIntent = mGoogleSignInClient.getSignInIntent();
                 startActivityForResult(googleSignInIntent, GOOGLE_SIGN_IN);
-
+            } else if (userType != 0 ) {
+                // This part will called only once. If user type is not set then this part will be trigger
+                // Insert data from this part into firebase database
+                Intent googleSignInIntent = mGoogleSignInClient.getSignInIntent();
+                startActivityForResult(googleSignInIntent, GOOGLE_SIGN_IN);
             } else {
                 PopupCollections.simpleSnackBar(currentLayout, SELECT_USER_TYPE, COLOR_GREEN);
             }
@@ -515,8 +579,13 @@ public class LoginFragment extends Fragment implements AuthenticationViewInterfa
     private void updateUI(FirebaseUser currentUser) {
 
         if (currentUser != null) {
+            // Set login status true
             prefManager.setUserLoggedIn(true);
+            // Set user type selection true
+            prefManager.setUserType(true);
+            // Start homepage activity
             startActivity(new Intent(getContext(), HomePageActivity.class));
+            // Finish current activity
             Objects.requireNonNull(getActivity()).finish();
         } else {
             prefManager.setUserLoggedIn(false);

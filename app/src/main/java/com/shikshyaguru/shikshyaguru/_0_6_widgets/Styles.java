@@ -24,9 +24,9 @@ public class Styles {
                 View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
     }
 
-    public static ViewGroup.LayoutParams sSetMargin(View targetView, int l, int t, int r, int b) {
+    public static ViewGroup.LayoutParams sSetMargin(View targetView, int left, int top, int right, int bottom) {
         ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) targetView.getLayoutParams();
-        layoutParams.setMargins(l, t, r, b);
+        layoutParams.setMargins(left, top, right, bottom);
         return layoutParams;
     }
 

@@ -19,6 +19,7 @@ public class PrefManager {
     private static final int PRIVATE_MODE = 0;
     private static final String IS_FIRST_TIME_LAUNCH = "IsFirstTimeLaunch";
     private static final String IS_USER_LOGGED_IN = "isUserLoggedIn";
+    private static final String IS_USER_TYPE_SET = "isUserTypeSet";
 
     public PrefManager(Context context, String preferenceName) {
         //this._context = context;
@@ -47,6 +48,17 @@ public class PrefManager {
     // logged in or not.
     public boolean isUserLoggedIn() {
         return pref.getBoolean(IS_USER_LOGGED_IN, false);
+    }
+
+    // User type is set for the single time. So set userType true when done for the first time
+    public void setUserType(boolean userTypeSet) {
+        editor.putBoolean(IS_USER_TYPE_SET, userTypeSet);
+        editor.commit();
+    }
+
+    // Check either user type is set or not
+    public boolean isUserTypeSet() {
+        return pref.getBoolean(IS_USER_TYPE_SET, false);
     }
 
 }

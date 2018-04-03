@@ -18,11 +18,19 @@ public class PopupCollections {
 
     public static void simpleSnackBar(View view, String message, String messageColor) {
 
-        Snackbar snackbar = Snackbar
-                .make(view, message, Snackbar.LENGTH_LONG);
+        final Snackbar snackbar = Snackbar
+                .make(view, message, Snackbar.LENGTH_INDEFINITE);
         View snackbarView = snackbar.getView();
         TextView textView = snackbarView.findViewById(android.support.design.R.id.snackbar_text);
         textView.setTextColor(Color.parseColor(messageColor));
+
+        snackbar.setAction("dismiss", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                snackbar.dismiss();
+            }
+        });
+
         snackbar.show();
     }
 
