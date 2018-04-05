@@ -245,32 +245,32 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
                         logout();
                         break;
 
-                    // Logout
+                    // Messages
                     case 1:
                         logout();
                         break;
 
-                    // Logout
+                    // Favourites
                     case 2:
                         logout();
                         break;
 
-                    // Logout
+                    // Followers
                     case 3:
                         logout();
                         break;
 
-                    // Logout
+                    // Following
                     case 4:
                         logout();
                         break;
 
-                    // Logout
+                    // Questions
                     case 5:
                         logout();
                         break;
 
-                    // Logout
+                    // Answers
                     case 6:
                         logout();
                         break;

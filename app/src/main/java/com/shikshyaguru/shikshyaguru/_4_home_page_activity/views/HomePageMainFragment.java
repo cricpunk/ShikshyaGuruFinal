@@ -13,7 +13,6 @@ import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
 import android.text.Html;
-
 import android.text.Spanned;
 import android.util.Log;
 import android.view.Gravity;
@@ -29,22 +28,26 @@ import com.arlib.floatingsearchview.FloatingSearchView;
 import com.arlib.floatingsearchview.suggestions.SearchSuggestionsAdapter;
 import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 import com.arlib.floatingsearchview.util.Util;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.github.rubensousa.gravitysnaphelper.GravitySnapHelper;
+import com.google.firebase.database.FirebaseDatabase;
 import com.shikshyaguru.shikshyaguru.R;
 import com.shikshyaguru.shikshyaguru._0_1_searching_mechanism.model.ColorWrapper;
 import com.shikshyaguru.shikshyaguru._0_1_searching_mechanism.model.DataHelper;
 import com.shikshyaguru.shikshyaguru._0_1_searching_mechanism.model.InstitutionsSuggestion;
 import com.shikshyaguru.shikshyaguru._0_1_searching_mechanism.views.BaseExampleFragment;
 import com.shikshyaguru.shikshyaguru._0_2_recyclerview_slider_effect.RecyclerViewSliderEffect;
-import com.shikshyaguru.shikshyaguru._4_home_page_activity.presenter.HomePageController;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.FakeDataSource;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.HomePageOptionsListItem;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.HomePageSliderListItem;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.InstitutionsListItemParent;
-import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.ListOfInstitutionsHeading;
+import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.ListOfTotalInstitutions;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.NewsListItem;
+import com.shikshyaguru.shikshyaguru._4_home_page_activity.presenter.HomePageController;
 import com.shikshyaguru.shikshyaguru._5_news_activity.views.NewsHomePageActivity;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionsHomePageActivity;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -58,6 +61,8 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
         ViewInterface,
         AppBarLayout.OnOffsetChangedListener,
         View.OnClickListener {
+
+    private FirebaseDatabase mDatabase;
 
 //  ####################### ROOT SECTION #######################
     private final String TAG = "HOME PAGE MAIN FRAGMENT";
@@ -87,7 +92,7 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
     private RecyclerView recyclerViewNews;
 
 //  ####################### INSTITUTIONS COLLECTION SECTION #######################
-    private List<ListOfInstitutionsHeading> listOfInstitutionsHeadings;
+    private List<ListOfTotalInstitutions> listOfTotalInstitutions;
     private RecyclerView recyclerViewInstitutionsCollection;
 
 //  ####################### CONTROLLER #######################
@@ -99,12 +104,8 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.layoutInflater = inflater;
-        return inflater.inflate(R.layout._4_1_hp_main_fragment, container, false);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        View view = inflater.inflate(R.layout._4_1_hp_main_fragment, container, false);
+        mDatabase = FirebaseDatabase.getInstance();
 
         searchBarSection(view);
         sliderSection(view);
@@ -114,6 +115,13 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
 
         // THIS IS DEPENDENCY INJECTION FOR CONTROLLER CLASS
         homePageController = new HomePageController(this, new FakeDataSource());
+
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
     }
 
@@ -145,7 +153,7 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
     }
 
     private void institutionsCollectionSection(View view) {
-        recyclerViewInstitutionsCollection = (RecyclerView) view.findViewById(R.id.rec_institutions_collection);
+        recyclerViewInstitutionsCollection = view.findViewById(R.id.rec_institutions_collection);
     }
 
     @Override
@@ -178,16 +186,16 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
 
 //  ############################# VIEW INTERFACE IMPLEMENTATIONS START #############################
 
-    public void setUpSliderAdapterAndView(List<HomePageSliderListItem> listOfSliderCandidates) {
-        this.listOfSliderCandidates = listOfSliderCandidates;
+    public void setUpSliderAdapterAndView(FirebaseRecyclerOptions<HomePageSliderListItem> sliderOption) {
+        
         RecyclerView.LayoutManager layoutManager = new CustomLinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerViewSlider.setLayoutManager(layoutManager);
-        final CustomSliderAdapter customSliderAdapter = new CustomSliderAdapter();
-        recyclerViewSlider.setAdapter(customSliderAdapter);
+        SponsorSliderAdapter sponsorSliderAdapter = new SponsorSliderAdapter(sliderOption);
+        recyclerViewSlider.setAdapter(sponsorSliderAdapter);
         recyclerViewSlider.setHasFixedSize(true);
         PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
         pagerSnapHelper.attachToRecyclerView(recyclerViewSlider);
-        RecyclerViewSliderEffect.autoScrollRecyclerView(customSliderAdapter, recyclerViewSlider);
+        RecyclerViewSliderEffect.autoScrollRecyclerView(sponsorSliderAdapter, recyclerViewSlider);
 
         recyclerViewSlider.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -206,6 +214,9 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
                 RecyclerViewSliderEffect.layoutChangeListenerOnLayoutChange(recyclerViewSlider);
             }
         });
+
+        sponsorSliderAdapter.startListening();
+
     }
 
     @Override
@@ -217,11 +228,11 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
     }
 
     @Override
-    public void setupNewsHeadlinesAdapterAndView(List<NewsListItem> listOfNewsData) {
-        this.listOfNewsData = listOfNewsData;
+    public void setupNewsHeadlinesAdapterAndView(FirebaseRecyclerOptions<NewsListItem> newsOption) {
+
         recyclerViewNews.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        CustomNewsAdapter customNewsAdapter = new CustomNewsAdapter();
-        recyclerViewNews.setAdapter(customNewsAdapter);
+        NewsAdapter newsAdapter = new NewsAdapter(newsOption);
+        recyclerViewNews.setAdapter(newsAdapter);
         recyclerViewNews.setHasFixedSize(true);
         PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
         pagerSnapHelper.attachToRecyclerView(recyclerViewNews);
@@ -245,6 +256,8 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
                 RecyclerViewSliderEffect.layoutChangeListenerOnLayoutChange(recyclerViewNews);
             }
         });
+
+        newsAdapter.startListening();
     }
 
     @Override
@@ -263,8 +276,8 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
     }
 
     @Override
-    public void setupInstitutionsCollectionAdapterAndView(List<ListOfInstitutionsHeading> listOfInstitutionsHeadings) {
-        this.listOfInstitutionsHeadings = listOfInstitutionsHeadings;
+    public void setupInstitutionsCollectionAdapterAndView(List<ListOfTotalInstitutions> listOfTotalInstitutions) {
+        this.listOfTotalInstitutions = listOfTotalInstitutions;
         recyclerViewInstitutionsCollection.setNestedScrollingEnabled(false);
         recyclerViewInstitutionsCollection.setLayoutManager(new LinearLayoutManager(getContext()));
         CustomInstitutionsCollectionAdapter customInstitutionsCollectionAdapter = new CustomInstitutionsCollectionAdapter();
@@ -279,13 +292,11 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
     }
 
     @Override
-    public void openInstitutionsLoaderFragment1(int institutionsIcon, String institutionsName, String institutionsRating, String institutionsCityName) {
+    public void openInstitutionsLoaderFragment1(String institutionsIcon, String institutionsName, String institutionsRating, String institutionsCityName) {
         Intent intent = new Intent(getContext(), InstitutionsHomePageActivity.class);
         intent.putExtra("REQUEST_CODE", "institutions_loader");
         startActivity(intent);
     }
-
-
 
 //  ############################# VIEW INTERFACE IMPLEMENTATIONS END #############################
 
@@ -473,28 +484,39 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
         return result;
     }
 
-    private class CustomSliderAdapter extends RecyclerView.Adapter<CustomSliderAdapter.SliderViewHolder> {
+    private class SponsorSliderAdapter extends FirebaseRecyclerAdapter<HomePageSliderListItem, SponsorSliderAdapter.SponsorViewHolder> {
 
-        @Override
-        public SliderViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = layoutInflater.inflate(R.layout._4_8_hp_slider, parent, false);
-            return new SliderViewHolder(view);
+        /*
+         * Initialize a {@link RecyclerView.Adapter} that listens to a Firebase query. See
+         * {@link FirebaseRecyclerOptions} for configuration options.
+         *
+         * @param options
+         */
+
+        SponsorSliderAdapter(@NonNull FirebaseRecyclerOptions<HomePageSliderListItem> options) {
+            super(options);
         }
 
         @Override
-        public void onBindViewHolder(SliderViewHolder holder, int position) {
-            HomePageSliderListItem currentItem = listOfSliderCandidates.get(position);
-            holder.candidateImage.setImageResource(currentItem.getImage());
-            holder.candidateName.setText(currentItem.getInstitutionName());
-            holder.candidateCity.setText(currentItem.getCityName());
+        protected void onBindViewHolder(@NonNull SponsorViewHolder holder, int position, @NonNull HomePageSliderListItem model) {
+            holder.candidateName.setText(model.getName());
+            holder.candidateSlogan.setText(model.getSlogan());
+            holder.candidateCity.setText(model.getCity());
+            Picasso.get()
+                    .load(model.getMain_image())
+                    .placeholder(R.drawable.logo_for_news)
+                    .into(holder.candidateImage);
+
         }
 
+        @NonNull
         @Override
-        public int getItemCount() {
-            return listOfSliderCandidates.size();
+        public SponsorViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View  v = LayoutInflater.from(getContext()).inflate(R.layout._4_8_hp_slider, parent, false);
+            return new SponsorViewHolder(v);
         }
 
-        class SliderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        class SponsorViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
             private CardView sliderCardView;
             private ImageView candidateImage;
@@ -502,14 +524,13 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
             private TextView candidateCity;
             private TextView candidateSlogan;
 
-            SliderViewHolder(View view) {
-                super(view);
-
-                sliderCardView = (CardView) view.findViewById(R.id.cv_candidates_slider);
-                candidateImage = (ImageView) view.findViewById(R.id.iv_candidate_slider_image);
-                candidateName = (TextView) view.findViewById(R.id.lbl_candidate_name);
-                candidateCity = (TextView) view.findViewById(R.id.lbl_candidate_city);
-                candidateSlogan = (TextView) view.findViewById(R.id.lbl_candidate_slogan);
+            SponsorViewHolder(View itemView) {
+                super(itemView);
+                sliderCardView = itemView.findViewById(R.id.cv_candidates_slider);
+                candidateImage = itemView.findViewById(R.id.iv_candidate_slider_image);
+                candidateName = itemView.findViewById(R.id.lbl_candidate_name);
+                candidateCity = itemView.findViewById(R.id.lbl_candidate_city);
+                candidateSlogan = itemView.findViewById(R.id.lbl_candidate_slogan);
 
                 sliderCardView.setOnClickListener(this);
             }
@@ -518,21 +539,20 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
             public void onClick(View v) {
                 Toast.makeText(getContext(), "Card View Clicked at : " + getAdapterPosition(), Toast.LENGTH_SHORT).show();
             }
-
-
         }
     }
 
     private class CustomOptionsAdapter extends RecyclerView.Adapter<CustomOptionsAdapter.OptionsViewHolder> {
 
+        @NonNull
         @Override
-        public OptionsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public OptionsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = layoutInflater.inflate(R.layout._4_9_rec_hp_options, parent, false);
             return new OptionsViewHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(OptionsViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull OptionsViewHolder holder, int position) {
             HomePageOptionsListItem currentItem = listOfOptions.get(position);
             holder.optionName.setText(currentItem.getOptionName());
         }
@@ -555,33 +575,52 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
 
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Clicked : " + getAdapterPosition(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Clicked", Toast.LENGTH_SHORT).show();
+
+
+//                for (Map.Entry<String, String> entry : categories.entrySet()) {
+//
+//                    System.out.println(entry.getKey() + " : " + entry.getValue());
+//                }
+
             }
         }
     }
 
-    class CustomNewsAdapter extends RecyclerView.Adapter<CustomNewsAdapter.CustomNewsViewHolder> {
+    class NewsAdapter extends FirebaseRecyclerAdapter<NewsListItem, NewsAdapter.NewsViewHolder> {
+
+        /*
+         * Initialize a {@link RecyclerView.Adapter} that listens to a Firebase query. See
+         * {@link FirebaseRecyclerOptions} for configuration options.
+         *
+         * @param options
+         */
+        NewsAdapter(@NonNull FirebaseRecyclerOptions<NewsListItem> options) {
+            super(options);
+        }
 
         @Override
-        public CustomNewsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        protected void onBindViewHolder(@NonNull NewsViewHolder holder, int position, @NonNull NewsListItem model) {
+            holder.newsHeadlines.setText(model.getHeading());
+            holder.newsWriter.setText(model.getWriter());
+            holder.newsFrom.setText(model.getPlace());
+            holder.newsPostTime.setText("3m |");
+            Picasso.get()
+                    .load(model.getImage())
+                    .placeholder(R.drawable.logo_for_news)
+                    .into(holder.newsHeadlinesIcon);
+
+        }
+
+        @NonNull
+        @Override
+        public NewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = layoutInflater.inflate(R.layout._4_5_rec_news_items, parent, false);
-            return new CustomNewsViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(CustomNewsViewHolder holder, int position) {
-            NewsListItem currentItem = listOfNewsData.get(position);
-            holder.newsHeadlines.setText(currentItem.getNews());
-        }
-
-        @Override
-        public int getItemCount() {
-            // Helps the adapter decide how many items it will need to manage
-            return listOfNewsData.size();
+            return new NewsViewHolder(view);
         }
 
         // This class is bridge between NewsListItem(Data) class and news_recycler_view(View) layout
-        class CustomNewsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        class NewsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
             private ViewGroup container;
             private ImageView newsHeadlinesIcon;
@@ -591,16 +630,16 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
             private TextView newsWriter;
             private ImageView moreIcon;
 
-            CustomNewsViewHolder(View itemView) {
+            NewsViewHolder(View itemView) {
                 super(itemView);
 
-                container = (ViewGroup) itemView.findViewById(R.id.root_news_headlines);
-                newsHeadlinesIcon = (ImageView) itemView.findViewById(R.id.iv_news_headline_icon);
-                newsHeadlines = (TextView) itemView.findViewById(R.id.lbl_news_headlines);
-                newsPostTime = (TextView) itemView.findViewById(R.id.lbl_news_post_time);
-                newsFrom = (TextView) itemView.findViewById(R.id.lbl_news_from);
-                newsWriter = (TextView) itemView.findViewById(R.id.lbl_news_writer);
-                moreIcon = (ImageView) itemView.findViewById(R.id.iv_news_headline_more);
+                container = itemView.findViewById(R.id.root_news_headlines);
+                newsHeadlinesIcon = itemView.findViewById(R.id.iv_news_headline_icon);
+                newsHeadlines = itemView.findViewById(R.id.lbl_news_headlines);
+                newsPostTime = itemView.findViewById(R.id.lbl_news_post_time);
+                newsFrom = itemView.findViewById(R.id.lbl_news_from);
+                newsWriter = itemView.findViewById(R.id.lbl_news_writer);
+                moreIcon = itemView.findViewById(R.id.iv_news_headline_more);
 
                 container.setOnClickListener(this);
                 moreIcon.setOnClickListener(this);
@@ -620,7 +659,9 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
                 }
             }
         }
+
     }
+
 
     /*
      * This adapter class will display card view for each institution category.
@@ -637,7 +678,7 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
 
         @Override
         public void onBindViewHolder(CustomInstitutionsCollectionViewHolder holder, int position) {
-            ListOfInstitutionsHeading currentItem = listOfInstitutionsHeadings.get(position);
+            ListOfTotalInstitutions currentItem = listOfTotalInstitutions.get(position);
 
             holder.institutionHeading.setText(currentItem.getInstitutionHeading());
             holder.institutionSeeAll.setText(R.string.see_all);
@@ -645,7 +686,9 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
             holder.institutionsRecyclerViewInside.setNestedScrollingEnabled(false);
             holder.institutionsRecyclerViewInside.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
             CustomInstitutionAdapter customInstitutionAdapter = new CustomInstitutionAdapter();
+
             customInstitutionAdapter.setDataInside(currentItem.getRelatedInstitutionData());
+
             holder.institutionsRecyclerViewInside.setAdapter(customInstitutionAdapter);
             SnapHelper snapHelper = new GravitySnapHelper(Gravity.START);
             snapHelper.attachToRecyclerView(holder.institutionsRecyclerViewInside);
@@ -654,7 +697,7 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
 
         @Override
         public int getItemCount() {
-            return listOfInstitutionsHeadings.size();
+            return listOfTotalInstitutions.size();
         }
 
         class CustomInstitutionsCollectionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -704,10 +747,10 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
         @Override
         public void onBindViewHolder(CustomInstitutionViewHolder holder, int position) {
             InstitutionsListItemParent currentItem = (InstitutionsListItemParent) dataInside.get(position);
-            holder.institutionIcon.setImageResource(currentItem.getInstitutionsIcon());
-            holder.institutionName.setText(currentItem.getInstitutionsName());
-            holder.institutionRating.setText(currentItem.getInstitutionsRating());
-            holder.institutionCityName.setText(currentItem.getInstitutionCityName());
+            //holder.institutionIcon.setImageResource(currentItem.getIcon_image());
+            holder.institutionName.setText(currentItem.getName());
+            holder.institutionRating.setText(currentItem.getRating());
+            holder.institutionCityName.setText(currentItem.getCity());
         }
 
         @Override
@@ -756,6 +799,144 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
 
             }
         }
+    }
+
+
+
+    private class InstitutionCollnAdapter extends FirebaseRecyclerAdapter<ListOfTotalInstitutions, InstitutionCollnAdapter.InstitutionCollnViewHolder> {
+
+        /*
+         * Initialize a {@link RecyclerView.Adapter} that listens to a Firebase query. See
+         * {@link FirebaseRecyclerOptions} for configuration options.
+         *
+         * @param options
+         */
+
+        public InstitutionCollnAdapter(@NonNull FirebaseRecyclerOptions<ListOfTotalInstitutions> options) {
+            super(options);
+        }
+
+
+        @Override
+        protected void onBindViewHolder(@NonNull InstitutionCollnViewHolder holder, int position, @NonNull ListOfTotalInstitutions model) {
+
+            ListOfTotalInstitutions currentItem = listOfTotalInstitutions.get(position);
+
+            holder.institutionHeading.setText(currentItem.getInstitutionHeading());
+            holder.institutionSeeAll.setText(R.string.see_all);
+
+            holder.institutionsRecyclerViewInside.setNestedScrollingEnabled(false);
+            holder.institutionsRecyclerViewInside.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+            CustomInstitutionAdapter customInstitutionAdapter = new CustomInstitutionAdapter();
+
+            customInstitutionAdapter.setDataInside(currentItem.getRelatedInstitutionData());
+
+            holder.institutionsRecyclerViewInside.setAdapter(customInstitutionAdapter);
+            SnapHelper snapHelper = new GravitySnapHelper(Gravity.START);
+            snapHelper.attachToRecyclerView(holder.institutionsRecyclerViewInside);
+
+        }
+
+        @NonNull
+        @Override
+        public InstitutionCollnViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = layoutInflater.inflate(R.layout._4_2_institutions_section, parent, false);
+            return new InstitutionCollnViewHolder(view);
+        }
+
+        class InstitutionCollnViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+
+            private TextView institutionHeading;
+            private TextView institutionSeeAll;
+            private RecyclerView institutionsRecyclerViewInside;
+
+            InstitutionCollnViewHolder(View itemView) {
+                super(itemView);
+
+                institutionHeading = itemView.findViewById(R.id.lbl_institutions);
+                institutionSeeAll = itemView.findViewById(R.id.lbl_see_all);
+                institutionsRecyclerViewInside = itemView.findViewById(R.id.rec_institutions);
+                institutionSeeAll.setOnClickListener(this);
+
+            }
+
+            @Override
+            public void onClick(View v) {
+                homePageController.onAllInstitutionsClick();
+            }
+        }
+
+    }
+
+    private class InstitutionAdapter extends FirebaseRecyclerAdapter<InstitutionsListItemParent, InstitutionAdapter.InstitutionViewHolder> {
+
+        /*
+         * Initialize a {@link RecyclerView.Adapter} that listens to a Firebase query. See
+         * {@link FirebaseRecyclerOptions} for configuration options.
+         *
+         * @param options
+         */
+
+        public InstitutionAdapter(@NonNull FirebaseRecyclerOptions<InstitutionsListItemParent> options) {
+            super(options);
+        }
+
+        @Override
+        protected void onBindViewHolder(@NonNull InstitutionViewHolder holder, int position, @NonNull InstitutionsListItemParent model) {
+            //holder.institutionIcon.setImageResource(model.getIcon_image());
+            holder.institutionName.setText(model.getName());
+            holder.institutionRating.setText(model.getRating());
+            holder.institutionCityName.setText(model.getCity());
+        }
+
+        @NonNull
+        @Override
+        public InstitutionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = layoutInflater.inflate(R.layout._4_3_rec_institutions_items, parent, false);
+            return new InstitutionViewHolder(view);
+        }
+
+        class InstitutionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+
+            private ViewGroup container;
+            private ImageView institutionIcon;
+            private TextView institutionName;
+            private ImageView institutionMore;
+            private TextView institutionRating;
+            private TextView institutionCityName;
+
+            public InstitutionViewHolder(View itemView) {
+                super(itemView);
+
+                container = (ViewGroup) itemView.findViewById(R.id.root_institutions);
+                institutionIcon = (ImageView) itemView.findViewById(R.id.iv_institutions_icon);
+                institutionName = (TextView) itemView.findViewById(R.id.lbl_institutions_name);
+                institutionMore = (ImageView) itemView.findViewById(R.id.iv_institutions_more);
+                institutionRating = (TextView) itemView.findViewById(R.id.lbl_institutions_rating);
+                institutionCityName = (TextView) itemView.findViewById(R.id.lbl_institutions_city_name);
+
+                container.setOnClickListener(this);
+                institutionMore.setOnClickListener(this);
+
+            }
+
+            @Override
+            public void onClick(View v) {
+
+                switch (v.getId()) {
+                    case R.id.root_institutions:
+                        //InstitutionsListItemParent institutionListItem = (InstitutionsListItemParent) dataInside.get(this.getAdapterPosition());
+                        //homePageController.onInstitutionsItemClick(institutionListItem);
+                        break;
+                    case R.id.iv_institutions_more:
+                        Toast.makeText(getContext(), "Clicked", Toast.LENGTH_SHORT).show();
+                        break;
+                    default:break;
+                }
+
+            }
+        }
+
     }
 
 }

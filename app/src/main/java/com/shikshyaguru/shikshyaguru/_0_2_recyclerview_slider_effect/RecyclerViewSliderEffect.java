@@ -85,10 +85,12 @@ public class RecyclerViewSliderEffect {
 
                     recyclerView.smoothScrollToPosition(count);
                     handler.postDelayed(this,speedScroll);
+
                 }
             }
         };
         handler.postDelayed(runnable,speedScroll);
+
     }
 
 

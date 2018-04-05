@@ -9,7 +9,7 @@
 
     <View
         android:id="@+id/v_news_header_bg"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="45dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -62,8 +62,8 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rec_news"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
         android:clipToPadding="false"
         android:paddingLeft="30dp"
         android:paddingRight="30dp"

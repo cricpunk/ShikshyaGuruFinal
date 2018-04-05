@@ -7,50 +7,51 @@ package com.shikshyaguru.shikshyaguru._4_home_page_activity.model;
  */
 
 public class InstitutionsListItemParent {
-    private int institutionsIcon;
-    private String institutionsName;
-    private String institutionsRating;
-    private String institutionCityName;
 
-    InstitutionsListItemParent(int institutionsIcon, String institutionsName, String institutionsRating, String institutionCityName) {
-        this.institutionsIcon = institutionsIcon;
-        this.institutionsName = institutionsName;
-        this.institutionsRating = institutionsRating;
-        this.institutionCityName = institutionCityName;
+    private String icon_image;
+    private String name;
+    private String rating;
+    private String city;
+
+    InstitutionsListItemParent(String icon_image, String name, String rating, String city) {
+        this.icon_image = icon_image;
+        this.name = name;
+        this.rating = rating;
+        this.city = city;
     }
 
     public InstitutionsListItemParent() {
     }
 
-    public int getInstitutionsIcon() {
-        return institutionsIcon;
+    public String getIcon_image() {
+        return icon_image;
     }
 
-    public void setInstitutionsIcon(int institutionsIcon) {
-        this.institutionsIcon = institutionsIcon;
+    public void setIcon_image(String icon_image) {
+        this.icon_image = icon_image;
     }
 
-    public String getInstitutionsName() {
-        return institutionsName;
+    public String getName() {
+        return name;
     }
 
-    public void setInstitutionsName(String institutionsName) {
-        this.institutionsName = institutionsName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getInstitutionsRating() {
-        return institutionsRating;
+    public String getRating() {
+        return rating;
     }
 
-    public void setInstitutionsRating(String institutionsRating) {
-        this.institutionsRating = institutionsRating;
+    public void setRating(String rating) {
+        this.rating = rating;
     }
 
-    public String getInstitutionCityName() {
-        return institutionCityName;
+    public String getCity() {
+        return city;
     }
 
-    public void setInstitutionCityName(String institutionCityName) {
-        this.institutionCityName = institutionCityName;
+    public void setCity(String city) {
+        this.city = city;
     }
 }

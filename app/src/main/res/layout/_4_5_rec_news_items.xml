@@ -11,35 +11,34 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/iv_news_headline_icon"
-            android:layout_width="130dp"
-            android:layout_height="0dp"
-            android:contentDescription="@string/news_headlines_icon"
-            android:paddingTop="4dp"
-            android:scaleType="centerCrop"
-            app:layout_constraintBottom_toTopOf="@+id/h_guideline_1"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/logo_for_news" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/lbl_news_headlines"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="#CC222222"
-            android:ellipsize="end"
-            android:gravity="center_vertical"
-            android:lines="2"
-            android:padding="@dimen/margin_short"
-            android:textColor="#FFFFFF"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/h_guideline_1"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintLeft_toRightOf="@+id/iv_news_headline_icon"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="This is news headlines this is a news headlines." />
+            <ImageView
+                android:id="@+id/iv_news_headline_icon"
+                android:layout_width="130dp"
+                android:layout_height="70dp"
+                android:contentDescription="@string/news_headlines_icon"
+                android:paddingTop="4dp"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/logo_for_news" />
+
+            <TextView
+                android:id="@+id/lbl_news_headlines"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_toEndOf="@+id/iv_news_headline_icon"
+                android:background="#CC222222"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:lines="2"
+                android:padding="@dimen/margin_short"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                tools:text="This is news headlines this is a news headlines." />
+
+        </RelativeLayout>
 
         <android.support.constraint.Guideline
             android:id="@+id/h_guideline_1"
@@ -55,8 +54,6 @@
             android:layout_height="0dp"
             android:gravity="center_vertical"
             android:paddingEnd="0dp"
-            android:paddingLeft="@dimen/margin_short"
-            android:paddingRight="0dp"
             android:paddingStart="@dimen/margin_short"
             android:text="@string/news_post_time"
             android:textColor="#9E9E9E"

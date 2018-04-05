@@ -1,9 +1,19 @@
 package com.shikshyaguru.shikshyaguru._4_home_page_activity.model;
 
 
+import android.support.annotation.NonNull;
+
+import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.firebase.ui.database.SnapshotParser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.shikshyaguru.shikshyaguru.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -14,6 +24,8 @@ import java.util.Random;
  */
 
 public class FakeDataSource implements DataSourceInterface {
+
+    private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
 
     //private static final int SIZE_OF_NEWS_COLLECTION = 10;
     private static final int SIZE_OF_INSTITUTIONS_COLLECTION = 20;
@@ -41,32 +53,6 @@ public class FakeDataSource implements DataSourceInterface {
             "Logout"
     };
 
-    private final int[] HP_SLIDER_IMAGE = {
-            R.drawable.example,
-            R.drawable.example,
-            R.drawable.example,
-            R.drawable.example,
-            R.drawable.example,
-            R.drawable.example,
-            R.drawable.example,
-            R.drawable.example,
-            R.drawable.example,
-            R.drawable.example
-    };
-
-    private final String[] SLIDER_CANDIDATES_NAME = {
-            "Candidate 1",
-            "Candidate 2",
-            "Candidate 3",
-            "Candidate 4",
-            "Candidate 5",
-            "Candidate 6",
-            "Candidate 7",
-            "Candidate 8",
-            "Candidate 9",
-            "Candidate 10"
-    };
-
     private final String[] OPTIONS = {
             "Top Categories",
             "Nepal",
@@ -75,26 +61,12 @@ public class FakeDataSource implements DataSourceInterface {
             "Editor Choice"
     };
 
-    private final String[] NEWS_HEADLINES = {
-            "Islington college introduced new courses for the computing student",
-            "Herald college introduced new courses for the computing student",
-            "Prime college introduced new courses for the computing student",
-            "ABC college introduced new courses for the computing student",
-            "XYZ college introduced new courses for the computing student",
-            "Herald college introduced new courses for the computing student",
-            "Herald college introduced new courses for the computing student",
-            "Prime college introduced new courses for the computing student",
-            "ABC college introduced new courses for the computing student",
-            "XYZ college introduced new courses for the computing student",
-            "Herald college introduced new courses for the computing student",
-            "Prime college introduced new courses for the computing student"
-    };
 
-    private final int[] INSTITUTIONS_ICON = {
-            R.drawable.bg_radius,
-            R.drawable.bg_radius,
-            R.drawable.bg_radius,
-            R.drawable.bg_radius
+    private final String[] INSTITUTIONS_ICON = {
+            "R.drawable.bg_radius",
+            "R.drawable.bg_radius",
+            "R.drawable.bg_radius",
+            "R.drawable.bg_radius"
     };
 
     private final String[] INSTITUTIONS_RATING = {
@@ -124,17 +96,17 @@ public class FakeDataSource implements DataSourceInterface {
             "College 10"
     };
 
-    private final int[] COLLEGES_ICON = {
-            R.drawable.bg_radius,
-            R.drawable.bg_radius,
-            R.drawable.bg_radius,
-            R.drawable.bg_radius,
-            R.drawable.bg_radius,
-            R.drawable.bg_radius,
-            R.drawable.bg_radius,
-            R.drawable.bg_radius,
-            R.drawable.bg_radius,
-            R.drawable.bg_radius
+    private final String[] COLLEGES_ICON = {
+            "R.drawable.bg_radius",
+            "R.drawable.bg_radius",
+            "R.drawable.bg_radius",
+            "R.drawable.bg_radius",
+            "R.drawable.bg_radius",
+            "R.drawable.bg_radius",
+            "R.drawable.bg_radius",
+            "R.drawable.bg_radius",
+            "R.drawable.bg_radius",
+            "R.drawable.bg_radius"
     };
 
     private final String[] COLLEGES_RATING = {
@@ -230,6 +202,7 @@ public class FakeDataSource implements DataSourceInterface {
             getListOfAbroadStudyData()
     };
 
+
     public FakeDataSource() {
     }
 
@@ -246,20 +219,6 @@ public class FakeDataSource implements DataSourceInterface {
         return listOfData;
     }
 
-    @Override
-    public List<HomePageSliderListItem> getListOfSliderCandidates() {
-        ArrayList<HomePageSliderListItem> listOfData = new ArrayList<>();
-        for (int i = 0; i < SLIDER_CANDIDATES_NAME.length; i++) {
-            int randOne = random.nextInt(4);
-            HomePageSliderListItem homePageSliderListItem = new HomePageSliderListItem(
-                    HP_SLIDER_IMAGE[i],
-                    SLIDER_CANDIDATES_NAME[i],
-                    INSTITUTIONS_CITY_NAME[randOne]
-            );
-            listOfData.add(homePageSliderListItem);
-        }
-        return listOfData;
-    }
 
     @Override
     public List<HomePageOptionsListItem> getListOfOptions() {
@@ -280,24 +239,164 @@ public class FakeDataSource implements DataSourceInterface {
         return null;
     }
 
+
+    public HashMap<String, String> displayAllCategory() {
+
+        final HashMap<String, String> categories = new HashMap<>();
+
+
+        Query query = mDatabase.getReference().child("clients").child("category");
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    System.out.println("============================================");
+                    System.out.println(postSnapshot.getKey() + " : " + postSnapshot.getValue());
+                    System.out.println("============================================");
+
+                    categories.put(postSnapshot.getKey(), postSnapshot.getValue(String.class));
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        return categories;
+    }
+
+    public void getAllData() {
+
+        Query query = mDatabase.getReference().child("category");
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for (final DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+
+                    int cat = Integer.parseInt(postSnapshot.getKey());
+
+                    Query query1 = mDatabase.getReference().child("clients").orderByChild("category").equalTo(cat);
+
+                    query1.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+
+                            for (DataSnapshot pSnapshot : dataSnapshot.getChildren()) {
+
+                                CollegeListItem collegeList = new CollegeListItem();
+
+                                collegeList.setName(pSnapshot.child("name").getValue(String.class));
+                                collegeList.setIcon_image(pSnapshot.child("icon_image").getValue(String.class));
+                                collegeList.setCity(pSnapshot.child("address").child("city").getValue(String.class));
+                                Double rating = pSnapshot.child("app_reviews").child("overall_rating").getValue(Double.class);
+                                collegeList.setRating(String.valueOf(rating));
+
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
     @Override
-    public List<NewsListItem> getListOfNewsData() {
+    public FirebaseRecyclerOptions<HomePageSliderListItem> getSponsorDetail() {
 
-        ArrayList<NewsListItem> listOfNewsData = new ArrayList<>();
+        Query query = mDatabase.getReference().child("clients").orderByChild("slider_candidate").equalTo(1);
 
-        for (String NEWS_HEADLINE : NEWS_HEADLINES) {
-            NewsListItem newsListItem = new NewsListItem(
-                    NEWS_HEADLINE
-            );
+        SnapshotParser<HomePageSliderListItem> snapshotParser = new SnapshotParser<HomePageSliderListItem>() {
+            @NonNull
+            @Override
+            public HomePageSliderListItem parseSnapshot(@NonNull DataSnapshot snapshot) {
 
-            listOfNewsData.add(newsListItem);
-        }
+                HomePageSliderListItem sliderListItem = snapshot.getValue(HomePageSliderListItem.class);
+                assert sliderListItem != null;
+                sliderListItem.setCity(snapshot.child("address").child("city").getValue(String.class));
+                return sliderListItem;
+            }
+        };
 
-        return listOfNewsData;
+        return new FirebaseRecyclerOptions.Builder<HomePageSliderListItem>().setQuery(query, snapshotParser).build();
+    }
+
+    @Override
+    public FirebaseRecyclerOptions<NewsListItem> getNewsDetails() {
+
+        Query query = mDatabase.getReference().child("news");
+
+        SnapshotParser<NewsListItem> snapshotParser = new SnapshotParser<NewsListItem>() {
+            @NonNull
+            @Override
+            public NewsListItem parseSnapshot(@NonNull DataSnapshot snapshot) {
+
+            NewsListItem newsListItem = snapshot.getValue(NewsListItem.class);
+            assert newsListItem != null;
+            newsListItem.setTime(snapshot.getKey());
+            System.out.println(snapshot.getKey());
+
+            return newsListItem;
+            }
+        };
+
+        return new FirebaseRecyclerOptions.Builder<NewsListItem>().setQuery(query, snapshotParser).build();
     }
 
     @Override
     public List<CollegeListItem> getListOfCollegesData() {
+
+        Query query = mDatabase.getReference().child("clients").orderByChild("category").equalTo(1);
+
+        SnapshotParser<CollegeListItem> snapshotParser = new SnapshotParser<CollegeListItem>() {
+            @NonNull
+            @Override
+            public CollegeListItem parseSnapshot(@NonNull DataSnapshot snapshot) {
+
+                CollegeListItem collegeList = new CollegeListItem();
+
+                collegeList.setName(snapshot.child("name").getValue(String.class));
+                collegeList.setName(snapshot.child("icon_image").getValue(String.class));
+                collegeList.setCity(snapshot.child("address").child("city").getValue(String.class));
+                Double rating = snapshot.child("app_reviews").child("overall_rating").getValue(Double.class);
+                collegeList.setRating(String.valueOf(rating));
+
+                return collegeList;
+            }
+        };
+
+        FirebaseRecyclerOptions<CollegeListItem> options = new FirebaseRecyclerOptions.Builder<CollegeListItem>().setQuery(query, snapshotParser).build();
+
+
+
+        for (int i = 0; i < options.getSnapshots().size(); i++) {
+
+            System.out.println("==================="+ i +"==========================");
+            System.out.println(options.getSnapshots().get(i).getName());
+            System.out.println(options.getSnapshots().get(i).getCity());
+            System.out.println(options.getSnapshots().get(i).getRating());
+            System.out.println(options.getSnapshots().get(i).getIcon_image());
+            System.out.println("=============================================");
+
+        }
 
         ArrayList<CollegeListItem> listOfData = new ArrayList<>();
 
@@ -317,6 +416,41 @@ public class FakeDataSource implements DataSourceInterface {
 
     @Override
     public List<SchoolsListItem> getListOfSchoolsData() {
+
+        Query query = mDatabase.getReference().child("clients").orderByChild("category").equalTo(2);
+
+        SnapshotParser<SchoolsListItem> snapshotParser = new SnapshotParser<SchoolsListItem>() {
+            @NonNull
+            @Override
+            public SchoolsListItem parseSnapshot(@NonNull DataSnapshot snapshot) {
+
+                SchoolsListItem schoolList = new SchoolsListItem();
+
+                schoolList.setName(snapshot.child("name").getValue(String.class));
+                schoolList.setName(snapshot.child("icon_image").getValue(String.class));
+                schoolList.setCity(snapshot.child("address").child("city").getValue(String.class));
+                Double rating = snapshot.child("app_reviews").child("overall_rating").getValue(Double.class);
+                schoolList.setRating(String.valueOf(rating));
+
+                return schoolList;
+            }
+        };
+
+        FirebaseRecyclerOptions<SchoolsListItem> options = new FirebaseRecyclerOptions.Builder<SchoolsListItem>().setQuery(query, snapshotParser).build();
+
+
+
+        for (int i = 0; i < options.getSnapshots().size(); i++) {
+
+            System.out.println("==================="+ i +"==========================");
+            System.out.println(options.getSnapshots().get(i).getName());
+            System.out.println(options.getSnapshots().get(i).getCity());
+            System.out.println(options.getSnapshots().get(i).getRating());
+            System.out.println(options.getSnapshots().get(i).getIcon_image());
+            System.out.println("=============================================");
+
+        }
+
         ArrayList<SchoolsListItem> listOfData = new ArrayList<>();
 
         for (int i = 0; i < SIZE_OF_INSTITUTIONS_COLLECTION; i++) {
@@ -342,6 +476,42 @@ public class FakeDataSource implements DataSourceInterface {
 
     @Override
     public List<UniversitiesListItem> getListOfUniversitiesData() {
+
+        Query query = mDatabase.getReference().child("clients").orderByChild("category").equalTo(3);
+
+        SnapshotParser<UniversitiesListItem> snapshotParser = new SnapshotParser<UniversitiesListItem>() {
+            @NonNull
+            @Override
+            public UniversitiesListItem parseSnapshot(@NonNull DataSnapshot snapshot) {
+
+                UniversitiesListItem universityList = new UniversitiesListItem();
+
+                universityList.setName(snapshot.child("name").getValue(String.class));
+                universityList.setIcon_image(snapshot.child("icon_image").getValue(String.class));
+                universityList.setCity(snapshot.child("address").child("city").getValue(String.class));
+                Double rating = snapshot.child("app_reviews").child("overall_rating").getValue(Double.class);
+                universityList.setRating(String.valueOf(rating));
+
+                return universityList;
+            }
+        };
+
+        FirebaseRecyclerOptions<UniversitiesListItem> options = new FirebaseRecyclerOptions.Builder<UniversitiesListItem>().setQuery(query, snapshotParser).build();
+
+
+
+        for (int i = 0; i < options.getSnapshots().size(); i++) {
+
+            System.out.println("==================="+ i +"==========================");
+            System.out.println(options.getSnapshots().get(i).getName());
+            System.out.println(options.getSnapshots().get(i).getCity());
+            System.out.println(options.getSnapshots().get(i).getRating());
+            System.out.println(options.getSnapshots().get(i).getIcon_image());
+            System.out.println("=============================================");
+
+        }
+
+
         ArrayList<UniversitiesListItem> listOfData = new ArrayList<>();
 
         for (int i = 0; i < SIZE_OF_INSTITUTIONS_COLLECTION; i++) {
@@ -367,6 +537,41 @@ public class FakeDataSource implements DataSourceInterface {
 
     @Override
     public List<InstitutesListItem> getListOfInstitutesData() {
+
+        Query query = mDatabase.getReference().child("clients").orderByChild("category").equalTo(4);
+
+        SnapshotParser<InstitutesListItem> snapshotParser = new SnapshotParser<InstitutesListItem>() {
+            @NonNull
+            @Override
+            public InstitutesListItem parseSnapshot(@NonNull DataSnapshot snapshot) {
+
+                InstitutesListItem instituteList = new InstitutesListItem();
+
+                instituteList.setName(snapshot.child("name").getValue(String.class));
+                instituteList.setIcon_image(snapshot.child("icon_image").getValue(String.class));
+                instituteList.setCity(snapshot.child("address").child("city").getValue(String.class));
+                Double rating = snapshot.child("app_reviews").child("overall_rating").getValue(Double.class);
+                instituteList.setRating(String.valueOf(rating));
+
+                return instituteList;
+            }
+        };
+
+        FirebaseRecyclerOptions<InstitutesListItem> options = new FirebaseRecyclerOptions.Builder<InstitutesListItem>().setQuery(query, snapshotParser).build();
+
+
+
+        for (int i = 0; i < options.getSnapshots().size(); i++) {
+
+            System.out.println("==================="+ i +"==========================");
+            System.out.println(options.getSnapshots().get(i).getName());
+            System.out.println(options.getSnapshots().get(i).getCity());
+            System.out.println(options.getSnapshots().get(i).getRating());
+            System.out.println(options.getSnapshots().get(i).getIcon_image());
+            System.out.println("=============================================");
+
+        }
+
         ArrayList<InstitutesListItem> listOfData = new ArrayList<>();
 
         for (int i = 0; i < SIZE_OF_INSTITUTIONS_COLLECTION; i++) {
@@ -392,6 +597,42 @@ public class FakeDataSource implements DataSourceInterface {
 
     @Override
     public List<ConsultanciesListItem> getListOfConsultanciesData() {
+
+        Query query = mDatabase.getReference().child("clients").orderByChild("category").equalTo(5);
+
+        SnapshotParser<ConsultanciesListItem> snapshotParser = new SnapshotParser<ConsultanciesListItem>() {
+            @NonNull
+            @Override
+            public ConsultanciesListItem parseSnapshot(@NonNull DataSnapshot snapshot) {
+
+                ConsultanciesListItem consultanciesList = new ConsultanciesListItem();
+
+                consultanciesList.setName(snapshot.child("name").getValue(String.class));
+                consultanciesList.setIcon_image(snapshot.child("icon_image").getValue(String.class));
+                consultanciesList.setCity(snapshot.child("address").child("city").getValue(String.class));
+                Double rating = snapshot.child("app_reviews").child("overall_rating").getValue(Double.class);
+                consultanciesList.setRating(String.valueOf(rating));
+
+                return consultanciesList;
+            }
+        };
+
+        FirebaseRecyclerOptions<ConsultanciesListItem> options = new FirebaseRecyclerOptions.Builder<ConsultanciesListItem>().setQuery(query, snapshotParser).build();
+
+
+
+        for (int i = 0; i < options.getSnapshots().size(); i++) {
+
+            System.out.println("==================="+ i +"==========================");
+            System.out.println(options.getSnapshots().get(i).getName());
+            System.out.println(options.getSnapshots().get(i).getCity());
+            System.out.println(options.getSnapshots().get(i).getRating());
+            System.out.println(options.getSnapshots().get(i).getIcon_image());
+            System.out.println("=============================================");
+
+        }
+
+
         ArrayList<ConsultanciesListItem> listOfData = new ArrayList<>();
 
         for (int i = 0; i < SIZE_OF_INSTITUTIONS_COLLECTION; i++) {
@@ -417,6 +658,42 @@ public class FakeDataSource implements DataSourceInterface {
 
     @Override
     public List<AbroadStudyListItem> getListOfAbroadStudyData() {
+
+        Query query = mDatabase.getReference().child("clients").orderByChild("category").equalTo(6);
+
+        SnapshotParser<AbroadStudyListItem> snapshotParser = new SnapshotParser<AbroadStudyListItem>() {
+            @NonNull
+            @Override
+            public AbroadStudyListItem parseSnapshot(@NonNull DataSnapshot snapshot) {
+
+                AbroadStudyListItem abroadList = new AbroadStudyListItem();
+
+                abroadList.setName(snapshot.child("name").getValue(String.class));
+                abroadList.setIcon_image(snapshot.child("icon_image").getValue(String.class));
+                abroadList.setCity(snapshot.child("address").child("city").getValue(String.class));
+                Double rating = snapshot.child("app_reviews").child("overall_rating").getValue(Double.class);
+                abroadList.setRating(String.valueOf(rating));
+
+                return abroadList;
+            }
+        };
+
+        FirebaseRecyclerOptions<AbroadStudyListItem> options = new FirebaseRecyclerOptions.Builder<AbroadStudyListItem>().setQuery(query, snapshotParser).build();
+
+
+
+        for (int i = 0; i < options.getSnapshots().size(); i++) {
+
+            System.out.println("==================="+ i +"==========================");
+            System.out.println(options.getSnapshots().get(i).getName());
+            System.out.println(options.getSnapshots().get(i).getCity());
+            System.out.println(options.getSnapshots().get(i).getRating());
+            System.out.println(options.getSnapshots().get(i).getIcon_image());
+            System.out.println("=============================================");
+
+        }
+
+
         ArrayList<AbroadStudyListItem> listOfData = new ArrayList<>();
 
         for (int i = 0; i < SIZE_OF_INSTITUTIONS_COLLECTION; i++) {
@@ -441,22 +718,22 @@ public class FakeDataSource implements DataSourceInterface {
     }
 
     @Override
-    public List<ListOfInstitutionsHeading> getTotalInstitutionsHeading() {
+    public List<ListOfTotalInstitutions> getTotalInstitutionsHeading() {
 
-        ArrayList<ListOfInstitutionsHeading> listOfInstitutionsHeadings = new ArrayList<>();
+        ArrayList<ListOfTotalInstitutions> listOfTotalInstitutions = new ArrayList<>();
 
         for (int i = 0; i < INSTITUTIONS_HEADING.length; i++) {
 
-            ListOfInstitutionsHeading listOfInstitutionsHeading = new ListOfInstitutionsHeading(
+            ListOfTotalInstitutions listOfTotalInstitutions1 = new ListOfTotalInstitutions(
                     INSTITUTIONS_HEADING[i],
                     INSTITUTIONS_HEADING_ID[i],
                     RELATED_INSTITUTION_DATA[i]
             );
 
-            listOfInstitutionsHeadings.add(listOfInstitutionsHeading);
+            listOfTotalInstitutions.add(listOfTotalInstitutions1);
         }
 
-        return listOfInstitutionsHeadings;
+        return listOfTotalInstitutions;
     }
 
 

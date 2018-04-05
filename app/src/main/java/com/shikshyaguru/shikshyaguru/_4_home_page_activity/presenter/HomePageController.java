@@ -43,7 +43,7 @@ public class HomePageController {
     }
 
     private void setUpSliderWithData() {
-        view.setUpSliderAdapterAndView(dataSource.getListOfSliderCandidates());
+        view.setUpSliderAdapterAndView(dataSource.getSponsorDetail());
     }
 
     private void setUpOptionsWithData() {
@@ -51,7 +51,7 @@ public class HomePageController {
     }
 
     private void setUpNewsHeadlinesWithData() {
-        view.setupNewsHeadlinesAdapterAndView(dataSource.getListOfNewsData());
+        view.setupNewsHeadlinesAdapterAndView(dataSource.getNewsDetails());
     }
 
     public void onAllNewsClick() {
@@ -71,7 +71,7 @@ public class HomePageController {
     }
 
     public void onInstitutionsItemClick(InstitutionsListItemParent il) {
-        view.openInstitutionsLoaderFragment1(il.getInstitutionsIcon(), il.getInstitutionsName(), il.getInstitutionsRating(), il.getInstitutionCityName());
+        view.openInstitutionsLoaderFragment1(il.getIcon_image(), il.getName(), il.getRating(), il.getCity());
     }
 
 

@@ -1,22 +1,21 @@
 package com.shikshyaguru.shikshyaguru._4_home_page_activity.model;
+
 /*
- * Created by Pankaj Koirala on 10/4/2017.
+ * Created by Pankaj Koirala on 4/4/2018.
  * Kathmandu, Nepal
  * Koiralapankaj007@gmail.com
  */
+public class SponsorList {
 
-public class HomePageSliderListItem {
+    String name;
+    String main_image;
+    String slogan;
+    String city;
 
-    private String name;
-    private String main_image;
-    private String slogan;
-    private String city;
-
-    public HomePageSliderListItem() {
-        //Empty constructor for firebase
+    public SponsorList() {
     }
 
-    public HomePageSliderListItem(String name, String main_image, String slogan) {
+    public SponsorList(String name, String main_image, String slogan) {
         this.name = name;
         this.main_image = main_image;
         this.slogan = slogan;
@@ -53,5 +52,4 @@ public class HomePageSliderListItem {
     public void setCity(String city) {
         this.city = city;
     }
-
 }

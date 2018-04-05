@@ -1,5 +1,7 @@
 package com.shikshyaguru.shikshyaguru._4_home_page_activity.model;
 
+import com.firebase.ui.database.FirebaseRecyclerOptions;
+
 import java.util.List;
 
 /**
@@ -8,16 +10,24 @@ import java.util.List;
  * Kathmandu Nepal
  */
 
-public class ListOfInstitutionsHeading {
+public class ListOfTotalInstitutions {
 
     private String institutionHeading;
     private int institutionHeadingId;
     private List<?> relatedInstitutionData;
 
-    ListOfInstitutionsHeading(String institutionHeading, int institutionHeadingId, List<?> relatedInstitutionData) {
+    private FirebaseRecyclerOptions<?> relatedInstitutionOptions;
+
+    ListOfTotalInstitutions(String institutionHeading, int institutionHeadingId, List<?> relatedInstitutionData) {
         this.institutionHeading = institutionHeading;
         this.institutionHeadingId = institutionHeadingId;
         this.relatedInstitutionData = relatedInstitutionData;
+    }
+
+    public ListOfTotalInstitutions(String institutionHeading, int institutionHeadingId, FirebaseRecyclerOptions<?> relatedInstitutionOptions) {
+        this.institutionHeading = institutionHeading;
+        this.institutionHeadingId = institutionHeadingId;
+        this.relatedInstitutionOptions = relatedInstitutionOptions;
     }
 
     public String getInstitutionHeading() {
@@ -43,4 +53,13 @@ public class ListOfInstitutionsHeading {
     public void setRelatedInstitutionData(List<?> relatedInstitutionData) {
         this.relatedInstitutionData = relatedInstitutionData;
     }
+
+    public FirebaseRecyclerOptions<?> getRelatedInstitutionOptions() {
+        return relatedInstitutionOptions;
+    }
+
+    public void setRelatedInstitutionOptions(FirebaseRecyclerOptions<?> relatedInstitutionOptions) {
+        this.relatedInstitutionOptions = relatedInstitutionOptions;
+    }
+
 }

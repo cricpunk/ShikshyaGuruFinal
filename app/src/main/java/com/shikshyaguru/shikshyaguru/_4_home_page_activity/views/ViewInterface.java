@@ -1,8 +1,9 @@
 package com.shikshyaguru.shikshyaguru._4_home_page_activity.views;
 
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.HomePageOptionsListItem;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.HomePageSliderListItem;
-import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.ListOfInstitutionsHeading;
+import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.ListOfTotalInstitutions;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.NewsListItem;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public interface ViewInterface {
      * We are talking about _5_2_nhp_news_loader_fragment headline which is displayed in home page.
      */
 
-    void setUpSliderAdapterAndView(List<HomePageSliderListItem> listOfSliderCandidates);
+    void setUpSliderAdapterAndView(FirebaseRecyclerOptions<HomePageSliderListItem> sliderOption);
 
     void setUpOptionsAdapterAndView(List<HomePageOptionsListItem> listOfOptions);
 
@@ -35,7 +36,7 @@ public interface ViewInterface {
      * Setting _5_2_nhp_news_loader_fragment recycler view adapter with data
      * This method will display _5_2_nhp_news_loader_fragment headline in main activity
      */
-    void setupNewsHeadlinesAdapterAndView(List<NewsListItem> listOfNewsData);
+    void setupNewsHeadlinesAdapterAndView(FirebaseRecyclerOptions<NewsListItem> newsOption);
 
     void openNewsMainFragment();
 
@@ -43,10 +44,10 @@ public interface ViewInterface {
 
     // Setting institutions collections recycler view adapter with data
     // Whole card view is displayed in a recycler view dynamically
-    void setupInstitutionsCollectionAdapterAndView(List<ListOfInstitutionsHeading> listOfInstitutionsHeadings);
+    void setupInstitutionsCollectionAdapterAndView(List<ListOfTotalInstitutions> listOfTotalInstitutions);
 
     // Opening new activity for displaying institutions home page after clicking institutions in recycler view
-    void openInstitutionsLoaderFragment1(int institutionsIcon, String institutionsName, String institutionsRating, String institutionsCityName);
+    void openInstitutionsLoaderFragment1(String institutionsIcon, String institutionsName, String institutionsRating, String institutionsCityName);
 
     void openInstitutionsMainFragment();
 

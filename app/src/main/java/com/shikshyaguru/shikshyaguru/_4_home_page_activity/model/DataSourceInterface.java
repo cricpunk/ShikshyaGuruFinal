@@ -1,5 +1,7 @@
 package com.shikshyaguru.shikshyaguru._4_home_page_activity.model;
 
+import com.firebase.ui.database.FirebaseRecyclerOptions;
+
 import java.util.List;
 
 /**
@@ -14,13 +16,16 @@ import java.util.List;
 
 public interface DataSourceInterface {
 
-    // Get list of news headlines
-    List<NewsListItem> getListOfNewsData();
+    // Get details of candidates for home page slider
+    FirebaseRecyclerOptions<HomePageSliderListItem> getSponsorDetail();
+
+    // Get details of candidates for home page slider
+    FirebaseRecyclerOptions<NewsListItem> getNewsDetails();
 
     // Get list of Colleges details
     List<CollegeListItem> getListOfCollegesData();
 
-    List<ListOfInstitutionsHeading> getTotalInstitutionsHeading();
+    List<ListOfTotalInstitutions> getTotalInstitutionsHeading();
 
     // Get list of Consultancies details
     List<ConsultanciesListItem> getListOfConsultanciesData();
@@ -39,9 +44,6 @@ public interface DataSourceInterface {
 
     //Get list of Drawer main header
     List<DrawerListItem> getListOfDrawerMainHeader();
-
-    //Get list of Home Page slider candidates
-    List<HomePageSliderListItem> getListOfSliderCandidates();
 
     //Get list of Home Page Options name
     List<HomePageOptionsListItem> getListOfOptions();
