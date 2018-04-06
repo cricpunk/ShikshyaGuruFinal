@@ -5,25 +5,156 @@ package com.shikshyaguru.shikshyaguru._5_news_activity.views;
  * Koiralapankaj007@gmail.com
  */
 
+import android.app.ActivityOptions;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.shikshyaguru.shikshyaguru.R;
+import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.NewsListItem;
+import com.shikshyaguru.shikshyaguru._5_news_activity.model.NewsDataSource;
+import com.shikshyaguru.shikshyaguru._5_news_activity.presenter.NewsController;
+import com.squareup.picasso.Picasso;
 
-public class NewsMainFragment extends Fragment {
+public class NewsMainFragment extends Fragment implements NewsViewInterface {
+
+    private LayoutInflater layoutInflater;
+    private RecyclerView recyclerViewNews;
+
+    NewsController controller;
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout._5_1_nhp_main_fragment, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        this.layoutInflater = inflater;
+        View view = inflater.inflate(R.layout._5_1_nhp_main_fragment, container, false);
+
+        recyclerViewNews = view.findViewById(R.id.rec_news_loader);
+
+        return view;
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        controller = new NewsController(this, new NewsDataSource());
     }
+
+    @Override
+    public void setNewsAdapter(FirebaseRecyclerOptions<NewsListItem> newsList) {
+
+        recyclerViewNews.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        NewsAdapter newsAdapter = new NewsAdapter(newsList);
+        recyclerViewNews.setAdapter(newsAdapter);
+        recyclerViewNews.setHasFixedSize(true);
+
+        newsAdapter.startListening();
+
+    }
+
+    private class NewsAdapter extends FirebaseRecyclerAdapter<NewsListItem, NewsAdapter.NewsViewHolder> {
+
+        /*
+         * Initialize a {@link RecyclerView.Adapter} that listens to a Firebase query. See
+         * {@link FirebaseRecyclerOptions} for configuration options.
+         *
+         * @param options
+         */
+        NewsAdapter(@NonNull FirebaseRecyclerOptions<NewsListItem> options) {
+            super(options);
+        }
+
+        @Override
+        protected void onBindViewHolder(@NonNull NewsViewHolder holder, int position, @NonNull NewsListItem model) {
+
+            holder.newsHeadlines.setText(model.getHeading());
+            holder.newsWriter.setText(model.getWriter());
+            holder.newsFrom.setText(model.getPlace());
+            holder.newsPostTime.setText("3m |");
+            Picasso.get()
+                    .load(model.getImage())
+                    .placeholder(R.drawable.logo_for_news)
+                    .into(holder.newsHeadlinesIcon);
+
+            holder.newsList = model;
+
+        }
+
+        @NonNull
+        @Override
+        public NewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = layoutInflater.inflate(R.layout._5_3_rec_news_items, parent, false);
+            return new NewsViewHolder(view);
+        }
+
+        class NewsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+            private ViewGroup container;
+            private ImageView newsHeadlinesIcon;
+            private TextView newsHeadlines;
+            private TextView newsPostTime;
+            private TextView newsFrom;
+            private TextView newsWriter;
+            private ImageView moreIcon;
+
+            NewsListItem newsList;
+
+            NewsViewHolder(View itemView) {
+                super(itemView);
+
+                container = itemView.findViewById(R.id.root_news_headlines);
+
+                newsHeadlinesIcon = itemView.findViewById(R.id.iv_news_headline_icon);
+                newsHeadlines = itemView.findViewById(R.id.lbl_news_headlines);
+                newsPostTime = itemView.findViewById(R.id.lbl_news_post_time);
+                newsFrom = itemView.findViewById(R.id.lbl_news_from);
+                newsWriter = itemView.findViewById(R.id.lbl_news_writer);
+                moreIcon = itemView.findViewById(R.id.iv_news_headline_more);
+
+                container.setOnClickListener(this);
+                moreIcon.setOnClickListener(this);
+
+            }
+
+            @Override
+            public void onClick(View v) {
+
+                switch (v.getId()) {
+                    case R.id.root_news_headlines:
+
+                        Pair[] pairs = new Pair[2];
+                        pairs[0] = new Pair<View, String>(newsHeadlinesIcon, "newsImageIcon");
+                        pairs[1] = new Pair<View, String>(newsHeadlines, "newsHeading");
+
+                        //noinspection unchecked
+                        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(), pairs);
+
+                        //homePageController.onNewsListItemClick(newsList, options);
+
+                        break;
+                    case R.id.iv_news_headline_more:
+                        Toast.makeText(getContext(), "Clicked", Toast.LENGTH_SHORT).show();
+                        break;
+
+                    default:break;
+                }
+
+            }
+        }
+
+    }
+
 }
