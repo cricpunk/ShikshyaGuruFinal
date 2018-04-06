@@ -120,6 +120,26 @@ public class FakeDataSource implements DataSourceInterface {
         return null;
     }
 
+    private String slogan;
+    @Override
+    public String getSlogan(String id) {
+
+        mDatabase.getReference("clients").child(id).child("slogan").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                slogan = dataSnapshot.getValue(String.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        return slogan;
+
+    }
+
 
     public HashMap<String, String> displayAllCategory() {
 
@@ -212,6 +232,7 @@ public class FakeDataSource implements DataSourceInterface {
             public HomePageSliderListItem parseSnapshot(@NonNull DataSnapshot snapshot) {
 
                 HomePageSliderListItem sliderListItem = new HomePageSliderListItem();
+                sliderListItem.setId(snapshot.getKey());
                 sliderListItem.setName(snapshot.child("name").getValue(String.class));
                 sliderListItem.setMain_image(snapshot.child("main_image").getValue(String.class));
                 sliderListItem.setSlogan(snapshot.child("slogan").getValue(String.class));
@@ -257,6 +278,7 @@ public class FakeDataSource implements DataSourceInterface {
 
                 CollegeListItem collegeList = new CollegeListItem();
 
+                collegeList.setId(snapshot.getKey());
                 collegeList.setName(snapshot.child("name").getValue(String.class));
                 collegeList.setIcon_image(snapshot.child("icon_image").getValue(String.class));
                 collegeList.setCity(snapshot.child("address").child("city").getValue(String.class));
@@ -287,6 +309,7 @@ public class FakeDataSource implements DataSourceInterface {
 
                 SchoolsListItem schoolList = new SchoolsListItem();
 
+                schoolList.setId(snapshot.getKey());
                 schoolList.setName(snapshot.child("name").getValue(String.class));
                 schoolList.setIcon_image(snapshot.child("icon_image").getValue(String.class));
                 schoolList.setCity(snapshot.child("address").child("city").getValue(String.class));
@@ -316,6 +339,7 @@ public class FakeDataSource implements DataSourceInterface {
 
                 UniversitiesListItem universityList = new UniversitiesListItem();
 
+                universityList.setId(snapshot.getKey());
                 universityList.setName(snapshot.child("name").getValue(String.class));
                 universityList.setIcon_image(snapshot.child("icon_image").getValue(String.class));
                 universityList.setCity(snapshot.child("address").child("city").getValue(String.class));
@@ -345,6 +369,7 @@ public class FakeDataSource implements DataSourceInterface {
 
                 InstitutesListItem instituteList = new InstitutesListItem();
 
+                instituteList.setId(snapshot.getKey());
                 instituteList.setName(snapshot.child("name").getValue(String.class));
                 instituteList.setIcon_image(snapshot.child("icon_image").getValue(String.class));
                 instituteList.setCity(snapshot.child("address").child("city").getValue(String.class));
@@ -374,6 +399,7 @@ public class FakeDataSource implements DataSourceInterface {
 
                 ConsultanciesListItem consultanciesList = new ConsultanciesListItem();
 
+                consultanciesList.setId(snapshot.getKey());
                 consultanciesList.setName(snapshot.child("name").getValue(String.class));
                 consultanciesList.setIcon_image(snapshot.child("icon_image").getValue(String.class));
                 consultanciesList.setCity(snapshot.child("address").child("city").getValue(String.class));
@@ -403,6 +429,7 @@ public class FakeDataSource implements DataSourceInterface {
 
                 AbroadStudyListItem abroadList = new AbroadStudyListItem();
 
+                abroadList.setId(snapshot.getKey());
                 abroadList.setName(snapshot.child("name").getValue(String.class));
                 abroadList.setIcon_image(snapshot.child("icon_image").getValue(String.class));
                 abroadList.setCity(snapshot.child("address").child("city").getValue(String.class));

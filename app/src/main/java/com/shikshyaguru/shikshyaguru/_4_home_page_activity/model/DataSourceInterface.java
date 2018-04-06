@@ -49,4 +49,7 @@ public interface DataSourceInterface {
     List<HomePageOptionsListItem> getListOfOptions();
 
     UserData getUserData();
+
+    String getSlogan(String id);
+
 }

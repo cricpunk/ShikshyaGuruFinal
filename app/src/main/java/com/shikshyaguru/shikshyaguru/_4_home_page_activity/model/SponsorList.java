@@ -7,18 +7,29 @@ package com.shikshyaguru.shikshyaguru._4_home_page_activity.model;
  */
 public class SponsorList {
 
-    String name;
-    String main_image;
-    String slogan;
-    String city;
+    private String id;
+    private String name;
+    private String main_image;
+    private String slogan;
+    private String city;
 
     public SponsorList() {
     }
 
-    public SponsorList(String name, String main_image, String slogan) {
+    public SponsorList(String id, String name, String main_image, String slogan, String city) {
+        this.id = id;
         this.name = name;
         this.main_image = main_image;
         this.slogan = slogan;
+        this.city = city;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {

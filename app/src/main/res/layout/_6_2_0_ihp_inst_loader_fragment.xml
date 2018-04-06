@@ -32,7 +32,8 @@
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
-                android:src="@drawable/slider1" />
+                android:src="@drawable/slider1"
+                android:transitionName="institutionImage" />
 
             <RelativeLayout
                 android:id="@+id/l_kbv_content_inst_loader_frag"
@@ -51,7 +52,8 @@
                     android:text="Islington College"
                     android:textAlignment="center"
                     android:textColor="#FFFFFFFF"
-                    android:textSize="32sp" />
+                    android:textSize="32sp"
+                    android:transitionName="institutionName" />
 
                 <TextView
                     android:id="@+id/lbl_institutions_city_name"
@@ -64,9 +66,11 @@
                     android:text="Kathmandu"
                     android:textAlignment="center"
                     android:textColor="#FFFFFFFF"
-                    android:textSize="24sp" />
+                    android:textSize="24sp"
+                    android:transitionName="institutionPlace" />
 
                 <TextView
+                    android:id="@+id/lbl_institutions_slogan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
@@ -75,7 +79,8 @@
                     android:text="This is slogan of the college"
                     android:textAlignment="center"
                     android:textColor="#F2FFFFFF"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:transitionName="institutionSlogan" />
 
             </RelativeLayout>
 

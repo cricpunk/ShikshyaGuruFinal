@@ -61,7 +61,8 @@
             android:name="._4_home_page_activity.views.HomePageActivity"
             android:theme="@style/NavStatusBar" />
 
-        <activity android:name="._5_news_activity.views.NewsHomePageActivity" />
+        <activity android:name="._5_news_activity.views.NewsHomePageActivity"
+            android:theme="@style/NavStatusBar" />
 
         <activity
             android:name="._6_institutions_activity.views.InstitutionsHomePageActivity"
@@ -69,8 +70,6 @@
 
         <activity android:name="._7_user_activity.views.views.UserHomePageActivity"
             android:theme="@style/UserProfileTheme"/>
-
-        <!--<activity android:name="._5_news_section.views.TabsHeaderActivity"/>-->
 
         <!--Maps Android Key-->
         <meta-data

@@ -12,6 +12,7 @@
 
     <ImageView
         android:id="@+id/iv_institutions_icon"
+        android:transitionName="institutionImage"
         android:layout_width="match_parent"
         android:layout_height="110dp"
         android:layout_marginBottom="8dp"
@@ -38,6 +39,7 @@
 
         <TextView
             android:id="@+id/lbl_institutions_name"
+            android:transitionName="institutionName"
             android:layout_width="94dp"
             android:layout_height="wrap_content"
             android:lines="2"
@@ -77,6 +79,7 @@
 
         <TextView
             android:id="@+id/lbl_institutions_city_name"
+            android:transitionName="institutionPlace"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"

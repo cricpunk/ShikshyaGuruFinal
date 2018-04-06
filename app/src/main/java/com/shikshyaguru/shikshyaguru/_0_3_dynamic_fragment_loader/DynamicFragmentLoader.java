@@ -48,7 +48,7 @@ public class DynamicFragmentLoader {
                         showFragment(new InstitutionMainFragment(), fragHolderId, fragmentManager);
                         break;
                     case "institutions_loader":
-                        showFragment(new InstitutionsLoaderFragment(), fragHolderId, fragmentManager);
+                        showFragment(openInstitutionLoader(bundle), fragHolderId, fragmentManager);
                         break;
                     case "courses_loader":
                         showFragment(openCourseLoader(bundle), fragHolderId, fragmentManager);
@@ -80,6 +80,12 @@ public class DynamicFragmentLoader {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(fragHolderId, fragment);
         transaction.commit();
+    }
+
+    private static InstitutionsLoaderFragment openInstitutionLoader(Bundle bundle) {
+        InstitutionsLoaderFragment institutionsLoaderFragment = new InstitutionsLoaderFragment();
+        institutionsLoaderFragment.setArguments(bundle);
+        return institutionsLoaderFragment;
     }
 
     private static ViewPagerProgrammesCoursesLoader openCourseLoader(Bundle bundle) {

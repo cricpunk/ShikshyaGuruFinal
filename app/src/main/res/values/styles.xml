@@ -27,6 +27,7 @@
     <style name="NavStatusBar" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/statusBarColor</item>
         <item name="android:windowBackground">@color/statusBarColor</item>
+        <item name="android:windowActivityTransitions">true</item>
     </style>
 
     <!--Theme 5.    Search tool bar theme-->
@@ -49,6 +50,7 @@
         <item name="colorPrimary">@android:color/transparent</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="windowActionBarOverlay">true</item>
+        <item name="android:windowActivityTransitions">true</item>
         <!--<item name="android:windowActionBarOverlay">true</item>-->
     </style>
 

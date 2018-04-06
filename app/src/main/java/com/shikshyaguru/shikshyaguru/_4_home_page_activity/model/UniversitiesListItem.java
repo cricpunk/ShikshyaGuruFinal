@@ -8,11 +8,10 @@ package com.shikshyaguru.shikshyaguru._4_home_page_activity.model;
 
 public class UniversitiesListItem extends InstitutionsListItemParent {
 
-    public UniversitiesListItem() {
+    UniversitiesListItem() {
     }
 
-    public UniversitiesListItem(String institutionsIcon, String institutionsName, String institutionsRating, String institutionCityName) {
-        super(institutionsIcon, institutionsName, institutionsRating, institutionCityName);
+    public UniversitiesListItem(String id, String icon_image, String name, String rating, String city) {
+        super(id, icon_image, name, rating, city);
     }
-
 }

@@ -1,5 +1,6 @@
 package com.shikshyaguru.shikshyaguru._4_home_page_activity.views;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.support.v7.widget.SnapHelper;
 import android.text.Html;
 import android.text.Spanned;
 import android.util.Log;
+import android.util.Pair;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -216,6 +218,21 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
         });
 
         sponsorSliderAdapter.startListening();
+
+    }
+
+    @Override
+    public void openSliderItemDetails(String id, String image, String name, String place, String slogan, ActivityOptions options) {
+
+        Intent intent = new Intent(getContext(), InstitutionsHomePageActivity.class);
+        intent.putExtra("REQUEST_CODE", "institutions_loader");
+        intent.putExtra("ID", id);
+        intent.putExtra("IMAGE", image);
+        intent.putExtra("NAME", name);
+        intent.putExtra("PLACE", place);
+        intent.putExtra("SLOGAN", slogan);
+
+        startActivity(intent, options.toBundle());
 
     }
 
@@ -506,6 +523,11 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
                     .load(model.getMain_image())
                     .placeholder(R.drawable.logo_for_news)
                     .into(holder.candidateImage);
+            holder.id = model.getId();
+            holder.name = model.getName();
+            holder.image = model.getMain_image();
+            holder.place = model.getCity();
+            holder.slogan = model.getSlogan();
 
         }
 
@@ -524,6 +546,8 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
             private TextView candidateCity;
             private TextView candidateSlogan;
 
+            private String id, image, name, place, slogan;
+
             SponsorViewHolder(View itemView) {
                 super(itemView);
                 sliderCardView = itemView.findViewById(R.id.cv_candidates_slider);
@@ -532,14 +556,32 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
                 candidateCity = itemView.findViewById(R.id.lbl_candidate_city);
                 candidateSlogan = itemView.findViewById(R.id.lbl_candidate_slogan);
 
+                id = null;
+                image = null;
+                name = null;
+                place = null;
+                slogan = null;
+
                 sliderCardView.setOnClickListener(this);
             }
 
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Card View Clicked at : " + getAdapterPosition(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), "Card View Clicked at : " + getAdapterPosition(), Toast.LENGTH_SHORT).show();
+
+                Pair[] pairs = new Pair[4];
+                pairs[0] = new Pair<View, String>(candidateImage, "institutionImage");
+                pairs[1] = new Pair<View, String>(candidateName, "institutionName");
+                pairs[2] = new Pair<View, String>(candidateCity, "institutionPlace");
+                pairs[3] = new Pair<View, String>(candidateSlogan, "institutionSlogan");
+
+                //noinspection unchecked
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(), pairs);
+
+                homePageController.onInstitutionItemClick(id, image, name, place, slogan, options);
             }
         }
+
     }
 
     private class CustomOptionsAdapter extends RecyclerView.Adapter<CustomOptionsAdapter.OptionsViewHolder> {
@@ -758,6 +800,13 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
                     .load(model.getIcon_image())
                     .placeholder(R.drawable.logo)
                     .into(holder.institutionIcon);
+
+            holder.id = model.getId();
+            holder.name = model.getName();
+            holder.image = model.getIcon_image();
+            holder.place = model.getCity();
+            holder.slogan = homePageController.getSlogan(model.getId());
+
         }
 
         @NonNull
@@ -776,6 +825,8 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
             private TextView institutionRating;
             private TextView institutionCityName;
 
+            private String id, image, name, place, slogan;
+
             InstitutionViewHolder(View itemView) {
                 super(itemView);
 
@@ -785,6 +836,12 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
                 institutionMore = itemView.findViewById(R.id.iv_institutions_more);
                 institutionRating = itemView.findViewById(R.id.lbl_institutions_rating);
                 institutionCityName = itemView.findViewById(R.id.lbl_institutions_city_name);
+
+                id = null;
+                image = null;
+                name = null;
+                place = null;
+                slogan = null;
 
                 container.setOnClickListener(this);
                 institutionMore.setOnClickListener(this);
@@ -796,11 +853,22 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
 
                 switch (v.getId()) {
                     case R.id.root_institutions:
-                        //InstitutionsListItemParent institutionListItem = (InstitutionsListItemParent) dataInside.get(this.getAdapterPosition());
-                        //homePageController.onInstitutionsItemClick(institutionListItem);
+
+                        Pair[] pairs = new Pair[3];
+                        pairs[0] = new Pair<View, String>(institutionIcon, "institutionImage");
+                        pairs[1] = new Pair<View, String>(institutionName, "institutionName");
+                        pairs[2] = new Pair<View, String>(institutionCityName, "institutionPlace");
+
+                        //noinspection unchecked
+                        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(), pairs);
+
+                        homePageController.onInstitutionItemClick(id, image, name, place, slogan, options);
+
                         break;
                     case R.id.iv_institutions_more:
-                        Toast.makeText(getContext(), "Clicked", Toast.LENGTH_SHORT).show();
+
+                       Toast.makeText(getContext(), "Clicked", Toast.LENGTH_SHORT).show();
+
                         break;
                     default:break;
                 }

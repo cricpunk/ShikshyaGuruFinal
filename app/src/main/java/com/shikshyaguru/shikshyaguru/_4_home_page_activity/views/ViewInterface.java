@@ -1,5 +1,7 @@
 package com.shikshyaguru.shikshyaguru._4_home_page_activity.views;
 
+import android.app.ActivityOptions;
+
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.HomePageOptionsListItem;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.HomePageSliderListItem;
@@ -30,6 +32,8 @@ public interface ViewInterface {
 
     void setUpSliderAdapterAndView(FirebaseRecyclerOptions<HomePageSliderListItem> sliderOption);
 
+    void openSliderItemDetails(String id, String image, String name, String place, String slogan, ActivityOptions options);
+
     void setUpOptionsAdapterAndView(List<HomePageOptionsListItem> listOfOptions);
 
     /**
@@ -50,7 +54,5 @@ public interface ViewInterface {
     void openInstitutionsLoaderFragment1(String institutionsIcon, String institutionsName, String institutionsRating, String institutionsCityName);
 
     void openInstitutionsMainFragment();
-
-
 
 }

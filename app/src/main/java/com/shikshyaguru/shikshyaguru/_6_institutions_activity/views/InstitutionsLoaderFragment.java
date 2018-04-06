@@ -6,6 +6,7 @@ package com.shikshyaguru.shikshyaguru._6_institutions_activity.views;
  */
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -19,8 +20,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
@@ -37,26 +40,58 @@ import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fr
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerStaffFragment;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerStudentsFragment;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerTeachersFragment;
+import com.squareup.picasso.Picasso;
 
 public class InstitutionsLoaderFragment extends Fragment implements AppBarLayout.OnOffsetChangedListener{
 
     private SmartTabLayout viewPagerTab;
     private CollapsingToolbarLayout collapsingToolbar;
 
+    private String id, image, name, place, slogan;
+
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout._6_2_0_ihp_inst_loader_fragment, container, false);
 
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         initToolbarAndLayout(view);
         initSmartTabLayout(view);
         initFloatingActionMenu(view);
+
+        if (getArguments() != null ) {
+            id = getArguments().getString("ID");
+            image = getArguments().getString("IMAGE");
+            name = getArguments().getString("NAME");
+            place = getArguments().getString("PLACE");
+            slogan = getArguments().getString("SLOGAN");
+        }
+
+        initComponents(view);
+    }
+
+    private void initComponents(View view) {
+
+        KenBurnsView kenBurnsView = view.findViewById(R.id.iv_inst_cover_image);
+        TextView lblName = view.findViewById(R.id.lbl_institutions_name);
+        TextView lblPlace = view.findViewById(R.id.lbl_institutions_city_name);
+        TextView lblSlogan = view.findViewById(R.id.lbl_institutions_slogan);
+
+        Picasso.get()
+                .load(image)
+                .placeholder(R.drawable.logo)
+                .into(kenBurnsView);
+        lblName.setText(name);
+        lblPlace.setText(place);
+        lblSlogan.setText(slogan);
+
+        Toast.makeText(getContext(), id, Toast.LENGTH_SHORT).show();
+
     }
 
     private void initToolbarAndLayout(View view) {

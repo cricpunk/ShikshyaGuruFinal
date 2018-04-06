@@ -21,6 +21,7 @@
 
         <ImageView
             android:id="@+id/iv_candidate_slider_image"
+            android:transitionName="institutionImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
@@ -34,6 +35,7 @@
 
             <TextView
                 android:id="@+id/lbl_candidate_name"
+                android:transitionName="institutionName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="0dp"
@@ -49,6 +51,7 @@
 
             <TextView
                 android:id="@+id/lbl_candidate_city"
+                android:transitionName="institutionPlace"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
@@ -66,6 +69,7 @@
 
             <TextView
                 android:id="@+id/lbl_candidate_slogan"
+                android:transitionName="institutionSlogan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"

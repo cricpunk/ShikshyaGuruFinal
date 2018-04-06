@@ -8,19 +8,29 @@ package com.shikshyaguru.shikshyaguru._4_home_page_activity.model;
 
 public class InstitutionsListItemParent {
 
+    private String id;
     private String icon_image;
     private String name;
     private String rating;
     private String city;
 
-    InstitutionsListItemParent(String icon_image, String name, String rating, String city) {
+    InstitutionsListItemParent(String id, String icon_image, String name, String rating, String city) {
+        this.id = id;
         this.icon_image = icon_image;
         this.name = name;
         this.rating = rating;
         this.city = city;
     }
 
-    public InstitutionsListItemParent() {
+    InstitutionsListItemParent() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getIcon_image() {
