@@ -24,7 +24,7 @@ public class ListOfTotalInstitutions {
         this.relatedInstitutionData = relatedInstitutionData;
     }
 
-    public ListOfTotalInstitutions(String institutionHeading, int institutionHeadingId, FirebaseRecyclerOptions<?> relatedInstitutionOptions) {
+    ListOfTotalInstitutions(String institutionHeading, int institutionHeadingId, FirebaseRecyclerOptions<?> relatedInstitutionOptions) {
         this.institutionHeading = institutionHeading;
         this.institutionHeadingId = institutionHeadingId;
         this.relatedInstitutionOptions = relatedInstitutionOptions;

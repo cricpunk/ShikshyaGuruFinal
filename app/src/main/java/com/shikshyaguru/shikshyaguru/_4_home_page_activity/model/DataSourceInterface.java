@@ -23,24 +23,24 @@ public interface DataSourceInterface {
     FirebaseRecyclerOptions<NewsListItem> getNewsDetails();
 
     // Get list of Colleges details
-    List<CollegeListItem> getListOfCollegesData();
-
-    List<ListOfTotalInstitutions> getTotalInstitutionsHeading();
-
-    // Get list of Consultancies details
-    List<ConsultanciesListItem> getListOfConsultanciesData();
-
-    // Get list of Institutes details
-    List<InstitutesListItem> getListOfInstitutesData();
-
-    // Get list of Abroad Study details
-    List<AbroadStudyListItem> getListOfAbroadStudyData();
+    FirebaseRecyclerOptions<CollegeListItem> getListOfCollegesData();
 
     // Get list of Schools details
-    List<SchoolsListItem> getListOfSchoolsData();
+    FirebaseRecyclerOptions<SchoolsListItem> getListOfSchoolsData();
 
     // Get list of Universities details
-    List<UniversitiesListItem> getListOfUniversitiesData();
+    FirebaseRecyclerOptions<UniversitiesListItem> getListOfUniversitiesData();
+
+    // Get list of Institutes details
+    FirebaseRecyclerOptions<InstitutesListItem> getListOfInstitutesData();
+
+    // Get list of Consultancies details
+    FirebaseRecyclerOptions<ConsultanciesListItem> getListOfConsultanciesData();
+
+    // Get list of Abroad Study details
+    FirebaseRecyclerOptions<AbroadStudyListItem> getListOfAbroadStudyData();
+
+    List<ListOfTotalInstitutions> getTotalInstitutionsHeading();
 
     //Get list of Drawer main header
     List<DrawerListItem> getListOfDrawerMainHeader();

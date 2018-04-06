@@ -280,8 +280,8 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
         this.listOfTotalInstitutions = listOfTotalInstitutions;
         recyclerViewInstitutionsCollection.setNestedScrollingEnabled(false);
         recyclerViewInstitutionsCollection.setLayoutManager(new LinearLayoutManager(getContext()));
-        CustomInstitutionsCollectionAdapter customInstitutionsCollectionAdapter = new CustomInstitutionsCollectionAdapter();
-        recyclerViewInstitutionsCollection.setAdapter(customInstitutionsCollectionAdapter);
+        InstitutionsCollectionAdapter institutionsCollectionAdapter = new InstitutionsCollectionAdapter();
+        recyclerViewInstitutionsCollection.setAdapter(institutionsCollectionAdapter);
     }
 
     @Override
@@ -668,16 +668,17 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
      * Click event for See All text view will be managed from this class.
      * This class will call CustomInstitutionAdapter to inflate complete institutions list dynamically
      */
-    class CustomInstitutionsCollectionAdapter extends RecyclerView.Adapter<CustomInstitutionsCollectionAdapter.CustomInstitutionsCollectionViewHolder> {
+    class InstitutionsCollectionAdapter extends RecyclerView.Adapter<InstitutionsCollectionAdapter.InstitutionsCollectionViewHolder> {
 
+        @NonNull
         @Override
-        public CustomInstitutionsCollectionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public InstitutionsCollectionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = layoutInflater.inflate(R.layout._4_2_institutions_section, parent, false);
-            return new CustomInstitutionsCollectionViewHolder(view);
+            return new InstitutionsCollectionViewHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(CustomInstitutionsCollectionViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull InstitutionsCollectionViewHolder holder, int position) {
             ListOfTotalInstitutions currentItem = listOfTotalInstitutions.get(position);
 
             holder.institutionHeading.setText(currentItem.getInstitutionHeading());
@@ -685,13 +686,17 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
 
             holder.institutionsRecyclerViewInside.setNestedScrollingEnabled(false);
             holder.institutionsRecyclerViewInside.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-            CustomInstitutionAdapter customInstitutionAdapter = new CustomInstitutionAdapter();
 
-            customInstitutionAdapter.setDataInside(currentItem.getRelatedInstitutionData());
+            FirebaseRecyclerOptions<?> options = currentItem.getRelatedInstitutionOptions();
 
-            holder.institutionsRecyclerViewInside.setAdapter(customInstitutionAdapter);
+            //noinspection unchecked
+            InstitutionAdapter institutionAdapter = new InstitutionAdapter((FirebaseRecyclerOptions<InstitutionsListItemParent>) options);
+
+            holder.institutionsRecyclerViewInside.setAdapter(institutionAdapter);
             SnapHelper snapHelper = new GravitySnapHelper(Gravity.START);
             snapHelper.attachToRecyclerView(holder.institutionsRecyclerViewInside);
+
+            institutionAdapter.startListening();
         }
 
 
@@ -700,17 +705,17 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
             return listOfTotalInstitutions.size();
         }
 
-        class CustomInstitutionsCollectionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        class InstitutionsCollectionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
             private TextView institutionHeading;
             private TextView institutionSeeAll;
             private RecyclerView institutionsRecyclerViewInside;
 
-            CustomInstitutionsCollectionViewHolder(View itemView) {
+            InstitutionsCollectionViewHolder(View itemView) {
                 super(itemView);
-                institutionHeading = (TextView) itemView.findViewById(R.id.lbl_institutions);
-                institutionSeeAll = (TextView) itemView.findViewById(R.id.lbl_see_all);
-                institutionsRecyclerViewInside = (RecyclerView) itemView.findViewById(R.id.rec_institutions);
+                institutionHeading = itemView.findViewById(R.id.lbl_institutions);
+                institutionSeeAll = itemView.findViewById(R.id.lbl_see_all);
+                institutionsRecyclerViewInside = itemView.findViewById(R.id.rec_institutions);
                 institutionSeeAll.setOnClickListener(this);
 
             }
@@ -730,144 +735,6 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
      * This class will be used to inflate complete institutions list dynamically
      * by CustomInstitutionCollectionAdapter.
      */
-    private class CustomInstitutionAdapter extends RecyclerView.Adapter<CustomInstitutionAdapter.CustomInstitutionViewHolder> {
-
-        private List<?> dataInside;
-
-        private void setDataInside(List<?> dataInside) {
-            this.dataInside = dataInside;
-        }
-
-        @Override
-        public CustomInstitutionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = layoutInflater.inflate(R.layout._4_3_rec_institutions_items, parent, false);
-            return new CustomInstitutionViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(CustomInstitutionViewHolder holder, int position) {
-            InstitutionsListItemParent currentItem = (InstitutionsListItemParent) dataInside.get(position);
-            //holder.institutionIcon.setImageResource(currentItem.getIcon_image());
-            holder.institutionName.setText(currentItem.getName());
-            holder.institutionRating.setText(currentItem.getRating());
-            holder.institutionCityName.setText(currentItem.getCity());
-        }
-
-        @Override
-        public int getItemCount() {
-            // Helps the adapter decide how many items it will need to manage
-            return dataInside.size();
-        }
-
-        // This class is bridge between NewsListItem(Data) class and news_recycler_view(View) layout
-        class CustomInstitutionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-            private ViewGroup container;
-            private ImageView institutionIcon;
-            private TextView institutionName;
-            private ImageView institutionMore;
-            private TextView institutionRating;
-            private TextView institutionCityName;
-
-
-            CustomInstitutionViewHolder(View itemView) {
-                super(itemView);
-
-                container = (ViewGroup) itemView.findViewById(R.id.root_institutions);
-                institutionIcon = (ImageView) itemView.findViewById(R.id.iv_institutions_icon);
-                institutionName = (TextView) itemView.findViewById(R.id.lbl_institutions_name);
-                institutionMore = (ImageView) itemView.findViewById(R.id.iv_institutions_more);
-                institutionRating = (TextView) itemView.findViewById(R.id.lbl_institutions_rating);
-                institutionCityName = (TextView) itemView.findViewById(R.id.lbl_institutions_city_name);
-
-                container.setOnClickListener(this);
-                institutionMore.setOnClickListener(this);
-            }
-
-            @Override
-            public void onClick(View v) {
-                switch (v.getId()) {
-                    case R.id.root_institutions:
-                        InstitutionsListItemParent institutionListItem = (InstitutionsListItemParent) dataInside.get(this.getAdapterPosition());
-                        homePageController.onInstitutionsItemClick(institutionListItem);
-                        break;
-                    case R.id.iv_institutions_more:
-                        Toast.makeText(getContext(), "Clicked", Toast.LENGTH_SHORT).show();
-                        break;
-                    default:break;
-                }
-
-            }
-        }
-    }
-
-
-
-    private class InstitutionCollnAdapter extends FirebaseRecyclerAdapter<ListOfTotalInstitutions, InstitutionCollnAdapter.InstitutionCollnViewHolder> {
-
-        /*
-         * Initialize a {@link RecyclerView.Adapter} that listens to a Firebase query. See
-         * {@link FirebaseRecyclerOptions} for configuration options.
-         *
-         * @param options
-         */
-
-        public InstitutionCollnAdapter(@NonNull FirebaseRecyclerOptions<ListOfTotalInstitutions> options) {
-            super(options);
-        }
-
-
-        @Override
-        protected void onBindViewHolder(@NonNull InstitutionCollnViewHolder holder, int position, @NonNull ListOfTotalInstitutions model) {
-
-            ListOfTotalInstitutions currentItem = listOfTotalInstitutions.get(position);
-
-            holder.institutionHeading.setText(currentItem.getInstitutionHeading());
-            holder.institutionSeeAll.setText(R.string.see_all);
-
-            holder.institutionsRecyclerViewInside.setNestedScrollingEnabled(false);
-            holder.institutionsRecyclerViewInside.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-            CustomInstitutionAdapter customInstitutionAdapter = new CustomInstitutionAdapter();
-
-            customInstitutionAdapter.setDataInside(currentItem.getRelatedInstitutionData());
-
-            holder.institutionsRecyclerViewInside.setAdapter(customInstitutionAdapter);
-            SnapHelper snapHelper = new GravitySnapHelper(Gravity.START);
-            snapHelper.attachToRecyclerView(holder.institutionsRecyclerViewInside);
-
-        }
-
-        @NonNull
-        @Override
-        public InstitutionCollnViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = layoutInflater.inflate(R.layout._4_2_institutions_section, parent, false);
-            return new InstitutionCollnViewHolder(view);
-        }
-
-        class InstitutionCollnViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-
-            private TextView institutionHeading;
-            private TextView institutionSeeAll;
-            private RecyclerView institutionsRecyclerViewInside;
-
-            InstitutionCollnViewHolder(View itemView) {
-                super(itemView);
-
-                institutionHeading = itemView.findViewById(R.id.lbl_institutions);
-                institutionSeeAll = itemView.findViewById(R.id.lbl_see_all);
-                institutionsRecyclerViewInside = itemView.findViewById(R.id.rec_institutions);
-                institutionSeeAll.setOnClickListener(this);
-
-            }
-
-            @Override
-            public void onClick(View v) {
-                homePageController.onAllInstitutionsClick();
-            }
-        }
-
-    }
-
     private class InstitutionAdapter extends FirebaseRecyclerAdapter<InstitutionsListItemParent, InstitutionAdapter.InstitutionViewHolder> {
 
         /*
@@ -877,7 +744,7 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
          * @param options
          */
 
-        public InstitutionAdapter(@NonNull FirebaseRecyclerOptions<InstitutionsListItemParent> options) {
+        InstitutionAdapter(@NonNull FirebaseRecyclerOptions<InstitutionsListItemParent> options) {
             super(options);
         }
 
@@ -887,6 +754,10 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
             holder.institutionName.setText(model.getName());
             holder.institutionRating.setText(model.getRating());
             holder.institutionCityName.setText(model.getCity());
+            Picasso.get()
+                    .load(model.getIcon_image())
+                    .placeholder(R.drawable.logo)
+                    .into(holder.institutionIcon);
         }
 
         @NonNull
@@ -905,15 +776,15 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
             private TextView institutionRating;
             private TextView institutionCityName;
 
-            public InstitutionViewHolder(View itemView) {
+            InstitutionViewHolder(View itemView) {
                 super(itemView);
 
-                container = (ViewGroup) itemView.findViewById(R.id.root_institutions);
-                institutionIcon = (ImageView) itemView.findViewById(R.id.iv_institutions_icon);
-                institutionName = (TextView) itemView.findViewById(R.id.lbl_institutions_name);
-                institutionMore = (ImageView) itemView.findViewById(R.id.iv_institutions_more);
-                institutionRating = (TextView) itemView.findViewById(R.id.lbl_institutions_rating);
-                institutionCityName = (TextView) itemView.findViewById(R.id.lbl_institutions_city_name);
+                container = itemView.findViewById(R.id.root_institutions);
+                institutionIcon = itemView.findViewById(R.id.iv_institutions_icon);
+                institutionName = itemView.findViewById(R.id.lbl_institutions_name);
+                institutionMore = itemView.findViewById(R.id.iv_institutions_more);
+                institutionRating = itemView.findViewById(R.id.lbl_institutions_rating);
+                institutionCityName = itemView.findViewById(R.id.lbl_institutions_city_name);
 
                 container.setOnClickListener(this);
                 institutionMore.setOnClickListener(this);
