@@ -62,7 +62,7 @@
             android:theme="@style/NavStatusBar" />
 
         <activity android:name="._5_news_activity.views.NewsHomePageActivity"
-            android:theme="@style/NavStatusBar" />
+            android:theme="@style/UserProfileTheme" />
 
         <activity
             android:name="._6_institutions_activity.views.InstitutionsHomePageActivity"

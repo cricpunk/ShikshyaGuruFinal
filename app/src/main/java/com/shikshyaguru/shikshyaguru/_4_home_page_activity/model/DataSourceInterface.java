@@ -48,8 +48,6 @@ public interface DataSourceInterface {
     //Get list of Home Page Options name
     List<HomePageOptionsListItem> getListOfOptions();
 
-    UserData getUserData();
-
     String getSlogan(String id);
 
 }

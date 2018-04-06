@@ -42,7 +42,7 @@ public class DynamicFragmentLoader {
                         showFragment(new NewsMainFragment(), fragHolderId, fragmentManager);
                         break;
                     case "news_loader":
-                        showFragment(new NewsLoaderFragment(), fragHolderId, fragmentManager);
+                        showFragment(openNewsLoader(bundle), fragHolderId, fragmentManager);
                         break;
                     case "institutions_main":
                         showFragment(new InstitutionMainFragment(), fragHolderId, fragmentManager);
@@ -80,6 +80,12 @@ public class DynamicFragmentLoader {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(fragHolderId, fragment);
         transaction.commit();
+    }
+
+    private static NewsLoaderFragment openNewsLoader(Bundle bundle) {
+        NewsLoaderFragment newsLoaderFragment = new NewsLoaderFragment();
+        newsLoaderFragment.setArguments(bundle);
+        return newsLoaderFragment;
     }
 
     private static InstitutionsLoaderFragment openInstitutionLoader(Bundle bundle) {

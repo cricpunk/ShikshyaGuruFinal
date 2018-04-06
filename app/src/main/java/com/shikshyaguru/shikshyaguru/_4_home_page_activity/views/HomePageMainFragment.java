@@ -285,11 +285,17 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
     }
 
     @Override
-    public void openNewsLoaderFragment(String news) {
+    public void openNewsLoaderFragment(NewsListItem newsListItem, ActivityOptions options) {
         Intent intent = new Intent(getContext(), NewsHomePageActivity.class);
-        intent.putExtra(EXTRA_NEWS, news);
         intent.putExtra("REQUEST_CODE", "news_loader");
-        startActivity(intent);
+        intent.putExtra("IMAGE", newsListItem.getImage());
+        intent.putExtra("HEADING", newsListItem.getHeading());
+        intent.putExtra("NEWS", newsListItem.getNews());
+        intent.putExtra("PLACE", newsListItem.getPlace());
+        intent.putExtra("WRITER", newsListItem.getWriter());
+        intent.putExtra("TIME", newsListItem.getTime());
+
+        startActivity(intent, options.toBundle());
     }
 
     @Override
@@ -652,6 +658,8 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
                     .placeholder(R.drawable.logo_for_news)
                     .into(holder.newsHeadlinesIcon);
 
+            holder.newsList = model;
+
         }
 
         @NonNull
@@ -672,6 +680,8 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
             private TextView newsWriter;
             private ImageView moreIcon;
 
+            NewsListItem newsList;
+
             NewsViewHolder(View itemView) {
                 super(itemView);
 
@@ -691,8 +701,16 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.root_news_headlines:
-                        NewsListItem newsListItem = listOfNewsData.get(this.getAdapterPosition());
-                        homePageController.onNewsListItemClick(newsListItem);
+
+                        Pair[] pairs = new Pair[2];
+                        pairs[0] = new Pair<View, String>(newsHeadlinesIcon, "newsImageIcon");
+                        pairs[1] = new Pair<View, String>(newsHeadlines, "newsHeading");
+
+                        //noinspection unchecked
+                        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(), pairs);
+
+                        homePageController.onNewsListItemClick(newsList, options);
+
                         break;
                     case R.id.iv_news_headline_more:
                         Toast.makeText(getContext(), "Clicked", Toast.LENGTH_SHORT).show();
@@ -805,7 +823,6 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
             holder.name = model.getName();
             holder.image = model.getIcon_image();
             holder.place = model.getCity();
-            holder.slogan = homePageController.getSlogan(model.getId());
 
         }
 
@@ -825,7 +842,7 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
             private TextView institutionRating;
             private TextView institutionCityName;
 
-            private String id, image, name, place, slogan;
+            private String id, image, name, place;
 
             InstitutionViewHolder(View itemView) {
                 super(itemView);
@@ -836,12 +853,6 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
                 institutionMore = itemView.findViewById(R.id.iv_institutions_more);
                 institutionRating = itemView.findViewById(R.id.lbl_institutions_rating);
                 institutionCityName = itemView.findViewById(R.id.lbl_institutions_city_name);
-
-                id = null;
-                image = null;
-                name = null;
-                place = null;
-                slogan = null;
 
                 container.setOnClickListener(this);
                 institutionMore.setOnClickListener(this);
@@ -854,15 +865,15 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
                 switch (v.getId()) {
                     case R.id.root_institutions:
 
-                        Pair[] pairs = new Pair[3];
+                        Pair[] pairs = new Pair[1];
                         pairs[0] = new Pair<View, String>(institutionIcon, "institutionImage");
-                        pairs[1] = new Pair<View, String>(institutionName, "institutionName");
-                        pairs[2] = new Pair<View, String>(institutionCityName, "institutionPlace");
+//                        pairs[1] = new Pair<View, String>(institutionName, "institutionName");
+//                        pairs[2] = new Pair<View, String>(institutionCityName, "institutionPlace");
 
                         //noinspection unchecked
                         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(), pairs);
 
-                        homePageController.onInstitutionItemClick(id, image, name, place, slogan, options);
+                        homePageController.onInstitutionItemClick(id, image, name, place, null, options);
 
                         break;
                     case R.id.iv_institutions_more:

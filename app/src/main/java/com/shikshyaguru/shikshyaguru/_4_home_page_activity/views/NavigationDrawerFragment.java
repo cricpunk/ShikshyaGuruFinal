@@ -42,7 +42,6 @@ import com.shikshyaguru.shikshyaguru._3_signUp_activity.views.AuthenticationActi
 import com.shikshyaguru.shikshyaguru._3_signUp_activity.views.LoginFragment;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.DrawerListItem;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.FakeDataSource;
-import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.UserData;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.presenter.HomePageController;
 import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.UserHomePageActivity;
 
@@ -187,7 +186,7 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
     }
 
     @Override
-    public void onUserProfileClickListener(UserData userData) {
+    public void onUserProfileClickListener() {
         Intent intent = new Intent(getContext(), UserHomePageActivity.class);
         intent.putExtra("REQUEST_CODE", "user_main");
         startActivity(intent);

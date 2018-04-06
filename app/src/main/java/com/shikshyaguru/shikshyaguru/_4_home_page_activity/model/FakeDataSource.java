@@ -115,11 +115,6 @@ public class FakeDataSource implements DataSourceInterface {
         return listOfOptionsData;
     }
 
-    @Override
-    public UserData getUserData() {
-        return null;
-    }
-
     private String slogan;
     @Override
     public String getSlogan(String id) {

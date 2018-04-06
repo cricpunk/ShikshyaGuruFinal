@@ -3,8 +3,8 @@ package com.shikshyaguru.shikshyaguru._5_news_activity.views;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+
 import com.shikshyaguru.shikshyaguru.R;
 import com.shikshyaguru.shikshyaguru._0_3_dynamic_fragment_loader.DynamicFragmentLoader;
 
@@ -32,53 +32,13 @@ public class NewsHomePageActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-//        loadFragment(bundle, R.id.news_home_page_fragment_holder);
         DynamicFragmentLoader.loadFragment(
                 new NewsMainFragment(),
                 bundle,
                 R.id.news_home_page_fragment_holder,
                 getSupportFragmentManager());
+
     }
 
-    /*
-     *
-     ###############################################################################################
-     ##==>  This method will be called from inside onCreate which take bundle as an argument      ##
-     ##     which is used to retrieve request code.                                               ##
-     ##==>  loadFragment method will display related fragment as per the request past through     ##
-     ##     activities.                                                                           ##
-     ##==>  NewsLoaderFragment.class will be displayed if activities request for single news      ##
-     ##     details.                                                                              ##
-     ##==>  NewsMainFragment.class will be displayed if activities request for news home page     ##
-     ###############################################################################################
-     *
-     */
-    private void loadFragment(Bundle bundle, int fragHolderId) {
-        if (bundle != null) {
-            String requestCode = (String) bundle.get("REQUEST_CODE");
-            if (requestCode != null) {
-                switch (requestCode) {
-                    case "news_home":
-                        showFragment(new NewsMainFragment(), fragHolderId);
-                        break;
-                    case "news_loader":
-                        showFragment(new NewsLoaderFragment(), fragHolderId);
-                        break;
-                    default:
-                        break;
-                }
-            } else {
-                showFragment(new NewsMainFragment(), fragHolderId);
-            }
-        } else {
-            showFragment(new NewsMainFragment(), fragHolderId);
-        }
-    }
-
-    private void showFragment(Fragment fragment, int fragHolderId) {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(fragHolderId, fragment).commit();
-    }
 
 }

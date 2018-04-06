@@ -5,6 +5,10 @@ package com.shikshyaguru.shikshyaguru._6_institutions_activity.model;
  * Koiralapankaj007@gmail.com
  */
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.shikshyaguru.shikshyaguru.R;
 
 import java.util.ArrayList;
@@ -19,6 +23,7 @@ public class InstitutionFakeDataSource implements InstitutionDataSourceInterface
     private int randOne;
     private int randTwo;
     private int randThree;
+    private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
 
     private final String[] NEWS_AND_EVENTS = {
             "News and events from college 1", "News and events from college 1",
@@ -319,6 +324,25 @@ public class InstitutionFakeDataSource implements InstitutionDataSourceInterface
         ArrayList<String> thirdDesc = new ArrayList<>();
 
         return activitiesData;
+    }
+
+    private String slogan;
+    @Override
+    public String getSlogan(String id) {
+
+        mDatabase.getReference("clients").child(id).child("slogan").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                slogan = dataSnapshot.getValue(String.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        return slogan;
     }
 
 }

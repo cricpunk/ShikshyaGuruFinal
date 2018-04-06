@@ -41,7 +41,7 @@ public class HomePageController {
     }
 
     public void onUserProfileClick() {
-        drawerInterface.onUserProfileClickListener(dataSource.getUserData());
+        drawerInterface.onUserProfileClickListener();
     }
 
     private void setUpSliderWithData() {
@@ -68,8 +68,8 @@ public class HomePageController {
         view.openNewsMainFragment();
     }
 
-    public void onNewsListItemClick(NewsListItem newsListItem) {
-        view.openNewsLoaderFragment(newsListItem.getNews());
+    public void onNewsListItemClick(NewsListItem newsListItem, ActivityOptions options) {
+        view.openNewsLoaderFragment(newsListItem, options);
     }
 
     private void setUpInstitutionsCollectionWithData() {

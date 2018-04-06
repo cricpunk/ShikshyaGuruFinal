@@ -30,6 +30,8 @@ import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 import com.shikshyaguru.shikshyaguru.R;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionFakeDataSource;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter.InstitutionsController;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerActivitiesFragment;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerContactFragment;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerGalleryFragment;
@@ -46,13 +48,26 @@ public class InstitutionsLoaderFragment extends Fragment implements AppBarLayout
 
     private SmartTabLayout viewPagerTab;
     private CollapsingToolbarLayout collapsingToolbar;
-
+    private InstitutionsController controller;
     private String id, image, name, place, slogan;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout._6_2_0_ihp_inst_loader_fragment, container, false);
+
+        View view = inflater.inflate(R.layout._6_2_0_ihp_inst_loader_fragment, container, false);
+        if (getArguments() != null ) {
+            id = getArguments().getString("ID");
+            image = getArguments().getString("IMAGE");
+            name = getArguments().getString("NAME");
+            place = getArguments().getString("PLACE");
+            slogan = getArguments().getString("SLOGAN");
+        }
+
+
+        controller = new InstitutionsController(new InstitutionFakeDataSource());
+
+        return view;
 
     }
 
@@ -64,20 +79,13 @@ public class InstitutionsLoaderFragment extends Fragment implements AppBarLayout
         initSmartTabLayout(view);
         initFloatingActionMenu(view);
 
-        if (getArguments() != null ) {
-            id = getArguments().getString("ID");
-            image = getArguments().getString("IMAGE");
-            name = getArguments().getString("NAME");
-            place = getArguments().getString("PLACE");
-            slogan = getArguments().getString("SLOGAN");
-        }
-
         initComponents(view);
+
     }
 
     private void initComponents(View view) {
 
-        KenBurnsView kenBurnsView = view.findViewById(R.id.iv_inst_cover_image);
+        KenBurnsView kenBurnsView = view.findViewById(R.id.iv_news_headline_icon);
         TextView lblName = view.findViewById(R.id.lbl_institutions_name);
         TextView lblPlace = view.findViewById(R.id.lbl_institutions_city_name);
         TextView lblSlogan = view.findViewById(R.id.lbl_institutions_slogan);
@@ -88,7 +96,14 @@ public class InstitutionsLoaderFragment extends Fragment implements AppBarLayout
                 .into(kenBurnsView);
         lblName.setText(name);
         lblPlace.setText(place);
-        lblSlogan.setText(slogan);
+
+        if (slogan != null) {
+            lblSlogan.setText(slogan);
+        } else {
+            System.out.println("======================================================");
+            System.out.println(controller.getSlogan(id));
+            lblSlogan.setText(controller.getSlogan(id));
+        }
 
         Toast.makeText(getContext(), id, Toast.LENGTH_SHORT).show();
 

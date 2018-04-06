@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_news_headlines"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/margin_extra_short">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/iv_news_headline_icon"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:contentDescription="@string/news_headlines_icon"
+            android:paddingTop="4dp"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/tumblr" />
+
+        <TextView
+            android:id="@+id/lbl_news_headlines"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/lbl_news_source_info"
+            android:background="#CC222222"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:lines="2"
+            android:padding="@dimen/margin_short"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            tools:text="This is news headlines this is a news headlines." />
+
+        <RelativeLayout
+            android:id="@+id/lbl_news_source_info"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_below="@+id/iv_news_headline_icon"
+            android:background="#CCC"
+            android:orientation="horizontal"
+            android:weightSum="4">
+
+            <TextView
+                android:id="@+id/lbl_news_post_time"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:paddingStart="@dimen/margin_short"
+                android:paddingEnd="@dimen/margin_short"
+                android:text="@string/news_post_time"
+                android:textColor="#9E9E9E" />
+
+            <TextView
+                android:id="@+id/lbl_news_from"
+                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:text="@string/news_from"
+                android:layout_toEndOf="@+id/lbl_news_post_time"
+                android:gravity="center"
+                android:textColor="#DD2C00" />
+
+            <TextView
+                android:id="@+id/lbl_news_writer"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center|end"
+                android:layout_toEndOf="@+id/lbl_news_from"
+                android:layout_toStartOf="@+id/iv_news_headline_more"
+                android:text="@string/news_writer"
+                android:textColor="#DD2C00" />
+
+            <ImageView
+                android:id="@+id/iv_news_headline_more"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:contentDescription="@string/three_dots"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
+                app:srcCompat="@drawable/ic_more" />
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>
+
+
+    <!--<TextView--><!--android:id="@+id/lbl_news_headlines"--><!--android:layout_width="0dp"--><!--android:layout_height="0dp"--><!--android:layout_marginBottom="8dp"--><!--android:layout_marginEnd="16dp"--><!--android:layout_marginLeft="16dp"--><!--android:layout_marginRight="16dp"--><!--android:layout_marginStart="16dp"--><!--android:layout_marginTop="8dp"--><!--android:drawableLeft="@drawable/news_right_arrow"--><!--android:drawableStart="@drawable/news_right_arrow"--><!--android:gravity="center_vertical"--><!--android:maxLines="1"--><!--app:layout_constraintBottom_toBottomOf="parent"--><!--app:layout_constraintLeft_toLeftOf="parent"--><!--app:layout_constraintRight_toRightOf="parent"--><!--app:layout_constraintTop_toTopOf="parent"--><!--tools:text="This is first news headline click to expand news." />-->

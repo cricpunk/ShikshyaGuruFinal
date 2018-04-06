@@ -44,7 +44,7 @@ public interface ViewInterface {
 
     void openNewsMainFragment();
 
-    void openNewsLoaderFragment(String news);
+    void openNewsLoaderFragment(NewsListItem newsListItem, ActivityOptions options);
 
     // Setting institutions collections recycler view adapter with data
     // Whole card view is displayed in a recycler view dynamically

@@ -6,13 +6,12 @@ package com.shikshyaguru.shikshyaguru._4_home_page_activity.views;
  */
 
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.DrawerListItem;
-import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.UserData;
 
 import java.util.List;
 
 public interface DrawerInterface {
 
-    void onUserProfileClickListener(UserData userData);
+    void onUserProfileClickListener();
 
     void setUpDrawerMainHeader(List<DrawerListItem> drawerListItems);
 }

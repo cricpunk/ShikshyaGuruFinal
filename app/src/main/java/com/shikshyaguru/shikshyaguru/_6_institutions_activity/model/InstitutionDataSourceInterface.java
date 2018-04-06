@@ -34,4 +34,5 @@ public interface InstitutionDataSourceInterface {
 
     InstitutionActivitiesData getInstitutionActivitiesData();
 
+    String getSlogan(String id);
 }
