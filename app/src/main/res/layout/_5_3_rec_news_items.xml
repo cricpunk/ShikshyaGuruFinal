@@ -5,7 +5,9 @@
     android:id="@+id/root_news_headlines"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/margin_extra_short">
+    android:layout_marginEnd="@dimen/margin_standard"
+    android:layout_marginStart="@dimen/margin_standard"
+    android:layout_marginTop="@dimen/margin_standard">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -14,23 +16,23 @@
         <ImageView
             android:id="@+id/iv_news_headline_icon"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="180dp"
             android:contentDescription="@string/news_headlines_icon"
             android:paddingTop="4dp"
+            android:foreground="#33222222"
             android:scaleType="centerCrop"
             app:srcCompat="@drawable/tumblr" />
 
         <TextView
             android:id="@+id/lbl_news_headlines"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/lbl_news_source_info"
-            android:background="#CC222222"
+            android:layout_height="180dp"
             android:ellipsize="end"
-            android:gravity="center_vertical"
+            android:gravity="center_horizontal"
             android:lines="2"
-            android:padding="@dimen/margin_short"
+            android:padding="@dimen/margin_standard"
             android:textColor="#FFFFFF"
+            android:textSize="16sp"
             android:textStyle="bold"
             tools:text="This is news headlines this is a news headlines." />
 
@@ -39,7 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_below="@+id/iv_news_headline_icon"
-            android:background="#CCC"
+            android:background="#222222"
             android:orientation="horizontal"
             android:weightSum="4">
 
@@ -48,29 +50,29 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:paddingStart="@dimen/margin_short"
                 android:paddingEnd="@dimen/margin_short"
+                android:paddingStart="@dimen/margin_short"
                 android:text="@string/news_post_time"
                 android:textColor="#9E9E9E" />
 
             <TextView
                 android:id="@+id/lbl_news_from"
-                android:layout_height="match_parent"
                 android:layout_width="wrap_content"
-                android:text="@string/news_from"
+                android:layout_height="match_parent"
                 android:layout_toEndOf="@+id/lbl_news_post_time"
                 android:gravity="center"
-                android:textColor="#DD2C00" />
+                android:text="@string/news_from"
+                android:textColor="#EEEEEE" />
 
             <TextView
                 android:id="@+id/lbl_news_writer"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:gravity="center|end"
                 android:layout_toEndOf="@+id/lbl_news_from"
                 android:layout_toStartOf="@+id/iv_news_headline_more"
+                android:gravity="center|end"
                 android:text="@string/news_writer"
-                android:textColor="#DD2C00" />
+                android:textColor="#EEEEEE" />
 
             <ImageView
                 android:id="@+id/iv_news_headline_more"

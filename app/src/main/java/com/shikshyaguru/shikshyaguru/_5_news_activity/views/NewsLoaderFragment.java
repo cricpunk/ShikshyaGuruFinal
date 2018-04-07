@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -12,7 +14,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.shikshyaguru.shikshyaguru.R;
+import com.shikshyaguru.shikshyaguru._0_6_widgets.Toolbars;
 import com.squareup.picasso.Picasso;
+
+import java.util.Objects;
 
 /**
  * Created by cricpunk on 8/30/17.
@@ -28,6 +33,8 @@ public class NewsLoaderFragment extends Fragment implements View.OnClickListener
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+        View view = inflater.inflate(R.layout._5_2_nhp_news_loader_fragment, container, false);
+
         if (getArguments() != null ) {
 
             image = getArguments().getString("IMAGE");
@@ -39,7 +46,12 @@ public class NewsLoaderFragment extends Fragment implements View.OnClickListener
 
         }
 
-        return inflater.inflate(R.layout._5_2_nhp_news_loader_fragment, container, false);
+        Toolbar toolbar = view.findViewById(R.id.tb_news_loader_frag);
+        Toolbars.setUpToolbar(toolbar, getActivity(), heading);
+        // To make onOptionItemSelected working we have to setHasOptionsMenu true in fragment.
+        setHasOptionsMenu(true);
+
+        return view;
     }
 
     @Override
@@ -47,6 +59,21 @@ public class NewsLoaderFragment extends Fragment implements View.OnClickListener
         super.onViewCreated(view, savedInstanceState);
 
         initComponents(view);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+
+            case android.R.id.home:
+                Objects.requireNonNull(getActivity()).onBackPressed();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
     }
 
     private void initComponents(View view) {

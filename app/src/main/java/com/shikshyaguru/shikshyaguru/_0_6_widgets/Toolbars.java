@@ -22,18 +22,10 @@ public class Toolbars {
         ActionBar getSupportActionBar = ((AppCompatActivity) activity).getSupportActionBar();
         if (getSupportActionBar != null) {
             getSupportActionBar.setDisplayHomeAsUpEnabled(true);
-            //getSupportActionBar.setDisplayShowHomeEnabled(true);
+            getSupportActionBar.setDisplayShowHomeEnabled(true);
             getSupportActionBar.setTitle(title);
             //getSupportActionBar.setDisplayShowTitleEnabled(false);
         }
-
-//        AppBarLayout mAppBar = rootView.findViewById(R.id.abl_inst_loader_vp_programmes_courses_loader);
-//        mAppBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-//            @Override
-//            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-//
-//            }
-//        });
 
     }
 

@@ -1,5 +1,7 @@
 package com.shikshyaguru.shikshyaguru._5_news_activity.views;
 
+import android.app.ActivityOptions;
+
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.NewsListItem;
 
@@ -11,5 +13,7 @@ import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.NewsListItem;
 public interface NewsViewInterface {
 
     void setNewsAdapter(FirebaseRecyclerOptions<NewsListItem> newsList);
+
+    void openNewsLoaderFragment(NewsListItem newsListItem, ActivityOptions options);
 
 }

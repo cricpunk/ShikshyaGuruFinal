@@ -6,14 +6,17 @@ package com.shikshyaguru.shikshyaguru._5_news_activity.views;
  */
 
 import android.app.ActivityOptions;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Pair;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -23,10 +26,14 @@ import android.widget.Toast;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.shikshyaguru.shikshyaguru.R;
+import com.shikshyaguru.shikshyaguru._0_6_widgets.StatusBar;
+import com.shikshyaguru.shikshyaguru._0_6_widgets.Toolbars;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.NewsListItem;
 import com.shikshyaguru.shikshyaguru._5_news_activity.model.NewsDataSource;
 import com.shikshyaguru.shikshyaguru._5_news_activity.presenter.NewsController;
 import com.squareup.picasso.Picasso;
+
+import java.util.Objects;
 
 public class NewsMainFragment extends Fragment implements NewsViewInterface {
 
@@ -43,14 +50,37 @@ public class NewsMainFragment extends Fragment implements NewsViewInterface {
 
         recyclerViewNews = view.findViewById(R.id.rec_news_loader);
 
+        // Change status bar color always from inside onCreateView
+        StatusBar.changeStatusBarColor(getContext(), Objects.requireNonNull(getActivity()).getWindow(), R.color.black_toolbar);
+
+        // Setup toolbar
+        Toolbar toolbar = view.findViewById(R.id.tb_news_home);
+        Toolbars.setUpToolbar(toolbar, getActivity(), "News");
+        // To make onOptionItemSelected working we have to setHasOptionsMenu true in fragment.
+        setHasOptionsMenu(true);
+
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         controller = new NewsController(this, new NewsDataSource());
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+
+            case android.R.id.home:
+                Objects.requireNonNull(getActivity()).onBackPressed();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
     }
 
     @Override
@@ -63,6 +93,20 @@ public class NewsMainFragment extends Fragment implements NewsViewInterface {
 
         newsAdapter.startListening();
 
+    }
+
+    @Override
+    public void openNewsLoaderFragment(NewsListItem newsListItem, ActivityOptions options) {
+        Intent intent = new Intent(getContext(), NewsHomePageActivity.class);
+        intent.putExtra("REQUEST_CODE", "news_loader");
+        intent.putExtra("IMAGE", newsListItem.getImage());
+        intent.putExtra("HEADING", newsListItem.getHeading());
+        intent.putExtra("NEWS", newsListItem.getNews());
+        intent.putExtra("PLACE", newsListItem.getPlace());
+        intent.putExtra("WRITER", newsListItem.getWriter());
+        intent.putExtra("TIME", newsListItem.getTime());
+
+        startActivity(intent, options.toBundle());
     }
 
     private class NewsAdapter extends FirebaseRecyclerAdapter<NewsListItem, NewsAdapter.NewsViewHolder> {
@@ -142,7 +186,7 @@ public class NewsMainFragment extends Fragment implements NewsViewInterface {
                         //noinspection unchecked
                         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(), pairs);
 
-                        //homePageController.onNewsListItemClick(newsList, options);
+                        controller.onNewsListItemClick(newsList, options);
 
                         break;
                     case R.id.iv_news_headline_more:

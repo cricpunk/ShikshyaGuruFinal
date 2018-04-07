@@ -1,5 +1,8 @@
 package com.shikshyaguru.shikshyaguru._5_news_activity.presenter;
 
+import android.app.ActivityOptions;
+
+import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.NewsListItem;
 import com.shikshyaguru.shikshyaguru._5_news_activity.model.NewsDataSourceInterface;
 import com.shikshyaguru.shikshyaguru._5_news_activity.views.NewsViewInterface;
 
@@ -24,5 +27,8 @@ public class NewsController {
         newsView.setNewsAdapter(dataSource.getNewsList());
     }
 
+    public void onNewsListItemClick(NewsListItem newsListItem, ActivityOptions options) {
+        newsView.openNewsLoaderFragment(newsListItem, options);
+    }
 
 }

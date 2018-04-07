@@ -56,6 +56,7 @@ public class InstitutionsLoaderFragment extends Fragment implements AppBarLayout
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout._6_2_0_ihp_inst_loader_fragment, container, false);
+
         if (getArguments() != null ) {
             id = getArguments().getString("ID");
             image = getArguments().getString("IMAGE");
@@ -63,7 +64,6 @@ public class InstitutionsLoaderFragment extends Fragment implements AppBarLayout
             place = getArguments().getString("PLACE");
             slogan = getArguments().getString("SLOGAN");
         }
-
 
         controller = new InstitutionsController(new InstitutionFakeDataSource());
 

@@ -2,7 +2,6 @@ package com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_f
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
@@ -31,11 +30,11 @@ import com.shikshyaguru.shikshyaguru._0_6_widgets.Toolbars;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionFakeDataSource;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionProgrammesCoursesData;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter.VPProgrammesController;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionsHomePageActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class ViewPagerProgrammesCoursesLoader extends Fragment implements
         ViewPagerProgrammesCoursesLoaderInterface,
@@ -96,15 +95,7 @@ public class ViewPagerProgrammesCoursesLoader extends Fragment implements
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-//                if (getFragmentManager().getBackStackEntryCount() > 0) {
-//                    getFragmentManager().popBackStack();
-//                } else {
-//                    Toast.makeText(getContext(), "Does not work", Toast.LENGTH_SHORT).show();
-//                }
-
-                Intent intent = new Intent(getContext(), InstitutionsHomePageActivity.class);
-                intent.putExtra("REQUEST_CODE", "institutions_loader");
-                startActivity(intent);
+                Objects.requireNonNull(getActivity()).onBackPressed();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
