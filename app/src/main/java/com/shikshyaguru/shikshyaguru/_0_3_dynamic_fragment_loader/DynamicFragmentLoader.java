@@ -101,27 +101,20 @@ public class DynamicFragmentLoader {
     }
 
     private static ViewPagerProgrammesCoursesLoader openCourseLoader(Bundle bundle) {
-        Bundle bundle1 = new Bundle();
-        bundle1.putString("COURSE_NAME", (String) bundle.get("COURSE_NAME"));
         ViewPagerProgrammesCoursesLoader coursesLoader = new ViewPagerProgrammesCoursesLoader();
-        coursesLoader.setArguments(bundle1);
+        coursesLoader.setArguments(bundle);
         return coursesLoader;
     }
 
     private static ViewPagerGalleryLoader openGalleryLoader(Bundle bundle) {
-        Bundle bundle1 = new Bundle();
-        bundle1.putString("CATEGORY", (String) bundle.get("CATEGORY"));
         ViewPagerGalleryLoader galleryLoader = new ViewPagerGalleryLoader();
-        galleryLoader.setArguments(bundle1);
+        galleryLoader.setArguments(bundle);
         return galleryLoader;
     }
 
     private static ViewPagerGalleryLoaderImageLoader openFullImage(Bundle bundle) {
-        Bundle bundle1 = new Bundle();
-        bundle1.putInt("POSITION", bundle.getInt("POSITION"));
-        bundle1.putIntegerArrayList("IMAGES", bundle.getIntegerArrayList("IMAGES"));
         ViewPagerGalleryLoaderImageLoader imageLoader = new ViewPagerGalleryLoaderImageLoader();
-        imageLoader.setArguments(bundle1);
+        imageLoader.setArguments(bundle);
         return imageLoader;
     }
 

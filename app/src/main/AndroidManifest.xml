@@ -72,9 +72,9 @@
             android:theme="@style/UserProfileTheme"/>
 
         <!--Maps Android Key-->
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAjtK7AX_7jIKJvVtA1U4-8G5balokGKy8" />
+        <!--<meta-data-->
+            <!--android:name="com.google.android.geo.API_KEY"-->
+            <!--android:value="AIzaSyAjtK7AX_7jIKJvVtA1U4-8G5balokGKy8" />-->
         <!--Maps Android Key-->
 
     </application>

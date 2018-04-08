@@ -21,9 +21,9 @@ public interface InstitutionDataSourceInterface {
 
     InstitutionRatingsData getInstitutionRatingsData();
 
-    List<InstitutionTeachersData> getTeachersData();
+    FirebaseRecyclerOptions<InstitutionTeachersData> getTeachersData(String id);
 
-    List<InstitutionStaffData> getStaffData();
+    FirebaseRecyclerOptions<InstitutionStaffData> getStaffData(String id);
 
     InstitutionProgrammesData getInstitutionProgrammesData();
 
@@ -33,7 +33,7 @@ public interface InstitutionDataSourceInterface {
 
     List<InstitutionStudentAlumniData> getListOfStudentAlumniData();
 
-    InstitutionGalleryData getInstitutionGalleryData();
+    FirebaseRecyclerOptions<InstitutionGalleryData> getInstitutionGalleryData(String id);
 
     InstitutionActivitiesData getInstitutionActivitiesData();
 

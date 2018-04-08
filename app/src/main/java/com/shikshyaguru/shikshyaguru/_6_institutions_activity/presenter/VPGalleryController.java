@@ -22,31 +22,23 @@ public class VPGalleryController {
     public VPGalleryController(ViewPagerGalleryInterface galleryInterface, InstitutionDataSourceInterface dataSource) {
         this.galleryInterface = galleryInterface;
         this.dataSource = dataSource;
-
-        setUpGalleryCategory();
     }
 
     public VPGalleryController(ViewPagerGalleryLoaderInterface galleryLoaderInterface, InstitutionDataSourceInterface dataSource) {
         this.galleryLoaderInterface = galleryLoaderInterface;
         this.dataSource = dataSource;
-
-        setUpGallery();
     }
 
-    private void setUpGalleryCategory() {
-        galleryInterface.setUpGalleryCategory(dataSource.getInstitutionGalleryData());
+    public void setUpGalleryCategory(String id) {
+        galleryInterface.setUpGalleryCategory(dataSource.getInstitutionGalleryData(id));
     }
 
-    public void onGalleryCategoryClick(String category) {
-        galleryInterface.onGalleryCategoryClick(category);
+    public void onImageClick(int position, ArrayList<String> images, ArrayList<String> desc, ArrayList<String> ids) {
+        galleryLoaderInterface.onImageClick(position, images, desc, ids);
     }
 
-    private void setUpGallery() {
-        galleryLoaderInterface.setUpGallery(dataSource.getInstitutionGalleryData());
-    }
-
-    public void onImageClick(int position, ArrayList<Integer> images) {
-        galleryLoaderInterface.onImageClick(position, images);
+    public void onGalleryCategoryClickNew(String category, ArrayList<String> images, ArrayList<String> desc, ArrayList<String> ids) {
+        galleryInterface.onGalleryCategoryClick(category, images, desc, ids);
     }
 
 }

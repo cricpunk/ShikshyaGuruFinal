@@ -1,6 +1,9 @@
 package com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments;
 
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionGalleryData;
+
+import java.util.ArrayList;
 
 /**
  * Project Name => ShikshyaGuru
@@ -11,8 +14,8 @@ import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionG
 
 public interface ViewPagerGalleryInterface {
 
-    void setUpGalleryCategory(InstitutionGalleryData galleryData);
+    void setUpGalleryCategory(FirebaseRecyclerOptions<InstitutionGalleryData> options);
 
-    void onGalleryCategoryClick(String category);
+    void onGalleryCategoryClick(String category, ArrayList<String> images, ArrayList<String> desc, ArrayList<String> ids);
 
 }

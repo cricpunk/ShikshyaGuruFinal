@@ -24,6 +24,11 @@ import android.widget.Toast;
 import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
@@ -42,6 +47,8 @@ import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fr
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerTeachersFragment;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
 
 public class InstitutionsLoaderFragment extends Fragment {
@@ -234,6 +241,93 @@ public class InstitutionsLoaderFragment extends Fragment {
                     break;
                 case R.id.fab_favourite_inst_loader_frag:
                     Toast.makeText(getContext(), "Favourite", Toast.LENGTH_SHORT).show();
+
+
+
+
+
+
+
+
+                    FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
+
+                    //final HashMap<String, ArrayList<String>> categoriesWithImage = new HashMap<>();
+                    //InstitutionGalleryData galleryData = new  InstitutionGalleryData();
+
+                    Query query = mDatabase.getReference().child("clients").child("client-02").child("app_gallery");
+                    query.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                            // Array which holds list of images for single category
+                            //ArrayList<String> images = new ArrayList<>();
+
+                            HashMap<String, ArrayList<String>> categoryWithImages = new HashMap<>();
+                            HashMap<String, ArrayList<String>> categoryWithDescription = new HashMap<>();
+                            HashMap<String, ArrayList<String>> categoryWithIds = new HashMap<>();
+
+                            for (DataSnapshot categorySnapshot : dataSnapshot.getChildren()) {
+
+                                ArrayList<String> images = new ArrayList<>();
+                                ArrayList<String> description = new ArrayList<>();
+                                ArrayList<String> ids = new ArrayList<>();
+
+                                for (DataSnapshot imagesSnapshot : categorySnapshot.getChildren()) {
+
+                                    String image = imagesSnapshot.child("image_url").getValue(String.class);
+                                    String desc = imagesSnapshot.child("image_description").getValue(String.class);
+                                    String time = imagesSnapshot.getKey();
+
+                                    images.add(image);
+                                    description.add(desc);
+                                    ids.add(time);
+
+                                    System.out.println("============================"+categorySnapshot.getChildrenCount()+"========================");
+                                    System.out.println(time);
+                                    System.out.println("============================"+categorySnapshot.getKey()+"========================");
+
+                                }
+
+                                categoryWithImages.put(categorySnapshot.getKey(), images);
+                                categoryWithDescription.put(categorySnapshot.getKey(), description);
+                                categoryWithIds.put(categorySnapshot.getKey(), ids);
+
+                            }
+
+                            System.out.println("============================"+categoryWithImages.size()+"========================");
+
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                     break;
                 default:
                     break;

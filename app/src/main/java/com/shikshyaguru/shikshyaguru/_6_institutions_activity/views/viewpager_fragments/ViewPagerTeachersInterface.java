@@ -5,11 +5,11 @@ package com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_f
  * Koiralapankaj007@gmail.com
  */
 
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionTeachersData;
-
-import java.util.List;
 
 public interface ViewPagerTeachersInterface {
 
-    void setUpTeachersList(List<InstitutionTeachersData> institutionTeachersData);
+    void setUpTeachersList(FirebaseRecyclerOptions<InstitutionTeachersData> options);
+
 }

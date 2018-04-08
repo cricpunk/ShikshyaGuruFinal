@@ -18,12 +18,10 @@ public class VPStaffController {
     public VPStaffController(ViewPagerStaffInterface staffInterface, InstitutionDataSourceInterface dataSource) {
         this.staffInterface = staffInterface;
         this.dataSource = dataSource;
-
-        setupStaffList();
     }
 
-    private void setupStaffList() {
-        staffInterface.setUpStaffList(dataSource.getStaffData());
+    public void setupStaffList(String id) {
+        staffInterface.setUpStaffList(dataSource.getStaffData(id));
     }
 
 }

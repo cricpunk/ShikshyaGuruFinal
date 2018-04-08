@@ -31,44 +31,6 @@ public class InstitutionFakeDataSource implements InstitutionDataSourceInterface
     private int randThree;
     private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
 
-    private final String[] NEWS_AND_EVENTS = {
-            "News and events from college 1", "News and events from college 1",
-            "News and events from college 1", "News and events from college 1",
-            "News and events from college 1", "News and events from college 1"
-    };
-    private final String[] INTRO_HEADING = {
-            "Introduction",
-            "CEO Message",
-            "For Students"
-    };
-    private final String[] INTRO = {
-            String.valueOf(R.string.demo_introduction),
-            String.valueOf(R.string.demo_introduction),
-            String.valueOf(R.string.demo_introduction)
-    };
-    private final int[] INTRO_IMAGE = {
-            R.drawable.slider1, R.drawable.slider1, R.drawable.slider1
-    };
-    private final String[] NAME = {
-            "Mr.Sulav Budhathoki","Dr. Benson Soong","Mr. Kelvin Ng"
-    };
-    private final String[] ACADEMIC_QUALIFICATION = {
-            "PhD","MBA","MBA"
-    };
-    private final String[] INSTITUTIONS = {
-            "Cambridge","Cambridge","LMU"
-    };
-    private final String[] POST = {
-            "Executive Chairman","Chief Academic Officer","Chief Operating Officer"
-    };
-    private final int[] MY_IMAGE = {
-            R.drawable.me, R.drawable.me, R.drawable.me
-    };
-
-    private final int[] IMAGES = {
-            R.drawable.model1, R.drawable.model2, R.drawable.model3,
-            R.drawable.model4, R.drawable.model5, R.drawable.me
-    };
 
     private final String[] RATING = {"4.2", "3.5", "4.8"};
     private final String[] REVIEW_HEADING = {"Very nice", "Worthy joining", "Useless college"};
@@ -118,6 +80,7 @@ public class InstitutionFakeDataSource implements InstitutionDataSourceInterface
         };
 
         return new FirebaseRecyclerOptions.Builder<InstitutionHomeIntroData>().setQuery(query, snapshotParser).build();
+
     }
 
     @Override
@@ -179,13 +142,47 @@ public class InstitutionFakeDataSource implements InstitutionDataSourceInterface
     }
 
     @Override
-    public List<InstitutionTeachersData> getTeachersData() {
-        return null;
+    public FirebaseRecyclerOptions<InstitutionTeachersData> getTeachersData(String id) {
+
+        Query query = mDatabase.getReference().child("clients").child(id).child("app_teachers").child("teachers");
+
+        SnapshotParser<InstitutionTeachersData> snapshotParser = new SnapshotParser<InstitutionTeachersData>() {
+            @NonNull
+            @Override
+            public InstitutionTeachersData parseSnapshot(@NonNull DataSnapshot snapshot) {
+
+                InstitutionTeachersData teachersData = snapshot.getValue(InstitutionTeachersData.class);
+                assert teachersData != null;
+                teachersData.setId(snapshot.getKey());
+
+                return teachersData;
+            }
+        };
+
+        return new FirebaseRecyclerOptions.Builder<InstitutionTeachersData>().setQuery(query, snapshotParser).build();
+
     }
 
     @Override
-    public List<InstitutionStaffData> getStaffData() {
-        return null;
+    public FirebaseRecyclerOptions<InstitutionStaffData> getStaffData(String id) {
+
+        Query query = mDatabase.getReference().child("clients").child(id).child("app_staff").child("staff");
+
+        SnapshotParser<InstitutionStaffData> snapshotParser = new SnapshotParser<InstitutionStaffData>() {
+            @NonNull
+            @Override
+            public InstitutionStaffData parseSnapshot(@NonNull DataSnapshot snapshot) {
+
+                InstitutionStaffData staffData = snapshot.getValue(InstitutionStaffData.class);
+                assert staffData != null;
+                staffData.setId(snapshot.getKey());
+
+                return staffData;
+            }
+        };
+
+        return new FirebaseRecyclerOptions.Builder<InstitutionStaffData>().setQuery(query, snapshotParser).build();
+
     }
 
     @Override
@@ -267,58 +264,51 @@ public class InstitutionFakeDataSource implements InstitutionDataSourceInterface
     }
 
     @Override
-    public InstitutionGalleryData getInstitutionGalleryData() {
-        InstitutionGalleryData galleryData = new InstitutionGalleryData();
+    public FirebaseRecyclerOptions<InstitutionGalleryData> getInstitutionGalleryData(String id) {
 
-        ArrayList<Integer> category1 = new ArrayList<>();
-        ArrayList<Integer> category2 = new ArrayList<>();
-        ArrayList<Integer> category3 = new ArrayList<>();
-        ArrayList<Integer> category4 = new ArrayList<>();
-        ArrayList<Integer> category5 = new ArrayList<>();
-        ArrayList<Integer> category6 = new ArrayList<>();
+        Query query = mDatabase.getReference().child("clients").child(id).child("app_gallery");
 
-        for (int i = 0; i < 32; i++) {
-            randOne = random.nextInt(6);
-            category1.add(IMAGES[randOne]);
-        }
+        SnapshotParser<InstitutionGalleryData> snapshotParser = new SnapshotParser<InstitutionGalleryData>() {
 
-        for (int i = 0; i < 47; i++) {
-            randOne = random.nextInt(6);
-            category2.add(IMAGES[randOne]);
-        }
+            HashMap<String, ArrayList<String>> categoryWithImages = new HashMap<>();
+            HashMap<String, ArrayList<String>> categoryWithDescription = new HashMap<>();
+            HashMap<String, ArrayList<String>> categoryWithIds = new HashMap<>();
 
-        for (int i = 0; i < 40; i++) {
-            randOne = random.nextInt(6);
-            category3.add(IMAGES[randOne]);
-        }
+            @NonNull
+            @Override
+            public InstitutionGalleryData parseSnapshot(@NonNull DataSnapshot snapshot) {
 
-        for (int i = 0; i < 22; i++) {
-            randOne = random.nextInt(6);
-            category4.add(IMAGES[randOne]);
-        }
+                ArrayList<String> images = new ArrayList<>();
+                ArrayList<String> description = new ArrayList<>();
+                ArrayList<String> ids = new ArrayList<>();
 
-        for (int i = 0; i < 37; i++) {
-            randOne = random.nextInt(6);
-            category5.add(IMAGES[randOne]);
-        }
+                for (DataSnapshot postSnapshot : snapshot.getChildren()) {
 
-        for (int i = 0; i < 15; i++) {
-            randOne = random.nextInt(6);
-            category6.add(IMAGES[randOne]);
-        }
+                    String image = postSnapshot.child("image_url").getValue(String.class);
+                    String desc = postSnapshot.child("image_description").getValue(String.class);
+                    String time = postSnapshot.getKey();
 
-        HashMap<String, ArrayList<Integer>> categoriesWithImages = new HashMap<>();
+                    images.add(image);
+                    description.add(desc);
+                    ids.add(time);
 
-        categoriesWithImages.put("Student life", category1);
-        categoriesWithImages.put("College", category2);
-        categoriesWithImages.put("Activities", category3);
-        categoriesWithImages.put("Events", category4);
-        categoriesWithImages.put("Entertainment", category5);
-        categoriesWithImages.put("Extra", category6);
+                    categoryWithImages.put(snapshot.getKey(), images);
+                    categoryWithDescription.put(snapshot.getKey(), description);
+                    categoryWithIds.put(snapshot.getKey(), ids);
 
-        galleryData.setCategoryWithImages(categoriesWithImages);
+                }
 
-        return galleryData;
+                InstitutionGalleryData galleryData = new  InstitutionGalleryData();
+                galleryData.setCategoryWithImages(categoryWithImages);
+                galleryData.setCategoryWithDescription(categoryWithDescription);
+                galleryData.setCategoryWithIds(categoryWithIds);
+
+                return galleryData;
+            }
+        };
+
+        return new FirebaseRecyclerOptions.Builder<InstitutionGalleryData>().setQuery(query, snapshotParser).build();
+
     }
 
     @Override

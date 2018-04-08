@@ -12,21 +12,23 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 
 import com.shikshyaguru.shikshyaguru.R;
-import com.shikshyaguru.shikshyaguru._0_5_glide.GlideApp;
 import com.shikshyaguru.shikshyaguru._0_6_widgets.StatusBar;
 import com.shikshyaguru.shikshyaguru._0_6_widgets.Toolbars;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionFakeDataSource;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionGalleryData;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter.VPGalleryController;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionsHomePageActivity;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Project Name => ShikshyaGuru
@@ -44,6 +46,7 @@ public class ViewPagerGalleryLoader extends Fragment implements ViewPagerGallery
     private InstitutionGalleryData galleryData;
     private VPGalleryController controller;
     private String category;
+    private ArrayList<String> images, description, ids;
 
     @Nullable
     @Override
@@ -68,70 +71,104 @@ public class ViewPagerGalleryLoader extends Fragment implements ViewPagerGallery
 
         if (getArguments() != null) {
             category = getArguments().getString("CATEGORY");
+            images = getArguments().getStringArrayList("IMAGES");
+            description = getArguments().getStringArrayList("DESCRIPTION");
+            ids = getArguments().getStringArrayList("IDS");
         }
 
-        Toolbar toolbar = view.findViewById(R.id.tb_inst_loader_vp_Gallery_image_loader);
-        Toolbars.setUpToolbar(toolbar, activity, category);
+
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        Toolbars.setUpToolbar(toolbar, getActivity(), category.substring(0,1).toUpperCase() + category.substring(1));
+        // To make onOptionItemSelected working we have to setHasOptionsMenu true in fragment.
+        setHasOptionsMenu(true);
+
 
         controller = new VPGalleryController(this, new InstitutionFakeDataSource());
+        setUpGalleryAdapter();
 
     }
 
     @Override
-    public void setUpGallery(InstitutionGalleryData galleryData) {
-        this.galleryData = galleryData;
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+
+            case android.R.id.home:
+                Objects.requireNonNull(getActivity()).onBackPressed();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
+
+    private void setUpGalleryAdapter() {
+
         RecyclerView galleryRecyclerView = rootView.findViewById(R.id.rec_inst_loader_vp_Gallery_image_loader);
         galleryRecyclerView.setHasFixedSize(true);
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2 , StaggeredGridLayoutManager.VERTICAL);
         galleryRecyclerView.setLayoutManager(layoutManager);
         GalleryAdapter adapter = new GalleryAdapter();
         galleryRecyclerView.setAdapter(adapter);
+
     }
 
     @Override
-    public void onImageClick(int position, ArrayList<Integer> images) {
+    public void onImageClick(int position, ArrayList<String> images, ArrayList<String> desc, ArrayList<String> ids) {
+
         Intent intent = new Intent(context, InstitutionsHomePageActivity.class);
         intent.putExtra("REQUEST_CODE", "open_gallery_image");
         intent.putExtra("POSITION", position);
-        intent.putIntegerArrayListExtra("IMAGES", images);
+        intent.putStringArrayListExtra("IMAGES", images);
+        intent.putStringArrayListExtra("DESCRIPTION", desc);
+        intent.putStringArrayListExtra("IDS", ids);
         startActivity(intent);
+
     }
 
     class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.GalleryViewHolder> {
 
+        @NonNull
         @Override
-        public GalleryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public GalleryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = inflater.inflate(R.layout._6_2_5_3_rec_gallery_loader_image, parent, false);
             return new GalleryViewHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(GalleryViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull GalleryViewHolder holder, int position) {
 
-            GlideApp.with(context)
-                    .asBitmap()
-                    .load(holder.images.get(position))
-                    .thumbnail(0.1f)
+            Picasso.get()
+                    .load(images.get(position))
+                    .fit()
                     .centerCrop()
-                    .placeholder(R.drawable.main_logo)
+                    .placeholder(R.drawable.logo_for_news)
                     .into(holder.image);
+
+            holder.images = images;
+            holder.description = description;
+            holder.ids = ids;
 
         }
 
         @Override
         public int getItemCount() {
-            return galleryData.getCategoryWithImages().get(category).size();
+            return images.size();
         }
 
         class GalleryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-            private ArrayList<Integer> images;
             private ImageView image;
+
+            private ArrayList<String> images;
+            private ArrayList<String> description;
+            private ArrayList<String> ids;
 
             GalleryViewHolder(View itemView) {
                 super(itemView);
 
-                images = galleryData.getCategoryWithImages().get(category);
+                //images = galleryData.getCategoryWithImages().get(category);
 
                 image = itemView.findViewById(R.id.iv_rec_image);
                 image.setOnClickListener(this);
@@ -139,7 +176,7 @@ public class ViewPagerGalleryLoader extends Fragment implements ViewPagerGallery
 
             @Override
             public void onClick(View view) {
-                controller.onImageClick(getAdapterPosition(), images);
+                controller.onImageClick(getAdapterPosition(), images, description, ids);
             }
         }
 

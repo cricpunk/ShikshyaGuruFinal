@@ -36,7 +36,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.shikshyaguru.shikshyaguru.R;
-import com.shikshyaguru.shikshyaguru._0_5_glide.GlideApp;
 import com.shikshyaguru.shikshyaguru._0_7_shared_preferences.PrefManager;
 import com.shikshyaguru.shikshyaguru._3_signUp_activity.views.AuthenticationActivity;
 import com.shikshyaguru.shikshyaguru._3_signUp_activity.views.LoginFragment;
@@ -44,6 +43,7 @@ import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.DrawerListItem;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.FakeDataSource;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.presenter.HomePageController;
 import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.UserHomePageActivity;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 import java.util.Objects;
@@ -101,10 +101,10 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
         TextView userEmail = rootView.findViewById(R.id.lbl_nav_drawer_user_email);
 
         if (currentUser != null) {
-            GlideApp.with(Objects.requireNonNull(getContext()))
-                    .asBitmap()
+
+            Picasso.get()
                     .load(currentUser.getPhotoUrl())
-                    .thumbnail(0.1f)
+                    .fit()
                     .centerCrop()
                     .placeholder(R.drawable.ic_user)
                     .into(userProfile);

@@ -23,8 +23,14 @@ import android.widget.Toast;
 
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
+import com.davemorrissey.labs.subscaleview.decoder.DecoderFactory;
+import com.davemorrissey.labs.subscaleview.decoder.ImageDecoder;
+import com.davemorrissey.labs.subscaleview.decoder.ImageRegionDecoder;
 import com.fenjuly.library.ArrowDownloadButton;
 import com.shikshyaguru.shikshyaguru.R;
+import com.shikshyaguru.shikshyaguru._0_5_picasso.PicassoDecoder;
+import com.shikshyaguru.shikshyaguru._0_5_picasso.PicassoRegionDecoder;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -39,21 +45,19 @@ import java.util.TimerTask;
 
 public class ViewPagerGalleryLoaderImageLoader extends Fragment {
 
-    private Context context;
     private View rootView;
     private int clickedPosition;
-    private ArrayList<Integer> images;
+
     private LayoutInflater inflater;
     private ViewPager viewPager;
     private ImageView moreButton;
     private TextView imageCounter;
 
-    private int progress = 0;
+    private ArrayList<String> images, description, ids;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         this.inflater = inflater;
-        this.context = getContext();
         return inflater.inflate(R.layout._6_2_5_4_gallery_loader_image_swipe, container, false);
     }
 
@@ -73,7 +77,9 @@ public class ViewPagerGalleryLoaderImageLoader extends Fragment {
 
         if (getArguments() != null) {
             clickedPosition = getArguments().getInt("POSITION");
-            images = getArguments().getIntegerArrayList("IMAGES");
+            images = getArguments().getStringArrayList("IMAGES");
+            description = getArguments().getStringArrayList("DESCRIPTION");
+            ids = getArguments().getStringArrayList("IDS");
         }
 
         viewPager = rootView.findViewById(R.id.vp_full_image_gallery);
@@ -112,24 +118,37 @@ public class ViewPagerGalleryLoaderImageLoader extends Fragment {
         public Object instantiateItem(@NonNull ViewGroup container, int position) {
 
             View view = inflater.inflate(R.layout._6_2_5_5_full_size_image, container, false);
-            final SubsamplingScaleImageView imageView = view.findViewById(R.id.ivss_full_image);
+            SubsamplingScaleImageView imageView = view.findViewById(R.id.ivss_full_image);
 
-
-//            GlideApp
-//                    .with(context)
-//                    .asBitmap()
-//                    .load(images.get(position))
-//                    .into(new SimpleTarget<Bitmap>() {
-//                        @Override
-//                        public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
-//                            imageView.setImage(ImageSource.bitmap(resource));
-//                        }
-//                    });
-
-            imageView.setImage(ImageSource.resource(images.get(position)));
+            loadImageByUrl(imageView, images.get(position), new okhttp3.OkHttpClient());
 
             container.addView(view);
             return view;
+        }
+
+        void loadImageByUrl(SubsamplingScaleImageView scaleImageView, final String url, final okhttp3.OkHttpClient okHttpClient) {
+
+            scaleImageView.setMaxScale(5.0f);
+            final Picasso picasso = Picasso.get();
+
+            scaleImageView.setBitmapDecoderFactory(new DecoderFactory<ImageDecoder>() {
+                @NonNull
+                @Override
+                public ImageDecoder make() {
+
+                    return new PicassoDecoder(url, picasso);
+                }
+            });
+
+            scaleImageView.setRegionDecoderFactory(new DecoderFactory<ImageRegionDecoder>() {
+                @NonNull
+                @Override
+                public ImageRegionDecoder make() {
+                    return new PicassoRegionDecoder(okHttpClient);
+                }
+            });
+
+            scaleImageView.setImage(ImageSource.uri(url));
         }
 
 
@@ -207,7 +226,6 @@ public class ViewPagerGalleryLoaderImageLoader extends Fragment {
     }
 
     private void hideDownloadIcon(final ArrowDownloadButton download) {
-        progress = 0;
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

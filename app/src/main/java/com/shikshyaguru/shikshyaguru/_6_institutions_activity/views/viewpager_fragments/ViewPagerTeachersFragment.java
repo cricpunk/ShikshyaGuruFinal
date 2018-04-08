@@ -5,7 +5,6 @@ package com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_f
  * Koiralapankaj007@gmail.com
  */
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -19,20 +18,24 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.shikshyaguru.shikshyaguru.R;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionFakeDataSource;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionTeachersData;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter.VPTeachersController;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.teacher_staff_adapter.TeachersStaffAdapter;
-
-import java.util.List;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionsLoaderFragment;
+import com.squareup.picasso.Picasso;
 
 public class ViewPagerTeachersFragment extends Fragment implements ViewPagerTeachersInterface {
 
     private View rootView;
     private LayoutInflater inflater;
+    private VPTeachersController controller;
 
     @Nullable
     @Override
@@ -45,66 +48,133 @@ public class ViewPagerTeachersFragment extends Fragment implements ViewPagerTeac
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.rootView = view;
-        new VPTeachersController(this, new InstitutionFakeDataSource());
+        controller = new VPTeachersController(this, new InstitutionFakeDataSource());
+        controller.setUpTeachersList(InstitutionsLoaderFragment.id);
     }
 
     @Override
-    public void setUpTeachersList(List<InstitutionTeachersData> institutionTeachersData) {
+    public void setUpTeachersList(FirebaseRecyclerOptions<InstitutionTeachersData> options) {
         RecyclerView recyclerView = rootView.findViewById(R.id.rec_teachers);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        TeachersAdapter adapter = new TeachersAdapter();
+        TeachersAdapter adapter = new TeachersAdapter(options);
         recyclerView.setAdapter(adapter);
+
+        adapter.startListening();
     }
 
-    private class TeachersAdapter extends TeachersStaffAdapter {
 
-        @Override
-        public TeachersStaffViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = inflater.inflate(R.layout._6_2_6_1_teachers_business_card, parent, false);
-            return new TeachersViewHolder(view);
+    private class TeachersAdapter extends FirebaseRecyclerAdapter<InstitutionTeachersData, TeachersAdapter.TeachersViewHolder> {
+
+        /*
+         * Initialize a {@link RecyclerView.Adapter} that listens to a Firebase query. See
+         * {@link FirebaseRecyclerOptions} for configuration options.
+         *
+         * @param options
+         */
+        TeachersAdapter(@NonNull FirebaseRecyclerOptions<InstitutionTeachersData> options) {
+            super(options);
         }
 
-        @SuppressLint("SetTextI18n")
         @Override
-        public void onBindViewHolder(TeachersStaffViewHolder holder, int position) {
-            super.onBindViewHolder(holder, position);
-            holder.image.setImageResource(R.drawable.me);
-            holder.name.setText("Pankaj Koirala");
-            holder.profession.setText("Lecturer / Tutor");
+        protected void onBindViewHolder(@NonNull TeachersViewHolder holder, int position, @NonNull InstitutionTeachersData model) {
 
             holder.subjectContentIcon.setImageResource(R.drawable.ic_mind);
             holder.phoneContentIcon.setImageResource(R.drawable.ic_phone);
             holder.phoneContentIcon.setRotation(270);
             holder.emailContentIcon.setImageResource(R.drawable.ic_website);
 
-            holder.subjectContent1.setText("JAVA, PHP");
+            Picasso.get()
+                    .load(model.getImage_url())
+                    .fit()
+                    .centerCrop()
+                    .placeholder(R.drawable.ic_user)
+                    .into(holder.image);
+
+            holder.name.setText(model.getFull_name());
+            holder.profession.setText(model.getDesignation());
+            holder.subjectContent1.setText(model.getExperiance());
             //holder.subjectContent2.setText("Web Development");
             holder.subjectContent2.setVisibility(View.GONE);
 
-            holder.phoneContent1.setText("977 0123-456-789");
-            holder.phoneContent2.setText("977 0123-456-789");
+            holder.phoneContent1.setText(model.getPhone_1());
+            if (!model.getPhone_2().equals("")) {
+                holder.phoneContent2.setText(model.getPhone_2());
+            } else {
+                holder.phoneContent2.setVisibility(View.GONE);
+            }
 
-            holder.emailContent1.setText("koiralapankaj007@gmail.com");
-            holder.emailContent2.setText("www.playsof.com");
+            holder.emailContent1.setText(model.getEmail_1());
+            if (!model.getEmail_2().equals("")) {
+                holder.emailContent2.setText(model.getEmail_2());
+            } else {
+                holder.emailContent2.setVisibility(View.GONE);
+            }
 
-            holder.rating.setText("4.5");
+            holder.rating.setText(model.getRating());
             holder.counter.setText(String.valueOf(position + 1));
+
         }
 
+        @NonNull
         @Override
-        public int getItemCount() {
-            return 15;
+        public TeachersViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = inflater.inflate(R.layout._6_2_6_1_teachers_business_card, parent, false);
+            return new TeachersViewHolder(view);
         }
 
-        private class TeachersViewHolder extends TeachersStaffViewHolder implements View.OnClickListener{
+        class TeachersViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+
+            private ImageView image;
+            private TextView name;
+            private TextView profession;
+            private View subject;
+            private View phone;
+            private View email;
+            private ImageView subjectContentIcon;
+            private ImageView phoneContentIcon;
+            private ImageView emailContentIcon;
+            private TextView subjectContent1;
+            private TextView subjectContent2;
+            private TextView phoneContent1;
+            private TextView phoneContent2;
+            private TextView emailContent1;
+            private TextView emailContent2;
+            private TextView rating;
+            private ImageView more;
+            private TextView counter;
 
             TeachersViewHolder(View itemView) {
                 super(itemView);
+
+                image = itemView.findViewById(R.id.iv_teachers_business_card_image);
+                name = itemView.findViewById(R.id.lbl_teachers_business_card_name);
+                profession = itemView.findViewById(R.id.lbl_teachers_business_card_profession);
+
+                subject = itemView.findViewById(R.id.inc_teachers_business_card_subject);
+                subjectContentIcon = subject.findViewById(R.id.iv_teachers_business_card_content_icon);
+                subjectContent1 = subject.findViewById(R.id.lbl_teachers_business_card_content1);
+                subjectContent2 = subject.findViewById(R.id.lbl_teachers_business_card_content2);
+
+                phone = itemView.findViewById(R.id.inc_teachers_business_card_phone);
+                phoneContentIcon = phone.findViewById(R.id.iv_teachers_business_card_content_icon);
+                phoneContent1 = phone.findViewById(R.id.lbl_teachers_business_card_content1);
+                phoneContent2 = phone.findViewById(R.id.lbl_teachers_business_card_content2);
+
+                email = itemView.findViewById(R.id.inc_teachers_business_card_email);
+                emailContentIcon = email.findViewById(R.id.iv_teachers_business_card_content_icon);
+                emailContent1 = email.findViewById(R.id.lbl_teachers_business_card_content1);
+                emailContent2 = email.findViewById(R.id.lbl_teachers_business_card_content2);
+
+                rating = itemView.findViewById(R.id.lbl_teachers_business_card_rating);
+                counter = itemView.findViewById(R.id.lbl_vp_teachers_business_card_counter);
+                more = itemView.findViewById(R.id.iv_teachers_business_card_more);
+
                 more.setOnClickListener(this);
             }
 
             @Override
             public void onClick(View v) {
+
                 Context wrapper = new android.view.ContextThemeWrapper(getActivity(), R.style.darkPopup);
                 PopupMenu popupMenu = new PopupMenu(wrapper, more, Gravity.END);
                 popupMenu.getMenuInflater().inflate(R.menu.teachers_business_card_popup, popupMenu.getMenu());
@@ -130,7 +200,11 @@ public class ViewPagerTeachersFragment extends Fragment implements ViewPagerTeac
                     }
                 });
                 popupMenu.show();
+
             }
         }
+
     }
+
+
 }

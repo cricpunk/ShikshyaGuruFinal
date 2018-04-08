@@ -1,7 +1,5 @@
 package com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments;
 
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionGalleryData;
-
 import java.util.ArrayList;
 
 /**
@@ -13,7 +11,5 @@ import java.util.ArrayList;
 
 public interface ViewPagerGalleryLoaderInterface {
 
-    void setUpGallery(InstitutionGalleryData galleryData);
-
-    void onImageClick(int position, ArrayList<Integer> images);
+    void onImageClick(int position, ArrayList<String> images, ArrayList<String> desc, ArrayList<String> ids);
 }

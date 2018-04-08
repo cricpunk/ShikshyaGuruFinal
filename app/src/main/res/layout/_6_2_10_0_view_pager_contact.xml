@@ -139,15 +139,14 @@
                 android:background="#FAFAFA"
                 android:orientation="vertical">
 
-                <com.google.android.gms.maps.MapView
-                    android:id="@+id/map_vp_contact"
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp" />
+                <!--<com.google.android.gms.maps.MapView-->
+                    <!--android:id="@+id/map_vp_contact"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="250dp" />-->
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/map_vp_contact"
                     android:layout_marginTop="@dimen/margin_short"
                     android:background="#E6222222"
                     android:orientation="vertical">

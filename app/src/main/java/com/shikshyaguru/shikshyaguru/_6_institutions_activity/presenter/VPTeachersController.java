@@ -18,11 +18,9 @@ public class VPTeachersController {
     public VPTeachersController(ViewPagerTeachersInterface teachersInterface, InstitutionDataSourceInterface dataSource) {
         this.teachersInterface = teachersInterface;
         this.dataSource = dataSource;
-
-        setUpTeachersList();
     }
 
-    private void setUpTeachersList() {
-        teachersInterface.setUpTeachersList(dataSource.getTeachersData());
+    public void setUpTeachersList(String id) {
+        teachersInterface.setUpTeachersList(dataSource.getTeachersData(id));
     }
 }
