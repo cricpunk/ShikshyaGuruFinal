@@ -15,6 +15,7 @@ import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.ViewInterface;
  */
 
 public class HomePageController {
+
     private ViewInterface view;
     private DataSourceInterface dataSource;
     private DrawerInterface drawerInterface;
@@ -76,8 +77,8 @@ public class HomePageController {
         view.setupInstitutionsCollectionAdapterAndView(dataSource.getTotalInstitutionsHeading());
     }
 
-    public void onAllInstitutionsClick() {
-        view.openInstitutionsMainFragment();
+    public void onAllInstitutionsClick(int instCategory, String title) {
+        view.openInstitutionsMainFragment(instCategory, title);
     }
 
     public void onInstitutionsItemClick(InstitutionsListItemParent il) {

@@ -21,7 +21,6 @@
                 android:layout_height="70dp"
                 android:transitionName="newsImageIcon"
                 android:contentDescription="@string/news_headlines_icon"
-                android:paddingTop="4dp"
                 android:scaleType="centerCrop"
                 app:srcCompat="@drawable/logo_for_news" />
 

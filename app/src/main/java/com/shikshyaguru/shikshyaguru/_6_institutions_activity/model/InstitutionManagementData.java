@@ -9,67 +9,81 @@ package com.shikshyaguru.shikshyaguru._6_institutions_activity.model;
 
 public class InstitutionManagementData {
 
-    private String name;
-    private String post;
-    private String academicQualification;
-    private String institution;
-    private String message;
-    private int image;
+    private String id;
+    private String full_name;
+    private String designation;
+    private String qualification;
+    private String university;
+    private String image_url;
+    private String member_content;
 
-    public InstitutionManagementData(String name, String post, String academicQualification, String institution, String message, int image) {
-        this.name = name;
-        this.post = post;
-        this.academicQualification = academicQualification;
-        this.institution = institution;
-        this.message = message;
-        this.image = image;
+    public InstitutionManagementData() {
+        // For firebase
     }
 
-    public String getName() {
-        return name;
+    public InstitutionManagementData(String full_name, String designation, String qualification, String university, String image_url, String member_content) {
+        this.full_name = full_name;
+        this.designation = designation;
+        this.qualification = qualification;
+        this.university = university;
+        this.image_url = image_url;
+        this.member_content = member_content;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getId() {
+        return id;
     }
 
-    public String getPost() {
-        return post;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public void setPost(String post) {
-        this.post = post;
+    public String getFull_name() {
+        return full_name;
     }
 
-    public String getAcademicQualification() {
-        return academicQualification;
+    public void setFull_name(String full_name) {
+        this.full_name = full_name;
     }
 
-    public void setAcademicQualification(String academicQualification) {
-        this.academicQualification = academicQualification;
+    public String getDesignation() {
+        return designation;
     }
 
-    public String getInstitution() {
-        return institution;
+    public void setDesignation(String designation) {
+        this.designation = designation;
     }
 
-    public void setInstitution(String institution) {
-        this.institution = institution;
+    public String getQualification() {
+        return qualification;
     }
 
-    public String getMessage() {
-        return message;
+    public void setQualification(String qualification) {
+        this.qualification = qualification;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public String getUniversity() {
+        return university;
     }
 
-    public int getImage() {
-        return image;
+    public void setUniversity(String university) {
+        this.university = university;
     }
 
-    public void setImage(int image) {
-        this.image = image;
+    public String getImage_url() {
+        return image_url;
     }
+
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
+    }
+
+    public String getMember_content() {
+        return member_content;
+    }
+
+    public void setMember_content(String member_content) {
+        this.member_content = member_content;
+    }
+
 }

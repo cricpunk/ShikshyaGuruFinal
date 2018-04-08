@@ -2,6 +2,7 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_institutions_loader_frag"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -32,6 +33,7 @@
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
+                android:foreground="#4D222222"
                 android:src="@drawable/slider1"
                 android:transitionName="institutionImage" />
 
@@ -39,7 +41,6 @@
                 android:id="@+id/l_kbv_content_inst_loader_frag"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#4D222222"
                 android:fitsSystemWindows="true">
 
                 <TextView
@@ -49,7 +50,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
                     android:gravity="center_vertical"
-                    android:text="Islington College"
+                    tools:text="Islington College"
                     android:textAlignment="center"
                     android:textColor="#FFFFFFFF"
                     android:textSize="32sp"
@@ -63,7 +64,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
                     android:gravity="center_vertical"
-                    android:text="Kathmandu"
+                    tools:text="Kathmandu"
                     android:textAlignment="center"
                     android:textColor="#FFFFFFFF"
                     android:textSize="24sp"
@@ -76,7 +77,7 @@
                     android:layout_alignParentBottom="true"
                     android:gravity="center_vertical"
                     android:padding="8dp"
-                    android:text="This is slogan of the college"
+                    tools:text="This is slogan of the college"
                     android:textAlignment="center"
                     android:textColor="#F2FFFFFF"
                     android:textSize="16sp"
@@ -84,13 +85,8 @@
 
             </RelativeLayout>
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/tb_inst_loader_frag"
-                android:layout_width="match_parent"
-                android:layout_height="?android:attr/actionBarSize"
-                app:layout_collapseMode="pin"
-                app:layout_scrollFlags="scroll|enterAlways"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" />
+            <include
+                layout="@layout/toolbar_transparent"/>
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
@@ -132,12 +128,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_gravity="bottom|end"
         android:paddingBottom="10dp"
         android:paddingEnd="0dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="0dp"
         android:paddingStart="10dp"
         fab:fab_hideAnimation="@anim/hide_to_bottom"
         fab:fab_showAnimation="@anim/show_from_bottom"

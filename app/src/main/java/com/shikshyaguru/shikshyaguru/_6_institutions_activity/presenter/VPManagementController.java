@@ -18,12 +18,10 @@ public class VPManagementController {
     public VPManagementController(ViewPagerManagementInterface managementInterface, InstitutionDataSourceInterface dataSource) {
         this.managementInterface = managementInterface;
         this.dataSource = dataSource;
-
-        setUpManagementList();
     }
 
-    private void setUpManagementList() {
-        managementInterface.setUpManagementAdapter(dataSource.getInstitutionManagementData());
+    public void setUpManagementList(String id) {
+        managementInterface.setUpManagementAdapter(dataSource.getInstitutionManagementData(id));
     }
 
 }

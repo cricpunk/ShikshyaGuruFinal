@@ -11,7 +11,7 @@
         <item name="android:windowTranslucentNavigation">true</item>
     </style>
 
-    <!--Theme 3.    Observable scroll toolbar theme-->
+    <!--Theme 3.    Observable scroll blue_toolbar theme-->
     <style name="Toolbar" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowTranslucentNavigation">true</item>
     </style>

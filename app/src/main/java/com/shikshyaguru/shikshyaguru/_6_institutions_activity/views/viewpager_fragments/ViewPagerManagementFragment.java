@@ -22,18 +22,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.shikshyaguru.shikshyaguru.R;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionFakeDataSource;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionManagementData;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter.VPManagementController;
-
-import java.util.List;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionsLoaderFragment;
+import com.squareup.picasso.Picasso;
 
 public class ViewPagerManagementFragment extends Fragment implements ViewPagerManagementInterface {
 
     private LayoutInflater inflater;
     private View rootView;
-    private List<InstitutionManagementData> managementData;
+    private VPManagementController controller;
 
     @Nullable
     @Override
@@ -47,52 +49,64 @@ public class ViewPagerManagementFragment extends Fragment implements ViewPagerMa
         this.rootView = view;
         new VPManagementController(this, new InstitutionFakeDataSource());
         super.onViewCreated(view, savedInstanceState);
+        controller = new VPManagementController(this, new InstitutionFakeDataSource());
+        controller.setUpManagementList(InstitutionsLoaderFragment.id);
     }
 
     @Override
-    public void setUpManagementAdapter(List<InstitutionManagementData> managementData) {
-        this.managementData = managementData;
+    public void setUpManagementAdapter(FirebaseRecyclerOptions<InstitutionManagementData> options) {
+
         RecyclerView mgmtRecyclerView = rootView.findViewById(R.id.rec_inst_loader_vp_management);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-        MgmtAdapter adapter = new MgmtAdapter();
+        MgmtAdapter adapter = new MgmtAdapter(options);
         mgmtRecyclerView.setLayoutManager(layoutManager);
         mgmtRecyclerView.setAdapter(adapter);
 
+        adapter.startListening();
     }
 
-    class MgmtAdapter extends RecyclerView.Adapter<MgmtAdapter.MgmtViewHolder> {
+    class MgmtAdapter extends FirebaseRecyclerAdapter<InstitutionManagementData, MgmtAdapter.MgmtViewHolder> {
 
+        /*
+         * Initialize a {@link RecyclerView.Adapter} that listens to a Firebase query. See
+         * {@link FirebaseRecyclerOptions} for configuration options.
+         *
+         * @param options
+         */
+        MgmtAdapter(@NonNull FirebaseRecyclerOptions<InstitutionManagementData> options) {
+            super(options);
+        }
+
+        @NonNull
         @Override
-        public MgmtViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public MgmtViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = inflater.inflate(R.layout._6_2_4_1_rec_management, parent, false);
             return new MgmtViewHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(MgmtViewHolder holder, int position) {
-            InstitutionManagementData currentItem = managementData.get(position);
-            int messageId = Integer.parseInt(currentItem.getMessage());
-
-            holder.image.setImageResource(currentItem.getImage());
-            holder.message.setText(getContext().getResources().getString(messageId));
-            // While loading data from database replace above line by below one
-            //holder.message.setText(currentItem.getMessage());
+        protected void onBindViewHolder(@NonNull MgmtViewHolder holder, int position, @NonNull InstitutionManagementData model) {
 
             holder.name.setText(
                     String.valueOf(
-                            currentItem.getName()
-                                    + " (" + currentItem.getAcademicQualification()
-                                    + ", " + currentItem.getInstitution()
+                            model.getFull_name()
+                                    + " (" + model.getQualification()
+                                    + ", " + model.getUniversity()
                                     + ") "
                     )
             );
-            holder.post.setText(currentItem.getPost());
+
+            holder.post.setText(model.getDesignation());
+            Picasso.get()
+                    .load(model.getImage_url())
+                    .fit()
+                    .centerCrop()
+                    .placeholder(R.drawable.logo_for_news)
+                    .into(holder.image);
+            holder.message.setText(model.getMember_content());
+
         }
 
-        @Override
-        public int getItemCount() {
-            return managementData.size();
-        }
 
         class MgmtViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
@@ -139,5 +153,6 @@ public class ViewPagerManagementFragment extends Fragment implements ViewPagerMa
             }
         }
     }
+
 
 }

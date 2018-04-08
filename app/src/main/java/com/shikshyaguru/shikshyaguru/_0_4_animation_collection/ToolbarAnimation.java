@@ -23,8 +23,8 @@
 ////    private int screenHeight;
 //    private FloatingSearchView floatingSearchView;
 //
-//    public ToolbarAnimation(AppBarLayout toolbar, ObservableScrollView s, FloatingSearchView floatingSearchView) {
-//        this.mToolbar = toolbar;
+//    public ToolbarAnimation(AppBarLayout blue_toolbar, ObservableScrollView s, FloatingSearchView floatingSearchView) {
+//        this.mToolbar = blue_toolbar;
 //        this.mScrollable = s;
 //        this.floatingSearchView = floatingSearchView;
 //    }

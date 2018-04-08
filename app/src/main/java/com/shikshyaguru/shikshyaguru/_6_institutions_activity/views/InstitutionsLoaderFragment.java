@@ -8,15 +8,13 @@ package com.shikshyaguru.shikshyaguru._6_institutions_activity.views;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -30,9 +28,9 @@ import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 import com.shikshyaguru.shikshyaguru.R;
+import com.shikshyaguru.shikshyaguru._0_6_widgets.Toolbars;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionFakeDataSource;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter.InstitutionsController;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerActivitiesFragment;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerContactFragment;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerGalleryFragment;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerHomeFragment;
@@ -44,12 +42,14 @@ import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fr
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerTeachersFragment;
 import com.squareup.picasso.Picasso;
 
-public class InstitutionsLoaderFragment extends Fragment implements AppBarLayout.OnOffsetChangedListener{
+import java.util.Objects;
+
+public class InstitutionsLoaderFragment extends Fragment {
 
     private SmartTabLayout viewPagerTab;
     private CollapsingToolbarLayout collapsingToolbar;
     private InstitutionsController controller;
-    private String id, image, name, place, slogan;
+    public static String id, image, name, place, slogan;
 
     @Nullable
     @Override
@@ -65,6 +65,11 @@ public class InstitutionsLoaderFragment extends Fragment implements AppBarLayout
             slogan = getArguments().getString("SLOGAN");
         }
 
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        Toolbars.setUpToolbar(toolbar, getActivity(), name);
+        // To make onOptionItemSelected working we have to setHasOptionsMenu true in fragment.
+        setHasOptionsMenu(true);
+
         controller = new InstitutionsController(new InstitutionFakeDataSource());
 
         return view;
@@ -75,18 +80,33 @@ public class InstitutionsLoaderFragment extends Fragment implements AppBarLayout
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        initToolbarAndLayout(view);
+        initComponents(view);
         initSmartTabLayout(view);
         initFloatingActionMenu(view);
 
-        initComponents(view);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+
+            case android.R.id.home:
+                Objects.requireNonNull(getActivity()).onBackPressed();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
     }
 
     private void initComponents(View view) {
 
+        collapsingToolbar = view.findViewById(R.id.ctbl_inst_loader_frag);
+
         KenBurnsView kenBurnsView = view.findViewById(R.id.iv_news_headline_icon);
-        TextView lblName = view.findViewById(R.id.lbl_institutions_name);
+        //TextView lblName = view.findViewById(R.id.lbl_institutions_name);
         TextView lblPlace = view.findViewById(R.id.lbl_institutions_city_name);
         TextView lblSlogan = view.findViewById(R.id.lbl_institutions_slogan);
 
@@ -94,7 +114,7 @@ public class InstitutionsLoaderFragment extends Fragment implements AppBarLayout
                 .load(image)
                 .placeholder(R.drawable.logo)
                 .into(kenBurnsView);
-        lblName.setText(name);
+        //lblName.setText(name);
         lblPlace.setText(place);
 
         if (slogan != null) {
@@ -109,21 +129,6 @@ public class InstitutionsLoaderFragment extends Fragment implements AppBarLayout
 
     }
 
-    private void initToolbarAndLayout(View view) {
-        Toolbar toolbar = view.findViewById(R.id.tb_inst_loader_frag);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-
-        ActionBar getSupportActionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
-        if (getSupportActionBar != null) {
-            getSupportActionBar.setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar.setDisplayShowTitleEnabled(false);
-        }
-
-        collapsingToolbar = view.findViewById(R.id.ctbl_inst_loader_frag);
-        AppBarLayout mAppBar = view.findViewById(R.id.abl_inst_loader_frag);
-        mAppBar.addOnOffsetChangedListener(this);
-    }
-
     private void initSmartTabLayout(View view) {
 
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
@@ -135,7 +140,7 @@ public class InstitutionsLoaderFragment extends Fragment implements AppBarLayout
                 .add("Gallery", ViewPagerGalleryFragment.class)
                 .add("Teachers", ViewPagerTeachersFragment.class)
                 .add("Staff's", ViewPagerStaffFragment.class)
-                .add("Activities", ViewPagerActivitiesFragment.class)
+                //.add("Activities", ViewPagerActivitiesFragment.class)
                 .add("Contact", ViewPagerContactFragment.class)
                 .add("Reviews", ViewPagerReviewsFragment.class)
                 .create()
@@ -158,15 +163,16 @@ public class InstitutionsLoaderFragment extends Fragment implements AppBarLayout
         @Override
         public void onPageSelected(int position) {
             if (position == 2 || position == 3 || position == 4 || position == 5 || position == 6) {
-                viewPagerTab.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.black_toolbar));
+                viewPagerTab.setBackgroundColor(ContextCompat.getColor(Objects.requireNonNull(getContext()), R.color.black_toolbar));
                 collapsingToolbar.setContentScrimColor(ContextCompat.getColor(getContext(), R.color.black_toolbar));
                 collapsingToolbar.setStatusBarScrimColor(ContextCompat.getColor(getContext(), R.color.black_toolbar));
                 //getActivity().getWindow().setBackgroundDrawableResource(R.color.card_black);
             } else {
-                viewPagerTab.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorAppMain));
+                viewPagerTab.setBackgroundColor(ContextCompat.getColor(Objects.requireNonNull(getContext()), R.color.colorAppMain));
                 collapsingToolbar.setContentScrimColor(ContextCompat.getColor(getContext(), R.color.colorAppMain));
                 collapsingToolbar.setStatusBarScrimColor(ContextCompat.getColor(getContext(), R.color.colorAppMain));
             }
+
         }
 
         @Override
@@ -235,10 +241,5 @@ public class InstitutionsLoaderFragment extends Fragment implements AppBarLayout
         }
     };
 
-
-    @Override
-    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-//        layout.setTranslationY(verticalOffset);
-    }
 
 }

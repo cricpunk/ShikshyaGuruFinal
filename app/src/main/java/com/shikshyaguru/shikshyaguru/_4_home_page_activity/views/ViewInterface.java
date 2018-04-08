@@ -53,6 +53,6 @@ public interface ViewInterface {
     // Opening new activity for displaying institutions home page after clicking institutions in recycler view
     void openInstitutionsLoaderFragment1(String institutionsIcon, String institutionsName, String institutionsRating, String institutionsCityName);
 
-    void openInstitutionsMainFragment();
+    void openInstitutionsMainFragment(int instCategory, String title);
 
 }

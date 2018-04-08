@@ -12,7 +12,7 @@
         <item name="android:statusBarColor">@color/statusBarColor</item>
     </style>
 
-    <!--Theme 3.    Observable scroll toolbar theme-->
+    <!--Theme 3.    Observable scroll blue_toolbar theme-->
     <style name="Toolbar" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>

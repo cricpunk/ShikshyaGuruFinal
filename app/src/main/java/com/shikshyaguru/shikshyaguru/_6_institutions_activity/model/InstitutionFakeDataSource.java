@@ -5,11 +5,17 @@ package com.shikshyaguru.shikshyaguru._6_institutions_activity.model;
  * Koiralapankaj007@gmail.com
  */
 
+import android.support.annotation.NonNull;
+
+import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.firebase.ui.database.SnapshotParser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.shikshyaguru.shikshyaguru.R;
+import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.InstitutionsListItemParent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -73,38 +79,45 @@ public class InstitutionFakeDataSource implements InstitutionDataSourceInterface
     private final int[] DISLIKE_COUNT = {25, 69, 20};
 
     @Override
-    public List<InstitutionHomeNewsAndEventsData> getInstitutionHomeNewsAndEventData() {
-        ArrayList<InstitutionHomeNewsAndEventsData> listOfData = new ArrayList<>();
+    public FirebaseRecyclerOptions<InstitutionHomeNewsAndEventsData> getInstitutionHomeNewsAndEventData(String id) {
 
-        for (String newsAndEvents : NEWS_AND_EVENTS) {
-            InstitutionHomeNewsAndEventsData newsAndEventsData = new
-                    InstitutionHomeNewsAndEventsData(newsAndEvents);
-            listOfData.add(newsAndEventsData);
-        }
+        Query query = mDatabase.getReference().child("clients").child(id).child("app_home").child("news_and_events");
 
-        return listOfData;
+        SnapshotParser<InstitutionHomeNewsAndEventsData> snapshotParser = new SnapshotParser<InstitutionHomeNewsAndEventsData>() {
+            @NonNull
+            @Override
+            public InstitutionHomeNewsAndEventsData parseSnapshot(@NonNull DataSnapshot snapshot) {
+
+                InstitutionHomeNewsAndEventsData newsListItem = snapshot.getValue(InstitutionHomeNewsAndEventsData.class);
+                assert newsListItem != null;
+                newsListItem.setId(snapshot.getKey());
+
+                return newsListItem;
+            }
+        };
+
+        return new FirebaseRecyclerOptions.Builder<InstitutionHomeNewsAndEventsData>().setQuery(query, snapshotParser).build();
     }
 
     @Override
-    public List<InstitutionHomeIntroData> getInstitutionHomeIntroData() {
-        ArrayList<InstitutionHomeIntroData> listOfData = new ArrayList<>();
+    public FirebaseRecyclerOptions<InstitutionHomeIntroData> getInstitutionHomeIntroData(String id) {
 
-        for (int i = 0; i < SIZE; i++) {
+        Query query = mDatabase.getReference().child("clients").child(id).child("app_home").child("message_to_users");
 
-            randOne = random.nextInt(3);
-            randTwo = random.nextInt(3);
-            randThree = random.nextInt(3);
+        SnapshotParser<InstitutionHomeIntroData> snapshotParser = new SnapshotParser<InstitutionHomeIntroData>() {
+            @NonNull
+            @Override
+            public InstitutionHomeIntroData parseSnapshot(@NonNull DataSnapshot snapshot) {
 
-            InstitutionHomeIntroData institutionHomeIntroData = new InstitutionHomeIntroData(
-                    INTRO_IMAGE[randOne],
-                    INTRO_HEADING[randTwo],
-                    INTRO[randThree]
-            );
+                InstitutionHomeIntroData introData = snapshot.getValue(InstitutionHomeIntroData.class);
+                assert introData != null;
+                introData.setId(snapshot.getKey());
 
-            listOfData.add(institutionHomeIntroData);
-        }
+                return introData;
+            }
+        };
 
-        return listOfData;
+        return new FirebaseRecyclerOptions.Builder<InstitutionHomeIntroData>().setQuery(query, snapshotParser).build();
     }
 
     @Override
@@ -228,27 +241,24 @@ public class InstitutionFakeDataSource implements InstitutionDataSourceInterface
     }
 
     @Override
-    public List<InstitutionManagementData> getInstitutionManagementData() {
-        List<InstitutionManagementData> listOfData = new ArrayList<>();
+    public FirebaseRecyclerOptions<InstitutionManagementData> getInstitutionManagementData(String id) {
 
-        for (int i = 0; i < SIZE ; i++) {
+        Query query = mDatabase.getReference().child("clients").child(id).child("app_management").child("members");
 
-            randOne = random.nextInt(3);
-            randTwo = random.nextInt(3);
-            randThree = random.nextInt(3);
-            int randFour = random.nextInt(3);
-            int randFive = random.nextInt(3);
-            int randSix = random.nextInt(3);
+        SnapshotParser<InstitutionManagementData> snapshotParser = new SnapshotParser<InstitutionManagementData>() {
+            @NonNull
+            @Override
+            public InstitutionManagementData parseSnapshot(@NonNull DataSnapshot snapshot) {
 
-            InstitutionManagementData managementData = new InstitutionManagementData(
-                    NAME[randOne],POST[randTwo],ACADEMIC_QUALIFICATION[randThree],
-                    INSTITUTIONS[randFour],INTRO[randFive],MY_IMAGE[randSix]
-            );
+                InstitutionManagementData managementData = snapshot.getValue(InstitutionManagementData.class);
+                assert managementData != null;
+                managementData.setId(snapshot.getKey());
 
-            listOfData.add(managementData);
+                return managementData;
+            }
+        };
 
-        }
-        return listOfData;
+        return new FirebaseRecyclerOptions.Builder<InstitutionManagementData>().setQuery(query, snapshotParser).build();
     }
 
     @Override
@@ -343,6 +353,38 @@ public class InstitutionFakeDataSource implements InstitutionDataSourceInterface
         });
 
         return slogan;
+    }
+
+    @Override
+    public FirebaseRecyclerOptions<InstitutionsListItemParent> getInstitutionLists(int category) {
+
+        Query query = mDatabase.getReference().child("clients").orderByChild("category").equalTo(category);
+
+        SnapshotParser<InstitutionsListItemParent> snapshotParser = new SnapshotParser<InstitutionsListItemParent>() {
+            @NonNull
+            @Override
+            public InstitutionsListItemParent parseSnapshot(@NonNull DataSnapshot snapshot) {
+
+                InstitutionsListItemParent collegeList = new InstitutionsListItemParent();
+
+                collegeList.setId(snapshot.getKey());
+                collegeList.setName(snapshot.child("name").getValue(String.class));
+                collegeList.setIcon_image(snapshot.child("icon_image").getValue(String.class));
+                collegeList.setCity(snapshot.child("address").child("city").getValue(String.class));
+                Double rating = snapshot.child("app_reviews").child("overall_rating").getValue(Double.class);
+                if (rating != null) {
+                    collegeList.setRating(String.valueOf(rating) + "*");
+                } else {
+                    collegeList.setRating("n/a");
+                }
+
+
+                return collegeList;
+            }
+        };
+
+        return new FirebaseRecyclerOptions.Builder<InstitutionsListItemParent>().setQuery(query, snapshotParser).build();
+
     }
 
 }

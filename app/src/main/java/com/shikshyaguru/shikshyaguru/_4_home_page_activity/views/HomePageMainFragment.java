@@ -308,9 +308,11 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
     }
 
     @Override
-    public void openInstitutionsMainFragment() {
+    public void openInstitutionsMainFragment(int instCategory, String title) {
         Intent intent = new Intent(getContext(), InstitutionsHomePageActivity.class);
         intent.putExtra("REQUEST_CODE", "institutions_main");
+        intent.putExtra("CATEGORY", instCategory);
+        intent.putExtra("TITLE", title);
         startActivity(intent);
     }
 
@@ -739,10 +741,13 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
 
         @Override
         public void onBindViewHolder(@NonNull InstitutionsCollectionViewHolder holder, int position) {
+
             ListOfTotalInstitutions currentItem = listOfTotalInstitutions.get(position);
 
             holder.institutionHeading.setText(currentItem.getInstitutionHeading());
             holder.institutionSeeAll.setText(R.string.see_all);
+            holder.instCategory = currentItem.getCategory();
+            holder.title = currentItem.getInstitutionHeading();
 
             holder.institutionsRecyclerViewInside.setNestedScrollingEnabled(false);
             holder.institutionsRecyclerViewInside.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -757,6 +762,7 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
             snapHelper.attachToRecyclerView(holder.institutionsRecyclerViewInside);
 
             institutionAdapter.startListening();
+
         }
 
 
@@ -771,6 +777,9 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
             private TextView institutionSeeAll;
             private RecyclerView institutionsRecyclerViewInside;
 
+            private int instCategory;
+            private String title;
+
             InstitutionsCollectionViewHolder(View itemView) {
                 super(itemView);
                 institutionHeading = itemView.findViewById(R.id.lbl_institutions);
@@ -782,7 +791,7 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
 
             @Override
             public void onClick(View v) {
-                homePageController.onAllInstitutionsClick();
+                homePageController.onAllInstitutionsClick(instCategory, title);
             }
 
         }

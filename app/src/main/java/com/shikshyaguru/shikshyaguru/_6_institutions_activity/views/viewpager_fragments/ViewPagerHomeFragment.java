@@ -5,6 +5,9 @@ package com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_f
  * Koiralapankaj007@gmail.com
  */
 
+import android.annotation.SuppressLint;
+import android.app.ActivityOptions;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,6 +15,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,22 +23,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.shikshyaguru.shikshyaguru.R;
 import com.shikshyaguru.shikshyaguru._0_2_recyclerview_slider_effect.RecyclerViewSliderEffect;
+import com.shikshyaguru.shikshyaguru._5_news_activity.views.NewsHomePageActivity;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionFakeDataSource;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionHomeIntroData;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionHomeNewsAndEventsData;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionFakeDataSource;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter.VPHomeController;
-
-import java.util.List;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionsLoaderFragment;
+import com.squareup.picasso.Picasso;
 
 public class ViewPagerHomeFragment extends Fragment implements ViewPagerHomeInterface {
 
     private LayoutInflater inflater;
     VPHomeController controller;
 
-    private List<InstitutionHomeNewsAndEventsData> newsAndEventData;
-    private List<InstitutionHomeIntroData> introData;
     private RecyclerView recyclerViewNewsAndEvent;
     private RecyclerView recyclerViewIntro;
 
@@ -53,11 +58,12 @@ public class ViewPagerHomeFragment extends Fragment implements ViewPagerHomeInte
 //        TextView title = (TextView) view.findViewById(R.id.item_number);
 //        title.setText(String.valueOf(viewPagerPosition));
 
+        controller = new VPHomeController(this, new InstitutionFakeDataSource());
         initNewsSection(view);
         initIntroSection(view);
-        controller = new VPHomeController(this, new InstitutionFakeDataSource());
-    }
 
+
+    }
 
     private void initNewsSection(View view) {
         TextView newsAndEventText = view.findViewById(R.id.lbl_news);
@@ -67,18 +73,23 @@ public class ViewPagerHomeFragment extends Fragment implements ViewPagerHomeInte
 
         View recInclude = view.findViewById(R.id.inc_rec_news);
         recyclerViewNewsAndEvent = recInclude.findViewById(R.id.rec_news);
+
+        controller.setUpNewsAndEvents(InstitutionsLoaderFragment.id);
+
     }
 
     private void initIntroSection(View view) {
         this.recyclerViewIntro = view.findViewById(R.id.rec_inst_loader_vp_home_intro);
+        controller.setUpHomeIntro(InstitutionsLoaderFragment.id);
     }
 
     @Override
-    public void setUpNewsAdapterAndView(List<InstitutionHomeNewsAndEventsData> newsAndEventsData) {
-        this.newsAndEventData = newsAndEventsData;
+    public void setUpNewsAdapterAndView(FirebaseRecyclerOptions<InstitutionHomeNewsAndEventsData> newsOption) {
+
         recyclerViewNewsAndEvent.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        NewsAdapter adapter = new NewsAdapter();
-        recyclerViewNewsAndEvent.setAdapter(adapter);
+        NewsEventAdapter newsEventAdapter = new NewsEventAdapter(newsOption);
+
+        recyclerViewNewsAndEvent.setAdapter(newsEventAdapter);
         recyclerViewNewsAndEvent.setHasFixedSize(true);
         PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
         pagerSnapHelper.attachToRecyclerView(recyclerViewNewsAndEvent);
@@ -102,37 +113,77 @@ public class ViewPagerHomeFragment extends Fragment implements ViewPagerHomeInte
                 RecyclerViewSliderEffect.layoutChangeListenerOnLayoutChange(recyclerViewNewsAndEvent);
             }
         });
+
+        newsEventAdapter.startListening();
+
     }
 
     @Override
-    public void setUpHomeIntroAdapterAndView(List<InstitutionHomeIntroData> introData) {
-        this.introData = introData;
+    public void setUpHomeIntroAdapterAndView(FirebaseRecyclerOptions<InstitutionHomeIntroData> introOption) {
+
         recyclerViewIntro.setNestedScrollingEnabled(false);
         recyclerViewIntro.setLayoutManager(new LinearLayoutManager(getContext()));
-        IntroAdapter adapter = new IntroAdapter();
+        IntroAdapter adapter = new IntroAdapter(introOption);
         recyclerViewIntro.setAdapter(adapter);
+
+        adapter.startListening();
+
     }
 
-    class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
+    @Override
+    public void openNews(InstitutionHomeNewsAndEventsData newsList, ActivityOptions options) {
 
+        Intent intent = new Intent(getContext(), NewsHomePageActivity.class);
+        intent.putExtra("REQUEST_CODE", "news_loader");
+        intent.putExtra("IMAGE", newsList.getImage_url());
+        intent.putExtra("HEADING", newsList.getNews_heading());
+        intent.putExtra("NEWS", newsList.getNews_content());
+        intent.putExtra("PLACE", newsList.getPlace_name());
+        intent.putExtra("WRITER", newsList.getFull_name());
+        intent.putExtra("TIME", newsList.getId());
+
+        startActivity(intent, options.toBundle());
+    }
+
+    class NewsEventAdapter extends FirebaseRecyclerAdapter<InstitutionHomeNewsAndEventsData, NewsEventAdapter.NewsEventViewHolder> {
+
+        /*
+         * Initialize a {@link RecyclerView.Adapter} that listens to a Firebase query. See
+         * {@link FirebaseRecyclerOptions} for configuration options.
+         *
+         * @param options
+         */
+        NewsEventAdapter(@NonNull FirebaseRecyclerOptions<InstitutionHomeNewsAndEventsData> options) {
+            super(options);
+        }
+
+        @SuppressLint("SetTextI18n")
         @Override
-        public NewsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        protected void onBindViewHolder(@NonNull NewsEventAdapter.NewsEventViewHolder holder, int position, @NonNull InstitutionHomeNewsAndEventsData model) {
+            holder.newsHeadlines.setText(model.getNews_heading());
+            holder.newsWriter.setText(model.getFull_name());
+            holder.newsFrom.setText(model.getPlace_name());
+            holder.newsPostTime.setText("3m |");
+            Picasso.get()
+                    .load(model.getImage_url())
+                    .fit()
+                    .centerCrop()
+                    .placeholder(R.drawable.logo_for_news)
+                    .into(holder.newsHeadlinesIcon);
+
+            holder.newsList = model;
+
+        }
+
+        @NonNull
+        @Override
+        public NewsEventAdapter.NewsEventViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = inflater.inflate(R.layout._4_5_rec_news_items, parent, false);
-            return new NewsViewHolder(view);
+            return new NewsEventAdapter.NewsEventViewHolder(view);
         }
 
-        @Override
-        public void onBindViewHolder(NewsViewHolder holder, int position) {
-            InstitutionHomeNewsAndEventsData currentItem = newsAndEventData.get(position);
-            holder.newsHeadlines.setText(currentItem.getNewsAndEvents());
-        }
-
-        @Override
-        public int getItemCount() {
-            return newsAndEventData.size();
-        }
-
-        class NewsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        // This class is bridge between NewsListItem(Data) class and news_recycler_view(View) layout
+        class NewsEventViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
             private ViewGroup container;
             private ImageView newsHeadlinesIcon;
@@ -142,16 +193,18 @@ public class ViewPagerHomeFragment extends Fragment implements ViewPagerHomeInte
             private TextView newsWriter;
             private ImageView moreIcon;
 
-            NewsViewHolder(View itemView) {
+            InstitutionHomeNewsAndEventsData newsList;
+
+            NewsEventViewHolder(View itemView) {
                 super(itemView);
 
-                container = (ViewGroup) itemView.findViewById(R.id.root_news_headlines);
-                newsHeadlinesIcon = (ImageView) itemView.findViewById(R.id.iv_news_headline_icon);
-                newsHeadlines = (TextView) itemView.findViewById(R.id.lbl_news_headlines);
-                newsPostTime = (TextView) itemView.findViewById(R.id.lbl_news_post_time);
-                newsFrom = (TextView) itemView.findViewById(R.id.lbl_news_from);
-                newsWriter = (TextView) itemView.findViewById(R.id.lbl_news_writer);
-                moreIcon = (ImageView) itemView.findViewById(R.id.iv_news_headline_more);
+                container = itemView.findViewById(R.id.root_news_headlines);
+                newsHeadlinesIcon = itemView.findViewById(R.id.iv_news_headline_icon);
+                newsHeadlines = itemView.findViewById(R.id.lbl_news_headlines);
+                newsPostTime = itemView.findViewById(R.id.lbl_news_post_time);
+                newsFrom = itemView.findViewById(R.id.lbl_news_from);
+                newsWriter = itemView.findViewById(R.id.lbl_news_writer);
+                moreIcon = itemView.findViewById(R.id.iv_news_headline_more);
 
                 container.setOnClickListener(this);
                 moreIcon.setOnClickListener(this);
@@ -161,43 +214,58 @@ public class ViewPagerHomeFragment extends Fragment implements ViewPagerHomeInte
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.root_news_headlines:
-//                        NewsListItem newsListItem = listOfNewsData.get(this.getAdapterPosition());
-//                        homePageController.onNewsListItemClick(newsListItem);
+
+                        Pair[] pairs = new Pair[2];
+                        pairs[0] = new Pair<View, String>(newsHeadlinesIcon, "newsImageIcon");
+                        pairs[1] = new Pair<View, String>(newsHeadlines, "newsHeading");
+
+                        //noinspection unchecked
+                        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(), pairs);
+
+                        controller.onNewsListItemClick(newsList, options);
+
                         break;
                     case R.id.iv_news_headline_more:
                         Toast.makeText(getContext(), "Clicked", Toast.LENGTH_SHORT).show();
                         break;
-                    default:
-                        break;
+                    default:break;
                 }
             }
         }
+
     }
 
-    class IntroAdapter extends RecyclerView.Adapter<IntroAdapter.IntroViewHolder> {
+    class IntroAdapter extends FirebaseRecyclerAdapter<InstitutionHomeIntroData, IntroAdapter.IntroViewHolder> {
 
+        /*
+         * Initialize a {@link RecyclerView.Adapter} that listens to a Firebase query. See
+         * {@link FirebaseRecyclerOptions} for configuration options.
+         *
+         * @param options
+         */
+        IntroAdapter(@NonNull FirebaseRecyclerOptions<InstitutionHomeIntroData> options) {
+            super(options);
+        }
+
+        @NonNull
         @Override
-        public IntroViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public IntroViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = inflater.inflate(R.layout._6_2_1_1_rec_vp_home_intro, parent, false);
             return new IntroViewHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(IntroViewHolder holder, int position) {
+        protected void onBindViewHolder(@NonNull IntroViewHolder holder, int position, @NonNull InstitutionHomeIntroData model) {
 
-            InstitutionHomeIntroData currentItem = introData.get(position);
-            int introId = Integer.parseInt(currentItem.getIntro());
+            holder.introHeading.setText(model.getMessage_heading());
+            holder.intro.setText(model.getMessage_content());
+            Picasso.get()
+                    .load(model.getImage_url())
+                    .fit()
+                    .centerCrop()
+                    .placeholder(R.drawable.logo_for_news)
+                    .into(holder.image);
 
-            holder.image.setImageResource(currentItem.getImage());
-            holder.introHeading.setText(currentItem.getIntroHeading());
-            // While loading data from database replace intro id by currentItem.getIntro()
-            holder.intro.setText(getContext().getResources().getString(introId));
-
-        }
-
-        @Override
-        public int getItemCount() {
-            return introData.size();
         }
 
         class IntroViewHolder extends RecyclerView.ViewHolder {
@@ -209,10 +277,13 @@ public class ViewPagerHomeFragment extends Fragment implements ViewPagerHomeInte
             IntroViewHolder(View itemView) {
                 super(itemView);
 
-                image = (ImageView) itemView.findViewById(R.id.iv_inst_loader_vp_home);
-                introHeading = (TextView) itemView.findViewById(R.id.lbl_inst_loader_vp_home_page_intro_heading);
-                intro = (TextView) itemView.findViewById(R.id.lbl_inst_loader_vp_home_intro);
+                image = itemView.findViewById(R.id.iv_inst_loader_vp_home);
+                introHeading = itemView.findViewById(R.id.lbl_inst_loader_vp_home_page_intro_heading);
+                intro = itemView.findViewById(R.id.lbl_inst_loader_vp_home_intro);
+
             }
         }
+
     }
+
 }

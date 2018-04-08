@@ -6,13 +6,16 @@ package com.shikshyaguru.shikshyaguru._6_institutions_activity.model;
  */
 
 
+import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.InstitutionsListItemParent;
+
 import java.util.List;
 
 public interface InstitutionDataSourceInterface {
 
-    List<InstitutionHomeNewsAndEventsData> getInstitutionHomeNewsAndEventData();
+    FirebaseRecyclerOptions<InstitutionHomeNewsAndEventsData> getInstitutionHomeNewsAndEventData(String id);
 
-    List<InstitutionHomeIntroData> getInstitutionHomeIntroData();
+    FirebaseRecyclerOptions<InstitutionHomeIntroData> getInstitutionHomeIntroData(String id);
 
     List<InstitutionReviewsData> getInstitutionReviewData();
 
@@ -26,7 +29,7 @@ public interface InstitutionDataSourceInterface {
 
     InstitutionProgrammesCoursesData getInstitutionCoursesData();
 
-    List<InstitutionManagementData> getInstitutionManagementData();
+    FirebaseRecyclerOptions<InstitutionManagementData> getInstitutionManagementData(String id);
 
     List<InstitutionStudentAlumniData> getListOfStudentAlumniData();
 
@@ -35,4 +38,7 @@ public interface InstitutionDataSourceInterface {
     InstitutionActivitiesData getInstitutionActivitiesData();
 
     String getSlogan(String id);
+
+    FirebaseRecyclerOptions<InstitutionsListItemParent> getInstitutionLists(int category);
+
 }

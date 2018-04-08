@@ -1,8 +1,7 @@
 package com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments;
 
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionManagementData;
-
-import java.util.List;
 
 /**
  * Project Name => Shikshya Guru
@@ -13,6 +12,6 @@ import java.util.List;
 
 public interface ViewPagerManagementInterface {
 
-    void setUpManagementAdapter(List<InstitutionManagementData> managementData);
+    void setUpManagementAdapter(FirebaseRecyclerOptions<InstitutionManagementData> options);
 
 }

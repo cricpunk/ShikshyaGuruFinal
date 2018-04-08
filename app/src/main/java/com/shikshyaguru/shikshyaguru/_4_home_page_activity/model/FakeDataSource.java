@@ -13,7 +13,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.shikshyaguru.shikshyaguru.R;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -100,7 +99,6 @@ public class FakeDataSource implements DataSourceInterface {
         return listOfData;
     }
 
-
     @Override
     public List<HomePageOptionsListItem> getListOfOptions() {
         ArrayList<HomePageOptionsListItem> listOfOptionsData = new ArrayList<>();
@@ -134,87 +132,6 @@ public class FakeDataSource implements DataSourceInterface {
         return slogan;
 
     }
-
-
-    public HashMap<String, String> displayAllCategory() {
-
-        final HashMap<String, String> categories = new HashMap<>();
-
-
-        Query query = mDatabase.getReference().child("clients").child("category");
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    System.out.println("============================================");
-                    System.out.println(postSnapshot.getKey() + " : " + postSnapshot.getValue());
-                    System.out.println("============================================");
-
-                    categories.put(postSnapshot.getKey(), postSnapshot.getValue(String.class));
-                }
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-        return categories;
-    }
-
-    public void getAllData() {
-
-        Query query = mDatabase.getReference().child("category");
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                for (final DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-
-                    int cat = Integer.parseInt(postSnapshot.getKey());
-
-                    Query query1 = mDatabase.getReference().child("clients").orderByChild("category").equalTo(cat);
-
-                    query1.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-
-
-                            for (DataSnapshot pSnapshot : dataSnapshot.getChildren()) {
-
-                                CollegeListItem collegeList = new CollegeListItem();
-
-                                collegeList.setName(pSnapshot.child("name").getValue(String.class));
-                                collegeList.setIcon_image(pSnapshot.child("icon_image").getValue(String.class));
-                                collegeList.setCity(pSnapshot.child("address").child("city").getValue(String.class));
-                                Double rating = pSnapshot.child("app_reviews").child("overall_rating").getValue(Double.class);
-                                collegeList.setRating(String.valueOf(rating));
-
-                            }
-
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
-                }
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-    }
-
 
     @Override
     public FirebaseRecyclerOptions<HomePageSliderListItem> getSponsorDetail() {
@@ -460,5 +377,90 @@ public class FakeDataSource implements DataSourceInterface {
         return listOfTotalInstitutions;
     }
 
+
+
+
+
+
+
+
+//    public HashMap<String, String> displayAllCategory() {
+//
+//        final HashMap<String, String> categories = new HashMap<>();
+//
+//
+//        Query query = mDatabase.getReference().child("clients").child("category");
+//        query.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//
+//                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+//                    System.out.println("============================================");
+//                    System.out.println(postSnapshot.getKey() + " : " + postSnapshot.getValue());
+//                    System.out.println("============================================");
+//
+//                    categories.put(postSnapshot.getKey(), postSnapshot.getValue(String.class));
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
+//
+//        return categories;
+//    }
+//
+//    public void getAllData() {
+//
+//        Query query = mDatabase.getReference().child("category");
+//        query.addListenerForSingleValueEvent(new ValueEventListener() {
+//
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//
+//                for (final DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+//
+//                    int cat = Integer.parseInt(postSnapshot.getKey());
+//
+//                    Query query1 = mDatabase.getReference().child("clients").orderByChild("category").equalTo(cat);
+//
+//                    query1.addListenerForSingleValueEvent(new ValueEventListener() {
+//                        @Override
+//                        public void onDataChange(DataSnapshot dataSnapshot) {
+//
+//
+//                            for (DataSnapshot pSnapshot : dataSnapshot.getChildren()) {
+//
+//                                CollegeListItem collegeList = new CollegeListItem();
+//
+//                                collegeList.setName(pSnapshot.child("name").getValue(String.class));
+//                                collegeList.setIcon_image(pSnapshot.child("icon_image").getValue(String.class));
+//                                collegeList.setCity(pSnapshot.child("address").child("city").getValue(String.class));
+//                                Double rating = pSnapshot.child("app_reviews").child("overall_rating").getValue(Double.class);
+//                                collegeList.setRating(String.valueOf(rating));
+//
+//                            }
+//
+//                        }
+//
+//                        @Override
+//                        public void onCancelled(DatabaseError databaseError) {
+//
+//                        }
+//                    });
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
+//
+//    }
 
 }

@@ -13,20 +13,14 @@ import java.util.List;
 public class ListOfTotalInstitutions {
 
     private String institutionHeading;
-    private int institutionHeadingId;
+    private int category;
     private List<?> relatedInstitutionData;
 
     private FirebaseRecyclerOptions<?> relatedInstitutionOptions;
 
-    ListOfTotalInstitutions(String institutionHeading, int institutionHeadingId, List<?> relatedInstitutionData) {
+    ListOfTotalInstitutions(String institutionHeading, int category, FirebaseRecyclerOptions<?> relatedInstitutionOptions) {
         this.institutionHeading = institutionHeading;
-        this.institutionHeadingId = institutionHeadingId;
-        this.relatedInstitutionData = relatedInstitutionData;
-    }
-
-    ListOfTotalInstitutions(String institutionHeading, int institutionHeadingId, FirebaseRecyclerOptions<?> relatedInstitutionOptions) {
-        this.institutionHeading = institutionHeading;
-        this.institutionHeadingId = institutionHeadingId;
+        this.category = category;
         this.relatedInstitutionOptions = relatedInstitutionOptions;
     }
 
@@ -38,20 +32,12 @@ public class ListOfTotalInstitutions {
         this.institutionHeading = institutionHeading;
     }
 
-    public int getInstitutionHeadingId() {
-        return institutionHeadingId;
+    public int getCategory() {
+        return category;
     }
 
-    public void setInstitutionHeadingId(int institutionHeadingId) {
-        this.institutionHeadingId = institutionHeadingId;
-    }
-
-    public List<?> getRelatedInstitutionData() {
-        return relatedInstitutionData;
-    }
-
-    public void setRelatedInstitutionData(List<?> relatedInstitutionData) {
-        this.relatedInstitutionData = relatedInstitutionData;
+    public void setCategory(int category) {
+        this.category = category;
     }
 
     public FirebaseRecyclerOptions<?> getRelatedInstitutionOptions() {

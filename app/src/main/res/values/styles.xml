@@ -37,7 +37,7 @@
 
     <style name="AppTheme" parent="Base.Theme.FloatingSearchDemo" />
 
-    <!--Theme 6.    Observable scroll toolbar theme-->
+    <!--Theme 6.    Observable scroll blue_toolbar theme-->
     <style name="Toolbar" parent="Theme.AppCompat.Light.NoActionBar">
 
         <item name="colorPrimary">@color/colorPrimary</item>

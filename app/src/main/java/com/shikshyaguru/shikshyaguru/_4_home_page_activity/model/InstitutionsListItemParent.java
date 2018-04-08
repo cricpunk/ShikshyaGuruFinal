@@ -14,7 +14,7 @@ public class InstitutionsListItemParent {
     private String rating;
     private String city;
 
-    InstitutionsListItemParent(String id, String icon_image, String name, String rating, String city) {
+    public InstitutionsListItemParent(String id, String icon_image, String name, String rating, String city) {
         this.id = id;
         this.icon_image = icon_image;
         this.name = name;
@@ -22,7 +22,7 @@ public class InstitutionsListItemParent {
         this.city = city;
     }
 
-    InstitutionsListItemParent() {
+    public InstitutionsListItemParent() {
     }
 
     public String getId() {

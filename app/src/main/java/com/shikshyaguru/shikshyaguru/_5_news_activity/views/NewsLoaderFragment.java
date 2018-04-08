@@ -46,7 +46,7 @@ public class NewsLoaderFragment extends Fragment implements View.OnClickListener
 
         }
 
-        Toolbar toolbar = view.findViewById(R.id.tb_news_loader_frag);
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
         Toolbars.setUpToolbar(toolbar, getActivity(), heading);
         // To make onOptionItemSelected working we have to setHasOptionsMenu true in fragment.
         setHasOptionsMenu(true);

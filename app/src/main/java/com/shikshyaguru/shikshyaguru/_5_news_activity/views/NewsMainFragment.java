@@ -53,8 +53,8 @@ public class NewsMainFragment extends Fragment implements NewsViewInterface {
         // Change status bar color always from inside onCreateView
         StatusBar.changeStatusBarColor(getContext(), Objects.requireNonNull(getActivity()).getWindow(), R.color.black_toolbar);
 
-        // Setup toolbar
-        Toolbar toolbar = view.findViewById(R.id.tb_news_home);
+        // Setup blue_toolbar
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
         Toolbars.setUpToolbar(toolbar, getActivity(), "News");
         // To make onOptionItemSelected working we have to setHasOptionsMenu true in fragment.
         setHasOptionsMenu(true);

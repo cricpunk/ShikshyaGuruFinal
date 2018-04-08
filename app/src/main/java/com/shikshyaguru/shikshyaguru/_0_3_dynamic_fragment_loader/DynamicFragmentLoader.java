@@ -45,7 +45,7 @@ public class DynamicFragmentLoader {
                         showFragment(openNewsLoader(bundle), fragHolderId, fragmentManager);
                         break;
                     case "institutions_main":
-                        showFragment(new InstitutionMainFragment(), fragHolderId, fragmentManager);
+                        showFragment(openInstitutionMainFragment(bundle), fragHolderId, fragmentManager);
                         break;
                     case "institutions_loader":
                         showFragment(openInstitutionLoader(bundle), fragHolderId, fragmentManager);
@@ -86,6 +86,12 @@ public class DynamicFragmentLoader {
         NewsLoaderFragment newsLoaderFragment = new NewsLoaderFragment();
         newsLoaderFragment.setArguments(bundle);
         return newsLoaderFragment;
+    }
+
+    private static InstitutionMainFragment openInstitutionMainFragment(Bundle bundle) {
+        InstitutionMainFragment mainFragment = new InstitutionMainFragment();
+        mainFragment.setArguments(bundle);
+        return mainFragment;
     }
 
     private static InstitutionsLoaderFragment openInstitutionLoader(Bundle bundle) {

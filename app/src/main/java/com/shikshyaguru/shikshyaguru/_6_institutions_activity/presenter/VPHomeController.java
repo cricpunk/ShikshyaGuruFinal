@@ -1,6 +1,9 @@
 package com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter;
 
+import android.app.ActivityOptions;
+
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionDataSourceInterface;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionHomeNewsAndEventsData;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerHomeInterface;
 
 /**
@@ -18,18 +21,18 @@ public class VPHomeController {
     public VPHomeController(ViewPagerHomeInterface homeInterface, InstitutionDataSourceInterface dataSource) {
         this.homeInterface = homeInterface;
         this.dataSource = dataSource;
-
-        setUpNewsAndEvents();
-        setUpHomeIntro();
-
     }
 
-    private void setUpNewsAndEvents() {
-        homeInterface.setUpNewsAdapterAndView(dataSource.getInstitutionHomeNewsAndEventData());
+    public void setUpNewsAndEvents(String id) {
+        homeInterface.setUpNewsAdapterAndView(dataSource.getInstitutionHomeNewsAndEventData(id));
     }
 
-    private void setUpHomeIntro() {
-        homeInterface.setUpHomeIntroAdapterAndView(dataSource.getInstitutionHomeIntroData());
+    public void setUpHomeIntro(String id) {
+        homeInterface.setUpHomeIntroAdapterAndView(dataSource.getInstitutionHomeIntroData(id));
+    }
+
+    public void onNewsListItemClick(InstitutionHomeNewsAndEventsData newsList, ActivityOptions options) {
+        homeInterface.openNews(newsList, options);
     }
 
 }
