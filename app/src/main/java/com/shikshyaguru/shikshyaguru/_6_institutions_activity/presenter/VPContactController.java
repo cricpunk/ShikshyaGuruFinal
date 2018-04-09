@@ -1,5 +1,7 @@
 package com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter;
 
+import com.google.firebase.database.DatabaseError;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionContactData;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionDataSourceInterface;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerContactInterface;
 
@@ -18,6 +20,14 @@ public class VPContactController {
     public VPContactController(ViewPagerContactInterface contactInterface, InstitutionDataSourceInterface dataSource) {
         this.contactInterface = contactInterface;
         this.dataSource = dataSource;
+    }
+
+    public void onSendMessageButtonClick() {
+        contactInterface.onSendMessageButtonClick();
+    }
+
+    public DatabaseError sendMessage(String id, InstitutionContactData contactData) {
+        return dataSource.sendContactUsMessage(id, contactData);
     }
 
 }

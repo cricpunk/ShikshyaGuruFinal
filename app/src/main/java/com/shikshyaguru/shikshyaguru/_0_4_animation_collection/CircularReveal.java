@@ -73,4 +73,16 @@ public class CircularReveal {
         int distanceY = Math.max(centerY(v), v.getHeight() - centerY(v));
         return (float) Math.hypot(distanceX, distanceY);
     }
+
+    public void circularBackground() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            GradientDrawable drawable = (GradientDrawable) view.getBackground();
+            if (hasFocus) {
+                drawable.setStroke(2, ContextCompat.getColor(activity, R.color.colorAppMain));
+            } else {
+                drawable.setStroke(2, Color.parseColor("#40222222"));
+            }
+        }
+    }
+
 }

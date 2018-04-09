@@ -137,5 +137,18 @@ public class PerformValidation {
 
     }
 
+    public static boolean inputFieldValidation(Activity activity, EditText editText) {
+
+        String value = editText.getText().toString();
+
+        if (value.equals("")) {
+            PopupCollections.tooltipMessage(Objects.requireNonNull(activity), editText, editText.getHint().toString() + " cannot be left empty ! ").show();
+            return false;
+        } else {
+            return true;
+        }
+
+    }
+
 
 }

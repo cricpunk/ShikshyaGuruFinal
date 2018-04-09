@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_reviews_nested_scroll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:background="@color/colorCardViewBackground">
+
+    <TextView
+        android:id="@+id/lbl_info_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin_28dp"
+        android:textSize="28sp"
+        android:textAlignment="center"
+        android:textColor="@color/green"
+        android:text="@string/login_info_msg"/>
+
+    <Button
+        android:id="@+id/btn_login_to_access"
+        android:layout_below="@+id/lbl_info_message"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginEnd="@dimen/margin_28dp"
+        android:layout_marginStart="@dimen/margin_28dp"
+        android:background="@drawable/rounded_bg"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        android:text="@string/login"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp" />
+
+</RelativeLayout>

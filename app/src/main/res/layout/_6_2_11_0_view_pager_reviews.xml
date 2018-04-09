@@ -50,7 +50,6 @@
                     android:layout_gravity="center_horizontal"
                     android:drawableEnd="@drawable/ic_star_large"
                     android:drawablePadding="5dp"
-                    android:drawableRight="@drawable/ic_star_large"
                     android:gravity="center_vertical"
                     android:padding="@dimen/margin_extra_short"
                     tools:text="4.1"
@@ -115,7 +114,6 @@
                         android:layout_height="5dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginEnd="@dimen/margin_short"
-                        android:layout_marginRight="@dimen/margin_short"
                         android:layout_weight="3"
                         android:indeterminate="false" />
 
@@ -150,7 +148,6 @@
                         android:layout_height="5dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginEnd="@dimen/margin_short"
-                        android:layout_marginRight="@dimen/margin_short"
                         android:layout_weight="3"
                         android:indeterminate="false" />
 
@@ -185,7 +182,6 @@
                         android:layout_height="5dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginEnd="@dimen/margin_short"
-                        android:layout_marginRight="@dimen/margin_short"
                         android:layout_weight="3"
                         android:indeterminate="false" />
 
@@ -220,7 +216,6 @@
                         android:layout_height="5dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginEnd="@dimen/margin_short"
-                        android:layout_marginRight="@dimen/margin_short"
                         android:layout_weight="3"
                         android:indeterminate="false" />
 
@@ -255,7 +250,6 @@
                         android:layout_height="5dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginEnd="@dimen/margin_short"
-                        android:layout_marginRight="@dimen/margin_short"
                         android:layout_weight="3"
                         android:indeterminate="false" />
 

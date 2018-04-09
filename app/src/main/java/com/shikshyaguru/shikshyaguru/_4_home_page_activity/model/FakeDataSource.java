@@ -26,14 +26,14 @@ public class FakeDataSource implements DataSourceInterface {
     private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
 
     private final int[] DRAWER_MAIN_HEADER_ICONS = {
-            R.drawable.ic_profile_d,
-            R.drawable.ic_message_d,
-            R.drawable.ic_favourites_d,
-            R.drawable.ic_followers_d,
-            R.drawable.ic_following_d,
-            R.drawable.ic_question_d,
-            R.drawable.ic_answer_d,
-            R.drawable.ic_logout_d
+            R.drawable.ic_nd_user_home,
+            R.drawable.ic_nd_message,
+            R.drawable.ic_nd_favourites,
+            R.drawable.ic_nd_followers,
+            R.drawable.ic_nd_followers,
+            R.drawable.ic_nd_question,
+            R.drawable.ic_nd_answer,
+            R.drawable.ic_nd_logout
     };
 
     private final String[] DRAWER_MAIN_HEADER = {

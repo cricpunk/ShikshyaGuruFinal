@@ -6,4 +6,7 @@ package com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_f
  */
 
 public interface ViewPagerContactInterface {
+
+    void onSendMessageButtonClick();
+
 }

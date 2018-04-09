@@ -11,6 +11,7 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.database.SnapshotParser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
@@ -374,6 +375,22 @@ public class InstitutionFakeDataSource implements InstitutionDataSourceInterface
         };
 
         return new FirebaseRecyclerOptions.Builder<InstitutionsListItemParent>().setQuery(query, snapshotParser).build();
+
+    }
+
+    @Override
+    public DatabaseError sendContactUsMessage(String id, final InstitutionContactData contactData) {
+
+        final DatabaseError[] error = new DatabaseError[1];
+        mDatabase.getReference().child("clients").child(id).child("app_contact").push().setValue(contactData, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                error[0] = databaseError;
+            }
+
+        });
+
+        return error[0];
 
     }
 

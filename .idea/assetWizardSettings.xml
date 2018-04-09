@@ -14,8 +14,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_following_d" />
-                            <entry key="sourceFile" value="D:\Android assets\user.svg" />
+                            <entry key="outputName" value="ic_nd_user_home" />
+                            <entry key="sourceFile" value="D:\Android assets\Icons\111151-thin-round-icons\upload-up-arrow-outline-in-circular-button.svg" />
                           </map>
                         </option>
                       </PersistentState>
