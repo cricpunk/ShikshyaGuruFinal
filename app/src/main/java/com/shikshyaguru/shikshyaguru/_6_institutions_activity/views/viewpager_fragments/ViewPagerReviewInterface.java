@@ -5,14 +5,13 @@ package com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_f
  * Koiralapankaj007@gmail.com
  */
 
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionRatingsData;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionReviewsData;
 
-import java.util.List;
-
 public interface ViewPagerReviewInterface {
 
-    void setUpReviews(List<InstitutionReviewsData> reviewsData);
+    void setUpReviews(FirebaseRecyclerOptions<InstitutionReviewsData> options);
 
     void setUpRatings(InstitutionRatingsData ratingsData);
 

@@ -10,6 +10,10 @@ public class InstitutionRatingsData {
     private double overallRating, educationRating, infrastructureRating, teachersRating, managementRating;
     private int fiveStar, fourStar, threeStar, twoStar, oneStar, totalRating, totalReviews;
 
+    InstitutionRatingsData() {
+        // Empty constructor
+    }
+
     public double getOverallRating() {
         return overallRating;
     }

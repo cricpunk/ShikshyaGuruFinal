@@ -6,6 +6,7 @@ package com.shikshyaguru.shikshyaguru._6_institutions_activity.model;
  */
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.database.SnapshotParser;
@@ -15,31 +16,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.shikshyaguru.shikshyaguru.R;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.InstitutionsListItemParent;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerReviewInterface;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 
 public class InstitutionFakeDataSource implements InstitutionDataSourceInterface {
 
-    private final int SIZE = 10;
-    private Random random = new Random();
-    private int randOne;
-    private int randTwo;
-    private int randThree;
     private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
-
-
-    private final String[] RATING = {"4.2", "3.5", "4.8"};
-    private final String[] REVIEW_HEADING = {"Very nice", "Worthy joining", "Useless college"};
-    private final String[] REVIEW = {String.valueOf(R.string.review), String.valueOf(R.string.review), String.valueOf(R.string.review)};
-    private final String[] USER_NAME = {"Pankaj Koirala", "Bidhya Sapkota", "Neymar Jr."};
-    private final String[] REVIEW_DATE = {"7 Aug, 2016", "17 Aug, 2016", "24 Jan, 2017"};
-    private final int[] LIKE_COUNT = {125, 569, 920};
-    private final int[] DISLIKE_COUNT = {25, 69, 20};
 
     @Override
     public FirebaseRecyclerOptions<InstitutionHomeNewsAndEventsData> getInstitutionHomeNewsAndEventData(String id) {
@@ -85,61 +71,166 @@ public class InstitutionFakeDataSource implements InstitutionDataSourceInterface
     }
 
     @Override
-    public List<InstitutionReviewsData> getInstitutionReviewData() {
-        ArrayList<InstitutionReviewsData> listOfData = new ArrayList<>();
+    public void getInstitutionRatingsData(String id, final ViewPagerReviewInterface reviewInterface) {
 
-        for (int i = 0; i < SIZE; i++) {
+        Query query = mDatabase.getReference().child("clients").child(id).child("app_reviews");
 
-            randOne = random.nextInt(3);
-            randTwo = random.nextInt(3);
-            randThree = random.nextInt(3);
-            int randFour = random.nextInt(3);
-            int randFive = random.nextInt(3);
-            int randSix = random.nextInt(3);
-            int randSeven = random.nextInt(3);
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
 
-            InstitutionReviewsData institutionReviewsData = new InstitutionReviewsData(
-                    RATING[randOne],
-                    REVIEW_HEADING[randTwo],
-                    REVIEW[randThree],
-                    USER_NAME[randFour],
-                    REVIEW_DATE[randFive],
-                    LIKE_COUNT[randSix],
-                    DISLIKE_COUNT[randSeven]
+                int totalReviewsCount = 0;
 
-            );
+                int fiveStar = 0;
+                int fourStar = 0;
+                int threeStar = 0;
+                int twoStar = 0;
+                int oneStar = 0;
 
-            listOfData.add(institutionReviewsData);
-        }
+                int instRatingCount = 0;
+                int eduRatingCount = 0;
+                int infraRatingCount = 0;
+                int mgmtRatingCount = 0;
+                int techRatingCount = 0;
 
-        return listOfData;
+                int overallInstitutionRating = 0;
+                int overallEducationRating = 0;
+                int overallInfrastructureRating = 0;
+                int overallManagementRating = 0;
+                int overallTeachersRating = 0;
+
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+
+                    Long institution = postSnapshot.child("institution").getValue(Long.class);
+                    Long education = postSnapshot.child("education").getValue(Long.class);
+                    Long infrastructure = postSnapshot.child("infrastructure").getValue(Long.class);
+                    Long management = postSnapshot.child("management").getValue(Long.class);
+                    Long teachers = postSnapshot.child("teachers").getValue(Long.class);
+
+                    assert institution != null;
+                    overallInstitutionRating += institution.intValue();
+                    instRatingCount += 1;
+                    switch (institution.intValue()) {
+                        case 5: fiveStar++; break;
+                        case 4: fourStar++; break;
+                        case 3: threeStar++; break;
+                        case 2: twoStar++; break;
+                        case 1: oneStar++; break;
+                        default: break;
+                    }
+
+                    assert education != null;
+                    overallEducationRating += education.intValue();
+                    eduRatingCount += 1;
+
+                    assert infrastructure != null;
+                    overallInfrastructureRating += infrastructure.intValue();
+                    infraRatingCount += 1;
+
+                    assert management != null;
+                    overallManagementRating += management.intValue();
+                    mgmtRatingCount += 1;
+
+                    assert teachers != null;
+                    overallTeachersRating += teachers.intValue();
+                    techRatingCount += 1;
+
+                    String review = postSnapshot.child("comment").getValue(String.class);
+
+                    assert review != null;
+                    if (!review.equals("")) {
+                        totalReviewsCount ++;
+                    }
+
+                    System.out.println(institution + " : " + education + " : " + infrastructure  + " : " + management  + " : " + teachers);
+                }
+
+                System.out.println("Total rating :" + instRatingCount);
+                System.out.println("Total reviews :" + totalReviewsCount);
+                System.out.println(fiveStar+":"+fourStar+":"+threeStar+":"+twoStar+":"+oneStar);
+
+                try {
+
+                    double oaRating, oaEduRating, oaInfraRating, oaTechRating, oaMgmtRating;
+                    oaRating = overallInstitutionRating / instRatingCount;
+                    oaEduRating = overallEducationRating / eduRatingCount;
+                    oaInfraRating = overallInfrastructureRating / infraRatingCount;
+                    oaTechRating = overallTeachersRating / techRatingCount;
+                    oaMgmtRating = overallManagementRating / mgmtRatingCount;
+
+                    InstitutionRatingsData ratingsData = new InstitutionRatingsData();
+
+                    ratingsData.setOverallRating(oaRating);
+                    ratingsData.setEducationRating(oaEduRating);
+                    ratingsData.setInfrastructureRating(oaInfraRating);
+                    ratingsData.setTeachersRating(oaTechRating);
+                    ratingsData.setManagementRating(oaMgmtRating);
+
+                    ratingsData.setFiveStar(fiveStar);
+                    ratingsData.setFourStar(fourStar);
+                    ratingsData.setThreeStar(threeStar);
+                    ratingsData.setTwoStar(twoStar);
+                    ratingsData.setOneStar(oneStar);
+                    ratingsData.setTotalRating(instRatingCount);
+                    ratingsData.setTotalReviews(totalReviewsCount);
+
+                    // setUpRatings method should be call from here otherwise data will not be display
+                    // If we call this method normally view will be populated before firebase call back finish its task
+                    // Which results empty data into views
+                    // We cant call this method directly so we have to use interface to call this method
+                    reviewInterface.setUpRatings(ratingsData);
+
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+                Log.w("TAG", "loadPost:onCancelled", databaseError.toException());
+                // ...
+
+            }
+        });
+
     }
 
     @Override
-    public InstitutionRatingsData getInstitutionRatingsData() {
-        InstitutionRatingsData ratingsData = new InstitutionRatingsData();
-        int fiveStarRating = 152399;
-        int fourStarRating = 25020;
-        int threeStarRating = 252;
-        int twoStarRating = 98;
-        int oneStarRating = 89;
-        int totalRatings = fiveStarRating + fourStarRating + threeStarRating + twoStarRating + oneStarRating;
-        int totalReviews = 59846;
+    public FirebaseRecyclerOptions<InstitutionReviewsData> getInstitutionReviewData(String id) {
 
-        ratingsData.setOverallRating(4.6);
-        ratingsData.setEducationRating(4.3);
-        ratingsData.setInfrastructureRating(4.0);
-        ratingsData.setTeachersRating(4.5);
-        ratingsData.setManagementRating(3.9);
-        ratingsData.setFiveStar(fiveStarRating);
-        ratingsData.setFourStar(fourStarRating);
-        ratingsData.setThreeStar(threeStarRating);
-        ratingsData.setTwoStar(twoStarRating);
-        ratingsData.setOneStar(oneStarRating);
-        ratingsData.setTotalRating(totalRatings);
-        ratingsData.setTotalReviews(totalReviews);
+        Query query = mDatabase.getReference().child("clients").child(id).child("app_reviews");
 
-        return ratingsData;
+        SnapshotParser<InstitutionReviewsData> snapshotParser = new SnapshotParser<InstitutionReviewsData>() {
+            @NonNull
+            @Override
+            public InstitutionReviewsData parseSnapshot(@NonNull DataSnapshot snapshot) {
+
+                InstitutionReviewsData reviewsData = new InstitutionReviewsData();
+
+                Long rating = snapshot.child("institution").getValue(Long.class);
+                Long like = snapshot.child("comment_like").getValue(Long.class);
+                Long dislike = snapshot.child("comment_dislike").getValue(Long.class);
+
+                reviewsData.setCommentId(snapshot.getKey());
+                assert rating != null;
+                reviewsData.setRating(rating.intValue());
+                assert like != null;
+                reviewsData.setComment_like(like.intValue());
+                assert dislike != null;
+                reviewsData.setComment_dislike(dislike.intValue());
+                reviewsData.setHeading(snapshot.child("heading").getValue(String.class));
+                reviewsData.setComment(snapshot.child("comment").getValue(String.class));
+                reviewsData.setCommentedBy(getUserName(snapshot.getKey()));
+                reviewsData.setPost_time(snapshot.child("post_time").getValue(String.class));
+
+                return reviewsData;
+            }
+        };
+
+        return new FirebaseRecyclerOptions.Builder<InstitutionReviewsData>().setQuery(query, snapshotParser).build();
+
     }
 
     @Override
@@ -312,21 +403,6 @@ public class InstitutionFakeDataSource implements InstitutionDataSourceInterface
 
     }
 
-    @Override
-    public InstitutionActivitiesData getInstitutionActivitiesData() {
-
-        InstitutionActivitiesData activitiesData = new InstitutionActivitiesData();
-        String[] categories = {"Name first", "Name second", "Name third"};
-        ArrayList<Integer> firstImages = new ArrayList<>();
-        ArrayList<Integer> secondImages = new ArrayList<>();
-        ArrayList<Integer> thirdImages = new ArrayList<>();
-        ArrayList<String> firstDesc = new ArrayList<>();
-        ArrayList<String> secondDesc = new ArrayList<>();
-        ArrayList<String> thirdDesc = new ArrayList<>();
-
-        return activitiesData;
-    }
-
     private String slogan;
     @Override
     public String getSlogan(String id) {
@@ -392,6 +468,27 @@ public class InstitutionFakeDataSource implements InstitutionDataSourceInterface
 
         return error[0];
 
+    }
+
+    private String getUserName(String uId) {
+
+        final String name[] = new String[1];
+
+        Query query = mDatabase.getReference().child("users").child(uId).child("name");
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                name[0] = dataSnapshot.child("name").getValue(String.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        return name[0];
     }
 
 }

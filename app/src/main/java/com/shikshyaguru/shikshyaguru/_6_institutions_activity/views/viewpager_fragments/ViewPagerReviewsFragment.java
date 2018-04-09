@@ -31,13 +31,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.shikshyaguru.shikshyaguru.R;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionFakeDataSource;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionRatingsData;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionReviewsData;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter.VPReviewsController;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionsLoaderFragment;
 
 import java.util.List;
+import java.util.Objects;
 
 public class ViewPagerReviewsFragment extends Fragment implements ViewPagerReviewInterface {
 
@@ -63,23 +67,30 @@ public class ViewPagerReviewsFragment extends Fragment implements ViewPagerRevie
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        this.inflater = inflater;
-        return inflater.inflate(R.layout._6_2_11_0_view_pager_reviews, container, false);
+        View view = inflater.inflate(R.layout._6_2_11_0_view_pager_reviews, container, false);
 
+        this.inflater = inflater;
+        this.rootView = view;
+
+        nestedScrollView = view.findViewById(R.id.root_reviews_nested_scroll);
+        reviewRecyclerView = view.findViewById(R.id.rec_reviews);
+
+        controller = new VPReviewsController(this, new InstitutionFakeDataSource());
+        //Set ratings view with data from firebase
+        controller.getRatings(InstitutionsLoaderFragment.id);
+        // Set reviews adapter with data
+        controller.setUpReviews(InstitutionsLoaderFragment.id);
+
+        return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        this.rootView = view;
-
-        nestedScrollView = getActivity().findViewById(R.id.root_reviews_nested_scroll);
-        reviewRecyclerView = view.findViewById(R.id.rec_reviews);
-
-        controller = new VPReviewsController(this, new InstitutionFakeDataSource());
         initRatingAndReviewSection();
     }
 
+    // This is the method which is called from datasource using interface
     @Override
     public void setUpRatings(InstitutionRatingsData ratingsData) {
 
@@ -110,8 +121,8 @@ public class ViewPagerReviewsFragment extends Fragment implements ViewPagerRevie
         ProgressBar progressBarManagement = rootView.findViewById(R.id.cpb_inst_loader_vp_reviews_mgt);
 
         overallRating.setText(String.valueOf(ratingsData.getOverallRating()));
-        totalRating.setText(String.valueOf(ratingsData.getTotalRating()) + " " + "ratings and");
-        totalReview.setText(String.valueOf(ratingsData.getTotalReviews()) + " " + "reviews");
+        totalRating.setText(String.format("%s ratings and", String.valueOf(ratingsData.getTotalRating())));
+        totalReview.setText(String.format("%s reviews", String.valueOf(ratingsData.getTotalReviews())));
 
         fiveStar.setText(String.valueOf(ratingsData.getFiveStar()));
         fourStar.setText(String.valueOf(ratingsData.getFourStar()));
@@ -124,58 +135,81 @@ public class ViewPagerReviewsFragment extends Fragment implements ViewPagerRevie
         teachersRating.setText(String.valueOf(ratingsData.getTeachersRating()));
         managementRating.setText(String.valueOf(ratingsData.getManagementRating()));
 
+        try {
 
-        int progressBarTotal = 100;
-        int percentFiveStar = (ratingsData.getFiveStar()*100)/ratingsData.getTotalRating();
-        int percentFourStar = (ratingsData.getFourStar()*100)/ratingsData.getTotalRating();
-        int percentThreeStar = (ratingsData.getThreeStar()*100)/ratingsData.getTotalRating();
-        int percentTwoStar = (ratingsData.getTwoStar()*100)/ratingsData.getTotalRating();
-        int percentOneStar = (ratingsData.getOneStar()*100)/ratingsData.getTotalRating();
-        int cEducation = (int) (ratingsData.getEducationRating()*100)/5;
-        int cInfrastructure = (int) (ratingsData.getInfrastructureRating()*100)/5;
-        int cTeachers = (int) (ratingsData.getTeachersRating()*100)/5;
-        int cManagement = (int) (ratingsData.getManagementRating()*100)/5;
+            int progressBarTotal = 100;
+            int percentFiveStar;
+            int percentFourStar;
+            int percentThreeStar;
+            int percentTwoStar;
+            int percentOneStar;
 
-        setUpLinearProgressBar(progressBar5, percentFiveStar, progressBarTotal);
-        setUpLinearProgressBar(progressBar4, percentFourStar, progressBarTotal);
-        setUpLinearProgressBar(progressBar3, percentThreeStar, progressBarTotal);
-        setUpLinearProgressBar(progressBar2, percentTwoStar, progressBarTotal);
-        setUpLinearProgressBar(progressBar1, percentOneStar, progressBarTotal);
+            // If total rating is zero then it will generate NaN error during runtime (Divide by 0)
+            // This is the validation for that part
+            if (ratingsData.getTotalRating() != 0 ) {
+                percentFiveStar = (ratingsData.getFiveStar()*100)/ratingsData.getTotalRating();
+                percentFourStar = (ratingsData.getFourStar()*100)/ratingsData.getTotalRating();
+                percentThreeStar = (ratingsData.getThreeStar()*100)/ratingsData.getTotalRating();
+                percentTwoStar = (ratingsData.getTwoStar()*100)/ratingsData.getTotalRating();
+                percentOneStar = (ratingsData.getOneStar()*100)/ratingsData.getTotalRating();
 
-        setUpCircularProgressBar(progressBarEduQuality, cEducation, progressBarTotal);
-        setUpCircularProgressBar(progressBarInfraStructure, cInfrastructure, progressBarTotal);
-        setUpCircularProgressBar(progressBarTeachers, cTeachers, progressBarTotal);
-        setUpCircularProgressBar(progressBarManagement, cManagement, progressBarTotal);
+            } else {
+                percentFiveStar = 1;
+                percentFourStar = 1;
+                percentThreeStar = 1;
+                percentTwoStar = 1;
+                percentOneStar = 1;
+            }
+
+            int cEducation = (int) (ratingsData.getEducationRating()*100)/5;
+            int cInfrastructure = (int) (ratingsData.getInfrastructureRating()*100)/5;
+            int cTeachers = (int) (ratingsData.getTeachersRating()*100)/5;
+            int cManagement = (int) (ratingsData.getManagementRating()*100)/5;
+
+            setUpLinearProgressBar(progressBar5, percentFiveStar, progressBarTotal);
+            setUpLinearProgressBar(progressBar4, percentFourStar, progressBarTotal);
+            setUpLinearProgressBar(progressBar3, percentThreeStar, progressBarTotal);
+            setUpLinearProgressBar(progressBar2, percentTwoStar, progressBarTotal);
+            setUpLinearProgressBar(progressBar1, percentOneStar, progressBarTotal);
+
+            setUpCircularProgressBar(progressBarEduQuality, cEducation, progressBarTotal);
+            setUpCircularProgressBar(progressBarInfraStructure, cInfrastructure, progressBarTotal);
+            setUpCircularProgressBar(progressBarTeachers, cTeachers, progressBarTotal);
+            setUpCircularProgressBar(progressBarManagement, cManagement, progressBarTotal);
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
 
     }
 
     private void setUpLinearProgressBar(ProgressBar pb, int progress, int max) {
-        Drawable linearDrawable = ContextCompat.getDrawable(getActivity(), R.drawable.linear_rating_bar);
+        Drawable linearDrawable = ContextCompat.getDrawable(Objects.requireNonNull(getActivity()), R.drawable.linear_rating_bar);
         pb.setProgress(progress);
         pb.setMax(max);
         pb.setProgressDrawable(linearDrawable);
 
         ObjectAnimator animator = ObjectAnimator.ofInt(pb, "progress", 0, progress);
-        animator.setDuration(8000);
+        animator.setDuration(3000);
         animator.setInterpolator(new AccelerateInterpolator());
         animator.start();
     }
 
     private void setUpCircularProgressBar(ProgressBar pb, int progress, int max) {
-        Drawable circularDrawable = ContextCompat.getDrawable(getActivity(), R.drawable.circular_rating_bar);
+        Drawable circularDrawable = ContextCompat.getDrawable(Objects.requireNonNull(getActivity()), R.drawable.circular_rating_bar);
         pb.setProgress(progress);
         pb.setMax(max);
         pb.setProgressDrawable(circularDrawable);
 
         ObjectAnimator animator = ObjectAnimator.ofInt(pb, "progress", 0, progress);
-        animator.setDuration(8000);
+        animator.setDuration(3000);
         animator.setInterpolator(new AccelerateInterpolator());
         animator.start();
     }
 
     private void initRatingAndReviewSection() {
         swipeLayout = rootView.findViewById(R.id.root_rating_section);
-        viewPager = getActivity().findViewById(R.id.vp_inst_loader_frag);
+        viewPager = Objects.requireNonNull(getActivity()).findViewById(R.id.vp_inst_loader_frag);
 
         overallRating = rootView.findViewById(R.id.l_rating_overall);
         educationRating = rootView.findViewById(R.id.l_rating_education);
@@ -304,8 +338,6 @@ public class ViewPagerReviewsFragment extends Fragment implements ViewPagerRevie
         RatingBar overallRating = rootView.findViewById(R.id.rb_inst_loader_vp_review_overall_rating);
         TextView ratingType = rootView.findViewById(R.id.lbl_inst_loader_vp_review_overall_rating_type);
         ratingType.setVisibility(View.INVISIBLE);
-
-
         onRatingBarChanged(overallRating, ratingType);
     }
 
@@ -376,41 +408,47 @@ public class ViewPagerReviewsFragment extends Fragment implements ViewPagerRevie
     }
 
     @Override
-    public void setUpReviews(List<InstitutionReviewsData> reviewsData) {
-        this.reviewData = reviewsData;
+    public void setUpReviews(FirebaseRecyclerOptions<InstitutionReviewsData> options) {
+
         reviewRecyclerView.setNestedScrollingEnabled(false);
         reviewRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        ReviewsAdapter adapter = new ReviewsAdapter();
+        ReviewsAdapter adapter = new ReviewsAdapter(options);
         reviewRecyclerView.setAdapter(adapter);
+
+        adapter.startListening();
+
     }
 
-    class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsViewHolder> {
 
+    class ReviewsAdapter extends FirebaseRecyclerAdapter<InstitutionReviewsData, ReviewsAdapter.ReviewsViewHolder> {
+
+        /*
+         * Initialize a {@link RecyclerView.Adapter} that listens to a Firebase query. See
+         * {@link FirebaseRecyclerOptions} for configuration options.
+         *
+         * @param options
+         */
+        ReviewsAdapter(@NonNull FirebaseRecyclerOptions<InstitutionReviewsData> options) {
+            super(options);
+        }
+
+        @NonNull
         @Override
-        public ReviewsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public ReviewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = inflater.inflate(R.layout._6_2_11_2_rec_review_item, parent, false);
             return new ReviewsViewHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(ReviewsViewHolder holder, int position) {
-            InstitutionReviewsData currentItem = reviewData.get(position);
-            int reviewId = Integer.parseInt(currentItem.getReview());
+        protected void onBindViewHolder(@NonNull ReviewsViewHolder holder, int position, @NonNull InstitutionReviewsData model) {
 
-            holder.rating.setText(currentItem.getOverallRating());
-            holder.reviewHeading.setText(currentItem.getReviewHeading());
-            // While loading data from database replace intro id by currentItem.getIntro()
-            holder.review.setText(getContext().getResources().getString(reviewId));
+            holder.rating.setText(String.valueOf(model.getRating()));
+            holder.reviewHeading.setText(model.getHeading());
+            holder.review.setText(model.getComment());
+            holder.nameAndDate.setText(String.format("%s , %s", model.getCommentedBy(), model.getPost_time()));
+            holder.likeCount.setText(String.valueOf(model.getComment_like()));
+            holder.dislikeCount.setText(String.valueOf(model.getComment_dislike()));
 
-            holder.nameAndDate.setText(currentItem.getName() + " " + currentItem.getDate());
-            holder.likeCount.setText(String.valueOf(currentItem.getLikeCount()));
-            holder.dislikeCount.setText(String.valueOf(currentItem.getDislikeCount()));
-
-        }
-
-        @Override
-        public int getItemCount() {
-            return reviewData.size()-6;
         }
 
         class ReviewsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -441,10 +479,12 @@ public class ViewPagerReviewsFragment extends Fragment implements ViewPagerRevie
                 ivLike.setOnClickListener(this);
                 ivDislike.setOnClickListener(this);
                 ivMore.setOnClickListener(this);
+
             }
 
             @Override
             public void onClick(View v) {
+
                 switch (v.getId()) {
                     case R.id.iv_inst_loader_vp_reviews_rec_like:
                         Toast.makeText(getContext(),"Like",Toast.LENGTH_SHORT).show();
@@ -458,7 +498,100 @@ public class ViewPagerReviewsFragment extends Fragment implements ViewPagerRevie
                     default:
                         break;
                 }
+
             }
+
         }
+
     }
+
+
+
+
+
+
+//    class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsViewHolder> {
+//
+//        @NonNull
+//        @Override
+//        public ReviewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+//            View view = inflater.inflate(R.layout._6_2_11_2_rec_review_item, parent, false);
+//            return new ReviewsViewHolder(view);
+//        }
+//
+//        @Override
+//        public void onBindViewHolder(@NonNull ReviewsViewHolder holder, int position) {
+//            InstitutionReviewsData currentItem = reviewData.get(position);
+////            int reviewId = Integer.parseInt(currentItem.getReview());
+////
+////            holder.rating.setText(currentItem.getOverallRating());
+////            holder.reviewHeading.setText(currentItem.getReviewHeading());
+////            // While loading data from database replace intro id by currentItem.getIntro()
+////            holder.review.setText(Objects.requireNonNull(getContext()).getResources().getString(reviewId));
+////
+////            holder.nameAndDate.setText(currentItem.getName() + " " + currentItem.getDate());
+////            holder.likeCount.setText(String.valueOf(currentItem.getLikeCount()));
+////            holder.dislikeCount.setText(String.valueOf(currentItem.getDislikeCount()));
+//
+//        }
+//
+//        @Override
+//        public int getItemCount() {
+//            return reviewData.size()-6;
+//        }
+//
+//        class ReviewsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+//
+//            private TextView rating;
+//            private TextView reviewHeading;
+//            private TextView review;
+//            private TextView nameAndDate;
+//            private ImageView ivLike;
+//            private TextView likeCount;
+//            private ImageView ivDislike;
+//            private TextView dislikeCount;
+//            private ImageView ivMore;
+//
+//            ReviewsViewHolder(View itemView) {
+//                super(itemView);
+//
+//                rating = itemView.findViewById(R.id.lbl_inst_loader_vp_reviews_rec_rating);
+//                reviewHeading = itemView.findViewById(R.id.lbl_inst_loader_vp_reviews_rec_heading);
+//                review = itemView.findViewById(R.id.lbl_inst_loader_vp_reviews_rec_review);
+//                nameAndDate = itemView.findViewById(R.id.lbl_inst_loader_vp_reviews_rec_name_date);
+//                ivLike = itemView.findViewById(R.id.iv_inst_loader_vp_reviews_rec_like);
+//                likeCount = itemView.findViewById(R.id.lbl_inst_loader_vp_reviews_rec_like_count);
+//                ivDislike = itemView.findViewById(R.id.iv_inst_loader_vp_reviews_rec_dislike);
+//                dislikeCount = itemView.findViewById(R.id.lbl_inst_loader_vp_reviews_rec_dislike_count);
+//                ivMore = itemView.findViewById(R.id.iv_inst_loader_vp_reviews_rec_more);
+//
+//                ivLike.setOnClickListener(this);
+//                ivDislike.setOnClickListener(this);
+//                ivMore.setOnClickListener(this);
+//            }
+//
+//            @Override
+//            public void onClick(View v) {
+//                switch (v.getId()) {
+//                    case R.id.iv_inst_loader_vp_reviews_rec_like:
+//                        Toast.makeText(getContext(),"Like",Toast.LENGTH_SHORT).show();
+//                        break;
+//                    case R.id.iv_inst_loader_vp_reviews_rec_dislike:
+//                        Toast.makeText(getContext(),"Dislike",Toast.LENGTH_SHORT).show();
+//                        break;
+//                    case R.id.iv_inst_loader_vp_reviews_rec_more:
+//                        Toast.makeText(getContext(),"More",Toast.LENGTH_SHORT).show();
+//                        break;
+//                    default:
+//                        break;
+//                }
+//            }
+//        }
+//    }
+
+
+
+
+
+
 }

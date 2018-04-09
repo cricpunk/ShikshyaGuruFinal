@@ -23,7 +23,7 @@ public class VPActivitiesController {
     }
 
     private void setUpActivitiesCategoryAdapter() {
-        activitiesInterface.setUpActivitiesCategory(dataSource.getInstitutionActivitiesData());
+        //activitiesInterface.setUpActivitiesCategory(dataSource.getInstitutionActivitiesData());
     }
 
 }

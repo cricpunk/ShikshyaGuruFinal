@@ -6,79 +6,82 @@ package com.shikshyaguru.shikshyaguru._6_institutions_activity.model;
  */
 
 public class InstitutionReviewsData {
-    private String overallRating;
-    private String reviewHeading;
-    private String review;
-    private String name;
-    private String date;
-    private int likeCount;
-    private int dislikeCount;
 
-    public String getOverallRating() {
-        return overallRating;
+    private String commentId;
+    private String heading;
+    private String comment;
+    private String post_time;
+    private String commentedBy;
+    private int comment_like;
+    private int comment_dislike;
+    private int rating;
+
+    InstitutionReviewsData() {
+        // For firebase
     }
 
-    public void setOverallRating(String overallRating) {
-        this.overallRating = overallRating;
+    public String getCommentId() {
+        return commentId;
     }
 
-    public String getReviewHeading() {
-        return reviewHeading;
+    public void setCommentId(String commentId) {
+        this.commentId = commentId;
     }
 
-    public void setReviewHeading(String reviewHeading) {
-        this.reviewHeading = reviewHeading;
+    public String getHeading() {
+        return heading;
     }
 
-    public String getReview() {
-        return review;
+    public void setHeading(String heading) {
+        this.heading = heading;
     }
 
-    public void setReview(String review) {
-        this.review = review;
+    public String getComment() {
+        return comment;
     }
 
-    public String getName() {
-        return name;
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getPost_time() {
+        return post_time;
     }
 
-    public String getDate() {
-        return date;
+    public void setPost_time(String post_time) {
+        this.post_time = post_time;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public int getComment_like() {
+        return comment_like;
     }
 
-    public int getLikeCount() {
-        return likeCount;
+    public void setComment_like(int comment_like) {
+        this.comment_like = comment_like;
     }
 
-    public void setLikeCount(int likeCount) {
-        this.likeCount = likeCount;
+    public String getCommentedBy() {
+        return commentedBy;
     }
 
-    public int getDislikeCount() {
-        return dislikeCount;
+    public void setCommentedBy(String commentedBy) {
+        this.commentedBy = commentedBy;
     }
 
-    public void setDislikeCount(int dislikeCount) {
-        this.dislikeCount = dislikeCount;
+    public int getComment_dislike() {
+        return comment_dislike;
     }
 
-    public InstitutionReviewsData(String overallRating, String reviewHeading, String review, String name, String date, int likeCount, int dislikeCount) {
-        this.overallRating = overallRating;
-        this.reviewHeading = reviewHeading;
-        this.review = review;
-        this.name = name;
-        this.date = date;
-        this.likeCount = likeCount;
-        this.dislikeCount = dislikeCount;
-
-
+    public void setComment_dislike(int comment_dislike) {
+        this.comment_dislike = comment_dislike;
     }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+
 }

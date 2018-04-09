@@ -19,16 +19,14 @@ public class VPReviewsController {
         this.reviewInterface = reviewInterface;
         this.dataSource = dataSource;
 
-        setUpRatings();
-        setUpReviews();
     }
 
-    private void setUpRatings() {
-        reviewInterface.setUpRatings(dataSource.getInstitutionRatingsData());
+    public void getRatings(String id) {
+        dataSource.getInstitutionRatingsData(id, reviewInterface);
     }
 
-    private void setUpReviews() {
-        reviewInterface.setUpReviews(dataSource.getInstitutionReviewData());
+    public void setUpReviews(String id) {
+        reviewInterface.setUpReviews(dataSource.getInstitutionReviewData(id));
     }
 
 }

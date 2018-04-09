@@ -52,10 +52,10 @@
                     android:drawablePadding="5dp"
                     android:gravity="center_vertical"
                     android:padding="@dimen/margin_extra_short"
-                    tools:text="4.1"
                     android:textAlignment="center"
                     android:textColor="#222222"
-                    android:textSize="36sp" />
+                    android:textSize="36sp"
+                    tools:text="4.1" />
 
                 <TextView
                     android:id="@+id/lbl_inst_loader_vp_review_total_rating"
@@ -64,9 +64,9 @@
                     android:layout_gravity="center_horizontal"
                     android:gravity="center_vertical"
                     android:padding="@dimen/margin_extra_short"
-                    tools:text="123456 ratings and"
                     android:textAlignment="center"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    tools:text="123456 ratings and" />
 
                 <TextView
                     android:id="@+id/lbl_inst_loader_vp_review_total_review"
@@ -74,9 +74,9 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:gravity="center_vertical"
-                    tools:text="123456 reviews"
                     android:textAlignment="center"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    tools:text="123456 reviews" />
 
             </LinearLayout>
 
@@ -303,10 +303,10 @@
                     android:layout_height="70dp"
                     android:layout_centerHorizontal="true"
                     android:gravity="center_vertical"
-                    tools:text="4.3"
                     android:textAlignment="center"
                     android:textColor="#222222"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    tools:text="4.3" />
 
                 <TextView
                     android:id="@+id/lbl_inst_loader_vp_review_education"
@@ -342,10 +342,10 @@
                     android:layout_height="70dp"
                     android:layout_centerHorizontal="true"
                     android:gravity="center_vertical"
-                    tools:text="4.3"
                     android:textAlignment="center"
                     android:textColor="#222222"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    tools:text="4.3" />
 
                 <TextView
                     android:id="@+id/lbl_inst_loader_vp_review_infrastructure"
@@ -381,10 +381,10 @@
                     android:layout_height="70dp"
                     android:layout_centerHorizontal="true"
                     android:gravity="center_vertical"
-                    tools:text="4.3"
                     android:textAlignment="center"
                     android:textColor="#222222"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    tools:text="4.3" />
 
                 <TextView
                     android:id="@+id/lbl_inst_loader_vp_review_teachers"
@@ -425,10 +425,10 @@
                     android:layout_height="70dp"
                     android:layout_centerHorizontal="true"
                     android:gravity="center_vertical"
-                    tools:text="4.3"
                     android:textAlignment="center"
                     android:textColor="#222222"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    tools:text="4.3" />
 
                 <TextView
                     android:id="@+id/lbl_inst_loader_vp_reviews_mgmt"
@@ -499,7 +499,9 @@
             android:id="@+id/rec_reviews"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/lbl_reviews_highlight_heading" />
+            android:layout_below="@+id/lbl_reviews_highlight_heading"
+            android:clipToPadding="false"
+            android:paddingBottom="76dp" />
 
     </RelativeLayout>
 

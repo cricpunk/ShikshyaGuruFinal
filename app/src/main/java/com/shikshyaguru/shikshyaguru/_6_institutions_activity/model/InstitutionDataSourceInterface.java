@@ -9,6 +9,7 @@ package com.shikshyaguru.shikshyaguru._6_institutions_activity.model;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseError;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.InstitutionsListItemParent;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerReviewInterface;
 
 import java.util.List;
 
@@ -18,9 +19,9 @@ public interface InstitutionDataSourceInterface {
 
     FirebaseRecyclerOptions<InstitutionHomeIntroData> getInstitutionHomeIntroData(String id);
 
-    List<InstitutionReviewsData> getInstitutionReviewData();
+    FirebaseRecyclerOptions<InstitutionReviewsData> getInstitutionReviewData(String id);
 
-    InstitutionRatingsData getInstitutionRatingsData();
+    void getInstitutionRatingsData(String id, ViewPagerReviewInterface reviewInterface);
 
     FirebaseRecyclerOptions<InstitutionTeachersData> getTeachersData(String id);
 
@@ -35,8 +36,6 @@ public interface InstitutionDataSourceInterface {
     List<InstitutionStudentAlumniData> getListOfStudentAlumniData();
 
     FirebaseRecyclerOptions<InstitutionGalleryData> getInstitutionGalleryData(String id);
-
-    InstitutionActivitiesData getInstitutionActivitiesData();
 
     String getSlogan(String id);
 

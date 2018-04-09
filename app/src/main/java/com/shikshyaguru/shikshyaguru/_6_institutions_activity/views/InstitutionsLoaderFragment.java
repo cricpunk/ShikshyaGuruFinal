@@ -13,6 +13,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -47,8 +48,6 @@ import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fr
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerTeachersFragment;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Objects;
 
 public class InstitutionsLoaderFragment extends Fragment {
@@ -242,82 +241,101 @@ public class InstitutionsLoaderFragment extends Fragment {
                 case R.id.fab_favourite_inst_loader_frag:
                     Toast.makeText(getContext(), "Favourite", Toast.LENGTH_SHORT).show();
 
-
-
-
-
-
-
-
                     FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
 
-                    //final HashMap<String, ArrayList<String>> categoriesWithImage = new HashMap<>();
-                    //InstitutionGalleryData galleryData = new  InstitutionGalleryData();
+                    Query query = mDatabase.getReference().child("clients").child("client-02").child("app_reviews");
 
-                    Query query = mDatabase.getReference().child("clients").child("client-02").child("app_gallery");
                     query.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
 
-                            // Array which holds list of images for single category
-                            //ArrayList<String> images = new ArrayList<>();
+                            int totalReviewsCount = 0;
 
-                            HashMap<String, ArrayList<String>> categoryWithImages = new HashMap<>();
-                            HashMap<String, ArrayList<String>> categoryWithDescription = new HashMap<>();
-                            HashMap<String, ArrayList<String>> categoryWithIds = new HashMap<>();
+                            int fiveStar = 0;
+                            int fourStar = 0;
+                            int threeStar = 0;
+                            int twoStar = 0;
+                            int oneStar = 0;
 
-                            for (DataSnapshot categorySnapshot : dataSnapshot.getChildren()) {
+                            int instRatingCount = 0;
+                            int eduRatingCount = 0;
+                            int infraRatingCount = 0;
+                            int mgmtRatingCount = 0;
+                            int techRatingCount = 0;
 
-                                ArrayList<String> images = new ArrayList<>();
-                                ArrayList<String> description = new ArrayList<>();
-                                ArrayList<String> ids = new ArrayList<>();
+                            int overallInstitutionRating = 0;
+                            int overallEducationRating = 0;
+                            int overallInfrastructureRating = 0;
+                            int overallManagementRating = 0;
+                            int overallTeachersRating = 0;
 
-                                for (DataSnapshot imagesSnapshot : categorySnapshot.getChildren()) {
+                            for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
 
-                                    String image = imagesSnapshot.child("image_url").getValue(String.class);
-                                    String desc = imagesSnapshot.child("image_description").getValue(String.class);
-                                    String time = imagesSnapshot.getKey();
+                                System.out.println("==============================Postsnapshot=====================================");
+                                System.out.println(postSnapshot.getKey());
+                                System.out.println(postSnapshot.getChildrenCount());
 
-                                    images.add(image);
-                                    description.add(desc);
-                                    ids.add(time);
+                                Long institution = postSnapshot.child("institution").getValue(Long.class);
+                                Long education = postSnapshot.child("education").getValue(Long.class);
+                                Long infrastructure = postSnapshot.child("infrastructure").getValue(Long.class);
+                                Long management = postSnapshot.child("management").getValue(Long.class);
+                                Long teachers = postSnapshot.child("teachers").getValue(Long.class);
 
-                                    System.out.println("============================"+categorySnapshot.getChildrenCount()+"========================");
-                                    System.out.println(time);
-                                    System.out.println("============================"+categorySnapshot.getKey()+"========================");
-
+                                assert institution != null;
+                                overallInstitutionRating += institution.intValue();
+                                instRatingCount += 1;
+                                switch (institution.intValue()) {
+                                    case 5: fiveStar++; break;
+                                    case 4: fourStar++; break;
+                                    case 3: threeStar++; break;
+                                    case 2: twoStar++; break;
+                                    case 1: oneStar++; break;
+                                    default: break;
                                 }
 
-                                categoryWithImages.put(categorySnapshot.getKey(), images);
-                                categoryWithDescription.put(categorySnapshot.getKey(), description);
-                                categoryWithIds.put(categorySnapshot.getKey(), ids);
+                                assert education != null;
+                                overallEducationRating += education.intValue();
+                                eduRatingCount += 1;
 
+                                assert infrastructure != null;
+                                overallInfrastructureRating += infrastructure.intValue();
+                                infraRatingCount += 1;
+
+                                assert management != null;
+                                overallManagementRating += management.intValue();
+                                mgmtRatingCount += 1;
+
+                                assert teachers != null;
+                                overallTeachersRating += teachers.intValue();
+                                techRatingCount += 1;
+
+                                String review = postSnapshot.child("comment").getValue(String.class);
+
+                                assert review != null;
+                                if (!review.equals("")) {
+                                    totalReviewsCount ++;
+                                }
+
+                                System.out.println(institution + " : " + education + " : " + infrastructure  + " : " + management  + " : " + teachers);
                             }
 
-                            System.out.println("============================"+categoryWithImages.size()+"========================");
+                            System.out.println(overallInstitutionRating/instRatingCount  + " : " + overallEducationRating/eduRatingCount + " : " + overallInfrastructureRating/infraRatingCount  + " : " + overallManagementRating/mgmtRatingCount  + " : " + overallTeachersRating/techRatingCount);
 
+                            System.out.println("Total rating :" + instRatingCount);
+                            System.out.println("Total reviews :" + totalReviewsCount);
+
+                            System.out.println(fiveStar+":"+fourStar+":"+threeStar+":"+twoStar+":"+oneStar);
 
                         }
 
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
+                            // Getting Post failed, log a message
+                            Log.w("TAG", "loadPost:onCancelled", databaseError.toException());
+                            // ...
 
                         }
                     });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

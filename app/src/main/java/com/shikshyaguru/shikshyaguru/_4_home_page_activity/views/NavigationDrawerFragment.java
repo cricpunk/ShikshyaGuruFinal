@@ -61,7 +61,7 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
     private HomePageController controller;
 
     private FirebaseAuth mAuth;
-    FirebaseUser currentUser;
+    public static FirebaseUser currentUser;
 
     public NavigationDrawerFragment() {
         //Required empty public constructor
