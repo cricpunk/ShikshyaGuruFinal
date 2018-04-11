@@ -34,11 +34,16 @@ public class HomePageController {
     public HomePageController(DrawerInterface drawerInterface, DataSourceInterface dataSource) {
         this.dataSource = dataSource;
         this.drawerInterface = drawerInterface;
-        setUpDrawerMainHeaderWithData();
+        getFavouriteInstitutionList();
+        //setUpDrawerMainHeaderWithData();
     }
 
     private void setUpDrawerMainHeaderWithData() {
-        drawerInterface.setUpDrawerMainHeader(dataSource.getListOfDrawerMainHeader());
+        //drawerInterface.setUpDrawerMainHeader(dataSource.getListOfDrawerMainHeader());
+    }
+
+    private void getFavouriteInstitutionList() {
+        dataSource.getFavouriteInstitutionList(drawerInterface);
     }
 
     public void onUserProfileClick() {

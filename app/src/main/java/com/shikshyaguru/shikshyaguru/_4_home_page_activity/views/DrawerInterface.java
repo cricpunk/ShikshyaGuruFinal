@@ -7,6 +7,7 @@ package com.shikshyaguru.shikshyaguru._4_home_page_activity.views;
 
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.DrawerListItem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface DrawerInterface {
@@ -14,4 +15,7 @@ public interface DrawerInterface {
     void onUserProfileClickListener();
 
     void setUpDrawerMainHeader(List<DrawerListItem> drawerListItems);
+
+    void favouriteInstitutionList(ArrayList<String> favInstList);
+
 }

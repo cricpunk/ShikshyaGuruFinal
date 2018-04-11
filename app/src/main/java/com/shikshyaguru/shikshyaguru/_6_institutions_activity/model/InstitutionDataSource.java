@@ -271,34 +271,68 @@ public class InstitutionDataSource implements InstitutionDataSourceInterface {
     }
 
     @Override
-    public FirebaseRecyclerOptions<InstitutionsListItemParent> getInstitutionLists(int category) {
+    public FirebaseRecyclerOptions<InstitutionsListItemParent> getInstitutionLists(int category, final ArrayList<String> favouriteInstitutions) {
 
-        Query query = mDatabase.getReference().child("clients").orderByChild("category").equalTo(category);
+        // If request is from favourite list then use different query
+        if (category == NavigationDrawerFragment.FAVOURITE_CATEGORY ) {
 
-        SnapshotParser<InstitutionsListItemParent> snapshotParser = new SnapshotParser<InstitutionsListItemParent>() {
-            @NonNull
-            @Override
-            public InstitutionsListItemParent parseSnapshot(@NonNull DataSnapshot snapshot) {
+            Query query = mDatabase.getReference().child("clients");
 
-                InstitutionsListItemParent collegeList = new InstitutionsListItemParent();
+            SnapshotParser<InstitutionsListItemParent> snapshotParser = new SnapshotParser<InstitutionsListItemParent>() {
 
-                collegeList.setId(snapshot.getKey());
-                collegeList.setName(snapshot.child("name").getValue(String.class));
-                collegeList.setIcon_image(snapshot.child("icon_image").getValue(String.class));
-                collegeList.setCity(snapshot.child("address").child("city").getValue(String.class));
-                Double rating = snapshot.child("app_reviews").child("overall_rating").getValue(Double.class);
-                if (rating != null) {
-                    collegeList.setRating(String.valueOf(rating) + "*");
-                } else {
-                    collegeList.setRating("n/a");
+                @NonNull
+                @Override
+                public InstitutionsListItemParent parseSnapshot(@NonNull DataSnapshot snapshot) {
+
+                    InstitutionsListItemParent favouriteInst = new InstitutionsListItemParent();
+
+                    if (favouriteInstitutions.contains(snapshot.getKey())) {
+                        favouriteInst.setId(snapshot.getKey());
+                        favouriteInst.setName(snapshot.child("profile/name").getValue(String.class));
+                        favouriteInst.setIcon_image(snapshot.child("profile/icon_image").getValue(String.class));
+                        favouriteInst.setCity(snapshot.child("address/city").getValue(String.class));
+                        Double rating = snapshot.child("app_reviews").child("overall_rating").getValue(Double.class);
+                        if (rating != null) {
+                            favouriteInst.setRating(String.valueOf(rating) + "*");
+                        } else {
+                            favouriteInst.setRating("n/a");
+                        }
+                    }
+
+                    return favouriteInst;
                 }
+            };
 
+            return new FirebaseRecyclerOptions.Builder<InstitutionsListItemParent>().setQuery(query, snapshotParser).build();
 
-                return collegeList;
-            }
-        };
+        } else {
 
-        return new FirebaseRecyclerOptions.Builder<InstitutionsListItemParent>().setQuery(query, snapshotParser).build();
+            Query query = mDatabase.getReference().child("clients").orderByChild("profile/category").equalTo(category);
+
+            SnapshotParser<InstitutionsListItemParent> snapshotParser = new SnapshotParser<InstitutionsListItemParent>() {
+                @NonNull
+                @Override
+                public InstitutionsListItemParent parseSnapshot(@NonNull DataSnapshot snapshot) {
+
+                    InstitutionsListItemParent collegeList = new InstitutionsListItemParent();
+
+                    collegeList.setId(snapshot.getKey());
+                    collegeList.setName(snapshot.child("profile/name").getValue(String.class));
+                    collegeList.setIcon_image(snapshot.child("profile/icon_image").getValue(String.class));
+                    collegeList.setCity(snapshot.child("address/city").getValue(String.class));
+                    Double rating = snapshot.child("app_reviews").child("overall_rating").getValue(Double.class);
+                    if (rating != null) {
+                        collegeList.setRating(String.valueOf(rating) + "*");
+                    } else {
+                        collegeList.setRating("n/a");
+                    }
+
+                    return collegeList;
+                }
+            };
+
+            return new FirebaseRecyclerOptions.Builder<InstitutionsListItemParent>().setQuery(query, snapshotParser).build();
+        }
 
     }
 

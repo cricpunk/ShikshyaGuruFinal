@@ -38,9 +38,10 @@
         android:layout_marginEnd="16dp"
         android:background="@drawable/bg_nd_noti_count"
         android:gravity="center"
-        android:text="2"
         android:textColor="#222222"
         android:textSize="12sp"
-        tools:ignore="ContentDescription" />
+        android:visibility="invisible"
+        tools:ignore="ContentDescription"
+        tools:text="2" />
 
 </RelativeLayout>

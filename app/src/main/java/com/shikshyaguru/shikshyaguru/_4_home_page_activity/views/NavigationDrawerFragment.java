@@ -39,12 +39,14 @@ import com.shikshyaguru.shikshyaguru.R;
 import com.shikshyaguru.shikshyaguru._0_7_shared_preferences.PrefManager;
 import com.shikshyaguru.shikshyaguru._3_signUp_activity.views.AuthenticationActivity;
 import com.shikshyaguru.shikshyaguru._3_signUp_activity.views.LoginFragment;
-import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.DrawerListItem;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.DataSource;
+import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.DrawerListItem;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.presenter.HomePageController;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionsHomePageActivity;
 import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.UserHomePageActivity;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -53,11 +55,14 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
     private View rootView;
     public static final String PREF_FILE_NAME = "testPref";
     public static final String USER_LEARNED_DRAWER = "user_learned_drawer";
+    // Remember that i have put category id for favourites as 100 through out this project;
+    public static final int FAVOURITE_CATEGORY = 100;
     private boolean mUserLearnedDrawer;
     private boolean mFromSavedInstanceState;
 
     private LayoutInflater layoutInflater;
     private List<DrawerListItem> listOfDrawerHeader;
+    private ArrayList<String> favInstList;
     private HomePageController controller;
 
     private FirebaseAuth mAuth;
@@ -67,9 +72,13 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
         //Required empty public constructor
     }
 
+    @Nullable
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout._4_6_navigation_drawer_fragment, container, false);
+        this.rootView = view;
+        this.layoutInflater = inflater;
+
         mUserLearnedDrawer = Boolean.valueOf(readFromPreferences(Objects.requireNonNull(getActivity()), USER_LEARNED_DRAWER));
         if (savedInstanceState != null) {
             mFromSavedInstanceState = true;
@@ -78,21 +87,15 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
 
-    }
+        navigationDrawerSection();
+        controller = new HomePageController(this, new DataSource());
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        this.layoutInflater = inflater;
-        return inflater.inflate(R.layout._4_6_navigation_drawer_fragment, container, false);
+        return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        this.rootView = view;
-        navigationDrawerSection();
-        controller = new HomePageController(this, new DataSource());
     }
 
     private void navigationDrawerSection() {
@@ -178,11 +181,18 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
 
     @Override
     public void setUpDrawerMainHeader(List<DrawerListItem> drawerListItems) {
+
         this.listOfDrawerHeader = drawerListItems;
         RecyclerView mDrawerMainHeaderRecyclerView = rootView.findViewById(R.id.rec_drawer_header);
         mDrawerMainHeaderRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         DrawerHeaderAdapter drawerHeaderAdapter = new DrawerHeaderAdapter();
         mDrawerMainHeaderRecyclerView.setAdapter(drawerHeaderAdapter);
+
+    }
+
+    @Override
+    public void favouriteInstitutionList(ArrayList<String> favInstList) {
+        this.favInstList = favInstList;
     }
 
     @Override
@@ -212,6 +222,11 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
             DrawerListItem currentItem = listOfDrawerHeader.get(position);
             holder.mDrawerHeaderIcon.setImageResource(currentItem.getIcon());
             holder.mDrawerHeader.setText(currentItem.getHeader());
+            // Favourites
+            if (position == 2) {
+                holder.mDrawerNotiCounter.setVisibility(View.VISIBLE);
+                holder.mDrawerNotiCounter.setText(String.valueOf(favInstList.size()));
+            }
         }
 
         @Override
@@ -223,6 +238,7 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
 
             private ImageView mDrawerHeaderIcon;
             private TextView mDrawerHeader;
+            private TextView mDrawerNotiCounter;
             private RelativeLayout rootView;
 
             DrawerHeaderViewHolder(View itemView) {
@@ -230,6 +246,7 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
 
                 mDrawerHeaderIcon = itemView.findViewById(R.id.iv_drawer_header_icon);
                 mDrawerHeader = itemView.findViewById(R.id.lbl_drawer_header);
+                mDrawerNotiCounter = itemView.findViewById(R.id.lbl_drawer_noti_counter);
                 rootView = itemView.findViewById(R.id.root_drawer_item);
                 rootView.setOnClickListener(this);
             }
@@ -241,37 +258,44 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
 
                     // Profile
                     case 0:
-                        logout();
+
                         break;
 
                     // Messages
                     case 1:
-                        logout();
+
                         break;
 
                     // Favourites
                     case 2:
-                        logout();
+
+                        Intent intent = new Intent(getContext(), InstitutionsHomePageActivity.class);
+                        intent.putExtra("REQUEST_CODE", "institutions_main");
+                        intent.putExtra("CATEGORY", FAVOURITE_CATEGORY);
+                        intent.putExtra("TITLE", "Favourite Institutions");
+                        intent.putStringArrayListExtra("FAVOURITES", favInstList);
+                        startActivity(intent);
+
                         break;
 
                     // Followers
                     case 3:
-                        logout();
+
                         break;
 
                     // Following
                     case 4:
-                        logout();
+
                         break;
 
                     // Questions
                     case 5:
-                        logout();
+
                         break;
 
                     // Answers
                     case 6:
-                        logout();
+
                         break;
 
                     // Logout

@@ -14,6 +14,8 @@ import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionD
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionLoaderInterface;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionMainInterface;
 
+import java.util.ArrayList;
+
 public class InstitutionsController {
 
     private InstitutionMainInterface viewInterface;
@@ -30,8 +32,8 @@ public class InstitutionsController {
         this.dataSource = dataSource;
     }
 
-    public void fetchInstitutionList(int category) {
-        viewInterface.setUpInstitutionAdapter(dataSource.getInstitutionLists(category));
+    public void fetchInstitutionList(int category, ArrayList<String> favouriteInstitutions) {
+        viewInterface.setUpInstitutionAdapter(dataSource.getInstitutionLists(category, favouriteInstitutions));
     }
 
     public String getSlogan(String id) {

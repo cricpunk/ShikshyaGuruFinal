@@ -1,6 +1,7 @@
 package com.shikshyaguru.shikshyaguru._4_home_page_activity.model;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.DrawerInterface;
 
 import java.util.List;
 
@@ -49,5 +50,7 @@ public interface DataSourceInterface {
     List<HomePageOptionsListItem> getListOfOptions();
 
     String getSlogan(String id);
+
+    void getFavouriteInstitutionList(DrawerInterface drawerInterface);
 
 }

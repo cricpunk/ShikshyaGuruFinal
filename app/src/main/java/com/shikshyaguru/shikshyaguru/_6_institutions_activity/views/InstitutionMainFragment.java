@@ -27,6 +27,7 @@ import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionD
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter.InstitutionsController;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 /*
@@ -39,6 +40,7 @@ public class InstitutionMainFragment extends Fragment implements InstitutionMain
 
     private int category;
     private String title;
+    private ArrayList<String> favouriteInstitutions;
 
     private LayoutInflater inflater;
     private RecyclerView instRecyclerView;
@@ -56,6 +58,7 @@ public class InstitutionMainFragment extends Fragment implements InstitutionMain
         if (getArguments() != null ) {
             this.category = getArguments().getInt("CATEGORY");
             this.title = getArguments().getString("TITLE");
+            this.favouriteInstitutions = getArguments().getStringArrayList("FAVOURITES");
         }
 
         Toolbar toolbar = view.findViewById(R.id.toolbar);
@@ -70,7 +73,7 @@ public class InstitutionMainFragment extends Fragment implements InstitutionMain
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         controller = new InstitutionsController(this, new InstitutionDataSource());
-        controller.fetchInstitutionList(category);
+        controller.fetchInstitutionList(category, favouriteInstitutions);
     }
 
     @Override
@@ -90,6 +93,7 @@ public class InstitutionMainFragment extends Fragment implements InstitutionMain
 
     @Override
     public void setUpInstitutionAdapter(FirebaseRecyclerOptions<InstitutionsListItemParent> options) {
+
         instRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         InstitutionAdapter institutionAdapter = new InstitutionAdapter(options);
         instRecyclerView.setAdapter(institutionAdapter);

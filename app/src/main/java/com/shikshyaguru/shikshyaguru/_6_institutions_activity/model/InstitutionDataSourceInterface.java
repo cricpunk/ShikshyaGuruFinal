@@ -12,6 +12,7 @@ import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.InstitutionsLis
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionLoaderInterface;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerReviewInterface;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface InstitutionDataSourceInterface {
@@ -20,7 +21,7 @@ public interface InstitutionDataSourceInterface {
 
     FirebaseRecyclerOptions<InstitutionHomeIntroData> getInstitutionHomeIntroData(String id);
 
-    FirebaseRecyclerOptions<InstitutionsListItemParent> getInstitutionLists(int category);
+    FirebaseRecyclerOptions<InstitutionsListItemParent> getInstitutionLists(int category, ArrayList<String> favouriteInstitutions);
 
     InstitutionProgrammesData getInstitutionProgrammesData();
 
