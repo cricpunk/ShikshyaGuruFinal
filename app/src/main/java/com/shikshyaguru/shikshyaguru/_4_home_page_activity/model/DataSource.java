@@ -36,13 +36,12 @@ public class DataSource implements DataSourceInterface {
             R.drawable.ic_nd_followers,
             R.drawable.ic_nd_followers,
             R.drawable.ic_nd_question,
-            R.drawable.ic_nd_answer,
             R.drawable.ic_nd_logout
     };
 
     private final String[] DRAWER_MAIN_HEADER = {
             "Profile", "Messages", "Favourites", "Followers",
-            "Following", "Questions", "Answers", "Logout"
+            "Following", "Questions", "Logout"
     };
 
     private final String[] OPTIONS = {

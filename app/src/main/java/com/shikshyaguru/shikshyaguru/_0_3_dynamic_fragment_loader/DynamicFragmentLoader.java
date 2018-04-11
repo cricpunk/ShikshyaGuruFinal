@@ -14,13 +14,15 @@ import com.shikshyaguru.shikshyaguru._3_signUp_activity.views.LoginFragment;
 import com.shikshyaguru.shikshyaguru._3_signUp_activity.views.SignUpFragment;
 import com.shikshyaguru.shikshyaguru._5_news_activity.views.NewsLoaderFragment;
 import com.shikshyaguru.shikshyaguru._5_news_activity.views.NewsMainFragment;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionMainFragment;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionLoaderFragment;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionMainFragment;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerGalleryLoader;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerGalleryLoaderImageLoader;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerProgrammesCoursesLoader;
-import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.UserLoaderFragment;
-import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.UserMainFragment;
+import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.views.MessageFragment;
+import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.views.QuestionsFragment;
+import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.views.UserLoaderFragment;
+import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.views.UserMainFragment;
 
 
 public class DynamicFragmentLoader {
@@ -60,10 +62,16 @@ public class DynamicFragmentLoader {
                         showFragment(openFullImage(bundle), fragHolderId, fragmentManager);
                         break;
                     case "user_main":
-                        showFragment(new UserMainFragment(), fragHolderId, fragmentManager);
+                        showFragment(openUserMainPage(bundle), fragHolderId, fragmentManager);
                         break;
                     case "user_loader":
-                        showFragment(new UserLoaderFragment(), fragHolderId, fragmentManager);
+                        showFragment(openUserLoaderPage(bundle), fragHolderId, fragmentManager);
+                        break;
+                    case "message_loader":
+                        showFragment(new MessageFragment(), fragHolderId, fragmentManager);
+                        break;
+                    case "question_loader":
+                        showFragment(new QuestionsFragment(), fragHolderId, fragmentManager);
                         break;
                     default:
                         break;
@@ -116,6 +124,18 @@ public class DynamicFragmentLoader {
         ViewPagerGalleryLoaderImageLoader imageLoader = new ViewPagerGalleryLoaderImageLoader();
         imageLoader.setArguments(bundle);
         return imageLoader;
+    }
+
+    private static UserMainFragment openUserMainPage(Bundle bundle) {
+        UserMainFragment mainFragment = new UserMainFragment();
+        mainFragment.setArguments(bundle);
+        return mainFragment;
+    }
+
+    private static UserLoaderFragment openUserLoaderPage(Bundle bundle) {
+        UserLoaderFragment loaderFragment = new UserLoaderFragment();
+        loaderFragment.setArguments(bundle);
+        return loaderFragment;
     }
 
 }

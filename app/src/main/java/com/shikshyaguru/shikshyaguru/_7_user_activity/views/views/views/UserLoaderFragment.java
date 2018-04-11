@@ -1,6 +1,7 @@
-package com.shikshyaguru.shikshyaguru._7_user_activity.views.views;
+package com.shikshyaguru.shikshyaguru._7_user_activity.views.views.views;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
@@ -15,13 +16,15 @@ import android.widget.TextView;
 import com.shikshyaguru.shikshyaguru.R;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
+import java.util.Objects;
+
 /*
  * Created by Pankaj Koirala on 9/30/2017.
  * Kathmandu, Nepal
  * Koiralapankaj007@gmail.com
  */
 
-public class UserMainFragment extends Fragment implements View.OnClickListener {
+public class UserLoaderFragment extends Fragment implements View.OnClickListener {
 
     private View rootView;
     private LayoutInflater inflater;
@@ -34,13 +37,13 @@ public class UserMainFragment extends Fragment implements View.OnClickListener {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         this.inflater = inflater;
-        return inflater.inflate(R.layout._7_1_0_user_main_fragment, container, false);
+        return inflater.inflate(R.layout._7_1_0_user_loader_fragment, container, false);
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.rootView = view;
 
@@ -59,7 +62,7 @@ public class UserMainFragment extends Fragment implements View.OnClickListener {
 
     private void initToolbarAndLayout() {
         Toolbar toolbar = bgLayout.findViewById(R.id.tb_user_main_frag);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(toolbar);
 
         ActionBar getSupportActionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
         if (getSupportActionBar != null) {

@@ -68,7 +68,7 @@
             android:name="._6_institutions_activity.views.InstitutionsHomePageActivity"
             android:theme="@style/UserProfileTheme" />
 
-        <activity android:name="._7_user_activity.views.views.UserHomePageActivity"
+        <activity android:name="._7_user_activity.views.views.views.UserHomePageActivity"
             android:theme="@style/UserProfileTheme"/>
 
         <!--Maps Android Key-->

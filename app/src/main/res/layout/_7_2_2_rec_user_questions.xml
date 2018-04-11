@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_user"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/cardview_light_background"
+    android:orientation="horizontal">
+
+    <View
+        android:id="@+id/border"
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:background="#50000000" />
+
+    <ImageView
+        android:id="@+id/iv_user_icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/border"
+        android:layout_centerVertical="true"
+        android:layout_margin="@dimen/margin_short"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_question_d"
+        android:transitionName="userIcon"
+        tools:ignore="ContentDescription" />
+
+    <RelativeLayout
+        android:id="@+id/l_institutions_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_short"
+        android:layout_toEndOf="@+id/iv_user_icon">
+
+        <TextView
+            android:id="@+id/lbl_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#BF212121"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:transitionName="institutionName"
+            tools:text="What is the best way to populate recycler view into fragment ?" />
+
+        <TextView
+            android:id="@+id/lbl_question_posted_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lbl_user_name"
+            android:paddingTop="3dp"
+            android:textAlignment="viewStart"
+            android:textColor="#81C784"
+            android:textSize="11sp"
+            android:transitionName="institutionPlace"
+            tools:ignore="SmallSp"
+            tools:text="Posted on : 16-02-2018" />
+
+        <TextView
+            android:id="@+id/lbl_question_asked_to"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/lbl_user_name"
+            android:paddingTop="3dp"
+            android:textAlignment="viewStart"
+            android:textColor="#81C784"
+            android:textSize="11sp"
+            android:transitionName="institutionPlace"
+            tools:ignore="SmallSp"
+            tools:text="To : Pankaj Koirala" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_below="@+id/l_institutions_bottom"
+        android:background="#50000000" />
+
+</RelativeLayout>
+
+

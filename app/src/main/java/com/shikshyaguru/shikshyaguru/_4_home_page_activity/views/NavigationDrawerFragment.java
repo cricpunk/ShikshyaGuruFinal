@@ -43,7 +43,7 @@ import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.DataSource;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.DrawerListItem;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.presenter.HomePageController;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionsHomePageActivity;
-import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.UserHomePageActivity;
+import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.views.UserHomePageActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -198,7 +198,7 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
     @Override
     public void onUserProfileClickListener() {
         Intent intent = new Intent(getContext(), UserHomePageActivity.class);
-        intent.putExtra("REQUEST_CODE", "user_main");
+        intent.putExtra("REQUEST_CODE", "user_loader");
         startActivity(intent);
 
     }
@@ -258,48 +258,36 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
 
                     // Profile
                     case 0:
-
+                        onUserProfileClickListener();
                         break;
 
                     // Messages
                     case 1:
-
+                        openMessage();
                         break;
 
                     // Favourites
                     case 2:
-
-                        Intent intent = new Intent(getContext(), InstitutionsHomePageActivity.class);
-                        intent.putExtra("REQUEST_CODE", "institutions_main");
-                        intent.putExtra("CATEGORY", FAVOURITE_CATEGORY);
-                        intent.putExtra("TITLE", "Favourite Institutions");
-                        intent.putStringArrayListExtra("FAVOURITES", favInstList);
-                        startActivity(intent);
-
+                        openFavourites();
                         break;
 
                     // Followers
                     case 3:
-
+                        openFollowers();
                         break;
 
                     // Following
                     case 4:
-
+                        openFollowing();
                         break;
 
                     // Questions
                     case 5:
-
-                        break;
-
-                    // Answers
-                    case 6:
-
+                        openQuestions();
                         break;
 
                     // Logout
-                    case 7:
+                    case 6:
                         logout();
                         break;
 
@@ -307,6 +295,43 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
                         break;
                 }
                 //Toast.makeText(getContext(), "Clicked At : " + this.getAdapterPosition(), Toast.LENGTH_SHORT).show();
+            }
+
+            private void openMessage() {
+                Intent intent = new Intent(getContext(), UserHomePageActivity.class);
+                intent.putExtra("REQUEST_CODE", "message_loader");
+                intent.putExtra("TITLE", "Messages");
+                startActivity(intent);
+            }
+
+            private void openFavourites() {
+                Intent intent = new Intent(getContext(), InstitutionsHomePageActivity.class);
+                intent.putExtra("REQUEST_CODE", "institutions_main");
+                intent.putExtra("CATEGORY", FAVOURITE_CATEGORY);
+                intent.putExtra("TITLE", "Favourite Institutions");
+                intent.putStringArrayListExtra("FAVOURITES", favInstList);
+                startActivity(intent);
+            }
+
+            private void openFollowers() {
+                Intent intent = new Intent(getContext(), UserHomePageActivity.class);
+                intent.putExtra("REQUEST_CODE", "user_main");
+                intent.putExtra("TITLE", "Followers");
+                startActivity(intent);
+            }
+
+            private void openFollowing() {
+                Intent intent = new Intent(getContext(), UserHomePageActivity.class);
+                intent.putExtra("REQUEST_CODE", "user_main");
+                intent.putExtra("TITLE", "Following");
+                startActivity(intent);
+            }
+
+            private void openQuestions() {
+                Intent intent = new Intent(getContext(), UserHomePageActivity.class);
+                intent.putExtra("REQUEST_CODE", "question_loader");
+                intent.putExtra("TITLE", "Questions");
+                startActivity(intent);
             }
 
             private void logout() {

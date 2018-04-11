@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_user"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/cardview_light_background"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/border"
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:background="#50000000" />
+
+    <com.github.siyamed.shapeimageview.CircularImageView
+        android:id="@+id/iv_user_icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/border"
+        android:layout_margin="@dimen/margin_short"
+        android:scaleType="centerCrop"
+        android:src="@drawable/me"
+        android:transitionName="userIcon"
+        app:siBorderColor="#222222"
+        app:siBorderWidth="2dp" />
+
+    <RelativeLayout
+        android:id="@+id/l_institutions_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="@dimen/margin_short"
+        android:layout_marginStart="@dimen/margin_extra_short"
+        android:layout_toEndOf="@+id/iv_user_icon">
+
+        <TextView
+            android:id="@+id/lbl_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#212121"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:transitionName="institutionName"
+            tools:text="Pankaj Koirala" />
+
+        <TextView
+            android:id="@+id/lbl_user_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/lbl_user_name"
+            android:layout_toStartOf="@+id/btn_follow_following"
+            android:paddingEnd="@dimen/margin_extra_short"
+            android:paddingStart="@dimen/margin_extra_short"
+            android:paddingTop="3dp"
+            android:textAlignment="viewStart"
+            android:textColor="#81C784"
+            android:textSize="11sp"
+            android:transitionName="institutionPlace"
+            tools:ignore="SmallSp"
+            tools:text="( Student )" />
+
+        <TextView
+            android:id="@+id/lbl_user_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lbl_user_name"
+            android:textColor="#616161"
+            android:textSize="11sp"
+            tools:ignore="SmallSp"
+            tools:text="/@cricpunk" />
+
+        <TextView
+            android:id="@+id/lbl_user_institution"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lbl_user_user_name"
+            android:textColor="#616161"
+            tools:ignore="SmallSp"
+            tools:text="Islington college" />
+
+        <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
+            android:id="@+id/btn_follow_following"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/margin_extra_short"
+            android:layout_marginTop="@dimen/margin_extra_short"
+            android:background="@drawable/bg_user_follow"
+            android:text="@string/follow"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textColor="#3a7bd5"
+            app:finalCornerAngle="25dp"
+            app:initialCornerAngle="25dp"
+            app:spinning_bar_color="@android:color/holo_blue_bright"
+            app:spinning_bar_padding="4dp"
+            app:spinning_bar_width="2dp" />
+
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_below="@+id/iv_user_icon"
+        android:background="#50000000" />
+
+</RelativeLayout>
+
+

@@ -1,4 +1,4 @@
-package com.shikshyaguru.shikshyaguru._7_user_activity.views.views;
+package com.shikshyaguru.shikshyaguru._7_user_activity.views.views.views;
 /*
  * Created by Pankaj Koirala on 9/30/2017.
  * Kathmandu, Nepal
@@ -23,7 +23,7 @@ public class UserHomePageActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         DynamicFragmentLoader.loadFragment(
-                new UserMainFragment(),
+                new UserLoaderFragment(),
                 bundle,
                 R.id.user_home_page_fragment_holder,
                 getSupportFragmentManager());
