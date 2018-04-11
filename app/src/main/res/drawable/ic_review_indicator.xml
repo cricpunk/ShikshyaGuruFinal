@@ -1,0 +1,37 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="40dp"
+    android:viewportHeight="200"
+    android:viewportWidth="1000">
+
+    <path
+        android:name="instRating"
+        android:fillAlpha="1"
+        android:fillColor="#9E9E9E"
+        android:pathData="M206.89,100C206.89,127.6 184.48,150 156.89,150C129.29,150 106.89,127.6 106.89,100C106.89,72.4 129.29,50 156.89,50C184.48,50 206.89,72.4 206.89,100Z" />
+    <path
+        android:name="eduRating"
+        android:fillAlpha="1"
+        android:fillColor="#9E9E9E"
+        android:pathData="M344.91,100C344.91,127.6 322.5,150 294.91,150C267.31,150 244.91,127.6 244.91,100C244.91,72.4 267.31,50 294.91,50C322.5,50 344.91,72.4 344.91,100Z" />
+    <path
+        android:name="infraRating"
+        android:fillAlpha="1"
+        android:fillColor="#9E9E9E"
+        android:pathData="M478.71,100C478.71,127.6 456.31,150 428.71,150C401.12,150 378.71,127.6 378.71,100C378.71,72.4 401.12,50 428.71,50C456.31,50 478.71,72.4 478.71,100Z" />
+    <path
+        android:name="techRating"
+        android:fillAlpha="1"
+        android:fillColor="#9E9E9E"
+        android:pathData="M614.94,100C614.94,127.6 592.53,150 564.94,150C537.34,150 514.94,127.6 514.94,100C514.94,72.4 537.34,50 564.94,50C592.53,50 614.94,72.4 614.94,100Z" />
+    <path
+        android:name="mgmtRating"
+        android:fillAlpha="1"
+        android:fillColor="#9E9E9E"
+        android:pathData="M752.96,100C752.96,127.6 730.55,150 702.96,150C675.36,150 652.96,127.6 652.96,100C652.96,72.4 675.36,50 702.96,50C730.55,50 752.96,72.4 752.96,100Z" />
+    <path
+        android:name="review"
+        android:fillAlpha="1"
+        android:fillColor="#9E9E9E"
+        android:pathData="M886.76,100C886.76,127.6 864.36,150 836.76,150C809.17,150 786.76,127.6 786.76,100C786.76,72.4 809.17,50 836.76,50C864.36,50 886.76,72.4 886.76,100Z" />
+</vector>

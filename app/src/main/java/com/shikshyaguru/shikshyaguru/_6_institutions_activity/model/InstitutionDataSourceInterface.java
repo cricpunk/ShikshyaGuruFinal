@@ -9,6 +9,7 @@ package com.shikshyaguru.shikshyaguru._6_institutions_activity.model;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseError;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.InstitutionsListItemParent;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionLoaderInterface;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerReviewInterface;
 
 import java.util.List;
@@ -19,13 +20,7 @@ public interface InstitutionDataSourceInterface {
 
     FirebaseRecyclerOptions<InstitutionHomeIntroData> getInstitutionHomeIntroData(String id);
 
-    FirebaseRecyclerOptions<InstitutionReviewsData> getInstitutionReviewData(String id);
-
-    void getInstitutionRatingsData(String id, ViewPagerReviewInterface reviewInterface);
-
-    FirebaseRecyclerOptions<InstitutionTeachersData> getTeachersData(String id);
-
-    FirebaseRecyclerOptions<InstitutionStaffData> getStaffData(String id);
+    FirebaseRecyclerOptions<InstitutionsListItemParent> getInstitutionLists(int category);
 
     InstitutionProgrammesData getInstitutionProgrammesData();
 
@@ -37,10 +32,22 @@ public interface InstitutionDataSourceInterface {
 
     FirebaseRecyclerOptions<InstitutionGalleryData> getInstitutionGalleryData(String id);
 
-    String getSlogan(String id);
+    FirebaseRecyclerOptions<InstitutionTeachersData> getTeachersData(String id);
 
-    FirebaseRecyclerOptions<InstitutionsListItemParent> getInstitutionLists(int category);
+    FirebaseRecyclerOptions<InstitutionStaffData> getStaffData(String id);
 
     DatabaseError sendContactUsMessage(String id, InstitutionContactData contactData);
+
+    FirebaseRecyclerOptions<InstitutionReviewsData> getInstitutionReviewData(String id);
+
+    void getInstitutionRatingsData(String id, ViewPagerReviewInterface reviewInterface);
+
+    void postUserReview(ViewPagerReviewInterface reviewInterface, String id, String uId, int instRating, int eduRating, int infraRating, int techRating, int mgmtRating, String comment);
+
+    String getSlogan(String id);
+
+    void validateAndProceedReportBtn(InstitutionLoaderInterface loaderInterface, String id);
+
+    void validateAndProceedFavBtn(InstitutionLoaderInterface loaderInterface, String id);
 
 }

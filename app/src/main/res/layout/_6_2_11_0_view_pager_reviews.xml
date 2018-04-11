@@ -468,7 +468,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="16dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/me"
+                android:src="@drawable/ic_user"
                 app:siBorderColor="#FAFAFA"
                 app:siBorderWidth="2dp" />
 

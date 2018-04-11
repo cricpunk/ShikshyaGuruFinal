@@ -40,7 +40,7 @@ import com.shikshyaguru.shikshyaguru._0_7_shared_preferences.PrefManager;
 import com.shikshyaguru.shikshyaguru._3_signUp_activity.views.AuthenticationActivity;
 import com.shikshyaguru.shikshyaguru._3_signUp_activity.views.LoginFragment;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.DrawerListItem;
-import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.FakeDataSource;
+import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.DataSource;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.presenter.HomePageController;
 import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.UserHomePageActivity;
 import com.squareup.picasso.Picasso;
@@ -92,7 +92,7 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
         super.onViewCreated(view, savedInstanceState);
         this.rootView = view;
         navigationDrawerSection();
-        controller = new HomePageController(this, new FakeDataSource());
+        controller = new HomePageController(this, new DataSource());
     }
 
     private void navigationDrawerSection() {

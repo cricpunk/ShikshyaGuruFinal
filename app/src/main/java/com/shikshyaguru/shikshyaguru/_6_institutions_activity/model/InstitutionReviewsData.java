@@ -16,7 +16,7 @@ public class InstitutionReviewsData {
     private int comment_dislike;
     private int rating;
 
-    InstitutionReviewsData() {
+    public InstitutionReviewsData() {
         // For firebase
     }
 

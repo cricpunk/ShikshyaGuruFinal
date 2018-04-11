@@ -28,11 +28,11 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.shikshyaguru.shikshyaguru.R;
 import com.shikshyaguru.shikshyaguru._0_2_recyclerview_slider_effect.RecyclerViewSliderEffect;
 import com.shikshyaguru.shikshyaguru._5_news_activity.views.NewsHomePageActivity;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionFakeDataSource;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionDataSource;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionHomeIntroData;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionHomeNewsAndEventsData;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter.VPHomeController;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionsLoaderFragment;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionLoaderFragment;
 import com.squareup.picasso.Picasso;
 
 public class ViewPagerHomeFragment extends Fragment implements ViewPagerHomeInterface {
@@ -58,7 +58,7 @@ public class ViewPagerHomeFragment extends Fragment implements ViewPagerHomeInte
 //        TextView title = (TextView) view.findViewById(R.id.item_number);
 //        title.setText(String.valueOf(viewPagerPosition));
 
-        controller = new VPHomeController(this, new InstitutionFakeDataSource());
+        controller = new VPHomeController(this, new InstitutionDataSource());
         initNewsSection(view);
         initIntroSection(view);
 
@@ -74,13 +74,13 @@ public class ViewPagerHomeFragment extends Fragment implements ViewPagerHomeInte
         View recInclude = view.findViewById(R.id.inc_rec_news);
         recyclerViewNewsAndEvent = recInclude.findViewById(R.id.rec_news);
 
-        controller.setUpNewsAndEvents(InstitutionsLoaderFragment.id);
+        controller.setUpNewsAndEvents(InstitutionLoaderFragment.id);
 
     }
 
     private void initIntroSection(View view) {
         this.recyclerViewIntro = view.findViewById(R.id.rec_inst_loader_vp_home_intro);
-        controller.setUpHomeIntro(InstitutionsLoaderFragment.id);
+        controller.setUpHomeIntro(InstitutionLoaderFragment.id);
     }
 
     @Override

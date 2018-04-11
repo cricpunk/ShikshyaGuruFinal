@@ -24,9 +24,9 @@ import com.shikshyaguru.shikshyaguru._0_6_widgets.PopupCollections;
 import com.shikshyaguru.shikshyaguru._0_8_validation.PerformValidation;
 import com.shikshyaguru.shikshyaguru._3_signUp_activity.views.LoginFragment;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionContactData;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionFakeDataSource;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionDataSource;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter.VPContactController;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionsLoaderFragment;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionLoaderFragment;
 
 import java.util.Objects;
 
@@ -47,7 +47,7 @@ public class ViewPagerContactFragment extends Fragment implements
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         currentLayout = view.findViewById(R.id.current_layout);
-        controller = new VPContactController(this, new InstitutionFakeDataSource());
+        controller = new VPContactController(this, new InstitutionDataSource());
         sendMessageSection(view);
     }
 
@@ -100,7 +100,7 @@ public class ViewPagerContactFragment extends Fragment implements
                         txtName, txtPhone, txtEmail, txtMessage
                 );
 
-                DatabaseError databaseError = controller.sendMessage(InstitutionsLoaderFragment.id, contactData);
+                DatabaseError databaseError = controller.sendMessage(InstitutionLoaderFragment.id, contactData);
                 if ( databaseError == null ) {
                     PopupCollections.simpleSnackBar(currentLayout, "Message has been send successfully !", LoginFragment.COLOR_GREEN);
                     name.setText("");

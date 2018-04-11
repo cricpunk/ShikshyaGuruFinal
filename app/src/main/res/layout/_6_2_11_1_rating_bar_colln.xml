@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/rb_inst_loader_vp_review_overall_rating"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="24dp"
+                android:layout_marginBottom="18dp"
                 android:layout_marginTop="@dimen/margin_extra_short"
                 android:text="@string/hated_it" />
 
@@ -82,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/rb_inst_loader_vp_review_edu_quality_rating"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="24dp"
+                android:layout_marginBottom="18dp"
                 android:layout_marginTop="@dimen/margin_extra_short"
                 android:text="@string/hated_it" />
 
@@ -119,7 +119,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/rb_inst_loader_vp_review_infrastructure_rating"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="24dp"
+                android:layout_marginBottom="18dp"
                 android:layout_marginTop="@dimen/margin_extra_short"
                 android:text="@string/hated_it" />
 
@@ -156,7 +156,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/rb_inst_loader_vp_review_teachers_rating"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="24dp"
+                android:layout_marginBottom="18dp"
                 android:layout_marginTop="@dimen/margin_extra_short"
                 android:text="@string/hated_it" />
 
@@ -193,7 +193,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/rb_inst_loader_vp_review_management_rating"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="24dp"
+                android:layout_marginBottom="18dp"
                 android:layout_marginTop="@dimen/margin_extra_short"
                 android:text="@string/hated_it" />
 
@@ -225,6 +225,7 @@
                 android:background="@drawable/et_background_transparent"
                 android:gravity="center_vertical"
                 android:hint="@string/your_reviews"
+                android:inputType="text"
                 android:textColor="#CC222222"
                 android:textSize="14sp" />
 
@@ -239,23 +240,23 @@
 
         <ImageView
             android:id="@+id/iv_inst_loader_vp_review_submit_next_finish"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_centerHorizontal="true"
-            android:rotation="90"
-            app:srcCompat="@drawable/ic_more"
+            android:padding="13dp"
+            app:srcCompat="@drawable/ic_review_indicator"
             tools:ignore="ContentDescription" />
 
         <TextView
-            android:id="@+id/lbl_inst_loader_vp_review_submit_next_finish"
+            android:id="@+id/btn_inst_loader_vp_review_submit_next_finish"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:layout_marginEnd="@dimen/margin_standard"
-            android:layout_marginRight="@dimen/margin_standard"
+            android:layout_centerVertical="true"
             android:clickable="true"
-            android:gravity="center_vertical"
+            android:focusable="true"
+            android:gravity="center"
             android:text="@string/submit"
             android:textAllCaps="true"
             android:textColor="#222222"

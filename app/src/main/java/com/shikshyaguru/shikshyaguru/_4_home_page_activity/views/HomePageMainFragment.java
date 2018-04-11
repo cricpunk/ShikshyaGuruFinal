@@ -40,7 +40,7 @@ import com.shikshyaguru.shikshyaguru._0_1_searching_mechanism.model.DataHelper;
 import com.shikshyaguru.shikshyaguru._0_1_searching_mechanism.model.InstitutionsSuggestion;
 import com.shikshyaguru.shikshyaguru._0_1_searching_mechanism.views.BaseExampleFragment;
 import com.shikshyaguru.shikshyaguru._0_2_recyclerview_slider_effect.RecyclerViewSliderEffect;
-import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.FakeDataSource;
+import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.DataSource;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.HomePageOptionsListItem;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.HomePageSliderListItem;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.InstitutionsListItemParent;
@@ -116,7 +116,7 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
         institutionsCollectionSection(view);
 
         // THIS IS DEPENDENCY INJECTION FOR CONTROLLER CLASS
-        homePageController = new HomePageController(this, new FakeDataSource());
+        homePageController = new HomePageController(this, new DataSource());
 
         return view;
     }

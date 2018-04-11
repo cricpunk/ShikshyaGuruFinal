@@ -26,7 +26,7 @@ import com.shikshyaguru.shikshyaguru._0_6_widgets.Styles;
 import com.shikshyaguru.shikshyaguru._0_7_shared_preferences.PrefManager;
 import com.shikshyaguru.shikshyaguru._0_8_validation.PerformValidation;
 import com.shikshyaguru.shikshyaguru._3_signUp_activity.model.NewUserData;
-import com.shikshyaguru.shikshyaguru._3_signUp_activity.model.UsersDataSource;
+import com.shikshyaguru.shikshyaguru._3_signUp_activity.model.UserDataSource;
 import com.shikshyaguru.shikshyaguru._3_signUp_activity.presenter.AuthenticationController;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.HomePageActivity;
 
@@ -73,7 +73,7 @@ public class SignUpFragment extends Fragment implements SignUpViewInterface, Vie
         prefManager = new PrefManager(Objects.requireNonNull(getContext()), LoginFragment.PREF_NAME);
         mAuth = FirebaseAuth.getInstance();
 
-        controller = new AuthenticationController(this, new UsersDataSource());
+        controller = new AuthenticationController(this, new UserDataSource());
 
         return view;
     }
@@ -156,7 +156,7 @@ public class SignUpFragment extends Fragment implements SignUpViewInterface, Vie
                                         FirebaseUser user = mAuth.getCurrentUser();
                                         if (user != null) {
                                             LoginFragment.USER_PROVIDER = LoginFragment.CUSTOM_USER_PROVIDER;
-                                            NewUserData newUserData = new NewUserData(txtUserName, txtEmail, txtPassword, String.valueOf(userType));
+                                            NewUserData newUserData = new NewUserData("", txtUserName, txtEmail, txtPassword, String.valueOf(userType));
                                             controller.createNewUser(user.getUid(), newUserData);
                                             signUpBtn.setDoneColor(Color.parseColor(LoginFragment.COLOR_GREEN));
                                             signUpBtn.revertAnimation();

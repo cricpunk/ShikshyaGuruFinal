@@ -29,4 +29,8 @@ public class VPReviewsController {
         reviewInterface.setUpReviews(dataSource.getInstitutionReviewData(id));
     }
 
+    public void submitReviews(String id, String uId, int instRating, int eduRating, int infraRating, int techRating, int mgmtRating, String comment) {
+        dataSource.postUserReview(reviewInterface, id, uId, instRating, eduRating, infraRating, techRating, mgmtRating, comment);
+    }
+
 }

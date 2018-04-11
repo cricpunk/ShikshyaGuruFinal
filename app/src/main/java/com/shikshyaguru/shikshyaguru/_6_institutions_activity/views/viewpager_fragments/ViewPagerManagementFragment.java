@@ -25,10 +25,10 @@ import android.widget.Toast;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.shikshyaguru.shikshyaguru.R;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionFakeDataSource;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionDataSource;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionManagementData;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter.VPManagementController;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionsLoaderFragment;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionLoaderFragment;
 import com.squareup.picasso.Picasso;
 
 public class ViewPagerManagementFragment extends Fragment implements ViewPagerManagementInterface {
@@ -47,10 +47,10 @@ public class ViewPagerManagementFragment extends Fragment implements ViewPagerMa
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         this.rootView = view;
-        new VPManagementController(this, new InstitutionFakeDataSource());
+        new VPManagementController(this, new InstitutionDataSource());
         super.onViewCreated(view, savedInstanceState);
-        controller = new VPManagementController(this, new InstitutionFakeDataSource());
-        controller.setUpManagementList(InstitutionsLoaderFragment.id);
+        controller = new VPManagementController(this, new InstitutionDataSource());
+        controller.setUpManagementList(InstitutionLoaderFragment.id);
     }
 
     @Override

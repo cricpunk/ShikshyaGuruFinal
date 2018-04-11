@@ -27,7 +27,7 @@ import android.widget.Toast;
 import com.shikshyaguru.shikshyaguru.R;
 import com.shikshyaguru.shikshyaguru._0_6_widgets.StatusBar;
 import com.shikshyaguru.shikshyaguru._0_6_widgets.Toolbars;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionFakeDataSource;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionDataSource;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionProgrammesCoursesData;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter.VPProgrammesController;
 
@@ -85,7 +85,7 @@ public class ViewPagerProgrammesCoursesLoader extends Fragment implements
         // To make onOptionItemSelected working we have to setHasOptionsMenu true in fragment.
         setHasOptionsMenu(true);
 
-        this.controller = new VPProgrammesController(this, new InstitutionFakeDataSource());
+        this.controller = new VPProgrammesController(this, new InstitutionDataSource());
         initYearButtons();
         isXi = true;
         controller.setUpCoursesAdapter();

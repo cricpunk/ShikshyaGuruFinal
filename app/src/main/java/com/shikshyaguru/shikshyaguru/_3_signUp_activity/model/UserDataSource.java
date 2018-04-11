@@ -5,17 +5,18 @@ package com.shikshyaguru.shikshyaguru._3_signUp_activity.model;
  * Koiralapankaj007@gmail.com
  */
 
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class UsersDataSource implements UserDataSourceInterface{
+public class UserDataSource implements UserDataSourceInterface{
 
     private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
-    private DatabaseReference mRef = mDatabase.getReference("users");
 
     @Override
     public void createNewUser(String uId, NewUserData newUserData) {
-        mRef.child(uId).setValue(newUserData);
+
+        mDatabase.getReference().child("users").child(uId).child("profile").setValue(newUserData);
+
     }
+
 
 }

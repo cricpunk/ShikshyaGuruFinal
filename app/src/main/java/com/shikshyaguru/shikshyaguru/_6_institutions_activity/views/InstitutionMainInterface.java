@@ -10,7 +10,7 @@ import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.InstitutionsLis
  * Kathmandu, Nepal
  * Koiralapankaj007@gmail.com
  */
-public interface InstitutionViewInterface {
+public interface InstitutionMainInterface {
 
     void setUpInstitutionAdapter(FirebaseRecyclerOptions<InstitutionsListItemParent> options);
 

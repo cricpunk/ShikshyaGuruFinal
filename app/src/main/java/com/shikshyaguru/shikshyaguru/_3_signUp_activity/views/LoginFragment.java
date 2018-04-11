@@ -41,7 +41,8 @@ import com.shikshyaguru.shikshyaguru._0_6_widgets.InternetConnection;
 import com.shikshyaguru.shikshyaguru._0_6_widgets.PopupCollections;
 import com.shikshyaguru.shikshyaguru._0_6_widgets.Styles;
 import com.shikshyaguru.shikshyaguru._0_7_shared_preferences.PrefManager;
-import com.shikshyaguru.shikshyaguru._3_signUp_activity.model.UsersDataSource;
+import com.shikshyaguru.shikshyaguru._3_signUp_activity.model.NewUserData;
+import com.shikshyaguru.shikshyaguru._3_signUp_activity.model.UserDataSource;
 import com.shikshyaguru.shikshyaguru._3_signUp_activity.presenter.AuthenticationController;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.HomePageActivity;
 import com.twitter.sdk.android.core.Callback;
@@ -133,7 +134,7 @@ public class LoginFragment extends Fragment implements LoginViewInterface, View.
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        controller = new AuthenticationController(this, new UsersDataSource());
+        controller = new AuthenticationController(this, new UserDataSource());
     }
 
     // Initialize views
@@ -510,6 +511,7 @@ public class LoginFragment extends Fragment implements LoginViewInterface, View.
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             USER_PROVIDER = "facebook.com";
+                            createNewUser(user);
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -540,6 +542,7 @@ public class LoginFragment extends Fragment implements LoginViewInterface, View.
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             USER_PROVIDER = "twitter.com";
+                            createNewUser(user);
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -568,6 +571,7 @@ public class LoginFragment extends Fragment implements LoginViewInterface, View.
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             USER_PROVIDER = "google.com";
+                            createNewUser(user);
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -620,6 +624,35 @@ public class LoginFragment extends Fragment implements LoginViewInterface, View.
             teacherIcon.setImageDrawable(null);
             studentIcon.setImageDrawable(null);
             userType = 3;
+
+        }
+
+    }
+
+    private void createNewUser(FirebaseUser user) {
+
+        if (userTypeCardView.getVisibility() != View.GONE  && !USER_PROVIDER.equals("twitter.com")) {
+
+            if (user != null) {
+
+                String[] emailArr = Objects.requireNonNull(user.getEmail()).split("@");
+                String userName = emailArr[0];
+                String txtEmail = user.getEmail();
+
+                NewUserData newUserData = new NewUserData(user.getDisplayName(), userName, txtEmail, String.valueOf(userType));
+                controller.createNewUser(user.getUid(), newUserData);
+
+            }
+
+        } else if (userTypeCardView.getVisibility() != View.GONE  && USER_PROVIDER.equals("twitter.com")) {
+
+            if (user != null) {
+
+                String userName = Objects.requireNonNull(user.getDisplayName()).replaceAll(" ", ".");
+                NewUserData newUserData = new NewUserData(user.getDisplayName(), userName, String.valueOf(userType));
+                controller.createNewUser(user.getUid(), newUserData);
+
+            }
 
         }
 

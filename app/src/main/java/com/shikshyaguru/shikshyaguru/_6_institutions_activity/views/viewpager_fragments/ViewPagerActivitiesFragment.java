@@ -19,7 +19,7 @@ import android.view.ViewGroup;
 import com.shikshyaguru.shikshyaguru.R;
 import com.shikshyaguru.shikshyaguru._0_6_widgets.Styles;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionActivitiesData;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionFakeDataSource;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionDataSource;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter.VPActivitiesController;
 
 
@@ -43,7 +43,7 @@ public class ViewPagerActivitiesFragment extends Fragment implements ViewPagerAc
         super.onViewCreated(view, savedInstanceState);
 
         this.rootView = view;
-        new VPActivitiesController(this, new InstitutionFakeDataSource());
+        new VPActivitiesController(this, new InstitutionDataSource());
         //setUpAnchorView();
     }
 

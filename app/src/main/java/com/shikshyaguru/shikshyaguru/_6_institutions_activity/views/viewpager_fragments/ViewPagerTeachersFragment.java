@@ -25,10 +25,10 @@ import android.widget.Toast;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.shikshyaguru.shikshyaguru.R;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionFakeDataSource;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionDataSource;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionTeachersData;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter.VPTeachersController;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionsLoaderFragment;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionLoaderFragment;
 import com.squareup.picasso.Picasso;
 
 public class ViewPagerTeachersFragment extends Fragment implements ViewPagerTeachersInterface {
@@ -48,8 +48,8 @@ public class ViewPagerTeachersFragment extends Fragment implements ViewPagerTeac
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.rootView = view;
-        controller = new VPTeachersController(this, new InstitutionFakeDataSource());
-        controller.setUpTeachersList(InstitutionsLoaderFragment.id);
+        controller = new VPTeachersController(this, new InstitutionDataSource());
+        controller.setUpTeachersList(InstitutionLoaderFragment.id);
     }
 
     @Override

@@ -6,6 +6,8 @@ package com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_f
  */
 
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -31,26 +33,39 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.devs.vectorchildfinder.VectorChildFinder;
+import com.devs.vectorchildfinder.VectorDrawableCompat;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.shikshyaguru.shikshyaguru.R;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionFakeDataSource;
+import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.NavigationDrawerFragment;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionDataSource;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionRatingsData;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionReviewsData;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter.VPReviewsController;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionsLoaderFragment;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionLoaderFragment;
+import com.squareup.picasso.Picasso;
 
-import java.util.List;
 import java.util.Objects;
 
-public class ViewPagerReviewsFragment extends Fragment implements ViewPagerReviewInterface {
+public class ViewPagerReviewsFragment extends Fragment implements ViewPagerReviewInterface, View.OnClickListener {
 
     private static final int SWIPE_THRESHOLD = 100;
     private static final int SWIPE_VELOCITY_THRESHOLD = 100;
     private GestureDetectorCompat gestureDetector;
 
+    private static final String instPath = "instRating";
+    private static final String eduPath = "eduRating";
+    private static final String infraPath = "infraRating";
+    private static final String techPath = "techRating";
+    private static final String mgmtPath = "mgmtRating";
+    private static final String reviewPath = "review";
+
     private RelativeLayout swipeLayout, overallRating, educationRating, infrastructureRating,
             teachersRating, managementRating, reviews;
+
+    RatingBar overallRatingBar, eduRatingBar, infraRatingBar, teacherRatingBar, mgmtRatingBar;
+    EditText shortReview;
 
     private TextView submitNextFinished;
     private ImageView sliderIndicator;
@@ -60,7 +75,6 @@ public class ViewPagerReviewsFragment extends Fragment implements ViewPagerRevie
 
     private View rootView;
     private LayoutInflater inflater;
-    private List<InstitutionReviewsData> reviewData;
     private RecyclerView reviewRecyclerView;
     private VPReviewsController controller;
 
@@ -75,11 +89,11 @@ public class ViewPagerReviewsFragment extends Fragment implements ViewPagerRevie
         nestedScrollView = view.findViewById(R.id.root_reviews_nested_scroll);
         reviewRecyclerView = view.findViewById(R.id.rec_reviews);
 
-        controller = new VPReviewsController(this, new InstitutionFakeDataSource());
+        controller = new VPReviewsController(this, new InstitutionDataSource());
         //Set ratings view with data from firebase
-        controller.getRatings(InstitutionsLoaderFragment.id);
+        controller.getRatings(InstitutionLoaderFragment.id);
         // Set reviews adapter with data
-        controller.setUpReviews(InstitutionsLoaderFragment.id);
+        controller.setUpReviews(InstitutionLoaderFragment.id);
 
         return view;
     }
@@ -88,6 +102,48 @@ public class ViewPagerReviewsFragment extends Fragment implements ViewPagerRevie
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initRatingAndReviewSection();
+    }
+
+    private void initRatingAndReviewSection() {
+
+        ImageView userImage = rootView.findViewById(R.id.iv_inst_loader_vp_reviews_user);
+        Picasso.get()
+                .load(NavigationDrawerFragment.currentUser.getPhotoUrl())
+                .fit()
+                .centerCrop()
+                .placeholder(R.drawable.ic_user)
+                .into(userImage);
+
+        swipeLayout = rootView.findViewById(R.id.root_rating_section);
+        viewPager = Objects.requireNonNull(getActivity()).findViewById(R.id.vp_inst_loader_frag);
+
+        overallRating = rootView.findViewById(R.id.l_rating_overall);
+        educationRating = rootView.findViewById(R.id.l_rating_education);
+        infrastructureRating = rootView.findViewById(R.id.l_rating_infrastructure);
+        teachersRating = rootView.findViewById(R.id.l_rating_teachers);
+        managementRating = rootView.findViewById(R.id.l_rating_management);
+        reviews = rootView.findViewById(R.id.l_rating_review);
+
+        submitNextFinished = rootView.findViewById(R.id.btn_inst_loader_vp_review_submit_next_finish);
+        sliderIndicator = rootView.findViewById(R.id.iv_inst_loader_vp_review_submit_next_finish);
+
+        // Set selector indicator to first view
+        selectedIndicator(instPath, eduPath);
+        // Disable submit button
+        submitNextFinished.setVisibility(View.INVISIBLE);
+        // Set indicators visibility gone
+        sliderIndicator.setVisibility(View.INVISIBLE);
+
+        // Submit button on click listener
+        submitNextFinished.setOnClickListener(this);
+
+        overAllRatingSection();
+        educationQualityRatingSection();
+        infrastructureRatingSection();
+        teacherRatingSection();
+        managementRatingSection();
+        shortReviewSection();
+
     }
 
     // This is the method which is called from datasource using interface
@@ -183,54 +239,153 @@ public class ViewPagerReviewsFragment extends Fragment implements ViewPagerRevie
 
     }
 
-    private void setUpLinearProgressBar(ProgressBar pb, int progress, int max) {
-        Drawable linearDrawable = ContextCompat.getDrawable(Objects.requireNonNull(getActivity()), R.drawable.linear_rating_bar);
-        pb.setProgress(progress);
-        pb.setMax(max);
-        pb.setProgressDrawable(linearDrawable);
+    @Override
+    public void setUpReviews(FirebaseRecyclerOptions<InstitutionReviewsData> options) {
 
-        ObjectAnimator animator = ObjectAnimator.ofInt(pb, "progress", 0, progress);
-        animator.setDuration(3000);
-        animator.setInterpolator(new AccelerateInterpolator());
-        animator.start();
+        reviewRecyclerView.setNestedScrollingEnabled(false);
+        reviewRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        ReviewsAdapter adapter = new ReviewsAdapter(options);
+        reviewRecyclerView.setAdapter(adapter);
+
+        adapter.startListening();
+
     }
 
-    private void setUpCircularProgressBar(ProgressBar pb, int progress, int max) {
-        Drawable circularDrawable = ContextCompat.getDrawable(Objects.requireNonNull(getActivity()), R.drawable.circular_rating_bar);
-        pb.setProgress(progress);
-        pb.setMax(max);
-        pb.setProgressDrawable(circularDrawable);
+    @SuppressLint("ClickableViewAccessibility")
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
 
-        ObjectAnimator animator = ObjectAnimator.ofInt(pb, "progress", 0, progress);
-        animator.setDuration(3000);
-        animator.setInterpolator(new AccelerateInterpolator());
-        animator.start();
+            case R.id.btn_inst_loader_vp_review_submit_next_finish:
+
+                if (submitNextFinished.getText().toString().toLowerCase().equals("submit")) {
+
+                    ratingReviewsTouchListener();
+                    overallRating.setVisibility(View.INVISIBLE);
+                    educationRating.setVisibility(View.VISIBLE);
+                    submitNextFinished.setVisibility(View.INVISIBLE);
+                    selectedIndicator(eduPath, instPath);
+
+                } else {
+
+
+                    int instRating = (int) overallRatingBar.getRating();
+                    int eduRating = (int) eduRatingBar.getRating();
+                    int infraRating = (int) infraRatingBar.getRating();
+                    int techRating = (int) teacherRatingBar.getRating();
+                    int mgmtRating = (int) mgmtRatingBar.getRating();
+                    String comment = shortReview.getText().toString();
+
+                    String uId = NavigationDrawerFragment.currentUser.getUid();
+                    String id = InstitutionLoaderFragment.id;
+
+                    controller.submitReviews(id, uId, instRating, eduRating, infraRating, techRating, mgmtRating, comment);
+
+                    //swipeLayout.setOnTouchListener(null);
+                    // Put small validation for review section
+
+                }
+
+                break;
+
+            default:
+                break;
+        }
     }
 
-    private void initRatingAndReviewSection() {
-        swipeLayout = rootView.findViewById(R.id.root_rating_section);
-        viewPager = Objects.requireNonNull(getActivity()).findViewById(R.id.vp_inst_loader_frag);
-
-        overallRating = rootView.findViewById(R.id.l_rating_overall);
-        educationRating = rootView.findViewById(R.id.l_rating_education);
-        infrastructureRating = rootView.findViewById(R.id.l_rating_infrastructure);
-        teachersRating = rootView.findViewById(R.id.l_rating_teachers);
-        managementRating = rootView.findViewById(R.id.l_rating_management);
-        reviews = rootView.findViewById(R.id.l_rating_review);
-
-        submitNextFinished = rootView.findViewById(R.id.lbl_inst_loader_vp_review_submit_next_finish);
-        sliderIndicator = rootView.findViewById(R.id.iv_inst_loader_vp_review_submit_next_finish);
-
-        ratingReviewsTouchListener();
-        overAllRatingSection();
-        educationQualityRatingSection();
-        infrastructureRatingSection();
-        teacherRatingSection();
-        managementRatingSection();
-        shortReviewSection();
+    private void overAllRatingSection(){
+        overallRatingBar = rootView.findViewById(R.id.rb_inst_loader_vp_review_overall_rating);
+        TextView ratingType = rootView.findViewById(R.id.lbl_inst_loader_vp_review_overall_rating_type);
+        ratingType.setVisibility(View.INVISIBLE);
+        onRatingBarChanged(overallRatingBar, ratingType);
     }
 
+    private void educationQualityRatingSection() {
+        eduRatingBar = rootView.findViewById(R.id.rb_inst_loader_vp_review_edu_quality_rating);
+        TextView ratingType = rootView.findViewById(R.id.lbl_inst_loader_vp_review_edu_quality_rating_type);
+        ratingType.setVisibility(View.INVISIBLE);
+        onRatingBarChanged(eduRatingBar, ratingType);
+    }
+
+    private void infrastructureRatingSection() {
+        infraRatingBar = rootView.findViewById(R.id.rb_inst_loader_vp_review_infrastructure_rating);
+        TextView ratingType = rootView.findViewById(R.id.lbl_inst_loader_vp_review_infrastructure_rating_type);
+        ratingType.setVisibility(View.INVISIBLE);
+        onRatingBarChanged(infraRatingBar, ratingType);
+    }
+
+    private void teacherRatingSection() {
+        teacherRatingBar = rootView.findViewById(R.id.rb_inst_loader_vp_review_teachers_rating);
+        TextView ratingType = rootView.findViewById(R.id.lbl_inst_loader_vp_review_teachers_rating_type);
+        ratingType.setVisibility(View.INVISIBLE);
+        onRatingBarChanged(teacherRatingBar, ratingType);
+    }
+
+    private void managementRatingSection() {
+        mgmtRatingBar = rootView.findViewById(R.id.rb_inst_loader_vp_review_management_rating);
+        TextView ratingType = rootView.findViewById(R.id.lbl_inst_loader_vp_review_management_rating_type);
+        ratingType.setVisibility(View.INVISIBLE);
+        onRatingBarChanged(mgmtRatingBar, ratingType);
+    }
+
+    private void shortReviewSection() {
+        shortReview = rootView.findViewById(R.id.et_inst_loader_vp_review_short_review);
+    }
+
+    private void onRatingBarChanged(RatingBar ratingBar, final TextView ratingType) {
+
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+
+                if (rating == 0) {
+                    ratingType.setVisibility(View.INVISIBLE);
+                    if (ratingBar == overallRatingBar ) {
+                        // Enable submit button
+                        submitNextFinished.setVisibility(View.INVISIBLE);
+                        // Set indicators visibility visible
+                        sliderIndicator.setVisibility(View.INVISIBLE);
+                    }
+                } else {
+
+                    if (ratingBar == overallRatingBar ) {
+                        // Enable submit button
+                        submitNextFinished.setVisibility(View.VISIBLE);
+                        // Set indicators visibility visible
+                        sliderIndicator.setVisibility(View.VISIBLE);
+                    }
+
+                    ratingType.setVisibility(View.VISIBLE);
+                    switch ((int) rating) {
+                        case 1:
+                            ratingType.setText(R.string.one_star);
+                            break;
+                        case 2:
+                            ratingType.setText(R.string.two_star);
+                            break;
+                        case 3:
+                            ratingType.setText(R.string.three_star);
+                            break;
+                        case 4:
+                            ratingType.setText(R.string.four_star);
+                            break;
+                        case 5:
+                            ratingType.setText(R.string.five_star);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
+            }
+        });
+
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
     private void ratingReviewsTouchListener() {
+
         gestureDetector = new GestureDetectorCompat(getContext(), new GestureDetector.SimpleOnGestureListener() {
 
             @Override
@@ -255,9 +410,13 @@ public class ViewPagerReviewsFragment extends Fragment implements ViewPagerRevie
                         result = true;
                     } else if (Math.abs(diffY) > SWIPE_THRESHOLD && Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
                         if (diffY > 0) {
-                            Toast.makeText(getContext(), "Down", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getContext(), "Down", Toast.LENGTH_SHORT).show();
+                            viewPager.requestDisallowInterceptTouchEvent(false);
+                            nestedScrollView.requestDisallowInterceptTouchEvent(false);
                         } else {
-                            Toast.makeText(getContext(), "Up", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getContext(), "Up", Toast.LENGTH_SHORT).show();
+                            viewPager.requestDisallowInterceptTouchEvent(false);
+                            nestedScrollView.requestDisallowInterceptTouchEvent(false);
                         }
                     }
                     result = true;
@@ -269,12 +428,14 @@ public class ViewPagerReviewsFragment extends Fragment implements ViewPagerRevie
             }
 
         });
+
         swipeLayout.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         viewPager.requestDisallowInterceptTouchEvent(true);
+                        nestedScrollView.requestDisallowInterceptTouchEvent(true);
                         break;
                     case MotionEvent.ACTION_UP:
                         viewPager.requestDisallowInterceptTouchEvent(false);
@@ -284,7 +445,9 @@ public class ViewPagerReviewsFragment extends Fragment implements ViewPagerRevie
                 gestureDetector.onTouchEvent(event);
                 return true;
             }
+
         });
+
     }
 
     private void rightSwipe() {
@@ -294,37 +457,54 @@ public class ViewPagerReviewsFragment extends Fragment implements ViewPagerRevie
         } else if (visibility(educationRating)) {
             educationRating.setVisibility(View.INVISIBLE);
             overallRating.setVisibility(View.VISIBLE);
+            selectedIndicator(instPath, eduPath);
+            submitNextFinished.setText(R.string.submit);
+            submitNextFinished.setVisibility(View.VISIBLE);
         } else if (visibility(infrastructureRating)) {
             infrastructureRating.setVisibility(View.INVISIBLE);
             educationRating.setVisibility(View.VISIBLE);
+            selectedIndicator(eduPath, infraPath);
         } else if (visibility(teachersRating)) {
             teachersRating.setVisibility(View.INVISIBLE);
             infrastructureRating.setVisibility(View.VISIBLE);
+            selectedIndicator(infraPath, techPath);
         } else if (visibility(managementRating)) {
             managementRating.setVisibility(View.INVISIBLE);
             teachersRating.setVisibility(View.VISIBLE);
+            selectedIndicator(techPath, mgmtPath);
         } else if (visibility(reviews)) {
             reviews.setVisibility(View.INVISIBLE);
             managementRating.setVisibility(View.VISIBLE);
+            selectedIndicator(mgmtPath, reviewPath);
+            submitNextFinished.setVisibility(View.INVISIBLE);
         }
+
     }
 
     private void leftSwipe() {
         if (visibility(overallRating)) {
             overallRating.setVisibility(View.INVISIBLE);
             educationRating.setVisibility(View.VISIBLE);
+            selectedIndicator(eduPath, instPath);
+            submitNextFinished.setVisibility(View.INVISIBLE);
         } else if (visibility(educationRating)) {
             educationRating.setVisibility(View.INVISIBLE);
             infrastructureRating.setVisibility(View.VISIBLE);
+            selectedIndicator(infraPath, eduPath);
         } else if (visibility(infrastructureRating)) {
             infrastructureRating.setVisibility(View.INVISIBLE);
             teachersRating.setVisibility(View.VISIBLE);
+            selectedIndicator(techPath, infraPath);
         } else if (visibility(teachersRating)) {
             teachersRating.setVisibility(View.INVISIBLE);
             managementRating.setVisibility(View.VISIBLE);
+            selectedIndicator(mgmtPath, techPath);
         } else if (visibility(managementRating)) {
             managementRating.setVisibility(View.INVISIBLE);
             reviews.setVisibility(View.VISIBLE);
+            selectedIndicator(reviewPath, mgmtPath);
+            submitNextFinished.setText(R.string.btn_finish);
+            submitNextFinished.setVisibility(View.VISIBLE);
         } else if (visibility(reviews)) {
             reviews.setVisibility(View.VISIBLE);
         }
@@ -333,92 +513,6 @@ public class ViewPagerReviewsFragment extends Fragment implements ViewPagerRevie
     private boolean visibility(RelativeLayout layout) {
         return layout.getVisibility() == View.VISIBLE;
     }
-
-    private void overAllRatingSection(){
-        RatingBar overallRating = rootView.findViewById(R.id.rb_inst_loader_vp_review_overall_rating);
-        TextView ratingType = rootView.findViewById(R.id.lbl_inst_loader_vp_review_overall_rating_type);
-        ratingType.setVisibility(View.INVISIBLE);
-        onRatingBarChanged(overallRating, ratingType);
-    }
-
-    private void educationQualityRatingSection() {
-        RatingBar eduRating = rootView.findViewById(R.id.rb_inst_loader_vp_review_edu_quality_rating);
-        TextView ratingType = rootView.findViewById(R.id.lbl_inst_loader_vp_review_edu_quality_rating_type);
-        ratingType.setVisibility(View.INVISIBLE);
-        onRatingBarChanged(eduRating, ratingType);
-    }
-
-    private void infrastructureRatingSection() {
-        RatingBar infraRating = rootView.findViewById(R.id.rb_inst_loader_vp_review_infrastructure_rating);
-        TextView ratingType = rootView.findViewById(R.id.lbl_inst_loader_vp_review_infrastructure_rating_type);
-        ratingType.setVisibility(View.INVISIBLE);
-        onRatingBarChanged(infraRating, ratingType);
-    }
-
-    private void teacherRatingSection() {
-        RatingBar teacherRating = rootView.findViewById(R.id.rb_inst_loader_vp_review_teachers_rating);
-        TextView ratingType = rootView.findViewById(R.id.lbl_inst_loader_vp_review_teachers_rating_type);
-        ratingType.setVisibility(View.INVISIBLE);
-        onRatingBarChanged(teacherRating, ratingType);
-    }
-
-    private void managementRatingSection() {
-        RatingBar mgmtRating = rootView.findViewById(R.id.rb_inst_loader_vp_review_management_rating);
-        TextView ratingType = rootView.findViewById(R.id.lbl_inst_loader_vp_review_management_rating_type);
-        ratingType.setVisibility(View.INVISIBLE);
-        onRatingBarChanged(mgmtRating, ratingType);
-    }
-
-    private void shortReviewSection() {
-        EditText shortReview = rootView.findViewById(R.id.et_inst_loader_vp_review_short_review);
-    }
-
-    private void onRatingBarChanged(RatingBar ratingBar, final TextView ratingType) {
-
-        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                if (rating == 0) {
-                    ratingType.setVisibility(View.INVISIBLE);
-                } else {
-                    ratingType.setVisibility(View.VISIBLE);
-                    switch ((int) rating) {
-                        case 1:
-                            ratingType.setText("Hated it");
-                            break;
-                        case 2:
-                            ratingType.setText("bad");
-                            break;
-                        case 3:
-                            ratingType.setText("Not bad");
-                            break;
-                        case 4:
-                            ratingType.setText("Good");
-                            break;
-                        case 5:
-                            ratingType.setText("Super");
-                            break;
-                        default:
-                            break;
-                    }
-                }
-
-            }
-        });
-    }
-
-    @Override
-    public void setUpReviews(FirebaseRecyclerOptions<InstitutionReviewsData> options) {
-
-        reviewRecyclerView.setNestedScrollingEnabled(false);
-        reviewRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        ReviewsAdapter adapter = new ReviewsAdapter(options);
-        reviewRecyclerView.setAdapter(adapter);
-
-        adapter.startListening();
-
-    }
-
 
     class ReviewsAdapter extends FirebaseRecyclerAdapter<InstitutionReviewsData, ReviewsAdapter.ReviewsViewHolder> {
 
@@ -505,93 +599,42 @@ public class ViewPagerReviewsFragment extends Fragment implements ViewPagerRevie
 
     }
 
+    private void setUpLinearProgressBar(ProgressBar pb, int progress, int max) {
+        Drawable linearDrawable = ContextCompat.getDrawable(Objects.requireNonNull(getActivity()), R.drawable.linear_rating_bar);
+        pb.setProgress(progress);
+        pb.setMax(max);
+        pb.setProgressDrawable(linearDrawable);
 
+        ObjectAnimator animator = ObjectAnimator.ofInt(pb, "progress", 0, progress);
+        animator.setDuration(3000);
+        animator.setInterpolator(new AccelerateInterpolator());
+        animator.start();
+    }
 
+    private void setUpCircularProgressBar(ProgressBar pb, int progress, int max) {
+        Drawable circularDrawable = ContextCompat.getDrawable(Objects.requireNonNull(getActivity()), R.drawable.circular_rating_bar);
+        pb.setProgress(progress);
+        pb.setMax(max);
+        pb.setProgressDrawable(circularDrawable);
 
+        ObjectAnimator animator = ObjectAnimator.ofInt(pb, "progress", 0, progress);
+        animator.setDuration(3000);
+        animator.setInterpolator(new AccelerateInterpolator());
+        animator.start();
+    }
 
+    private void selectedIndicator(String visiblePath, String invisiblePath) {
 
-//    class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsViewHolder> {
-//
-//        @NonNull
-//        @Override
-//        public ReviewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//            View view = inflater.inflate(R.layout._6_2_11_2_rec_review_item, parent, false);
-//            return new ReviewsViewHolder(view);
-//        }
-//
-//        @Override
-//        public void onBindViewHolder(@NonNull ReviewsViewHolder holder, int position) {
-//            InstitutionReviewsData currentItem = reviewData.get(position);
-////            int reviewId = Integer.parseInt(currentItem.getReview());
-////
-////            holder.rating.setText(currentItem.getOverallRating());
-////            holder.reviewHeading.setText(currentItem.getReviewHeading());
-////            // While loading data from database replace intro id by currentItem.getIntro()
-////            holder.review.setText(Objects.requireNonNull(getContext()).getResources().getString(reviewId));
-////
-////            holder.nameAndDate.setText(currentItem.getName() + " " + currentItem.getDate());
-////            holder.likeCount.setText(String.valueOf(currentItem.getLikeCount()));
-////            holder.dislikeCount.setText(String.valueOf(currentItem.getDislikeCount()));
-//
-//        }
-//
-//        @Override
-//        public int getItemCount() {
-//            return reviewData.size()-6;
-//        }
-//
-//        class ReviewsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-//
-//            private TextView rating;
-//            private TextView reviewHeading;
-//            private TextView review;
-//            private TextView nameAndDate;
-//            private ImageView ivLike;
-//            private TextView likeCount;
-//            private ImageView ivDislike;
-//            private TextView dislikeCount;
-//            private ImageView ivMore;
-//
-//            ReviewsViewHolder(View itemView) {
-//                super(itemView);
-//
-//                rating = itemView.findViewById(R.id.lbl_inst_loader_vp_reviews_rec_rating);
-//                reviewHeading = itemView.findViewById(R.id.lbl_inst_loader_vp_reviews_rec_heading);
-//                review = itemView.findViewById(R.id.lbl_inst_loader_vp_reviews_rec_review);
-//                nameAndDate = itemView.findViewById(R.id.lbl_inst_loader_vp_reviews_rec_name_date);
-//                ivLike = itemView.findViewById(R.id.iv_inst_loader_vp_reviews_rec_like);
-//                likeCount = itemView.findViewById(R.id.lbl_inst_loader_vp_reviews_rec_like_count);
-//                ivDislike = itemView.findViewById(R.id.iv_inst_loader_vp_reviews_rec_dislike);
-//                dislikeCount = itemView.findViewById(R.id.lbl_inst_loader_vp_reviews_rec_dislike_count);
-//                ivMore = itemView.findViewById(R.id.iv_inst_loader_vp_reviews_rec_more);
-//
-//                ivLike.setOnClickListener(this);
-//                ivDislike.setOnClickListener(this);
-//                ivMore.setOnClickListener(this);
-//            }
-//
-//            @Override
-//            public void onClick(View v) {
-//                switch (v.getId()) {
-//                    case R.id.iv_inst_loader_vp_reviews_rec_like:
-//                        Toast.makeText(getContext(),"Like",Toast.LENGTH_SHORT).show();
-//                        break;
-//                    case R.id.iv_inst_loader_vp_reviews_rec_dislike:
-//                        Toast.makeText(getContext(),"Dislike",Toast.LENGTH_SHORT).show();
-//                        break;
-//                    case R.id.iv_inst_loader_vp_reviews_rec_more:
-//                        Toast.makeText(getContext(),"More",Toast.LENGTH_SHORT).show();
-//                        break;
-//                    default:
-//                        break;
-//                }
-//            }
-//        }
-//    }
+        VectorChildFinder vectorChild = new VectorChildFinder(Objects.requireNonNull(getContext()), R.drawable.ic_review_indicator, sliderIndicator);
 
+        VectorDrawableCompat.VFullPath vPath = vectorChild.findPathByName(visiblePath);
+        VectorDrawableCompat.VFullPath iPath = vectorChild.findPathByName(invisiblePath);
 
+        vPath.setFillColor(Color.parseColor("#7c3cea"));
+        iPath.setFillColor(Color.parseColor("#9E9E9E"));
 
+        sliderIndicator.invalidate();
 
-
+    }
 
 }

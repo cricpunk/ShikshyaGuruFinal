@@ -5,6 +5,7 @@ package com.shikshyaguru.shikshyaguru._6_institutions_activity.model;
  * Koiralapankaj007@gmail.com
  */
 
+import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -17,15 +18,25 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.InstitutionsListItemParent;
+import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.NavigationDrawerFragment;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionLoaderInterface;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerReviewInterface;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
-public class InstitutionFakeDataSource implements InstitutionDataSourceInterface {
+public class InstitutionDataSource implements InstitutionDataSourceInterface {
 
     private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
+    private String uId = NavigationDrawerFragment.currentUser.getUid();
+
+    @SuppressLint("SimpleDateFormat")
+    private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
+    private String currentTime = dateFormat.format(Calendar.getInstance().getTime());
 
     @Override
     public FirebaseRecyclerOptions<InstitutionHomeNewsAndEventsData> getInstitutionHomeNewsAndEventData(String id) {
@@ -67,169 +78,6 @@ public class InstitutionFakeDataSource implements InstitutionDataSourceInterface
         };
 
         return new FirebaseRecyclerOptions.Builder<InstitutionHomeIntroData>().setQuery(query, snapshotParser).build();
-
-    }
-
-    @Override
-    public void getInstitutionRatingsData(String id, final ViewPagerReviewInterface reviewInterface) {
-
-        Query query = mDatabase.getReference().child("clients").child(id).child("app_reviews");
-
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                int totalReviewsCount = 0;
-
-                int fiveStar = 0;
-                int fourStar = 0;
-                int threeStar = 0;
-                int twoStar = 0;
-                int oneStar = 0;
-
-                int instRatingCount = 0;
-                int eduRatingCount = 0;
-                int infraRatingCount = 0;
-                int mgmtRatingCount = 0;
-                int techRatingCount = 0;
-
-                int overallInstitutionRating = 0;
-                int overallEducationRating = 0;
-                int overallInfrastructureRating = 0;
-                int overallManagementRating = 0;
-                int overallTeachersRating = 0;
-
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-
-                    Long institution = postSnapshot.child("institution").getValue(Long.class);
-                    Long education = postSnapshot.child("education").getValue(Long.class);
-                    Long infrastructure = postSnapshot.child("infrastructure").getValue(Long.class);
-                    Long management = postSnapshot.child("management").getValue(Long.class);
-                    Long teachers = postSnapshot.child("teachers").getValue(Long.class);
-
-                    assert institution != null;
-                    overallInstitutionRating += institution.intValue();
-                    instRatingCount += 1;
-                    switch (institution.intValue()) {
-                        case 5: fiveStar++; break;
-                        case 4: fourStar++; break;
-                        case 3: threeStar++; break;
-                        case 2: twoStar++; break;
-                        case 1: oneStar++; break;
-                        default: break;
-                    }
-
-                    assert education != null;
-                    overallEducationRating += education.intValue();
-                    eduRatingCount += 1;
-
-                    assert infrastructure != null;
-                    overallInfrastructureRating += infrastructure.intValue();
-                    infraRatingCount += 1;
-
-                    assert management != null;
-                    overallManagementRating += management.intValue();
-                    mgmtRatingCount += 1;
-
-                    assert teachers != null;
-                    overallTeachersRating += teachers.intValue();
-                    techRatingCount += 1;
-
-                    String review = postSnapshot.child("comment").getValue(String.class);
-
-                    assert review != null;
-                    if (!review.equals("")) {
-                        totalReviewsCount ++;
-                    }
-
-                    System.out.println(institution + " : " + education + " : " + infrastructure  + " : " + management  + " : " + teachers);
-                }
-
-                System.out.println("Total rating :" + instRatingCount);
-                System.out.println("Total reviews :" + totalReviewsCount);
-                System.out.println(fiveStar+":"+fourStar+":"+threeStar+":"+twoStar+":"+oneStar);
-
-                try {
-
-                    double oaRating, oaEduRating, oaInfraRating, oaTechRating, oaMgmtRating;
-                    oaRating = overallInstitutionRating / instRatingCount;
-                    oaEduRating = overallEducationRating / eduRatingCount;
-                    oaInfraRating = overallInfrastructureRating / infraRatingCount;
-                    oaTechRating = overallTeachersRating / techRatingCount;
-                    oaMgmtRating = overallManagementRating / mgmtRatingCount;
-
-                    InstitutionRatingsData ratingsData = new InstitutionRatingsData();
-
-                    ratingsData.setOverallRating(oaRating);
-                    ratingsData.setEducationRating(oaEduRating);
-                    ratingsData.setInfrastructureRating(oaInfraRating);
-                    ratingsData.setTeachersRating(oaTechRating);
-                    ratingsData.setManagementRating(oaMgmtRating);
-
-                    ratingsData.setFiveStar(fiveStar);
-                    ratingsData.setFourStar(fourStar);
-                    ratingsData.setThreeStar(threeStar);
-                    ratingsData.setTwoStar(twoStar);
-                    ratingsData.setOneStar(oneStar);
-                    ratingsData.setTotalRating(instRatingCount);
-                    ratingsData.setTotalReviews(totalReviewsCount);
-
-                    // setUpRatings method should be call from here otherwise data will not be display
-                    // If we call this method normally view will be populated before firebase call back finish its task
-                    // Which results empty data into views
-                    // We cant call this method directly so we have to use interface to call this method
-                    reviewInterface.setUpRatings(ratingsData);
-
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                }
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Getting Post failed, log a message
-                Log.w("TAG", "loadPost:onCancelled", databaseError.toException());
-                // ...
-
-            }
-        });
-
-    }
-
-    @Override
-    public FirebaseRecyclerOptions<InstitutionReviewsData> getInstitutionReviewData(String id) {
-
-        Query query = mDatabase.getReference().child("clients").child(id).child("app_reviews");
-
-        SnapshotParser<InstitutionReviewsData> snapshotParser = new SnapshotParser<InstitutionReviewsData>() {
-            @NonNull
-            @Override
-            public InstitutionReviewsData parseSnapshot(@NonNull DataSnapshot snapshot) {
-
-                InstitutionReviewsData reviewsData = new InstitutionReviewsData();
-
-                Long rating = snapshot.child("institution").getValue(Long.class);
-                Long like = snapshot.child("comment_like").getValue(Long.class);
-                Long dislike = snapshot.child("comment_dislike").getValue(Long.class);
-
-                reviewsData.setCommentId(snapshot.getKey());
-                assert rating != null;
-                reviewsData.setRating(rating.intValue());
-                assert like != null;
-                reviewsData.setComment_like(like.intValue());
-                assert dislike != null;
-                reviewsData.setComment_dislike(dislike.intValue());
-                reviewsData.setHeading(snapshot.child("heading").getValue(String.class));
-                reviewsData.setComment(snapshot.child("comment").getValue(String.class));
-                reviewsData.setCommentedBy(getUserName(snapshot.getKey()));
-                reviewsData.setPost_time(snapshot.child("post_time").getValue(String.class));
-
-                return reviewsData;
-            }
-        };
-
-        return new FirebaseRecyclerOptions.Builder<InstitutionReviewsData>().setQuery(query, snapshotParser).build();
 
     }
 
@@ -470,11 +318,198 @@ public class InstitutionFakeDataSource implements InstitutionDataSourceInterface
 
     }
 
+    @Override
+    public void getInstitutionRatingsData(String id, final ViewPagerReviewInterface reviewInterface) {
+
+        Query query = mDatabase.getReference().child("clients").child(id).child("app_reviews");
+
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                int totalReviewsCount = 0;
+
+                int fiveStar = 0;
+                int fourStar = 0;
+                int threeStar = 0;
+                int twoStar = 0;
+                int oneStar = 0;
+
+                int instRatingCount = 0;
+                int eduRatingCount = 0;
+                int infraRatingCount = 0;
+                int mgmtRatingCount = 0;
+                int techRatingCount = 0;
+
+                int overallInstitutionRating = 0;
+                int overallEducationRating = 0;
+                int overallInfrastructureRating = 0;
+                int overallManagementRating = 0;
+                int overallTeachersRating = 0;
+
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+
+                    Long institution = postSnapshot.child("institution").getValue(Long.class);
+                    Long education = postSnapshot.child("education").getValue(Long.class);
+                    Long infrastructure = postSnapshot.child("infrastructure").getValue(Long.class);
+                    Long management = postSnapshot.child("management").getValue(Long.class);
+                    Long teachers = postSnapshot.child("teachers").getValue(Long.class);
+
+                    assert institution != null;
+                    overallInstitutionRating += institution.intValue();
+                    instRatingCount += 1;
+                    switch (institution.intValue()) {
+                        case 5: fiveStar++; break;
+                        case 4: fourStar++; break;
+                        case 3: threeStar++; break;
+                        case 2: twoStar++; break;
+                        case 1: oneStar++; break;
+                        default: break;
+                    }
+
+                    assert education != null;
+                    overallEducationRating += education.intValue();
+                    eduRatingCount += 1;
+
+                    assert infrastructure != null;
+                    overallInfrastructureRating += infrastructure.intValue();
+                    infraRatingCount += 1;
+
+                    assert management != null;
+                    overallManagementRating += management.intValue();
+                    mgmtRatingCount += 1;
+
+                    assert teachers != null;
+                    overallTeachersRating += teachers.intValue();
+                    techRatingCount += 1;
+
+                    String review = postSnapshot.child("comment").getValue(String.class);
+
+                    assert review != null;
+                    if (!review.equals("")) {
+                        totalReviewsCount ++;
+                    }
+
+                    System.out.println(institution + " : " + education + " : " + infrastructure  + " : " + management  + " : " + teachers);
+                }
+
+                System.out.println("Total rating :" + instRatingCount);
+                System.out.println("Total reviews :" + totalReviewsCount);
+                System.out.println(fiveStar+":"+fourStar+":"+threeStar+":"+twoStar+":"+oneStar);
+
+                try {
+
+                    double oaRating, oaEduRating, oaInfraRating, oaTechRating, oaMgmtRating;
+                    oaRating = overallInstitutionRating / instRatingCount;
+                    oaEduRating = overallEducationRating / eduRatingCount;
+                    oaInfraRating = overallInfrastructureRating / infraRatingCount;
+                    oaTechRating = overallTeachersRating / techRatingCount;
+                    oaMgmtRating = overallManagementRating / mgmtRatingCount;
+
+                    InstitutionRatingsData ratingsData = new InstitutionRatingsData();
+
+                    ratingsData.setOverallRating(oaRating);
+                    ratingsData.setEducationRating(oaEduRating);
+                    ratingsData.setInfrastructureRating(oaInfraRating);
+                    ratingsData.setTeachersRating(oaTechRating);
+                    ratingsData.setManagementRating(oaMgmtRating);
+
+                    ratingsData.setFiveStar(fiveStar);
+                    ratingsData.setFourStar(fourStar);
+                    ratingsData.setThreeStar(threeStar);
+                    ratingsData.setTwoStar(twoStar);
+                    ratingsData.setOneStar(oneStar);
+                    ratingsData.setTotalRating(instRatingCount);
+                    ratingsData.setTotalReviews(totalReviewsCount);
+
+                    // setUpRatings method should be call from here otherwise data will not be display
+                    // If we call this method normally view will be populated before firebase call back finish its task
+                    // Which results empty data into views
+                    // We cant call this method directly so we have to use interface to call this method
+                    reviewInterface.setUpRatings(ratingsData);
+
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+                Log.w("TAG", "loadPost:onCancelled", databaseError.toException());
+                // ...
+
+            }
+        });
+
+    }
+
+    @Override
+    public FirebaseRecyclerOptions<InstitutionReviewsData> getInstitutionReviewData(String id) {
+
+        Query query = mDatabase.getReference().child("clients").child(id).child("app_reviews");
+
+        SnapshotParser<InstitutionReviewsData> snapshotParser = new SnapshotParser<InstitutionReviewsData>() {
+            @NonNull
+            @Override
+            public InstitutionReviewsData parseSnapshot(@NonNull DataSnapshot snapshot) {
+
+                InstitutionReviewsData reviewsData = new InstitutionReviewsData();
+
+                Long rating = snapshot.child("institution").getValue(Long.class);
+                Long like = snapshot.child("comment_like").getValue(Long.class);
+                Long dislike = snapshot.child("comment_dislike").getValue(Long.class);
+
+                reviewsData.setCommentId(snapshot.getKey());
+                assert rating != null;
+                reviewsData.setRating(rating.intValue());
+                assert like != null;
+                reviewsData.setComment_like(like.intValue());
+                assert dislike != null;
+                reviewsData.setComment_dislike(dislike.intValue());
+                reviewsData.setHeading(snapshot.child("heading").getValue(String.class));
+                reviewsData.setComment(snapshot.child("comment").getValue(String.class));
+                reviewsData.setCommentedBy(getUserName(snapshot.getKey()));
+                reviewsData.setPost_time(snapshot.child("post_time").getValue(String.class));
+
+                return reviewsData;
+            }
+        };
+
+        return new FirebaseRecyclerOptions.Builder<InstitutionReviewsData>().setQuery(query, snapshotParser).build();
+
+    }
+
+    @Override
+    public void postUserReview(ViewPagerReviewInterface reviewInterface, String id, String uId, int instRating, int eduRating, int infraRating, int techRating, int mgmtRating, String comment) {
+
+        HashMap<String, Object> reviewData = new HashMap<>();
+
+        reviewData.put("comment", comment);
+        reviewData.put("education", eduRating);
+        reviewData.put("infrastructure", infraRating);
+        reviewData.put("institution", instRating);
+        reviewData.put("management", mgmtRating);
+        reviewData.put("teachers", techRating);
+        reviewData.put("comment_like", 0);
+        reviewData.put("comment_dislike", 0);
+        reviewData.put("post_time", currentTime);
+
+        mDatabase.getReference().child("clients").child(id).child("app_reviews").child(uId).setValue(reviewData, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                //
+            }
+        });
+
+    }
+
     private String getUserName(String uId) {
 
         final String name[] = new String[1];
 
-        Query query = mDatabase.getReference().child("users").child(uId).child("name");
+        Query query = mDatabase.getReference().child("users").child(uId).child("profile");
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -490,5 +525,103 @@ public class InstitutionFakeDataSource implements InstitutionDataSourceInterface
 
         return name[0];
     }
+
+    @Override
+    public void validateAndProceedFavBtn(final InstitutionLoaderInterface loaderInterface, final String instId) {
+
+        final DatabaseReference favRef = mDatabase.getReference().child("users").child(uId).child("favourites").child(instId);
+
+        ValueEventListener eventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                if (dataSnapshot.exists()) {
+                    // Your item is in favourite list
+                    loaderInterface.displaySnackbar("Institution is already in your favourite list.");
+                } else {
+                    // Add institution to favourite list
+                    addToFavourite(loaderInterface, favRef);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                loaderInterface.displaySnackbar(databaseError.getMessage());
+            }
+        };
+        favRef.addListenerForSingleValueEvent(eventListener);
+
+    }
+
+    private void addToFavourite(final InstitutionLoaderInterface loaderInterface, DatabaseReference favRef) {
+
+        HashMap<String, String> favourite = new HashMap<>();
+        favourite.put("added_on", currentTime);
+
+        favRef.setValue(favourite, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                if (databaseError == null ) {
+                    loaderInterface.displaySnackbar("Institution has been added to your favourite list.");
+
+                } else {
+                    loaderInterface.displaySnackbar(databaseError.getMessage());
+                }
+
+            }
+        });
+
+    }
+
+    @Override
+    public void validateAndProceedReportBtn(final InstitutionLoaderInterface loaderInterface, final String instId) {
+
+        final DatabaseReference reportedInstRef = mDatabase.getReference().child("reported_institution").child(uId).child(instId);
+
+        ValueEventListener eventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                if (dataSnapshot.exists()) {
+                    // Your item is in favourite list
+                    loaderInterface.displaySnackbar("You have already reported this institution.");
+                } else {
+                    // Add institution to favourite list
+                    reportInstitution(loaderInterface, reportedInstRef);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                loaderInterface.displaySnackbar(databaseError.getMessage());
+            }
+
+        };
+        reportedInstRef.addListenerForSingleValueEvent(eventListener);
+
+    }
+
+    private void reportInstitution(final InstitutionLoaderInterface loaderInterface, DatabaseReference reportedInstitutionRef ) {
+
+        HashMap<String, String> report = new HashMap<>();
+        report.put("reported_on", currentTime);
+
+        reportedInstitutionRef.setValue(report, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                if (databaseError == null ) {
+                    loaderInterface.displaySnackbar("Thank you for reporting this institution.");
+
+                } else {
+                    loaderInterface.displaySnackbar(databaseError.getMessage());
+                }
+            }
+
+        });
+
+    }
+
 
 }

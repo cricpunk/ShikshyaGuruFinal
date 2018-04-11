@@ -21,7 +21,7 @@ import java.util.List;
  * Kathmandu Nepal
  */
 
-public class FakeDataSource implements DataSourceInterface {
+public class DataSource implements DataSourceInterface {
 
     private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
 
@@ -83,7 +83,7 @@ public class FakeDataSource implements DataSourceInterface {
     };
 
 
-    public FakeDataSource() {
+    public DataSource() {
     }
 
     @Override

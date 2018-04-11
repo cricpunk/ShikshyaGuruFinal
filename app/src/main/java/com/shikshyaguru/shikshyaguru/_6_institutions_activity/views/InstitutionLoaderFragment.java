@@ -9,11 +9,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,8 +34,11 @@ import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 import com.shikshyaguru.shikshyaguru.R;
+import com.shikshyaguru.shikshyaguru._0_6_widgets.PopupCollections;
 import com.shikshyaguru.shikshyaguru._0_6_widgets.Toolbars;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionFakeDataSource;
+import com.shikshyaguru.shikshyaguru._3_signUp_activity.views.LoginFragment;
+import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.NavigationDrawerFragment;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionDataSource;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter.InstitutionsController;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerContactFragment;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerGalleryFragment;
@@ -50,8 +53,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.Objects;
 
-public class InstitutionsLoaderFragment extends Fragment {
+public class InstitutionLoaderFragment extends Fragment implements InstitutionLoaderInterface{
 
+    private CoordinatorLayout currentView;
     private SmartTabLayout viewPagerTab;
     private CollapsingToolbarLayout collapsingToolbar;
     private InstitutionsController controller;
@@ -62,6 +66,7 @@ public class InstitutionsLoaderFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout._6_2_0_ihp_inst_loader_fragment, container, false);
+        currentView = view.findViewById(R.id.root_institutions_loader_frag);
 
         if (getArguments() != null ) {
             id = getArguments().getString("ID");
@@ -76,7 +81,7 @@ public class InstitutionsLoaderFragment extends Fragment {
         // To make onOptionItemSelected working we have to setHasOptionsMenu true in fragment.
         setHasOptionsMenu(true);
 
-        controller = new InstitutionsController(new InstitutionFakeDataSource());
+        controller = new InstitutionsController(this, new InstitutionDataSource());
 
         return view;
 
@@ -89,7 +94,6 @@ public class InstitutionsLoaderFragment extends Fragment {
         initComponents(view);
         initSmartTabLayout(view);
         initFloatingActionMenu(view);
-
     }
 
     @Override
@@ -188,27 +192,26 @@ public class InstitutionsLoaderFragment extends Fragment {
     };
 
     private void initFloatingActionMenu(View view) {
-        FloatingActionMenu floatingActionMenu = view.findViewById(R.id.fam_inst_loader_frag);
-        FloatingActionButton navigation = view.findViewById(R.id.fab_navigation_inst_loader_frag);
-        FloatingActionButton facebook = view.findViewById(R.id.fab_facebook_inst_loader_frag);
-        FloatingActionButton website = view.findViewById(R.id.fab_website_inst_loader_frag);
-        FloatingActionButton share = view.findViewById(R.id.fab_share_inst_loader_frag);
-        FloatingActionButton review = view.findViewById(R.id.fab_review_inst_loader_frag);
-        FloatingActionButton favourite = view.findViewById(R.id.fab_favourite_inst_loader_frag);
 
-        navigation.setImageResource(R.drawable.ic_navigation);
-        facebook.setImageResource(R.drawable.ic_facebook_f);
-        website.setImageResource(R.drawable.ic_website);
-        share.setImageResource(R.drawable.ic_share_3);
-        review.setImageResource(R.drawable.ic_review_message);
-        favourite.setImageResource(R.drawable.ic_heart);
+        FloatingActionMenu floatingActionMenu = view.findViewById(R.id.fam_inst_loader_frag);
+
+        FloatingActionButton navigation = view.findViewById(R.id.fab_navigation_inst_loader_frag);
+        FloatingActionButton favourite = view.findViewById(R.id.fab_favourite_inst_loader_frag);
+        FloatingActionButton review = view.findViewById(R.id.fab_review_inst_loader_frag);
+        FloatingActionButton suggestFriend = view.findViewById(R.id.fab_suggest_friend_inst_loader_frag);
+        FloatingActionButton reportInstitution = view.findViewById(R.id.fab_report_inst_loader_frag);
+
+        navigation.setImageResource(R.drawable.ic_fab_location);
+        favourite.setImageResource(R.drawable.ic_fab_favourites);
+        review.setImageResource(R.drawable.ic_fab_review);
+        suggestFriend.setImageResource(R.drawable.ic_fab_suggest_friends);
+        reportInstitution.setImageResource(R.drawable.ic_fab_report);
 
         navigation.setOnClickListener(floatingActionButtonClickListener);
-        facebook.setOnClickListener(floatingActionButtonClickListener);
-        website.setOnClickListener(floatingActionButtonClickListener);
-        share.setOnClickListener(floatingActionButtonClickListener);
-        review.setOnClickListener(floatingActionButtonClickListener);
         favourite.setOnClickListener(floatingActionButtonClickListener);
+        review.setOnClickListener(floatingActionButtonClickListener);
+        suggestFriend.setOnClickListener(floatingActionButtonClickListener);
+        reportInstitution.setOnClickListener(floatingActionButtonClickListener);
 
         ViewGroup.LayoutParams layoutParams = floatingActionMenu.getLayoutParams();
         layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT;
@@ -224,128 +227,19 @@ public class InstitutionsLoaderFragment extends Fragment {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.fab_navigation_inst_loader_frag:
-                    Toast.makeText(getContext(), "Navigation", Toast.LENGTH_SHORT).show();
-                    break;
-                case R.id.fab_facebook_inst_loader_frag:
-                    Toast.makeText(getContext(), "Facebook", Toast.LENGTH_SHORT).show();
-                    break;
-                case R.id.fab_website_inst_loader_frag:
-                    Toast.makeText(getContext(), "Website", Toast.LENGTH_SHORT).show();
-                    break;
-                case R.id.fab_share_inst_loader_frag:
-                    Toast.makeText(getContext(), "Share", Toast.LENGTH_SHORT).show();
-                    break;
-                case R.id.fab_review_inst_loader_frag:
-                    Toast.makeText(getContext(), "Review", Toast.LENGTH_SHORT).show();
+                    controller.fabNavigateBtnClick();
                     break;
                 case R.id.fab_favourite_inst_loader_frag:
-                    Toast.makeText(getContext(), "Favourite", Toast.LENGTH_SHORT).show();
-
-                    FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
-
-                    Query query = mDatabase.getReference().child("clients").child("client-02").child("app_reviews");
-
-                    query.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-
-                            int totalReviewsCount = 0;
-
-                            int fiveStar = 0;
-                            int fourStar = 0;
-                            int threeStar = 0;
-                            int twoStar = 0;
-                            int oneStar = 0;
-
-                            int instRatingCount = 0;
-                            int eduRatingCount = 0;
-                            int infraRatingCount = 0;
-                            int mgmtRatingCount = 0;
-                            int techRatingCount = 0;
-
-                            int overallInstitutionRating = 0;
-                            int overallEducationRating = 0;
-                            int overallInfrastructureRating = 0;
-                            int overallManagementRating = 0;
-                            int overallTeachersRating = 0;
-
-                            for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-
-                                System.out.println("==============================Postsnapshot=====================================");
-                                System.out.println(postSnapshot.getKey());
-                                System.out.println(postSnapshot.getChildrenCount());
-
-                                Long institution = postSnapshot.child("institution").getValue(Long.class);
-                                Long education = postSnapshot.child("education").getValue(Long.class);
-                                Long infrastructure = postSnapshot.child("infrastructure").getValue(Long.class);
-                                Long management = postSnapshot.child("management").getValue(Long.class);
-                                Long teachers = postSnapshot.child("teachers").getValue(Long.class);
-
-                                assert institution != null;
-                                overallInstitutionRating += institution.intValue();
-                                instRatingCount += 1;
-                                switch (institution.intValue()) {
-                                    case 5: fiveStar++; break;
-                                    case 4: fourStar++; break;
-                                    case 3: threeStar++; break;
-                                    case 2: twoStar++; break;
-                                    case 1: oneStar++; break;
-                                    default: break;
-                                }
-
-                                assert education != null;
-                                overallEducationRating += education.intValue();
-                                eduRatingCount += 1;
-
-                                assert infrastructure != null;
-                                overallInfrastructureRating += infrastructure.intValue();
-                                infraRatingCount += 1;
-
-                                assert management != null;
-                                overallManagementRating += management.intValue();
-                                mgmtRatingCount += 1;
-
-                                assert teachers != null;
-                                overallTeachersRating += teachers.intValue();
-                                techRatingCount += 1;
-
-                                String review = postSnapshot.child("comment").getValue(String.class);
-
-                                assert review != null;
-                                if (!review.equals("")) {
-                                    totalReviewsCount ++;
-                                }
-
-                                System.out.println(institution + " : " + education + " : " + infrastructure  + " : " + management  + " : " + teachers);
-                            }
-
-                            System.out.println(overallInstitutionRating/instRatingCount  + " : " + overallEducationRating/eduRatingCount + " : " + overallInfrastructureRating/infraRatingCount  + " : " + overallManagementRating/mgmtRatingCount  + " : " + overallTeachersRating/techRatingCount);
-
-                            System.out.println("Total rating :" + instRatingCount);
-                            System.out.println("Total reviews :" + totalReviewsCount);
-
-                            System.out.println(fiveStar+":"+fourStar+":"+threeStar+":"+twoStar+":"+oneStar);
-
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                            // Getting Post failed, log a message
-                            Log.w("TAG", "loadPost:onCancelled", databaseError.toException());
-                            // ...
-
-                        }
-                    });
-
-
-
-
-
-
-
-
-
-
+                    controller.validateAndProceedFavBtn(InstitutionLoaderFragment.id);
+                    break;
+                case R.id.fab_review_inst_loader_frag:
+                    controller.fabReviewBtnClick();
+                    break;
+                case R.id.fab_suggest_friend_inst_loader_frag:
+                    controller.fabSuggestBtnClick();
+                    break;
+                case R.id.fab_report_inst_loader_frag:
+                    controller.validateAndProceedReportBtn(InstitutionLoaderFragment.id);
                     break;
                 default:
                     break;
@@ -353,5 +247,45 @@ public class InstitutionsLoaderFragment extends Fragment {
         }
     };
 
+
+    @Override
+    public void navigateDirection() {
+        Toast.makeText(getContext(), "Navigation", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void reviewInstitution() {
+        Toast.makeText(getContext(), "Review", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void suggestFriends() {
+        Toast.makeText(getContext(), "Suggest", Toast.LENGTH_SHORT).show();
+
+        FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
+
+        Query query = mDatabase.getReference().child("users").child(NavigationDrawerFragment.currentUser.getUid()).child("favourites");
+
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    System.out.println("================================================");
+                    System.out.println(postSnapshot.getKey() +":"+postSnapshot.getValue());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    @Override
+    public void displaySnackbar(String message) {
+        PopupCollections.simpleSnackBar(currentView, message, LoginFragment.COLOR_GREEN);
+    }
 
 }

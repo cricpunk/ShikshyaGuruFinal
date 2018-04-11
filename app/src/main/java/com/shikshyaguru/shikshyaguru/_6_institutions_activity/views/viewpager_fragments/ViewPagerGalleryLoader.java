@@ -21,7 +21,7 @@ import android.widget.ImageView;
 import com.shikshyaguru.shikshyaguru.R;
 import com.shikshyaguru.shikshyaguru._0_6_widgets.StatusBar;
 import com.shikshyaguru.shikshyaguru._0_6_widgets.Toolbars;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionFakeDataSource;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionDataSource;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionGalleryData;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter.VPGalleryController;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionsHomePageActivity;
@@ -83,7 +83,7 @@ public class ViewPagerGalleryLoader extends Fragment implements ViewPagerGallery
         setHasOptionsMenu(true);
 
 
-        controller = new VPGalleryController(this, new InstitutionFakeDataSource());
+        controller = new VPGalleryController(this, new InstitutionDataSource());
         setUpGalleryAdapter();
 
     }

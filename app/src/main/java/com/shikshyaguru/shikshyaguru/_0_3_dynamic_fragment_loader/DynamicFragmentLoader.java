@@ -15,7 +15,7 @@ import com.shikshyaguru.shikshyaguru._3_signUp_activity.views.SignUpFragment;
 import com.shikshyaguru.shikshyaguru._5_news_activity.views.NewsLoaderFragment;
 import com.shikshyaguru.shikshyaguru._5_news_activity.views.NewsMainFragment;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionMainFragment;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionsLoaderFragment;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionLoaderFragment;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerGalleryLoader;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerGalleryLoaderImageLoader;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerProgrammesCoursesLoader;
@@ -94,10 +94,10 @@ public class DynamicFragmentLoader {
         return mainFragment;
     }
 
-    private static InstitutionsLoaderFragment openInstitutionLoader(Bundle bundle) {
-        InstitutionsLoaderFragment institutionsLoaderFragment = new InstitutionsLoaderFragment();
-        institutionsLoaderFragment.setArguments(bundle);
-        return institutionsLoaderFragment;
+    private static InstitutionLoaderFragment openInstitutionLoader(Bundle bundle) {
+        InstitutionLoaderFragment institutionLoaderFragment = new InstitutionLoaderFragment();
+        institutionLoaderFragment.setArguments(bundle);
+        return institutionLoaderFragment;
     }
 
     private static ViewPagerProgrammesCoursesLoader openCourseLoader(Bundle bundle) {

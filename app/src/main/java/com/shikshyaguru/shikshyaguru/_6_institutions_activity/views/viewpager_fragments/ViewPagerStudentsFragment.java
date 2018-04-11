@@ -19,7 +19,7 @@ import android.view.ViewGroup;
 import com.shikshyaguru.shikshyaguru.R;
 import com.shikshyaguru.shikshyaguru._0_2_recyclerview_slider_effect.RecyclerViewSliderEffect;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.CustomLinearLayoutManager;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionFakeDataSource;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionDataSource;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionStudentAlumniData;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter.VPStudentsController;
 
@@ -41,7 +41,7 @@ public class ViewPagerStudentsFragment extends Fragment implements ViewPagerStud
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         this.rootView = view;
-        new VPStudentsController(this, new InstitutionFakeDataSource());
+        new VPStudentsController(this, new InstitutionDataSource());
         super.onViewCreated(view, savedInstanceState);
 
     }

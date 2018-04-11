@@ -11,19 +11,22 @@ import android.app.ActivityOptions;
 
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.InstitutionsListItemParent;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionDataSourceInterface;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionViewInterface;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionLoaderInterface;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionMainInterface;
 
 public class InstitutionsController {
 
-    private InstitutionViewInterface viewInterface;
+    private InstitutionMainInterface viewInterface;
+    private InstitutionLoaderInterface loaderInterface;
     private InstitutionDataSourceInterface dataSource;
 
-    public InstitutionsController(InstitutionDataSourceInterface dataSource) {
+    public InstitutionsController(InstitutionMainInterface viewInterface, InstitutionDataSourceInterface dataSource) {
+        this.viewInterface = viewInterface;
         this.dataSource = dataSource;
     }
 
-    public InstitutionsController(InstitutionViewInterface viewInterface, InstitutionDataSourceInterface dataSource) {
-        this.viewInterface = viewInterface;
+    public InstitutionsController(InstitutionLoaderInterface loaderInterface, InstitutionDataSourceInterface dataSource) {
+        this.loaderInterface = loaderInterface;
         this.dataSource = dataSource;
     }
 
@@ -38,5 +41,27 @@ public class InstitutionsController {
     public void onInstitutionItemClick(InstitutionsListItemParent instDetails, ActivityOptions options) {
         viewInterface.openInstitutionDetails(instDetails, options);
     }
+
+    public void validateAndProceedFavBtn(String id) {
+        dataSource.validateAndProceedFavBtn(loaderInterface, id);
+    }
+
+    public void fabNavigateBtnClick() {
+        loaderInterface.navigateDirection();
+    }
+
+    public void fabReviewBtnClick() {
+        loaderInterface.reviewInstitution();
+    }
+
+    public void fabSuggestBtnClick() {
+        loaderInterface.suggestFriends();
+    }
+
+    public void validateAndProceedReportBtn(String id) {
+        dataSource.validateAndProceedReportBtn(loaderInterface, id);
+    }
+
+
 
 }

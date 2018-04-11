@@ -142,43 +142,38 @@
             android:id="@+id/fab_navigation_inst_loader_frag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            fab:fab_label="Locate Us"
-            fab:fab_size="mini" />
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab_facebook_inst_loader_frag"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            fab:fab_label="Like Us"
-            fab:fab_size="mini" />
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab_website_inst_loader_frag"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            fab:fab_label="Website"
-            fab:fab_size="mini" />
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab_share_inst_loader_frag"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            fab:fab_label="Share Us"
-            fab:fab_size="mini" />
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab_review_inst_loader_frag"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            fab:fab_label="Review Us"
+            fab:fab_label="Locate direction"
             fab:fab_size="mini" />
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab_favourite_inst_loader_frag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            fab:fab_label="Favourite"
+            fab:fab_label="Add to favourite"
             fab:fab_size="mini" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_review_inst_loader_frag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_label="Review institution"
+            fab:fab_size="mini" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_suggest_friend_inst_loader_frag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_label="Suggest friends"
+            fab:fab_size="mini" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fab_report_inst_loader_frag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_label="Report this institution"
+            fab:fab_size="mini" />
+
+
 
     </com.github.clans.fab.FloatingActionMenu>
 

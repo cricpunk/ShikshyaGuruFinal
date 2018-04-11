@@ -20,7 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.shikshyaguru.shikshyaguru.R;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionFakeDataSource;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionDataSource;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionProgrammesData;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter.VPProgrammesController;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionsHomePageActivity;
@@ -44,7 +44,7 @@ public class ViewPagerProgrammesFragment extends Fragment implements ViewPagerPr
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.rootView = view;
-        controller = new VPProgrammesController(this, new InstitutionFakeDataSource());
+        controller = new VPProgrammesController(this, new InstitutionDataSource());
     }
 
     @Override

@@ -22,11 +22,11 @@ import android.widget.TextView;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.shikshyaguru.shikshyaguru.R;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionFakeDataSource;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionDataSource;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionGalleryData;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter.VPGalleryController;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionsHomePageActivity;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionsLoaderFragment;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionLoaderFragment;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -45,8 +45,8 @@ public class ViewPagerGalleryFragment extends Fragment implements ViewPagerGalle
         this.inflater = inflater;
         this.rootView = view;
 
-        controller = new VPGalleryController(this, new InstitutionFakeDataSource());
-        controller.setUpGalleryCategory(InstitutionsLoaderFragment.id);
+        controller = new VPGalleryController(this, new InstitutionDataSource());
+        controller.setUpGalleryCategory(InstitutionLoaderFragment.id);
 
         return view;
     }

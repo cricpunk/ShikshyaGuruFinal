@@ -23,7 +23,7 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.shikshyaguru.shikshyaguru.R;
 import com.shikshyaguru.shikshyaguru._0_6_widgets.Toolbars;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.InstitutionsListItemParent;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionFakeDataSource;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionDataSource;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter.InstitutionsController;
 import com.squareup.picasso.Picasso;
 
@@ -35,7 +35,7 @@ import java.util.Objects;
  * Koiralapankaj007@gmail.com
  */
 
-public class InstitutionMainFragment extends Fragment implements InstitutionViewInterface {
+public class InstitutionMainFragment extends Fragment implements InstitutionMainInterface {
 
     private int category;
     private String title;
@@ -69,7 +69,7 @@ public class InstitutionMainFragment extends Fragment implements InstitutionView
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        controller = new InstitutionsController(this, new InstitutionFakeDataSource());
+        controller = new InstitutionsController(this, new InstitutionDataSource());
         controller.fetchInstitutionList(category);
     }
 
