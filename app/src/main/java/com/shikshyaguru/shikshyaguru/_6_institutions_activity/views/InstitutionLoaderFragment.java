@@ -26,11 +26,6 @@ import android.widget.Toast;
 import com.flaviofaria.kenburnsview.KenBurnsView;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
@@ -50,6 +45,7 @@ import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fr
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerStaffFragment;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerStudentsFragment;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerTeachersFragment;
+import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.views.UserHomePageActivity;
 import com.shikshyaguru.shikshyaguru._8_map_activitiy.GPSTracker;
 import com.shikshyaguru.shikshyaguru._8_map_activitiy.MapsActivity;
 import com.squareup.picasso.Picasso;
@@ -272,26 +268,14 @@ public class InstitutionLoaderFragment extends Fragment implements InstitutionLo
 
     @Override
     public void suggestFriends() {
-
-        FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
-
-        Query query = mDatabase.getReference().child("users").child(NavigationDrawerFragment.currentUser.getUid()).child("favourites");
-
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    System.out.println("================================================");
-                    System.out.println(postSnapshot.getKey() +":"+postSnapshot.getValue());
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+        Intent intent = new Intent(getContext(), UserHomePageActivity.class);
+        intent.putExtra("REQUEST_CODE", "user_main");
+        intent.putExtra("TITLE", "Suggest " + name);
+        intent.putExtra("CATEGORY", "following");
+        intent.putExtra("SUGGEST_FRIEND", true);
+        intent.putExtra("INSTITUTION_ID", id);
+        intent.putExtra("LIST", NavigationDrawerFragment.followingList);
+        startActivity(intent);
     }
 
     @Override

@@ -5,6 +5,8 @@ import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.model.UserDeta
 import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.views.UserLoaderInterface;
 import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.views.UserMainInterface;
 
+import java.util.HashMap;
+
 /*
  * Created by Pankaj Koirala on 4/11/2018.
  * Kathmandu, Nepal
@@ -29,7 +31,7 @@ public class UserController {
 
     public void displayAllUser(String category) {
         mainInterface.showSpinner();
-        mainInterface.setUpUsersAdapter(dataSource.displayAll(mainInterface, category));
+        mainInterface.setUpUsersAdapter(dataSource.getAllUsers(mainInterface, category));
     }
 
 
@@ -41,8 +43,13 @@ public class UserController {
         loaderInterface.setUserProfile(dataSource.getUserProfileDetails(loaderInterface, uId));
     }
 
-    public void displayFollowers(String uid) {
+    public void displayFollowersFollowing(HashMap<String, Boolean> list) {
         mainInterface.showSpinner();
-        mainInterface.setUpFollowers(dataSource.getFollowers(uid));
+        dataSource.getFollowerFollowingData(list, mainInterface);
     }
+
+    public void suggestInstitutionToFriend(String friendId, String institutionId) {
+        dataSource.makeInstitutionSuggestionToFriend(mainInterface, friendId, institutionId);
+    }
+
 }

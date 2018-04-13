@@ -184,5 +184,7 @@ Quam libero nulla netus eu porta curae, ut nulla bibendum facilisis et urna sed,
     <string name="typeTeacher">( Teacher )</string>
     <string name="typeInstitution">( Institution )</string>
     <string name="title_activity_maps">Map</string>
+    <string name="requested">Requested</string>
+    <string name="suggest">Suggest</string>
 
 </resources>

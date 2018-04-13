@@ -90,6 +90,7 @@
             android:background="@drawable/bg_user_follow"
             android:text="@string/follow"
             android:textAlignment="center"
+            android:paddingBottom="2dp"
             android:textAllCaps="false"
             android:textColor="#3a7bd5"
             app:finalCornerAngle="25dp"

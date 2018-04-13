@@ -35,11 +35,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 import com.shikshyaguru.shikshyaguru.R;
 import com.shikshyaguru.shikshyaguru._0_7_shared_preferences.PrefManager;
 import com.shikshyaguru.shikshyaguru._3_signUp_activity.views.AuthenticationActivity;
@@ -71,7 +66,7 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
 
     private ArrayList<String> favInstList = new ArrayList<>();
     private HashMap<String, Boolean> followersList = new HashMap<>();
-    private HashMap<String, Boolean> followingList = new HashMap<>();
+    public static HashMap<String, Boolean> followingList = new HashMap<>();
 
     private HomePageController controller;
 
@@ -375,6 +370,7 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
                 intent.putExtra("REQUEST_CODE", "user_main");
                 intent.putExtra("TITLE", "Followers");
                 intent.putExtra("CATEGORY", "followers");
+                intent.putExtra("LIST", followersList);
                 startActivity(intent);
             }
 
@@ -383,35 +379,15 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
                 intent.putExtra("REQUEST_CODE", "user_main");
                 intent.putExtra("TITLE", "Following");
                 intent.putExtra("CATEGORY", "following");
+                intent.putExtra("LIST", followingList);
                 startActivity(intent);
             }
 
             private void openQuestions() {
-//                Intent intent = new Intent(getContext(), UserHomePageActivity.class);
-//                intent.putExtra("REQUEST_CODE", "question_loader");
-//                intent.putExtra("TITLE", "Questions");
-//                startActivity(intent);
-
-                FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
-                final Query followers = mDatabase.getReference().child("users").child(currentUser.getUid()).child("followers");
-
-                ValueEventListener valueEventListener = new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            System.out.println("==================================================");
-                            System.out.println(snapshot.getKey());
-                            System.out.println(snapshot.child("status").getKey() + " : " + snapshot.child("status").getValue());
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                };
-                followers.addListenerForSingleValueEvent(valueEventListener);
+                Intent intent = new Intent(getContext(), UserHomePageActivity.class);
+                intent.putExtra("REQUEST_CODE", "question_loader");
+                intent.putExtra("TITLE", "Questions");
+                startActivity(intent);
 
             }
 
