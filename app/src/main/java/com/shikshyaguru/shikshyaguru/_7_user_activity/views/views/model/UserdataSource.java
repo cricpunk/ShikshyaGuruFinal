@@ -5,10 +5,14 @@ import android.support.annotation.NonNull;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.database.SnapshotParser;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.views.UserLoaderInterface;
 import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.views.UserMainInterface;
+
+import java.util.HashMap;
 
 /*
  * Created by Pankaj Koirala on 4/11/2018.
@@ -56,6 +60,36 @@ public class UserdataSource implements UserDataSourceInterface {
 
     @Override
     public Object getUserProfileDetails(UserLoaderInterface loaderInterface, String uId) {
+        return null;
+    }
+
+    @Override
+    public Object getFollowers(String uid) {
+
+        Query followers = mDatabase.getReference().child("users").child(uid).child("followers");
+
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+        followers.addListenerForSingleValueEvent(valueEventListener);
+
+        SnapshotParser<HashMap<String, UserDetails>> snapshotParser = new SnapshotParser<HashMap<String, UserDetails>>() {
+            @NonNull
+            @Override
+            public HashMap<String, UserDetails> parseSnapshot(@NonNull DataSnapshot snapshot) {
+
+                return null;
+            }
+        };
+
         return null;
     }
 

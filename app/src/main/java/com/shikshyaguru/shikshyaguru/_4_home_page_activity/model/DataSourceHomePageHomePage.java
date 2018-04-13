@@ -16,6 +16,7 @@ import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.DrawerInterface
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.NavigationDrawerFragment;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -24,10 +25,12 @@ import java.util.List;
  * Kathmandu Nepal
  */
 
-public class DataSource implements DataSourceInterface {
+public class DataSourceHomePageHomePage implements DataSourceHomePageInterface, ValueEventListener {
 
     private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
     private String uId = NavigationDrawerFragment.currentUser.getUid();
+
+    private DrawerInterface drawerInterface;
 
     private final int[] DRAWER_MAIN_HEADER_ICONS = {
             R.drawable.ic_nd_user_home,
@@ -72,11 +75,10 @@ public class DataSource implements DataSourceInterface {
     };
 
 
-    public DataSource() {
+    public DataSourceHomePageHomePage() {
     }
 
-    @Override
-    public List<DrawerListItem> getListOfDrawerMainHeader() {
+    private List<DrawerListItem> getListOfDrawerMainHeader() {
         ArrayList<DrawerListItem> listOfData = new ArrayList<>();
 
         for (int i = 0; i < DRAWER_MAIN_HEADER.length; i++) {
@@ -91,30 +93,61 @@ public class DataSource implements DataSourceInterface {
     }
 
     @Override
-    public void getFavouriteInstitutionList(final DrawerInterface drawerInterface) {
+    public void setUpDrawerWithData(DrawerInterface drawerInterface) {
 
-        final DatabaseReference favRef = mDatabase.getReference().child("users").child(uId).child("favourites");
+        this.drawerInterface = drawerInterface;
 
-        favRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+        DatabaseReference favourites = mDatabase.getReference().child("users").child(uId).child("favourites");
+        DatabaseReference followers = mDatabase.getReference().child("users").child(uId).child("followers");
+        DatabaseReference following = mDatabase.getReference().child("users").child(uId).child("following");
 
+        favourites.addValueEventListener(this);
+        followers.addValueEventListener(this);
+        following.addValueEventListener(this);
+
+    }
+
+    @Override
+    public void onDataChange(DataSnapshot dataSnapshot) {
+
+        switch (dataSnapshot.getKey()) {
+
+            case "favourites":
                 ArrayList<String> favInstitution = new ArrayList<>();
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     favInstitution.add(snapshot.getKey());
                 }
-
                 drawerInterface.favouriteInstitutionList(favInstitution);
-                drawerInterface.setUpDrawerMainHeader(getListOfDrawerMainHeader());
-            }
+                break;
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+            case "followers":
+                HashMap<String, Boolean> followers = new HashMap<>();
 
-            }
-        });
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    followers.put(snapshot.getKey(), snapshot.child("status").getValue(Boolean.class));
+                }
+                drawerInterface.followerList(followers);
+                break;
 
+            case "following":
+                HashMap<String, Boolean> following = new HashMap<>();
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    following.put(snapshot.getKey(), snapshot.child("status").getValue(Boolean.class));
+                }
+                drawerInterface.followingList(following);
+                break;
+
+        }
+
+        //after getting all data display drawer items
+        drawerInterface.setUpDrawerMainHeader(getListOfDrawerMainHeader());
+    }
+
+    @Override
+    public void onCancelled(DatabaseError databaseError) {
+        System.out.println(databaseError.getMessage());
     }
 
     @Override
@@ -397,88 +430,5 @@ public class DataSource implements DataSourceInterface {
 
 
 
-
-
-
-
-
-//    public HashMap<String, String> displayAllCategory() {
-//
-//        final HashMap<String, String> categories = new HashMap<>();
-//
-//
-//        Query query = mDatabase.getReference().child("clients").child("category");
-//        query.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//
-//                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-//                    System.out.println("============================================");
-//                    System.out.println(postSnapshot.getKey() + " : " + postSnapshot.getValue());
-//                    System.out.println("============================================");
-//
-//                    categories.put(postSnapshot.getKey(), postSnapshot.getValue(String.class));
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-//
-//        return categories;
-//    }
-//
-//    public void getAllData() {
-//
-//        Query query = mDatabase.getReference().child("category");
-//        query.addListenerForSingleValueEvent(new ValueEventListener() {
-//
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//
-//                for (final DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-//
-//                    int cat = Integer.parseInt(postSnapshot.getKey());
-//
-//                    Query query1 = mDatabase.getReference().child("clients").orderByChild("category").equalTo(cat);
-//
-//                    query1.addListenerForSingleValueEvent(new ValueEventListener() {
-//                        @Override
-//                        public void onDataChange(DataSnapshot dataSnapshot) {
-//
-//
-//                            for (DataSnapshot pSnapshot : dataSnapshot.getChildren()) {
-//
-//                                CollegeListItem collegeList = new CollegeListItem();
-//
-//                                collegeList.setName(pSnapshot.child("name").getValue(String.class));
-//                                collegeList.setIcon_image(pSnapshot.child("icon_image").getValue(String.class));
-//                                collegeList.setCity(pSnapshot.child("address").child("city").getValue(String.class));
-//                                Double rating = pSnapshot.child("app_reviews").child("overall_rating").getValue(Double.class);
-//                                collegeList.setRating(String.valueOf(rating));
-//
-//                            }
-//
-//                        }
-//
-//                        @Override
-//                        public void onCancelled(DatabaseError databaseError) {
-//
-//                        }
-//                    });
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-//
-//    }
 
 }

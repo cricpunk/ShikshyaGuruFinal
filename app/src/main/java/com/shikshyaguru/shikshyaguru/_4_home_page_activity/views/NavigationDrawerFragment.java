@@ -35,11 +35,16 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.shikshyaguru.shikshyaguru.R;
 import com.shikshyaguru.shikshyaguru._0_7_shared_preferences.PrefManager;
 import com.shikshyaguru.shikshyaguru._3_signUp_activity.views.AuthenticationActivity;
 import com.shikshyaguru.shikshyaguru._3_signUp_activity.views.LoginFragment;
-import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.DataSource;
+import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.DataSourceHomePageHomePage;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.DrawerListItem;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.presenter.HomePageController;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionsHomePageActivity;
@@ -47,6 +52,7 @@ import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.views.UserHome
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -62,7 +68,11 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
 
     private LayoutInflater layoutInflater;
     private List<DrawerListItem> listOfDrawerHeader;
-    private ArrayList<String> favInstList;
+
+    private ArrayList<String> favInstList = new ArrayList<>();
+    private HashMap<String, Boolean> followersList = new HashMap<>();
+    private HashMap<String, Boolean> followingList = new HashMap<>();
+
     private HomePageController controller;
 
     private FirebaseAuth mAuth;
@@ -88,7 +98,7 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
         currentUser = mAuth.getCurrentUser();
 
         navigationDrawerSection();
-        controller = new HomePageController(this, new DataSource());
+        controller = new HomePageController(this, new DataSourceHomePageHomePage());
 
         return view;
     }
@@ -196,6 +206,16 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
     }
 
     @Override
+    public void followerList(HashMap<String, Boolean> followers) {
+        this.followersList = followers;
+    }
+
+    @Override
+    public void followingList(HashMap<String, Boolean> following) {
+        this.followingList = following;
+    }
+
+    @Override
     public void onUserProfileClickListener() {
         Intent intent = new Intent(getContext(), UserHomePageActivity.class);
         intent.putExtra("REQUEST_CODE", "user_loader");
@@ -232,11 +252,38 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
             DrawerListItem currentItem = listOfDrawerHeader.get(position);
             holder.mDrawerHeaderIcon.setImageResource(currentItem.getIcon());
             holder.mDrawerHeader.setText(currentItem.getHeader());
-            // Favourites
-            if (position == 2) {
-                holder.mDrawerNotiCounter.setVisibility(View.VISIBLE);
-                holder.mDrawerNotiCounter.setText(String.valueOf(favInstList.size()));
+
+            switch (position) {
+                // Favourites
+                case 2:
+                    if (favInstList.size() != 0 ) {
+                        holder.mDrawerNotiCounter.setVisibility(View.VISIBLE);
+                        holder.mDrawerNotiCounter.setText(String.valueOf(favInstList.size()));
+                    }
+                    break;
+
+                // Followers
+                case 3:
+                    if (followersList.size() != 0 ) {
+                        holder.mDrawerNotiCounter.setVisibility(View.VISIBLE);
+                        holder.mDrawerNotiCounter.setText(String.valueOf(followersList.size()));
+                    }
+                    break;
+
+                // Following
+                case 4:
+                    if (followingList.size() != 0 ) {
+                        holder.mDrawerNotiCounter.setVisibility(View.VISIBLE);
+                        holder.mDrawerNotiCounter.setText(String.valueOf(followingList.size()));
+                    }
+                    break;
+
+                // Default
+                default:
+                    holder.mDrawerNotiCounter.setVisibility(View.INVISIBLE);
+                    break;
             }
+
         }
 
         @Override
@@ -340,10 +387,32 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
             }
 
             private void openQuestions() {
-                Intent intent = new Intent(getContext(), UserHomePageActivity.class);
-                intent.putExtra("REQUEST_CODE", "question_loader");
-                intent.putExtra("TITLE", "Questions");
-                startActivity(intent);
+//                Intent intent = new Intent(getContext(), UserHomePageActivity.class);
+//                intent.putExtra("REQUEST_CODE", "question_loader");
+//                intent.putExtra("TITLE", "Questions");
+//                startActivity(intent);
+
+                FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
+                final Query followers = mDatabase.getReference().child("users").child(currentUser.getUid()).child("followers");
+
+                ValueEventListener valueEventListener = new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            System.out.println("==================================================");
+                            System.out.println(snapshot.getKey());
+                            System.out.println(snapshot.child("status").getKey() + " : " + snapshot.child("status").getValue());
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                };
+                followers.addListenerForSingleValueEvent(valueEventListener);
+
             }
 
             private void logout() {

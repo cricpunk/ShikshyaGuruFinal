@@ -8,6 +8,7 @@ package com.shikshyaguru.shikshyaguru._4_home_page_activity.views;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.DrawerListItem;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public interface DrawerInterface {
@@ -17,5 +18,9 @@ public interface DrawerInterface {
     void setUpDrawerMainHeader(List<DrawerListItem> drawerListItems);
 
     void favouriteInstitutionList(ArrayList<String> favInstList);
+
+    void followerList(HashMap<String, Boolean> followers);
+
+    void followingList(HashMap<String, Boolean> following);
 
 }

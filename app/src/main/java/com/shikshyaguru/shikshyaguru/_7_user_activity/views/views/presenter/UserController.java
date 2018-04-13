@@ -40,4 +40,9 @@ public class UserController {
     public void setUserProfile(String uId) {
         loaderInterface.setUserProfile(dataSource.getUserProfileDetails(loaderInterface, uId));
     }
+
+    public void displayFollowers(String uid) {
+        mainInterface.showSpinner();
+        mainInterface.setUpFollowers(dataSource.getFollowers(uid));
+    }
 }

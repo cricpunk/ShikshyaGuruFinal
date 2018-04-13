@@ -15,4 +15,6 @@ public interface UserDataSourceInterface {
 
     Object getUserProfileDetails(UserLoaderInterface loaderInterface, String uId);
 
+    Object getFollowers(String uid);
+
 }

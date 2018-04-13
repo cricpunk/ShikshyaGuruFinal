@@ -20,4 +20,6 @@ public interface UserMainInterface {
 
     void openUserLoaderPage(UserDetails userDetails);
 
+    void setUpFollowers(Object followers);
+
 }

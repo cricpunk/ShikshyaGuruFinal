@@ -2,7 +2,7 @@ package com.shikshyaguru.shikshyaguru._4_home_page_activity.presenter;
 
 import android.app.ActivityOptions;
 
-import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.DataSourceInterface;
+import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.DataSourceHomePageInterface;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.InstitutionsListItemParent;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.NewsListItem;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.DrawerInterface;
@@ -17,10 +17,10 @@ import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.ViewInterface;
 public class HomePageController {
 
     private ViewInterface view;
-    private DataSourceInterface dataSource;
+    private DataSourceHomePageInterface dataSource;
     private DrawerInterface drawerInterface;
 
-    public HomePageController(ViewInterface view, DataSourceInterface dataSource) {
+    public HomePageController(ViewInterface view, DataSourceHomePageInterface dataSource) {
         this.view = view;
         this.dataSource = dataSource;
 
@@ -31,20 +31,12 @@ public class HomePageController {
 
     }
 
-    public HomePageController(DrawerInterface drawerInterface, DataSourceInterface dataSource) {
+    public HomePageController(DrawerInterface drawerInterface, DataSourceHomePageInterface dataSource) {
         this.dataSource = dataSource;
         this.drawerInterface = drawerInterface;
-        getFavouriteInstitutionList();
-        //setUpDrawerMainHeaderWithData();
+        dataSource.setUpDrawerWithData(drawerInterface);
     }
 
-    private void setUpDrawerMainHeaderWithData() {
-        //drawerInterface.setUpDrawerMainHeader(dataSource.getListOfDrawerMainHeader());
-    }
-
-    private void getFavouriteInstitutionList() {
-        dataSource.getFavouriteInstitutionList(drawerInterface);
-    }
 
     public void onUserProfileClick() {
         drawerInterface.onUserProfileClickListener();

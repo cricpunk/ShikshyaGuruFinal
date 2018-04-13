@@ -15,7 +15,7 @@ import java.util.List;
  * without giving implementation details
  */
 
-public interface DataSourceInterface {
+public interface DataSourceHomePageInterface {
 
     // Get details of candidates for home page slider
     FirebaseRecyclerOptions<HomePageSliderListItem> getSponsorDetail();
@@ -43,14 +43,11 @@ public interface DataSourceInterface {
 
     List<ListOfTotalInstitutions> getTotalInstitutionsHeading();
 
-    //Get list of Drawer main header
-    List<DrawerListItem> getListOfDrawerMainHeader();
-
     //Get list of Home Page Options name
     List<HomePageOptionsListItem> getListOfOptions();
 
     String getSlogan(String id);
 
-    void getFavouriteInstitutionList(DrawerInterface drawerInterface);
+    void setUpDrawerWithData(DrawerInterface drawerInterface);
 
 }

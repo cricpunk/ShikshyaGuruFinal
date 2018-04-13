@@ -31,6 +31,7 @@ import com.shikshyaguru.shikshyaguru._0_6_widgets.PopupCollections;
 import com.shikshyaguru.shikshyaguru._0_6_widgets.StatusBar;
 import com.shikshyaguru.shikshyaguru._0_6_widgets.Toolbars;
 import com.shikshyaguru.shikshyaguru._3_signUp_activity.views.LoginFragment;
+import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.NavigationDrawerFragment;
 import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.model.UserDetails;
 import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.model.UserdataSource;
 import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.presenter.UserController;
@@ -79,7 +80,22 @@ public class UserMainFragment extends Fragment implements UserMainInterface {
         initComponents(view);
 
         controller = new UserController(this, new UserdataSource());
-        controller.displayAllUser(category);
+
+        switch (category) {
+
+            case "followers":
+
+                break;
+            case "following":
+                controller.displayFollowers(NavigationDrawerFragment.currentUser.getUid());
+                break;
+            default:
+                controller.displayAllUser(category);
+                break;
+
+        }
+
+
 
         return view;
 
@@ -124,6 +140,11 @@ public class UserMainFragment extends Fragment implements UserMainInterface {
         userRecyclerView.setHasFixedSize(true);
 
         newsAdapter.startListening();
+
+    }
+
+    @Override
+    public void setUpFollowers(Object followers) {
 
     }
 

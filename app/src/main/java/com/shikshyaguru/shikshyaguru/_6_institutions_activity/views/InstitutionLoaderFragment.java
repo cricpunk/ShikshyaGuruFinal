@@ -267,11 +267,11 @@ public class InstitutionLoaderFragment extends Fragment implements InstitutionLo
     @Override
     public void reviewInstitution() {
         Toast.makeText(getContext(), "Review", Toast.LENGTH_SHORT).show();
+        //viewPagerTab.getTabAt(8).setSelected(true);
     }
 
     @Override
     public void suggestFriends() {
-        Toast.makeText(getContext(), "Suggest", Toast.LENGTH_SHORT).show();
 
         FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
 
