@@ -199,6 +199,16 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
     public void onUserProfileClickListener() {
         Intent intent = new Intent(getContext(), UserHomePageActivity.class);
         intent.putExtra("REQUEST_CODE", "user_loader");
+        intent.putExtra("UID", currentUser.getUid());
+        intent.putExtra("IMAGE", currentUser.getPhotoUrl());
+        intent.putExtra("NAME", currentUser.getDisplayName());
+
+        String[] emailArr = Objects.requireNonNull(currentUser.getEmail()).split("@");
+        String userName = emailArr[0];
+
+        intent.putExtra("USER_NAME", userName);
+//        intent.putExtra("TYPE", userDetails.getUserType());
+//        intent.putExtra("INSTITUTION", userDetails.getInstitution());
         startActivity(intent);
 
     }
@@ -317,6 +327,7 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
                 Intent intent = new Intent(getContext(), UserHomePageActivity.class);
                 intent.putExtra("REQUEST_CODE", "user_main");
                 intent.putExtra("TITLE", "Followers");
+                intent.putExtra("CATEGORY", "followers");
                 startActivity(intent);
             }
 
@@ -324,6 +335,7 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
                 Intent intent = new Intent(getContext(), UserHomePageActivity.class);
                 intent.putExtra("REQUEST_CODE", "user_main");
                 intent.putExtra("TITLE", "Following");
+                intent.putExtra("CATEGORY", "following");
                 startActivity(intent);
             }
 

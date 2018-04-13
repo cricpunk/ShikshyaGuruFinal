@@ -14,8 +14,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_answer_icon" />
-                            <entry key="sourceFile" value="D:\Android assets\quill.svg" />
+                            <entry key="outputName" value="ic_map_cycling" />
+                            <entry key="sourceFile" value="D:\Android assets\man-cycling.svg" />
                           </map>
                         </option>
                       </PersistentState>

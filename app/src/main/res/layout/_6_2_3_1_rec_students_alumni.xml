@@ -81,7 +81,7 @@
                     android:background="#50FAFAFA" />
 
                 <TextView
-                    android:id="@+id/lbl_name"
+                    android:id="@+id/lbl_user_loader_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"

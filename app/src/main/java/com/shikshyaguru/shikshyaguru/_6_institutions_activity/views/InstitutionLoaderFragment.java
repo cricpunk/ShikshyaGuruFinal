@@ -5,6 +5,7 @@ package com.shikshyaguru.shikshyaguru._6_institutions_activity.views;
  * Koiralapankaj007@gmail.com
  */
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -49,6 +50,8 @@ import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fr
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerStaffFragment;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerStudentsFragment;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerTeachersFragment;
+import com.shikshyaguru.shikshyaguru._8_map_activitiy.GPSTracker;
+import com.shikshyaguru.shikshyaguru._8_map_activitiy.MapsActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.Objects;
@@ -250,7 +253,15 @@ public class InstitutionLoaderFragment extends Fragment implements InstitutionLo
 
     @Override
     public void navigateDirection() {
-        Toast.makeText(getContext(), "Navigation", Toast.LENGTH_SHORT).show();
+
+        GPSTracker gpsTracker = new GPSTracker(getContext());
+        if (gpsTracker.canGetLocation()) {
+            Intent intent = new Intent(getContext(),  MapsActivity.class);
+            startActivity(intent);
+        } else {
+            gpsTracker.showSettingsAlert();
+        }
+
     }
 
     @Override

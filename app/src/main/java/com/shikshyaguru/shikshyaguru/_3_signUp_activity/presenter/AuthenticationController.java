@@ -6,7 +6,7 @@ package com.shikshyaguru.shikshyaguru._3_signUp_activity.presenter;
  */
 
 import com.shikshyaguru.shikshyaguru._3_signUp_activity.model.NewUserData;
-import com.shikshyaguru.shikshyaguru._3_signUp_activity.model.UserDataSourceInterface;
+import com.shikshyaguru.shikshyaguru._3_signUp_activity.model.AuthUserDataSourceInterface;
 import com.shikshyaguru.shikshyaguru._3_signUp_activity.views.LoginViewInterface;
 import com.shikshyaguru.shikshyaguru._3_signUp_activity.views.SignUpViewInterface;
 
@@ -14,14 +14,14 @@ public class AuthenticationController {
 
     private LoginViewInterface loginViewInterface;
     private SignUpViewInterface signUpViewInterface;
-    private UserDataSourceInterface dataSource;
+    private AuthUserDataSourceInterface dataSource;
 
-    public AuthenticationController(LoginViewInterface viewInterface, UserDataSourceInterface dataSource) {
+    public AuthenticationController(LoginViewInterface viewInterface, AuthUserDataSourceInterface dataSource) {
         this.loginViewInterface = viewInterface;
         this.dataSource = dataSource;
     }
 
-    public AuthenticationController(SignUpViewInterface signUpViewInterface, UserDataSourceInterface dataSource) {
+    public AuthenticationController(SignUpViewInterface signUpViewInterface, AuthUserDataSourceInterface dataSource) {
         this.signUpViewInterface = signUpViewInterface;
         this.dataSource = dataSource;
     }

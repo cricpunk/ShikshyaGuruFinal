@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/root_user_loader"
+    android:id="@+id/root_user_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
@@ -21,17 +21,27 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rec_user_loader"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorBackground"
-            android:clipToPadding="false"
-            android:paddingBottom="@dimen/margin_standard"
-            android:paddingEnd="@dimen/margin_short"
-            android:paddingStart="@dimen/margin_short"
-            android:paddingTop="6dp"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rec_user_main_loader"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorBackground"
+                android:clipToPadding="false"
+                android:paddingBottom="@dimen/margin_standard"
+                android:paddingEnd="@dimen/margin_short"
+                android:paddingStart="@dimen/margin_short"
+                android:paddingTop="6dp" />
+
+            <include
+                layout="@layout/progress_bar_layout"/>
+
+        </RelativeLayout>
+
 
     </android.support.design.widget.CoordinatorLayout>
 

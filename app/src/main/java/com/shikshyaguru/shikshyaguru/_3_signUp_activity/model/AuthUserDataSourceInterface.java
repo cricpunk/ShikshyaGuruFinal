@@ -5,7 +5,7 @@ package com.shikshyaguru.shikshyaguru._3_signUp_activity.model;
  * Koiralapankaj007@gmail.com
  */
 
-public interface UserDataSourceInterface {
+public interface AuthUserDataSourceInterface {
 
     void createNewUser(String uId, NewUserData newUserData);
 

@@ -7,7 +7,7 @@ package com.shikshyaguru.shikshyaguru._3_signUp_activity.model;
 
 import com.google.firebase.database.FirebaseDatabase;
 
-public class UserDataSource implements UserDataSourceInterface{
+public class AuthAuthUserDataSource implements AuthUserDataSourceInterface {
 
     private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
 

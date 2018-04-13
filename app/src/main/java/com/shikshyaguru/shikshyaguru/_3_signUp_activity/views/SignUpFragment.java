@@ -26,7 +26,7 @@ import com.shikshyaguru.shikshyaguru._0_6_widgets.Styles;
 import com.shikshyaguru.shikshyaguru._0_7_shared_preferences.PrefManager;
 import com.shikshyaguru.shikshyaguru._0_8_validation.PerformValidation;
 import com.shikshyaguru.shikshyaguru._3_signUp_activity.model.NewUserData;
-import com.shikshyaguru.shikshyaguru._3_signUp_activity.model.UserDataSource;
+import com.shikshyaguru.shikshyaguru._3_signUp_activity.model.AuthAuthUserDataSource;
 import com.shikshyaguru.shikshyaguru._3_signUp_activity.presenter.AuthenticationController;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.HomePageActivity;
 
@@ -73,7 +73,7 @@ public class SignUpFragment extends Fragment implements SignUpViewInterface, Vie
         prefManager = new PrefManager(Objects.requireNonNull(getContext()), LoginFragment.PREF_NAME);
         mAuth = FirebaseAuth.getInstance();
 
-        controller = new AuthenticationController(this, new UserDataSource());
+        controller = new AuthenticationController(this, new AuthAuthUserDataSource());
 
         return view;
     }

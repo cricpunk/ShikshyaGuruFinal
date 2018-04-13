@@ -23,7 +23,7 @@
             android:layout_height="wrap_content">
 
             <android.support.v7.widget.CardView
-                android:id="@+id/main"
+                android:id="@+id/iv_user_loader_profile_bg"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:layout_marginBottom="@dimen/margin_standard"
@@ -41,7 +41,7 @@
                     android:layout_marginTop="50dp">
 
                     <TextView
-                        android:id="@+id/lbl_name"
+                        android:id="@+id/lbl_user_loader_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical|start"
@@ -55,10 +55,10 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/lbl_occupation"
+                        android:id="@+id/lbl_user_loader_user_type"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/lbl_name"
+                        android:layout_below="@+id/lbl_user_loader_name"
                         android:gravity="center_vertical|start"
                         android:paddingBottom="@dimen/margin_extra_short"
                         android:paddingLeft="@dimen/margin_standard"
@@ -68,10 +68,10 @@
                         android:textSize="14sp" />
 
                     <TextView
-                        android:id="@+id/lbl_occupation_place"
+                        android:id="@+id/lbl_user_loader_institution_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/lbl_occupation"
+                        android:layout_below="@+id/lbl_user_loader_user_type"
                         android:gravity="center_vertical|start"
                         android:paddingBottom="@dimen/margin_extra_short"
                         android:paddingLeft="@dimen/margin_standard"
@@ -81,15 +81,13 @@
                         android:textSize="14sp" />
 
                     <TextView
-                        android:id="@+id/lbl_follow_btn"
+                        android:id="@+id/btn_user_loader_follow_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignBottom="@+id/lbl_occupation_place"
+                        android:layout_alignBottom="@+id/lbl_user_loader_institution_name"
                         android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
                         android:layout_marginBottom="@dimen/margin_extra_short"
                         android:layout_marginEnd="@dimen/margin_standard"
-                        android:layout_marginRight="@dimen/margin_standard"
                         android:background="@drawable/button_pressed"
                         android:clickable="true"
                         android:focusable="true"
@@ -103,7 +101,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.1dp"
-                        android:layout_below="@+id/lbl_occupation_place"
+                        android:layout_below="@+id/lbl_user_loader_institution_name"
                         android:layout_marginTop="@dimen/margin_short"
                         android:background="#50000000" />
 
@@ -111,7 +109,7 @@
                         android:id="@+id/l_follow"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/lbl_occupation_place"
+                        android:layout_below="@+id/lbl_user_loader_institution_name"
                         android:layout_marginTop="@dimen/margin_standard"
                         android:baselineAligned="false"
                         android:orientation="horizontal"
@@ -134,6 +132,7 @@
                                 android:textSize="12sp" />
 
                             <TextView
+                                android:id="@+id/lbl_user_loader_question"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
@@ -160,6 +159,7 @@
                                 android:textSize="12sp" />
 
                             <TextView
+                                android:id="@+id/lbl_user_loader_answer"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
@@ -186,6 +186,7 @@
                                 android:textSize="12sp" />
 
                             <TextView
+                                android:id="@+id/lbl_user_loader_follower"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
@@ -212,6 +213,7 @@
                                 android:textSize="12sp" />
 
                             <TextView
+                                android:id="@+id/lbl_user_loader_following"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
@@ -232,6 +234,7 @@
                         android:background="#50000000" />
 
                     <TextView
+                        android:id="@+id/lbl_user_loader_email"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_below="@+id/v_bottom"
@@ -245,6 +248,7 @@
             </android.support.v7.widget.CardView>
 
             <com.github.siyamed.shapeimageview.CircularImageView
+                android:id="@+id/iv_user_loader_profile_pic"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginStart="32dp"
@@ -256,7 +260,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="1000dp"
-                android:layout_below="@+id/main"
+                android:layout_below="@+id/iv_user_loader_profile_bg"
                 android:background="#E6FAFAFA">
 
                 <LinearLayout
@@ -267,7 +271,7 @@
                     android:weightSum="2">
 
                     <TextView
-                        android:id="@+id/btn_user_ask_question"
+                        android:id="@+id/btn_user_loader_ask_question"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -280,7 +284,7 @@
                         android:textSize="20sp" />
 
                     <TextView
-                        android:id="@+id/btn_user_send_message"
+                        android:id="@+id/btn_user_loader_send_message"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -303,6 +307,17 @@
                     android:orientation="horizontal"
                     android:weightSum="2">
 
+                    <TextView
+                        android:id="@+id/btn_user_loader_all_user"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/button_pressed_no_round"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center"
+                        android:text="@string/see_peoples"
+                        android:textColor="#CCFAFAFA"
+                        android:textSize="20sp" />
 
                 </LinearLayout>
 

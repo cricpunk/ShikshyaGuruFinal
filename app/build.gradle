@@ -39,6 +39,7 @@ dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    implementation 'com.google.android.gms:play-services-maps:12.0.1'
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -122,6 +123,10 @@ dependencies {
 
     //Vector child finder
     compile 'com.github.devsideal:VectorChildFinder:1.0.0'
+
+    // Google map direction
+    compile "com.google.android.gms:play-services-location:12.0.1"
+    compile 'com.akexorcist:googledirectionlibrary:1.1.1'
 
     testImplementation 'junit:junit:4.12'
 

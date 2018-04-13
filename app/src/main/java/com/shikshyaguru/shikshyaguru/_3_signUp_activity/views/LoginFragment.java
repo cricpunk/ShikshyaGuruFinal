@@ -42,7 +42,7 @@ import com.shikshyaguru.shikshyaguru._0_6_widgets.PopupCollections;
 import com.shikshyaguru.shikshyaguru._0_6_widgets.Styles;
 import com.shikshyaguru.shikshyaguru._0_7_shared_preferences.PrefManager;
 import com.shikshyaguru.shikshyaguru._3_signUp_activity.model.NewUserData;
-import com.shikshyaguru.shikshyaguru._3_signUp_activity.model.UserDataSource;
+import com.shikshyaguru.shikshyaguru._3_signUp_activity.model.AuthAuthUserDataSource;
 import com.shikshyaguru.shikshyaguru._3_signUp_activity.presenter.AuthenticationController;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.HomePageActivity;
 import com.twitter.sdk.android.core.Callback;
@@ -134,7 +134,7 @@ public class LoginFragment extends Fragment implements LoginViewInterface, View.
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        controller = new AuthenticationController(this, new UserDataSource());
+        controller = new AuthenticationController(this, new AuthAuthUserDataSource());
     }
 
     // Initialize views

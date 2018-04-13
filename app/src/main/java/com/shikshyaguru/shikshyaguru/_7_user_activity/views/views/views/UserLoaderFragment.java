@@ -1,5 +1,6 @@
 package com.shikshyaguru.shikshyaguru._7_user_activity.views.views.views;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,10 +12,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.shikshyaguru.shikshyaguru.R;
+import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.model.UserdataSource;
+import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.presenter.UserController;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
+import com.squareup.picasso.Picasso;
 
 import java.util.Objects;
 
@@ -24,44 +29,92 @@ import java.util.Objects;
  * Koiralapankaj007@gmail.com
  */
 
-public class UserLoaderFragment extends Fragment implements View.OnClickListener {
+public class UserLoaderFragment extends Fragment implements View.OnClickListener, UserLoaderInterface {
 
-    private View rootView;
-    private LayoutInflater inflater;
-    private SlidingUpPanelLayout mLayout;
-    private View mainLayout;
+    private SlidingUpPanelLayout mainLayout;
+    private View frontLayout;
     private View bgLayout;
 
-    private TextView sendMessage;
-    private TextView askQuestion;
+    private ImageView bProfileBg, bBtnMenu, bBtnMoreIcon;
+
+    private ImageView fUserProfilePic;
+    private TextView fName, fType, fInstitution, fQuestion, fAnswer, fFollower, fFollowing, fMail;
+    private TextView fBtnFollow, fBtnSendMessage, fBtnAskQuestion, fBtnSeeAllPeople;
+
+    private UserController controller;
+
+    private String uId, image, name, uName, type, institution;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        this.inflater = inflater;
-        return inflater.inflate(R.layout._7_1_0_user_loader_fragment, container, false);
+        View view = inflater.inflate(R.layout._7_1_0_user_loader_fragment, container, false);
+
+        if (getArguments() != null) {
+
+            this.uId = getArguments().getString("UID");
+            this.image = getArguments().getString("IMAGE");
+            this.name = getArguments().getString("NAME");
+            this.uName = getArguments().getString("USER_NAME");
+            this.type = getArguments().getString("TYPE");
+            this.institution = getArguments().getString("INSTITUTION");
+
+        }
+
+
+        initComponents(view);
+        initToolbarAndLayout();
+        initSlidingPanel();
+
+        controller = new UserController(this, new UserdataSource());
+
+        controller.setUserProfile(uId);
+
+        return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        this.rootView = view;
-
-        bgLayout = view.findViewById(R.id.i_background_content);
-        mainLayout = view.findViewById(R.id.i_main_content);
-
-        sendMessage = mainLayout.findViewById(R.id.btn_user_send_message);
-        askQuestion = mainLayout.findViewById(R.id.btn_user_ask_question);
-        sendMessage.setOnClickListener(this);
-        askQuestion.setOnClickListener(this);
-
-        initToolbarAndLayout();
-        initSlidingPanel();
     }
 
+    private void initComponents(View view ) {
+
+        mainLayout = view.findViewById(R.id.sliding_layout);
+        bgLayout = view.findViewById(R.id.include_background_content);
+        frontLayout = view.findViewById(R.id.include_main_content);
+
+        bProfileBg = bgLayout.findViewById(R.id.iv_user_loader_profile_bg);
+        bBtnMenu = bgLayout.findViewById(R.id.iv_user_loader_menu);
+        bBtnMoreIcon = bgLayout.findViewById(R.id.iv_user_loader_more_icon);
+
+//        private ImageView fUserProfilePic;
+//        private TextView fName, fType, fInstitution, fQuestion, fAnswer, fFollower, fFollowing, Fmail;
+//        private TextView fBtnFollow, fBtnSendMessage, fBtnAskQuestion, fBtnSeeAllPeople;
+
+        fUserProfilePic = frontLayout.findViewById(R.id.iv_user_loader_profile_pic);
+        fName = frontLayout.findViewById(R.id.lbl_user_loader_name);
+        fType = frontLayout.findViewById(R.id.lbl_user_loader_user_type);
+        fInstitution = frontLayout.findViewById(R.id.lbl_user_loader_institution_name);
+        fQuestion = frontLayout.findViewById(R.id.lbl_user_loader_question);
+        fAnswer = frontLayout.findViewById(R.id.lbl_user_loader_answer);
+        fFollower = frontLayout.findViewById(R.id.lbl_user_loader_follower);
+        fFollowing = frontLayout.findViewById(R.id.lbl_user_loader_following);
+        fMail = frontLayout.findViewById(R.id.lbl_user_loader_email);
+
+        fBtnFollow = frontLayout.findViewById(R.id.btn_user_loader_follow_btn);
+        fBtnSendMessage = frontLayout.findViewById(R.id.btn_user_loader_send_message);
+        fBtnAskQuestion = frontLayout.findViewById(R.id.btn_user_loader_ask_question);
+        fBtnSeeAllPeople = frontLayout.findViewById(R.id.btn_user_loader_all_user);
+
+        fBtnSendMessage.setOnClickListener(this);
+        fBtnAskQuestion.setOnClickListener(this);
+        fBtnSeeAllPeople.setOnClickListener(this);
+
+    }
 
     private void initToolbarAndLayout() {
-        Toolbar toolbar = bgLayout.findViewById(R.id.tb_user_main_frag);
+        Toolbar toolbar = bgLayout.findViewById(R.id.tb_user_loader_frag);
         ((AppCompatActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(toolbar);
 
         ActionBar getSupportActionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
@@ -73,16 +126,15 @@ public class UserLoaderFragment extends Fragment implements View.OnClickListener
     }
 
     private void initSlidingPanel() {
-        mLayout = rootView.findViewById(R.id.sliding_layout);
 
-        mLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+        mainLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
                 Log.i("Sliding Up", "onPanelSlide, offset " + slideOffset);
-                if (mLayout != null) {
-                    if (mLayout.getAnchorPoint() == 1.0f) {
-                        mLayout.setAnchorPoint(0.19f);
-                        mLayout.setPanelState(SlidingUpPanelLayout.PanelState.ANCHORED);
+                if (mainLayout != null) {
+                    if (mainLayout.getAnchorPoint() == 1.0f) {
+                        mainLayout.setAnchorPoint(0.19f);
+                        mainLayout.setPanelState(SlidingUpPanelLayout.PanelState.ANCHORED);
                     }
                 }
 
@@ -94,17 +146,65 @@ public class UserLoaderFragment extends Fragment implements View.OnClickListener
             }
         });
 
-//        mLayout.setFadeOnClickListener(new View.OnClickListener() {
+//        mainLayout.setFadeOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
-//                mLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+//                mainLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
 //            }
 //        });
 
     }
 
     @Override
-    public void onClick(View v) {
+    public void setUserProfile(Object userProfileDetails) {
+
+        Picasso.get()
+                .load(image)
+                .fit()
+                .centerCrop()
+                .placeholder(R.drawable.ic_user)
+                .into(fUserProfilePic);
+        fName.setText(name);
+        if (type != null) {
+            switch (type) {
+                case "1":
+                    fType.setText(R.string.typeStudent);
+                    break;
+                case "2":
+                    fType.setText(R.string.typeTeacher);
+                    break;
+                case "3":
+                    fType.setText(R.string.typeInstitution);
+                    break;
+                default:
+                    break;
+
+            }
+        }
+        fInstitution.setText(institution);
 
     }
+
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+
+            case R.id.btn_user_loader_send_message:
+                break;
+
+            case R.id.btn_user_loader_ask_question:
+                break;
+
+            case R.id.btn_user_loader_all_user:
+                Intent intent = new Intent(getContext(), UserHomePageActivity.class);
+                intent.putExtra("REQUEST_CODE", "user_main");
+                intent.putExtra("TITLE", "Users");
+                intent.putExtra("CATEGORY", "all");
+                startActivity(intent);
+                break;
+
+        }
+    }
+
 }

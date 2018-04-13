@@ -6,4 +6,7 @@ package com.shikshyaguru.shikshyaguru._7_user_activity.views.views.views;
  * Koiralapankaj007@gmail.com
  */
 public interface UserLoaderInterface {
+
+    void setUserProfile(Object userProfileDetails);
+
 }

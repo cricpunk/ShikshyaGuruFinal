@@ -15,8 +15,8 @@
 
     <!-- BACKGROUND CONTENT -->
     <include
-        android:id="@+id/i_background_content"
-        layout="@layout/_7_1_1_bg_content" />
+        android:id="@+id/include_background_content"
+        layout="@layout/_7_1_1_loader_bg_content" />
 
     <!-- MAIN LAYOUT -->
     <RelativeLayout
@@ -26,8 +26,8 @@
         android:fitsSystemWindows="true">
 
         <include
-            android:id="@+id/i_main_content"
-            layout="@layout/_7_1_2_main_content" />
+            android:id="@+id/include_main_content"
+            layout="@layout/_7_1_2_loader_main_content" />
 
     </RelativeLayout>
 
