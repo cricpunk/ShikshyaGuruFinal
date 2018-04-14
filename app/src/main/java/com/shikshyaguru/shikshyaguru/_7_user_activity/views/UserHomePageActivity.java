@@ -1,4 +1,4 @@
-package com.shikshyaguru.shikshyaguru._7_user_activity.views.views.views;
+package com.shikshyaguru.shikshyaguru._7_user_activity.views;
 /*
  * Created by Pankaj Koirala on 9/30/2017.
  * Kathmandu, Nepal

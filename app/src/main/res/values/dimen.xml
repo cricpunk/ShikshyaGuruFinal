@@ -13,4 +13,25 @@
 
     <dimen name="search_view_inset">5dp</dimen>
     <dimen name="drawer_right_margin">28dp</dimen>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+
+    <dimen name="size_avatar_toolbar">40dp</dimen>
+    <dimen name="spacing_double">16dp</dimen>
+    <dimen name="elevation_header">4dp</dimen>
+
 </resources>

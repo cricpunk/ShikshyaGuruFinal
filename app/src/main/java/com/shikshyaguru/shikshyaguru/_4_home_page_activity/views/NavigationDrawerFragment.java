@@ -43,7 +43,7 @@ import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.DataSourceHomeP
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.DrawerListItem;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.presenter.HomePageController;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionsHomePageActivity;
-import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.views.UserHomePageActivity;
+import com.shikshyaguru.shikshyaguru._7_user_activity.views.UserHomePageActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

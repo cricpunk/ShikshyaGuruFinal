@@ -1,8 +1,9 @@
-package com.shikshyaguru.shikshyaguru._7_user_activity.views.views.model;
+package com.shikshyaguru.shikshyaguru._7_user_activity.model;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.views.UserLoaderInterface;
-import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.views.UserMainInterface;
+import com.shikshyaguru.shikshyaguru._7_user_activity.views.ChatInterface;
+import com.shikshyaguru.shikshyaguru._7_user_activity.views.UserLoaderInterface;
+import com.shikshyaguru.shikshyaguru._7_user_activity.views.UserMainInterface;
 
 import java.util.HashMap;
 
@@ -20,5 +21,7 @@ public interface UserDataSourceInterface {
     Object getUserProfileDetails(UserLoaderInterface loaderInterface, String uId);
 
     void makeInstitutionSuggestionToFriend(UserMainInterface mainInterface, String friendId, String institutionId);
+
+    void getChatDetails(ChatInterface chatInterface, String friendUID);
 
 }

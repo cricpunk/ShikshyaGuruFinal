@@ -187,4 +187,16 @@ Quam libero nulla netus eu porta curae, ut nulla bibendum facilisis et urna sed,
     <string name="requested">Requested</string>
     <string name="suggest">Suggest</string>
 
+
+
+    <string name="sign_out">Sign Out</string>
+    <string name="select_picture_title">Get Photo From</string>
+    <string name="sendPhotoGallery">Photo Gallery</string>
+    <string name="api_key_google_places">AIzaSyAjtK7AX_7jIKJvVtA1U4-8G5balokGKy8</string>
+    <string name="sendLocation">Send Location</string>
+    <string name="locationTo">Localização Enviada</string>
+    <string name="sendPhoto">Photo Camera</string>
+    <string name="message_hint">Message ...</string>
+
+
 </resources>

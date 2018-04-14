@@ -80,14 +80,14 @@
             android:name="._6_institutions_activity.views.InstitutionsHomePageActivity"
             android:theme="@style/UserProfileTheme" />
         <activity
-            android:name="._7_user_activity.views.views.views.UserHomePageActivity"
+            android:name="._7_user_activity.views.UserHomePageActivity"
             android:theme="@style/UserProfileTheme" />
 
-        <!-- Maps Android Key -->
-        <!-- <meta-data -->
-        <!-- android:name="com.google.android.geo.API_KEY" -->
-        <!-- android:value="AIzaSyAjtK7AX_7jIKJvVtA1U4-8G5balokGKy8" /> -->
-        <!-- Maps Android Key -->
+        <!--Maps Android Key-->
+        <!--<meta-data-->
+            <!--android:name="com.google.android.geo.API_KEY"-->
+            <!--android:value="AIzaSyAjtK7AX_7jIKJvVtA1U4-8G5balokGKy8" />-->
+        <!--Maps Android Key-->
 
 
         <!-- AIzaSyDKWtTj0AZg_mFHy6_lgu9X5PGndih8VXo -->
@@ -101,7 +101,7 @@
 
         <activity
             android:name="._8_map_activitiy.MapsActivity"
-            android:label="@string/title_activity_maps"/>
+            android:label="@string/title_activity_maps" />
 
     </application>
 

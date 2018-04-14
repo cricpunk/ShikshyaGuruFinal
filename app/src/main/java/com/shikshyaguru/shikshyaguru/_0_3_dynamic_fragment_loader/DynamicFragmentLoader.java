@@ -19,10 +19,11 @@ import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionM
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerGalleryLoader;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerGalleryLoaderImageLoader;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerProgrammesCoursesLoader;
-import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.views.MessageFragment;
-import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.views.QuestionsFragment;
-import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.views.UserLoaderFragment;
-import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.views.UserMainFragment;
+import com.shikshyaguru.shikshyaguru._7_user_activity.views.ChatFragment;
+import com.shikshyaguru.shikshyaguru._7_user_activity.views.MessageFragment;
+import com.shikshyaguru.shikshyaguru._7_user_activity.views.QuestionsFragment;
+import com.shikshyaguru.shikshyaguru._7_user_activity.views.UserLoaderFragment;
+import com.shikshyaguru.shikshyaguru._7_user_activity.views.UserMainFragment;
 
 
 public class DynamicFragmentLoader {
@@ -69,6 +70,9 @@ public class DynamicFragmentLoader {
                         break;
                     case "message_loader":
                         showFragment(new MessageFragment(), fragHolderId, fragmentManager);
+                        break;
+                    case "chat_loader":
+                        showFragment(openChatFragment(bundle), fragHolderId, fragmentManager);
                         break;
                     case "question_loader":
                         showFragment(new QuestionsFragment(), fragHolderId, fragmentManager);
@@ -136,6 +140,12 @@ public class DynamicFragmentLoader {
         UserLoaderFragment loaderFragment = new UserLoaderFragment();
         loaderFragment.setArguments(bundle);
         return loaderFragment;
+    }
+
+    private static ChatFragment openChatFragment(Bundle bundle) {
+        ChatFragment chatFragment = new ChatFragment();
+        chatFragment.setArguments(bundle);
+        return chatFragment;
     }
 
 }

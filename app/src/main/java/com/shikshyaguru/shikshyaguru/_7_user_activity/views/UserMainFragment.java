@@ -1,4 +1,4 @@
-package com.shikshyaguru.shikshyaguru._7_user_activity.views.views.views;
+package com.shikshyaguru.shikshyaguru._7_user_activity.views;
 /*
  * Created by Pankaj Koirala on 9/30/2017.
  * Kathmandu, Nepal
@@ -34,9 +34,9 @@ import com.shikshyaguru.shikshyaguru._0_6_widgets.PopupCollections;
 import com.shikshyaguru.shikshyaguru._0_6_widgets.StatusBar;
 import com.shikshyaguru.shikshyaguru._0_6_widgets.Toolbars;
 import com.shikshyaguru.shikshyaguru._3_signUp_activity.views.LoginFragment;
-import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.model.UserDetails;
-import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.model.UserdataSource;
-import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.presenter.UserController;
+import com.shikshyaguru.shikshyaguru._7_user_activity.model.UserDetails;
+import com.shikshyaguru.shikshyaguru._7_user_activity.model.UserdataSource;
+import com.shikshyaguru.shikshyaguru._7_user_activity.presenter.UserController;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -346,7 +346,13 @@ public class UserMainFragment extends Fragment implements UserMainInterface {
 
             switch (v.getId()) {
                 case R.id.root_user:
-                    controller.openUserLoaderPage(userDetails);
+                    //controller.openUserLoaderPage(userDetails);
+
+                    Intent intent = new Intent(getContext(), UserHomePageActivity.class);
+                    intent.putExtra("REQUEST_CODE", "chat_loader");
+                    intent.putExtra("TITLE", userDetails.getName());
+                    intent.putExtra("UID", userDetails.getuId());
+                    startActivity(intent);
                     break;
 
                 case R.id.btn_follow_following:

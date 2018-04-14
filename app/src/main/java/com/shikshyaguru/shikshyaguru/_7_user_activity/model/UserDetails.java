@@ -1,4 +1,4 @@
-package com.shikshyaguru.shikshyaguru._7_user_activity.views.views.model;
+package com.shikshyaguru.shikshyaguru._7_user_activity.model;
 
 /*
  * Created by Pankaj Koirala on 4/11/2018.

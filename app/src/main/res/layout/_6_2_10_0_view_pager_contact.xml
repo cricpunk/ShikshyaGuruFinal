@@ -193,7 +193,8 @@
             app:layout_anchorGravity="bottom|center"
             fab:fab_colorNormal="@color/colorAppMain"
             fab:fab_colorPressed="#CC2196F3"
-            fab:fab_colorRipple="#99FFFFFF" />
+            fab:fab_colorRipple="#99FFFFFF"
+            android:focusable="true" />
 
     </android.support.design.widget.CoordinatorLayout>
 

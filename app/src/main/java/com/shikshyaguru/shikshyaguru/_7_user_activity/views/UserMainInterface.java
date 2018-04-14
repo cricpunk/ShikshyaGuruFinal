@@ -1,7 +1,7 @@
-package com.shikshyaguru.shikshyaguru._7_user_activity.views.views.views;
+package com.shikshyaguru.shikshyaguru._7_user_activity.views;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.model.UserDetails;
+import com.shikshyaguru.shikshyaguru._7_user_activity.model.UserDetails;
 
 import java.util.ArrayList;
 

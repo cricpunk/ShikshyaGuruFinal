@@ -1,4 +1,4 @@
-package com.shikshyaguru.shikshyaguru._7_user_activity.views.views.views;
+package com.shikshyaguru.shikshyaguru._7_user_activity.views;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,8 +16,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.shikshyaguru.shikshyaguru.R;
-import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.model.UserdataSource;
-import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.presenter.UserController;
+import com.shikshyaguru.shikshyaguru._7_user_activity.model.UserdataSource;
+import com.shikshyaguru.shikshyaguru._7_user_activity.presenter.UserController;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.squareup.picasso.Picasso;
 
@@ -164,6 +164,7 @@ public class UserLoaderFragment extends Fragment implements View.OnClickListener
                 .centerCrop()
                 .placeholder(R.drawable.ic_user)
                 .into(fUserProfilePic);
+
         fName.setText(name);
         if (type != null) {
             switch (type) {

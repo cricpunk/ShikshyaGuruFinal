@@ -1,4 +1,4 @@
-package com.shikshyaguru.shikshyaguru._7_user_activity.views.views.views;
+package com.shikshyaguru.shikshyaguru._7_user_activity.views;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -19,7 +19,7 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.shikshyaguru.shikshyaguru.R;
 import com.shikshyaguru.shikshyaguru._0_6_widgets.StatusBar;
 import com.shikshyaguru.shikshyaguru._0_6_widgets.Toolbars;
-import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.model.UserDetails;
+import com.shikshyaguru.shikshyaguru._7_user_activity.model.UserDetails;
 
 import java.util.Objects;
 
@@ -30,22 +30,22 @@ import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
  * Kathmandu, Nepal
  * Koiralapankaj007@gmail.com
  */
-public class MessageFragment extends Fragment {
+public class QuestionsFragment extends Fragment {
 
     private LayoutInflater inflater;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout._7_2_6_user_message_fragment, container, false);
         this.inflater = inflater;
+        View view = inflater.inflate(R.layout._7_2_3_user_question_fragment, container, false);
 
         // Change status bar color always from inside onCreateView
         StatusBar.changeStatusBarColor(getContext(), Objects.requireNonNull(getActivity()).getWindow(), R.color.black_toolbar);
 
         // Setup blue_toolbar
         Toolbar toolbar = view.findViewById(R.id.toolbar);
-        Toolbars.setUpToolbar(toolbar, getActivity(), "Messages");
+        Toolbars.setUpToolbar(toolbar, getActivity(), "Questions");
         // To make onOptionItemSelected working we have to setHasOptionsMenu true in fragment.
         setHasOptionsMenu(true);
 
@@ -56,6 +56,7 @@ public class MessageFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -71,6 +72,7 @@ public class MessageFragment extends Fragment {
 
         }
     }
+
 
     class UserAdapter extends FirebaseRecyclerAdapter<UserDetails, UserAdapter.UserViewHolder> {
 

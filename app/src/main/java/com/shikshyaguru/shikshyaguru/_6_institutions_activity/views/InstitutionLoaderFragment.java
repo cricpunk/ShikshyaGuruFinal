@@ -45,7 +45,7 @@ import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fr
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerStaffFragment;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerStudentsFragment;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerTeachersFragment;
-import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.views.UserHomePageActivity;
+import com.shikshyaguru.shikshyaguru._7_user_activity.views.UserHomePageActivity;
 import com.shikshyaguru.shikshyaguru._8_map_activitiy.GPSTracker;
 import com.shikshyaguru.shikshyaguru._8_map_activitiy.MapsActivity;
 import com.squareup.picasso.Picasso;

@@ -1,4 +1,4 @@
-package com.shikshyaguru.shikshyaguru._7_user_activity.views.views.model;
+package com.shikshyaguru.shikshyaguru._7_user_activity.model;
 
 import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
@@ -12,14 +12,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.NavigationDrawerFragment;
-import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.views.UserLoaderInterface;
-import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.views.UserMainInterface;
+import com.shikshyaguru.shikshyaguru._7_user_activity.views.ChatInterface;
+import com.shikshyaguru.shikshyaguru._7_user_activity.views.UserLoaderInterface;
+import com.shikshyaguru.shikshyaguru._7_user_activity.views.UserMainInterface;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 /*
@@ -177,6 +179,45 @@ public class UserdataSource implements UserDataSourceInterface {
             }
         });
 
+
+    }
+
+    @Override
+    public void getChatDetails(final ChatInterface chatInterface, final String friendUID) {
+
+        DatabaseReference chatRef = mDatabase.getReference().child("messages");
+
+        chatRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                List<ChatMessage> chatList = new ArrayList<>();
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
+                    System.out.println(snapshot.getKey());
+                    ChatMessage message = snapshot.getValue(ChatMessage.class);
+
+                    System.out.println("Sender" + ": " + message.getSender());
+                    System.out.println("Receiver" + ": " + message.getReceiver());
+
+                    if (message.getSender().equals(uId) && message.getReceiver().equals(friendUID) ||
+                            message.getSender().equals(friendUID) && message.getReceiver().equals(uId)
+                            ) {
+                        chatList.add(message);
+                    }
+
+                }
+
+                chatInterface.setUpChatAdapter(chatList);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
     }
 

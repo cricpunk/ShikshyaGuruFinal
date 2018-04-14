@@ -1,9 +1,10 @@
-package com.shikshyaguru.shikshyaguru._7_user_activity.views.views.presenter;
+package com.shikshyaguru.shikshyaguru._7_user_activity.presenter;
 
-import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.model.UserDataSourceInterface;
-import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.model.UserDetails;
-import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.views.UserLoaderInterface;
-import com.shikshyaguru.shikshyaguru._7_user_activity.views.views.views.UserMainInterface;
+import com.shikshyaguru.shikshyaguru._7_user_activity.model.UserDataSourceInterface;
+import com.shikshyaguru.shikshyaguru._7_user_activity.model.UserDetails;
+import com.shikshyaguru.shikshyaguru._7_user_activity.views.ChatInterface;
+import com.shikshyaguru.shikshyaguru._7_user_activity.views.UserLoaderInterface;
+import com.shikshyaguru.shikshyaguru._7_user_activity.views.UserMainInterface;
 
 import java.util.HashMap;
 
@@ -16,6 +17,7 @@ public class UserController {
 
     private UserLoaderInterface loaderInterface;
     private UserMainInterface mainInterface;
+    private ChatInterface chatInterface;
     private UserDataSourceInterface dataSource;
 
     public UserController(UserMainInterface mainInterface, UserDataSourceInterface dataSource) {
@@ -28,6 +30,10 @@ public class UserController {
         this.dataSource = dataSource;
     }
 
+    public UserController(ChatInterface chatInterface, UserDataSourceInterface dataSource) {
+        this.chatInterface = chatInterface;
+        this.dataSource = dataSource;
+    }
 
     public void displayAllUser(String category) {
         mainInterface.showSpinner();
@@ -52,4 +58,7 @@ public class UserController {
         dataSource.makeInstitutionSuggestionToFriend(mainInterface, friendId, institutionId);
     }
 
+    public void displayAllChats(String friendUID) {
+        dataSource.getChatDetails(chatInterface, friendUID);
+    }
 }
