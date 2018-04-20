@@ -29,7 +29,6 @@ public class ViewPagerProgrammesCoursesFragment extends Fragment implements View
     private LayoutInflater inflater;
     private View rootView;
     private InstitutionProgrammesData programmesData;
-    private VPProgrammesController controller;
 
     private String level, faculty;
 
@@ -45,7 +44,7 @@ public class ViewPagerProgrammesCoursesFragment extends Fragment implements View
             this.faculty = getArguments().getString("FACULTY_NAME");
         }
 
-        controller = new VPProgrammesController(this, new InstitutionDataSource());
+        VPProgrammesController controller = new VPProgrammesController(this, new InstitutionDataSource());
 
         controller.setUpProgrammesCourses(InstitutionLoaderFragment.id, level, faculty);
 
@@ -58,16 +57,9 @@ public class ViewPagerProgrammesCoursesFragment extends Fragment implements View
 
     }
 
-    public void onCoursesClickListener(String levelName, String courseName) {
-        Intent intent = new Intent(getContext(), InstitutionsHomePageActivity.class);
-        intent.putExtra("REQUEST_CODE", "courses_loader");
-        intent.putExtra("LEVEL_NAME", levelName);
-        intent.putExtra("COURSE_NAME", courseName);
-        startActivity(intent);
-    }
 
     @Override
-    public void setUpProgrammesCourses(String level, String faculty, InstitutionProgrammesData programmesData) {
+    public void setUpProgrammesCourses(InstitutionProgrammesData programmesData) {
 
         this.programmesData = programmesData;
         RecyclerView programmesLevelRecyclerView = rootView.findViewById(R.id.rec_inst_loader_vp_courses);
@@ -96,7 +88,6 @@ public class ViewPagerProgrammesCoursesFragment extends Fragment implements View
 
         @Override
         public int getItemCount() {
-//            return programmesData.getProgrammesLevelName().length;
             return programmesData.getProgrammesCourses().size();
         }
 
@@ -109,13 +100,20 @@ public class ViewPagerProgrammesCoursesFragment extends Fragment implements View
                 super(itemView);
                 coursesName = itemView.findViewById(R.id.lbl_inst_loader_vp_programmes_faculty_name);
                 coursesRootView = itemView.findViewById(R.id.root_inst_loader_vp_programmes_courses);
-                //coursesRootView.setOnClickListener(this);
+                coursesRootView.setOnClickListener(this);
 
             }
 
             @Override
             public void onClick(View v) {
-//                controller.onCoursesClickListener(levelName, String.valueOf(coursesName.getText()));
+
+                Intent intent = new Intent(getContext(), InstitutionsHomePageActivity.class);
+                intent.putExtra("REQUEST_CODE", "courses_opener");
+                intent.putExtra("LEVEL_NAME", level);
+                intent.putExtra("FACULTY_NAME", faculty);
+                intent.putExtra("COURSE_NAME", coursesName.getText().toString());
+                startActivity(intent);
+
             }
         }
     }

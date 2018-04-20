@@ -218,7 +218,7 @@ public class InstitutionDataSource implements InstitutionDataSourceInterface {
                 InstitutionProgrammesData programmesData = new InstitutionProgrammesData();
                 programmesData.setProgrammesCourses(coursesList);
 
-                coursesFragmentInterface.setUpProgrammesCourses(level, faculty, programmesData);
+                coursesFragmentInterface.setUpProgrammesCourses(programmesData);
 
             }
 

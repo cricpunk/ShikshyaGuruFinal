@@ -10,6 +10,6 @@ import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionP
 public interface ViewPagerProgrammesCoursesFragmentInterface {
 
 
-    void setUpProgrammesCourses(String level, String faculty, InstitutionProgrammesData programmesData);
+    void setUpProgrammesCourses(InstitutionProgrammesData programmesData);
 
 }
