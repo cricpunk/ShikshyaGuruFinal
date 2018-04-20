@@ -14,6 +14,10 @@ public class InstitutionProgrammesData {
     private List<String> programmesCourses;
     private HashMap<String, List<String>> programmesCoursesNameList;
 
+    private List<String> optionSemList;
+    HashMap<String, List<HashMap<String, String>>> subjectCollection, feeCollection;
+
+
     private String[] programmesLevelName;
     private HashMap<String, String[]> programmesCoursesName;
 
@@ -56,4 +60,29 @@ public class InstitutionProgrammesData {
     public void setProgrammesCourses(List<String> programmesCourses) {
         this.programmesCourses = programmesCourses;
     }
+
+    public List<String> getOptionSemList() {
+        return optionSemList;
+    }
+
+    public void setOptionSemList(List<String> optionSemList) {
+        this.optionSemList = optionSemList;
+    }
+
+    public HashMap<String, List<HashMap<String, String>>> getSubjectCollection() {
+        return subjectCollection;
+    }
+
+    public void setSubjectCollection(HashMap<String, List<HashMap<String, String>>> subjectCollection) {
+        this.subjectCollection = subjectCollection;
+    }
+
+    public HashMap<String, List<HashMap<String, String>>> getFeeCollection() {
+        return feeCollection;
+    }
+
+    public void setFeeCollection(HashMap<String, List<HashMap<String, String>>> feeCollection) {
+        this.feeCollection = feeCollection;
+    }
+
 }

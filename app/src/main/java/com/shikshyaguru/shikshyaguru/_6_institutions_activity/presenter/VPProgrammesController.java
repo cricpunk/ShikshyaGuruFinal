@@ -4,6 +4,7 @@ import android.widget.Button;
 
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionDataSourceInterface;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerProgrammesCoursesFragmentInterface;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerProgrammesCoursesLoaderFragmentInterface;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerProgrammesCoursesLoaderInterface;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerProgrammesLevelInterface;
 
@@ -19,6 +20,8 @@ public class VPProgrammesController {
     private ViewPagerProgrammesLevelInterface programmesInterface;
     private ViewPagerProgrammesCoursesLoaderInterface coursesLoaderInterface;
     private ViewPagerProgrammesCoursesFragmentInterface coursesFragmentInterface;
+    private ViewPagerProgrammesCoursesLoaderFragmentInterface coursesLoaderFragmentInterface;
+
     private InstitutionDataSourceInterface dataSource;
 
     public VPProgrammesController(ViewPagerProgrammesLevelInterface programmesInterface, InstitutionDataSourceInterface dataSource) {
@@ -36,8 +39,11 @@ public class VPProgrammesController {
     public VPProgrammesController(ViewPagerProgrammesCoursesFragmentInterface coursesFragmentInterface, InstitutionDataSourceInterface dataSource) {
         this.coursesFragmentInterface = coursesFragmentInterface;
         this.dataSource = dataSource;
+    }
 
-
+    public VPProgrammesController(ViewPagerProgrammesCoursesLoaderFragmentInterface coursesLoaderFragmentInterface, InstitutionDataSourceInterface dataSource) {
+        this.coursesLoaderFragmentInterface = coursesLoaderFragmentInterface;
+        this.dataSource = dataSource;
     }
 
     private void setUpProgrammesLevel() {
@@ -62,6 +68,10 @@ public class VPProgrammesController {
 
     public void setUpProgrammesCourses(String id, String level, String faculty) {
         dataSource.getProgrammeCourses(coursesFragmentInterface, id, level, faculty);
+    }
+
+    public void setUpCoursesLoader(String level, String faculty, String programme) {
+        dataSource.getCourseLoaderData(coursesLoaderFragmentInterface, level, faculty, programme);
     }
 
 }

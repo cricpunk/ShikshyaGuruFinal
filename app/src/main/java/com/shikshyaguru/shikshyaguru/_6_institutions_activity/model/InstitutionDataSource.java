@@ -21,6 +21,7 @@ import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.InstitutionsLis
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.NavigationDrawerFragment;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionLoaderInterface;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerProgrammesCoursesFragmentInterface;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerProgrammesCoursesLoaderFragmentInterface;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerProgrammesLevelInterface;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerReviewInterface;
 
@@ -219,6 +220,82 @@ public class InstitutionDataSource implements InstitutionDataSourceInterface {
                 programmesData.setProgrammesCourses(coursesList);
 
                 coursesFragmentInterface.setUpProgrammesCourses(programmesData);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    @Override
+    public void getCourseLoaderData(final ViewPagerProgrammesCoursesLoaderFragmentInterface coursesLoaderFragmentInterface, String level, String faculty, String programme) {
+
+        System.out.println("========================================================");
+        System.out.println(level+":"+faculty+":"+programme);
+
+        final List<String> optionSemList = new ArrayList<>();
+        final HashMap<String, List<HashMap<String, String>>> subjectCollection = new HashMap<>();
+        final HashMap<String, List<HashMap<String, String>>> feeCollection = new HashMap<>();
+
+
+        Query query = mDatabase.getReference().child("clients/A8RAbxdfC7Mcak1Ot9iIOSe2Oiq1/app_programmes/"+ level +"/"+ faculty +"/"+ programme);
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                System.out.println(dataSnapshot.getKey());
+
+                for (DataSnapshot optSem : dataSnapshot.getChildren()) {
+
+                    System.out.println(optSem.getKey());
+
+                    //Option-1, SEM-1
+                    optionSemList.add(optSem.getKey());
+
+                    List<HashMap<String, String>> subjectList = new ArrayList<>();
+                    List<HashMap<String, String>> feeList = new ArrayList<>();
+
+                    for (DataSnapshot subjects : optSem.child("subjects").getChildren()) {
+                        HashMap<String, String> subject = new HashMap<>();
+
+                        subject.put("subject", subjects.child("subject_name").getValue(String.class));
+                        subject.put("code", subjects.child("code").getValue(String.class));
+                        subject.put("teacher", subjects.child("teacher").getValue(String.class));
+                        subject.put("timing", subjects.child("timing").getValue(String.class));
+
+                        subjectList.add(subject);
+                    }
+
+                    for (DataSnapshot fees : optSem.child("fees").getChildren()) {
+                        HashMap<String, String> fee = new HashMap<>();
+
+                        fee.put("typ", fees.child("fee_type").getValue(String.class));
+                        fee.put("amount", fees.child("amount").getValue(String.class));
+
+                        feeList.add(fee);
+                    }
+
+                    subjectCollection.put(optSem.getKey(), subjectList);
+                    feeCollection.put(optSem.getKey(), feeList);
+
+                }
+
+                InstitutionProgrammesData programmesData = new InstitutionProgrammesData();
+
+
+                System.out.println(optionSemList);
+                System.out.println(subjectCollection);
+                System.out.println(feeCollection);
+
+                programmesData.setOptionSemList(optionSemList);
+                programmesData.setSubjectCollection(subjectCollection);
+                programmesData.setFeeCollection(feeCollection);
+
+                coursesLoaderFragmentInterface.setUpProgrammesCourses(programmesData);
 
             }
 

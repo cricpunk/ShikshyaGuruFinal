@@ -11,6 +11,7 @@ import com.google.firebase.database.DatabaseError;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.InstitutionsListItemParent;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionLoaderInterface;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerProgrammesCoursesFragmentInterface;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerProgrammesCoursesLoaderFragmentInterface;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerProgrammesLevelInterface;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerReviewInterface;
 
@@ -54,5 +55,9 @@ public interface InstitutionDataSourceInterface {
     void validateAndProceedFavBtn(InstitutionLoaderInterface loaderInterface, String id);
 
     void getProgrammeCourses(ViewPagerProgrammesCoursesFragmentInterface coursesFragmentInterface, String id, String level, String faculty);
+
+    void getCourseLoaderData(ViewPagerProgrammesCoursesLoaderFragmentInterface coursesLoaderFragmentInterface, String level, String faculty, String programme);
+
 }
+
 

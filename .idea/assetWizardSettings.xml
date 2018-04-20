@@ -14,8 +14,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_chat_box" />
-                            <entry key="sourceFile" value="D:\Android assets\chat-box.svg" />
+                            <entry key="outputName" value="ic_courses_code" />
+                            <entry key="sourceFile" value="D:\Android assets\programming-code.svg" />
                           </map>
                         </option>
                       </PersistentState>

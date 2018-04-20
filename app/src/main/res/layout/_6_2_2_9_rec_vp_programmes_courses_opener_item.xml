@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_inst_loader_vp_programmes_courses"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="2dp"
+    android:layout_marginLeft="1dp"
+    android:layout_marginRight="1dp"
+    android:background="#E9E9E9"
+    android:orientation="horizontal"
+    android:paddingEnd="@dimen/margin_standard"
+    android:paddingStart="@dimen/margin_standard">
+
+    <TextView
+        android:id="@+id/lbl_subject_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_short"
+        android:drawablePadding="@dimen/margin_standard"
+        android:drawableStart="@drawable/ic_courses_subject"
+        android:paddingTop="@dimen/margin_short"
+        android:text="Compulsory math"
+        android:textColor="#222222"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/lbl_subject_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lbl_subject_name"
+        android:drawablePadding="@dimen/margin_standard"
+        android:drawableStart="@drawable/ic_courses_code"
+        android:paddingBottom="@dimen/margin_short"
+        android:text="COM125" />
+
+    <TextView
+        android:id="@+id/lbl_teacher_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="@dimen/margin_short"
+        android:drawableEnd="@drawable/ic_courses_teacher"
+        android:drawablePadding="@dimen/margin_standard"
+        android:paddingTop="@dimen/margin_short"
+        android:text="Pankaj koirala"
+        android:textColor="#212121" />
+
+    <TextView
+        android:id="@+id/lbl_schedule"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/lbl_teacher_name"
+        android:drawableEnd="@drawable/ic_courses_timing"
+        android:drawablePadding="@dimen/margin_standard"
+        android:text="07am - 08am" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_below="@+id/lbl_subject_code"
+        android:background="#50000000" />
+
+
+</RelativeLayout>
