@@ -25,7 +25,9 @@ import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionP
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter.VPProgrammesController;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionsHomePageActivity;
 
-public class ViewPagerProgrammesFragment extends Fragment implements ViewPagerProgrammesInterface {
+import java.util.List;
+
+public class ViewPagerProgrammesLevelFragment extends Fragment implements ViewPagerProgrammesLevelInterface {
 
     private LayoutInflater inflater;
     private View rootView;
@@ -58,32 +60,40 @@ public class ViewPagerProgrammesFragment extends Fragment implements ViewPagerPr
     }
 
     @Override
-    public void onCoursesClickListener(String courseName) {
+    public void onCoursesClickListener(String levelName, String courseName) {
         Intent intent = new Intent(getContext(), InstitutionsHomePageActivity.class);
         intent.putExtra("REQUEST_CODE", "courses_loader");
-        intent.putExtra("COURSE_NAME", courseName);
+        intent.putExtra("LEVEL_NAME", levelName);
+        intent.putExtra("FACULTY_NAME", courseName);
         startActivity(intent);
     }
 
     private class ProgrammesLevelAdapter extends RecyclerView.Adapter<ProgrammesLevelAdapter.ProgrammesLevelViewHolder> {
 
+        @NonNull
         @Override
-        public ProgrammesLevelViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public ProgrammesLevelViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = inflater.inflate(R.layout._6_2_2_1_rec_vp_programmes_level_item, parent, false);
             return new ProgrammesLevelViewHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(final ProgrammesLevelViewHolder holder, int position) {
-            String programmesLabelName = programmesData.getProgrammesLevelName()[position];
+        public void onBindViewHolder(@NonNull final ProgrammesLevelViewHolder holder, int position) {
+//            String programmesLabelName = programmesData.getProgrammesLevelName()[position];
+            String programmesLabelName = programmesData.getProgrammesLevelNameList().get(position);
             holder.programmesLevelName.setText(programmesLabelName);
 
             holder.recProgrammesLabel.setNestedScrollingEnabled(false);
             holder.recProgrammesLabel.setHasFixedSize(false);
             final GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
             holder.recProgrammesLabel.setLayoutManager(gridLayoutManager);
-            ProgrammesCoursesAdapter adapter = new ProgrammesCoursesAdapter();
-            adapter.setCoursesName(programmesData.getProgrammesCoursesName().get(programmesLabelName));
+            ProgrammesFacultiesAdapter adapter = new ProgrammesFacultiesAdapter();
+//            adapter.setFacultyName(programmesData.getProgrammesCoursesName().get(programmesLabelName));
+
+            //Setting value in another adapter
+            adapter.setFacultyName(programmesData.getProgrammesCoursesNameList().get(programmesLabelName));
+            adapter.setLevelName(programmesLabelName);
+
             holder.recProgrammesLabel.setAdapter(adapter);
 
             holder.layoutLevel.measure(View.MeasureSpec.makeMeasureSpec(holder.layoutLevel.getLayoutParams().width, View.MeasureSpec.EXACTLY),
@@ -94,7 +104,8 @@ public class ViewPagerProgrammesFragment extends Fragment implements ViewPagerPr
 
         @Override
         public int getItemCount() {
-            return programmesData.getProgrammesLevelName().length;
+//            return programmesData.getProgrammesLevelName().length;
+            return programmesData.getProgrammesLevelNameList().size();
         }
 
         class ProgrammesLevelViewHolder extends RecyclerView.ViewHolder {
@@ -115,29 +126,36 @@ public class ViewPagerProgrammesFragment extends Fragment implements ViewPagerPr
         }
     }
 
-    private class ProgrammesCoursesAdapter extends RecyclerView.Adapter<ProgrammesCoursesAdapter.ProgrammesCoursesViewHolder> {
+    private class ProgrammesFacultiesAdapter extends RecyclerView.Adapter<ProgrammesFacultiesAdapter.ProgrammesCoursesViewHolder> {
 
-        private String[] coursesName;
+        private String levelName;
+        private List<String> facultyName;
 
-        private void setCoursesName(String[] coursesName) {
-            this.coursesName = coursesName;
+        public void setLevelName(String levelName) {
+            this.levelName = levelName;
+        }
+        private void setFacultyName(List<String> facultyName) {
+            this.facultyName = facultyName;
         }
 
+        @NonNull
         @Override
-        public ProgrammesCoursesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = inflater.inflate(R.layout._6_2_2_2_rec_vp_offers_courses_item, parent, false);
+        public ProgrammesCoursesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = inflater.inflate(R.layout._6_2_2_2_rec_vp_programmes_faculties, parent, false);
             return new ProgrammesCoursesViewHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(ProgrammesCoursesViewHolder holder, int position) {
-            holder.coursesName.setText(coursesName[position]);
+        public void onBindViewHolder(@NonNull ProgrammesCoursesViewHolder holder, int position) {
+            holder.coursesName.setText(facultyName.get(position));
         }
 
         @Override
         public int getItemCount() {
-            return coursesName.length;
+            return facultyName.size();
         }
+
+
 
         class ProgrammesCoursesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
@@ -146,14 +164,14 @@ public class ViewPagerProgrammesFragment extends Fragment implements ViewPagerPr
 
             ProgrammesCoursesViewHolder(View itemView) {
                 super(itemView);
-                coursesName = itemView.findViewById(R.id.lbl_inst_loader_vp_programmes_courses_name);
+                coursesName = itemView.findViewById(R.id.lbl_inst_loader_vp_programmes_faculty_name);
                 coursesRootView = itemView.findViewById(R.id.root_inst_loader_vp_programmes_courses);
                 coursesRootView.setOnClickListener(this);
             }
 
             @Override
             public void onClick(View v) {
-                controller.onCoursesClickListener(String.valueOf(coursesName.getText()));
+                controller.onCoursesClickListener(levelName, String.valueOf(coursesName.getText()));
             }
         }
     }

@@ -45,6 +45,7 @@ import com.shikshyaguru.shikshyaguru._3_signUp_activity.model.NewUserData;
 import com.shikshyaguru.shikshyaguru._3_signUp_activity.model.AuthAuthUserDataSource;
 import com.shikshyaguru.shikshyaguru._3_signUp_activity.presenter.AuthenticationController;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.HomePageActivity;
+import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.NavigationDrawerFragment;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
 import com.twitter.sdk.android.core.Twitter;
@@ -588,6 +589,8 @@ public class LoginFragment extends Fragment implements LoginViewInterface, View.
     private void updateUI(FirebaseUser currentUser) {
 
         if (currentUser != null) {
+            // Set current user
+            NavigationDrawerFragment.currentUser = currentUser;
             // Set login status true
             prefManager.setUserLoggedIn(true);
             // Set user type selection true

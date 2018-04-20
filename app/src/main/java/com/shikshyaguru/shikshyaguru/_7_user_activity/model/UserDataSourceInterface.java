@@ -2,6 +2,7 @@ package com.shikshyaguru.shikshyaguru._7_user_activity.model;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.shikshyaguru.shikshyaguru._7_user_activity.views.ChatInterface;
+import com.shikshyaguru.shikshyaguru._7_user_activity.views.MessageInterface;
 import com.shikshyaguru.shikshyaguru._7_user_activity.views.UserLoaderInterface;
 import com.shikshyaguru.shikshyaguru._7_user_activity.views.UserMainInterface;
 
@@ -23,5 +24,19 @@ public interface UserDataSourceInterface {
     void makeInstitutionSuggestionToFriend(UserMainInterface mainInterface, String friendId, String institutionId);
 
     void getChatDetails(ChatInterface chatInterface, String friendUID);
+
+    FirebaseRecyclerOptions<ChatMessage> getAllMessages(MessageInterface messageInterface);
+
+    void sendMessage(String friendUID, String message);
+
+    void sendFollowRequest(UserMainInterface mainInterface, String friendId);
+
+    void acceptFollowingRequest(UserMainInterface mainInterface, String friendId);
+
+    void stopFollowing(UserMainInterface mainInterface, String friendId);
+
+    void cancelFollowingRequest(UserMainInterface mainInterface, String friendId);
+
+    void loadUserFullPage(UserMainInterface mainInterface, UserDetails userDetails);
 
 }

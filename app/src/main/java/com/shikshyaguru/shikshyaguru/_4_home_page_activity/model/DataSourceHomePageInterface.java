@@ -1,7 +1,7 @@
 package com.shikshyaguru.shikshyaguru._4_home_page_activity.model;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.DrawerInterface;
+import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.NavigationDrawerInterface;
 
 import java.util.List;
 
@@ -48,6 +48,6 @@ public interface DataSourceHomePageInterface {
 
     String getSlogan(String id);
 
-    void setUpDrawerWithData(DrawerInterface drawerInterface);
+    void setUpDrawerWithData(NavigationDrawerInterface navigationDrawerInterface);
 
 }

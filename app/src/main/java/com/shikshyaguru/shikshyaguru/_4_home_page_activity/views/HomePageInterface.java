@@ -23,7 +23,7 @@ import java.util.List;
  ***************************************************************************************************
  */
 
-public interface ViewInterface {
+public interface HomePageInterface {
 
     /**
      * Opening new activity for displaying _5_2_nhp_news_loader_fragment after clicking _5_2_nhp_news_loader_fragment headlines in recycler view

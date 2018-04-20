@@ -33,7 +33,11 @@ import com.arlib.floatingsearchview.util.Util;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.github.rubensousa.gravitysnaphelper.GravitySnapHelper;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.shikshyaguru.shikshyaguru.R;
 import com.shikshyaguru.shikshyaguru._0_1_searching_mechanism.model.ColorWrapper;
 import com.shikshyaguru.shikshyaguru._0_1_searching_mechanism.model.DataHelper;
@@ -51,6 +55,8 @@ import com.shikshyaguru.shikshyaguru._5_news_activity.views.NewsHomePageActivity
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionsHomePageActivity;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /*
@@ -60,7 +66,7 @@ import java.util.List;
  */
 
 public class  HomePageMainFragment extends BaseExampleFragment implements
-        ViewInterface,
+        HomePageInterface,
         AppBarLayout.OnOffsetChangedListener,
         View.OnClickListener {
 
@@ -68,7 +74,7 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
 
 //  ####################### ROOT SECTION #######################
     private final String TAG = "HOME PAGE MAIN FRAGMENT";
-    private LayoutInflater layoutInflater;
+    private LayoutInflater inflater;
 
 //  ####################### SEARCH BAR SECTION #######################
     public static final long FIND_SUGGESTION_SIMULATED_DELAY = 250;
@@ -105,7 +111,7 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        this.layoutInflater = inflater;
+        this.inflater = inflater;
         View view = inflater.inflate(R.layout._4_1_hp_main_fragment, container, false);
         mDatabase = FirebaseDatabase.getInstance();
 
@@ -542,7 +548,7 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
         @NonNull
         @Override
         public SponsorViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View  v = LayoutInflater.from(getContext()).inflate(R.layout._4_8_hp_slider, parent, false);
+            View  v = inflater.inflate(R.layout._4_8_hp_slider, parent, false);
             return new SponsorViewHolder(v);
         }
 
@@ -597,7 +603,7 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
         @NonNull
         @Override
         public OptionsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = layoutInflater.inflate(R.layout._4_9_rec_hp_options, parent, false);
+            View view = inflater.inflate(R.layout._4_9_rec_hp_options, parent, false);
             return new OptionsViewHolder(view);
         }
 
@@ -633,6 +639,45 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
 //                    System.out.println(entry.getKey() + " : " + entry.getValue());
 //                }
 
+//                String[] programmesLevelName = {"+2", "Bachelors", "Masters"};
+//                HashMap<String, String[]> programmesCourses = new HashMap<>();
+//
+//                String[] programmesCoursesName0 = {"Management", "Science"};
+//                String[] programmesCoursesName1 = {"Management", "Science"};
+//                String[] programmesCoursesName2 = {"Management", "Science"};
+//
+//                programmesCourses.put(programmesLevelName[0], programmesCoursesName0);
+//                programmesCourses.put(programmesLevelName[1], programmesCoursesName1);
+//                programmesCourses.put(programmesLevelName[2], programmesCoursesName2);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             }
         }
     }
@@ -667,7 +712,7 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
         @NonNull
         @Override
         public NewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = layoutInflater.inflate(R.layout._4_5_rec_news_items, parent, false);
+            View view = inflater.inflate(R.layout._4_5_rec_news_items, parent, false);
             return new NewsViewHolder(view);
         }
 
@@ -735,7 +780,7 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
         @NonNull
         @Override
         public InstitutionsCollectionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = layoutInflater.inflate(R.layout._4_2_institutions_section, parent, false);
+            View view = inflater.inflate(R.layout._4_2_institutions_section, parent, false);
             return new InstitutionsCollectionViewHolder(view);
         }
 
@@ -838,7 +883,7 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
         @NonNull
         @Override
         public InstitutionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = layoutInflater.inflate(R.layout._4_3_rec_institutions_items, parent, false);
+            View view = inflater.inflate(R.layout._4_3_rec_institutions_items, parent, false);
             return new InstitutionViewHolder(view);
         }
 

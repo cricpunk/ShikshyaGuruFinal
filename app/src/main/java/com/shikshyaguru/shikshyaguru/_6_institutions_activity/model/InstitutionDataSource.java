@@ -20,6 +20,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.InstitutionsListItemParent;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.NavigationDrawerFragment;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionLoaderInterface;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerProgrammesCoursesFragmentInterface;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerProgrammesLevelInterface;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerReviewInterface;
 
 import java.text.DateFormat;
@@ -126,25 +128,45 @@ public class InstitutionDataSource implements InstitutionDataSourceInterface {
     }
 
     @Override
-    public InstitutionProgrammesData getInstitutionProgrammesData() {
-        InstitutionProgrammesData programmesData = new InstitutionProgrammesData();
+    public void getInstitutionProgrammesData(final ViewPagerProgrammesLevelInterface programmesInterface) {
 
-        // 1,2,3 in programmesCoursesName represent programmesLevelName id. 1 = +2, 2 = Bachelors, 3 = Masters.
-        String[] programmesLevelName = {"+2", "Bachelors", "Masters"};
-        HashMap<String, String[]> programmesCourses = new HashMap<>();
+        final List<String> levelList = new ArrayList<>();
+        final HashMap<String, List<String>> levelFaculties = new HashMap<>();
 
-        String[] programmesCoursesName0 = {"Management", "Science"};
-        String[] programmesCoursesName1 = {"BIM", "BBA", "BScCSIT", "BBS"};
-        String[] programmesCoursesName2 = {"MIM", "MBA", "MBS"};
+        Query query = mDatabase.getReference().child("clients/A8RAbxdfC7Mcak1Ot9iIOSe2Oiq1/app_programmes");
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
 
-        programmesCourses.put(programmesLevelName[0], programmesCoursesName0);
-        programmesCourses.put(programmesLevelName[1], programmesCoursesName1);
-        programmesCourses.put(programmesLevelName[2], programmesCoursesName2);
+                for (DataSnapshot level : dataSnapshot.getChildren()) {
+                    //+2, bachelors, masters
+                    levelList.add(level.getKey());
 
-        programmesData.setProgrammesLevelName(programmesLevelName);
-        programmesData.setProgrammesCoursesName(programmesCourses);
+                    List<String> facultyList = new ArrayList<>();
+                    for (DataSnapshot faculties : level.getChildren()) {
+                        //Programmes i.e, management. science etc.
+                        facultyList.add(faculties.getKey());
+                    }
 
-        return programmesData;
+                    levelFaculties.put(level.getKey(), facultyList);
+
+                }
+
+                InstitutionProgrammesData programmesData = new InstitutionProgrammesData();
+                programmesData.setProgrammesLevelNameList(levelList);
+                programmesData.setProgrammesCoursesNameList(levelFaculties);
+
+                programmesInterface.setUpProgrammesLevel(programmesData);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
     }
 
     @Override
@@ -176,6 +198,38 @@ public class InstitutionDataSource implements InstitutionDataSourceInterface {
 
         return coursesData;
     }
+
+    @Override
+    public void getProgrammeCourses(final ViewPagerProgrammesCoursesFragmentInterface coursesFragmentInterface, String id, final String level, final String faculty) {
+
+        final List<String> coursesList = new ArrayList<>();
+
+        Query query = mDatabase.getReference().child("clients/A8RAbxdfC7Mcak1Ot9iIOSe2Oiq1/app_programmes/"+ level +"/"+ faculty);
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot level : dataSnapshot.getChildren()) {
+                    //BBA, MBA
+                    coursesList.add(level.getKey());
+
+                }
+
+                InstitutionProgrammesData programmesData = new InstitutionProgrammesData();
+                programmesData.setProgrammesCourses(coursesList);
+
+                coursesFragmentInterface.setUpProgrammesCourses(level, faculty, programmesData);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
 
     @Override
     public FirebaseRecyclerOptions<InstitutionManagementData> getInstitutionManagementData(String id) {

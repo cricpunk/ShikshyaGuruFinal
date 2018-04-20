@@ -13,6 +13,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.NavigationDrawerFragment;
 import com.shikshyaguru.shikshyaguru._7_user_activity.views.ChatInterface;
+import com.shikshyaguru.shikshyaguru._7_user_activity.views.MessageInterface;
 import com.shikshyaguru.shikshyaguru._7_user_activity.views.UserLoaderInterface;
 import com.shikshyaguru.shikshyaguru._7_user_activity.views.UserMainInterface;
 
@@ -29,7 +30,9 @@ import java.util.Objects;
  * Kathmandu, Nepal
  * Koiralapankaj007@gmail.com
  */
-public class UserdataSource implements UserDataSourceInterface {
+public class UserDataSource implements UserDataSourceInterface {
+
+    public static final String CHAT_ID_SPLITTER = "@@##@@";
 
     private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
     private String uId = NavigationDrawerFragment.currentUser.getUid();
@@ -219,6 +222,206 @@ public class UserdataSource implements UserDataSourceInterface {
             }
         });
 
+    }
+
+    @Override
+    public FirebaseRecyclerOptions<ChatMessage> getAllMessages(MessageInterface messageInterface) {
+
+        Query query = mDatabase.getReference().child("users").orderByChild("profile");
+
+        SnapshotParser<ChatMessage> snapshotParser = new SnapshotParser<ChatMessage>() {
+            @NonNull
+            @Override
+            public ChatMessage parseSnapshot(@NonNull DataSnapshot snapshot) {
+
+                ChatMessage userDetails = new ChatMessage();
+
+                return userDetails;
+
+            }
+        };
+
+        return new FirebaseRecyclerOptions.Builder<ChatMessage>().setQuery(query, snapshotParser).build();
+
+    }
+
+    @Override
+    public void sendMessage(final String friendUID, String message) {
+        //chatList.clear();
+
+        // Example sender@user
+        final String chatId1 = uId + CHAT_ID_SPLITTER + friendUID;
+        final String chatId2 = friendUID + CHAT_ID_SPLITTER + uId;
+
+        // Set sender, receiver and message
+        ChatMessage newMsg = new ChatMessage(uId, friendUID, message);
+
+
+        mDatabase.getReference().child("messages").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    System.out.println("=====================Exist===========================");
+                    System.out.println(snapshot.getKey());
+
+                    String id = snapshot.getKey();
+
+                    if (id.contains("@")) {
+                        String[] split = id.split("@");
+
+                        String userOne = split[0];
+                        String userTwo = split[1];
+
+                        if ((userOne.equals(uId) && userTwo.equals(friendUID)) || (userOne.equals(friendUID) && userTwo.equals(uId))) {
+                            // Insert here
+                        } else {
+                            // Create chat
+                        }
+
+                        System.out.println(split[0]);
+                        System.out.println(split[1]);
+                    }
+
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+//        mDatabase.getReference().child("messages").child(chatId).addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//
+//                if (dataSnapshot.exists()) {
+//
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
+
+//        mDatabase.getReference().child("messages").child(chatId).push().setValue(newMsg).addOnCompleteListener(new OnCompleteListener<Void>() {
+//            @Override
+//            public void onComplete(@NonNull Task<Void> task) {
+//                if (!task.isSuccessful()) {
+//                    //error
+//                    //Toast.makeText(getContext(), "Error " + task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+//                } else {
+//                    //Toast.makeText(getContext(), "Message sent successfully!", Toast.LENGTH_SHORT).show();
+//                    //messageEditText.setText(null);
+//                    //hideSoftKeyboard();
+//                }
+//            }
+//        });
+    }
+
+    @Override
+    public void sendFollowRequest(final UserMainInterface mainInterface, String friendId) {
+
+        // In friend database table record will be stored at followers node
+        DatabaseReference friendDBRef = mDatabase.getReference().child("users").child(friendId).child("followers").child(uId).child("status");
+
+        // In own database table record will be stored at following node
+        DatabaseReference ownDBRef = mDatabase.getReference().child("users").child(uId).child("following").child(friendId).child("status");
+
+        friendDBRef.setValue(false);
+        ownDBRef.setValue(false, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                if (databaseError == null) {
+                    mainInterface.showSnackbar("Following request has been send successfully !");
+                } else {
+                    mainInterface.showSnackbar(databaseError.getMessage());
+                }
+
+            }
+        });
+
+    }
+
+    @Override
+    public void acceptFollowingRequest(final UserMainInterface mainInterface, String friendId) {
+
+        DatabaseReference dbRef = mDatabase.getReference().child("users").child(uId).child("followers").child(friendId).child("status");
+
+        dbRef.setValue(true, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                if (databaseError == null) {
+                    mainInterface.showSnackbar("Following request has been accepted !");
+                } else {
+                    mainInterface.showSnackbar(databaseError.getMessage());
+                }
+
+            }
+        });
+
+    }
+
+    @Override
+    public void stopFollowing(final UserMainInterface mainInterface, String friendId) {
+
+        // In friend database table record will be stored at followers node
+        DatabaseReference friendDBRef = mDatabase.getReference().child("users").child(friendId).child("followers").child(uId);
+
+        // In own database table record will be stored at following node
+        DatabaseReference ownDBRef = mDatabase.getReference().child("users").child(uId).child("following").child(friendId);
+
+        friendDBRef.removeValue();
+        ownDBRef.removeValue(new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                if (databaseError == null) {
+                    mainInterface.showSnackbar("You have stop following successfully !");
+                } else {
+                    mainInterface.showSnackbar(databaseError.getMessage());
+                }
+
+            }
+        });
+
+    }
+
+    @Override
+    public void cancelFollowingRequest(final UserMainInterface mainInterface, String friendId) {
+
+        // In friend database table record will be stored at followers node
+        DatabaseReference friendDBRef = mDatabase.getReference().child("users").child(friendId).child("followers").child(uId);
+
+        // In own database table record will be stored at following node
+        DatabaseReference ownDBRef = mDatabase.getReference().child("users").child(uId).child("following").child(friendId);
+
+        friendDBRef.removeValue();
+        ownDBRef.removeValue(new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                if (databaseError == null) {
+                    mainInterface.showSnackbar("You have cancel following request successfully !");
+                } else {
+                    mainInterface.showSnackbar(databaseError.getMessage());
+                }
+
+            }
+        });
+
+    }
+
+    @Override
+    public void loadUserFullPage(UserMainInterface mainInterface, UserDetails userDetails) {
+        mainInterface.openUserLoaderPage(userDetails);
     }
 
 }

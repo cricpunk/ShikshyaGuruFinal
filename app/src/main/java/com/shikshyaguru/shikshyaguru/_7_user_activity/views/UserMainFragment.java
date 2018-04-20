@@ -5,6 +5,8 @@ package com.shikshyaguru.shikshyaguru._7_user_activity.views;
  * Koiralapankaj007@gmail.com
  */
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -24,7 +26,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -34,8 +35,9 @@ import com.shikshyaguru.shikshyaguru._0_6_widgets.PopupCollections;
 import com.shikshyaguru.shikshyaguru._0_6_widgets.StatusBar;
 import com.shikshyaguru.shikshyaguru._0_6_widgets.Toolbars;
 import com.shikshyaguru.shikshyaguru._3_signUp_activity.views.LoginFragment;
+import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.NavigationDrawerFragment;
+import com.shikshyaguru.shikshyaguru._7_user_activity.model.UserDataSource;
 import com.shikshyaguru.shikshyaguru._7_user_activity.model.UserDetails;
-import com.shikshyaguru.shikshyaguru._7_user_activity.model.UserdataSource;
 import com.shikshyaguru.shikshyaguru._7_user_activity.presenter.UserController;
 import com.squareup.picasso.Picasso;
 
@@ -54,6 +56,8 @@ public class UserMainFragment extends Fragment implements UserMainInterface {
     private String category;
 
     private boolean intentFromSuggestFriend;
+
+    // While sending institution suggestion to friend. This is came from intent
     private String institutionId;
 
     private HashMap<String, Boolean> followerFollowingList = new HashMap<>();
@@ -94,13 +98,17 @@ public class UserMainFragment extends Fragment implements UserMainInterface {
 
         initComponents(view);
 
-        controller = new UserController(this, new UserdataSource());
+        controller = new UserController(this, new UserDataSource());
 
+        /*
+         * If request is to show all followers and following users list then else part will trigger.
+         * If request is to display all available users then if part will be trigger.
+         */
         if (category.equals("all")) {
             controller.displayAllUser(category);
         } else {
             controller.displayFollowersFollowing(followerFollowingList);
-            Toast.makeText(getContext(), String.valueOf(followerFollowingList.size()), Toast.LENGTH_LONG).show();
+            //Toast.makeText(getContext(), String.valueOf(followerFollowingList.size()), Toast.LENGTH_LONG).show();
         }
 
         return view;
@@ -112,6 +120,7 @@ public class UserMainFragment extends Fragment implements UserMainInterface {
         super.onViewCreated(view, savedInstanceState);
     }
 
+    // For back press
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -127,6 +136,7 @@ public class UserMainFragment extends Fragment implements UserMainInterface {
         }
     }
 
+    // Initialize all components
     private void initComponents(View view) {
         currentLayout = view.findViewById(R.id.root_user_main);
         userRecyclerView = view.findViewById(R.id.rec_user_main_loader);
@@ -139,7 +149,6 @@ public class UserMainFragment extends Fragment implements UserMainInterface {
 
     @Override
     public void setUpUsersAdapter(FirebaseRecyclerOptions<UserDetails> options) {
-
         userRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         UserAdapter adapter = new UserAdapter(options);
         userRecyclerView.setAdapter(adapter);
@@ -151,7 +160,6 @@ public class UserMainFragment extends Fragment implements UserMainInterface {
     @Override
     public void setUpFollowersFollowing(ArrayList<UserDetails> followersFollowing) {
         this.followerFollowingData = followersFollowing;
-
         userRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         FollowFollowingAdapter adapter = new FollowFollowingAdapter();
         userRecyclerView.setAdapter(adapter);
@@ -189,6 +197,7 @@ public class UserMainFragment extends Fragment implements UserMainInterface {
         protected void onBindViewHolder(@NonNull UserViewHolder holder, int position, @NonNull UserDetails model) {
 
             try {
+
                 Picasso.get()
                         .load(model.getImageUrl())
                         .fit()
@@ -196,25 +205,14 @@ public class UserMainFragment extends Fragment implements UserMainInterface {
                         .placeholder(R.drawable.ic_user)
                         .into(holder.userIcon);
                 holder.userName.setText(model.getName());
-                if (model.getUserType() != null) {
-                    switch (model.getUserType()) {
-                        case "1":
-                            holder.userType.setText(R.string.typeStudent);
-                            break;
-                        case "2":
-                            holder.userType.setText(R.string.typeTeacher);
-                            break;
-                        case "3":
-                            holder.userType.setText(R.string.typeInstitution);
-                            break;
-                        default:
-                            break;
 
-                    }
+                if (model.getUserType() != null) {
+                    holder.userType.setText(getUserType(model.getUserType()));
                 }
 
                 holder.userUserName.setText(String.format("@%s", model.getUserName()));
                 holder.userInstitution.setText(model.getInstitution());
+                changeButtonBehaviourAllUser(model.getuId(), holder.followBtn);
 
                 holder.userDetails = model;
 
@@ -248,6 +246,7 @@ public class UserMainFragment extends Fragment implements UserMainInterface {
             UserDetails model = followerFollowingData.get(position);
 
             try {
+
                 Picasso.get()
                         .load(model.getImageUrl())
                         .fit()
@@ -256,20 +255,7 @@ public class UserMainFragment extends Fragment implements UserMainInterface {
                         .into(holder.userIcon);
                 holder.userName.setText(model.getName());
                 if (model.getUserType() != null) {
-                    switch (model.getUserType()) {
-                        case "1":
-                            holder.userType.setText(R.string.typeStudent);
-                            break;
-                        case "2":
-                            holder.userType.setText(R.string.typeTeacher);
-                            break;
-                        case "3":
-                            holder.userType.setText(R.string.typeInstitution);
-                            break;
-                        default:
-                            break;
-
-                    }
+                    holder.userType.setText(getUserType(model.getUserType()));
                 }
 
                 holder.userUserName.setText(String.format("@%s", model.getUserName()));
@@ -278,27 +264,8 @@ public class UserMainFragment extends Fragment implements UserMainInterface {
                 // Current user details setting for view holder
                 holder.userDetails = model;
 
-                // If intent ic called to suggest friends some institution then change button to suggest.
-                if (intentFromSuggestFriend) {
-                    holder.followBtn.setText(R.string.suggest);
-                } else {
-                    // If user is there in list key and value is true then set button as following
-                    // True means user is followed by current user
-                    if (followerFollowingList.get(model.getuId()) != null && followerFollowingList.get(model.getuId())) {
-                        //holder.followBtn.setBackgroundResource(R.drawable.rounded_bg);
+                changeButtonBehaviour(followerFollowingList, model.getuId(), holder.followBtn);
 
-                        holder.followBtn.setBackground(ContextCompat.getDrawable(Objects.requireNonNull(getContext()), R.drawable.rounded_bg));
-                        holder.followBtn.setText(R.string.following);
-                        holder.followBtn.setTextColor(Color.parseColor("#E9E9E9"));
-
-                        // if user value in list is false then set button as requested.
-                        // Once request accepted button will be converted to folowing
-                    } else if (followerFollowingList.get(model.getuId()) != null && !followerFollowingList.get(model.getuId())) {
-                        if (category.equals("following")) {
-                            holder.followBtn.setText(R.string.requested);
-                        }
-                    }
-                }
 
             } catch (Exception e) {
                 showSnackbar(e.getMessage());
@@ -345,18 +312,38 @@ public class UserMainFragment extends Fragment implements UserMainInterface {
         public void onClick(View v) {
 
             switch (v.getId()) {
-                case R.id.root_user:
-                    //controller.openUserLoaderPage(userDetails);
 
-                    Intent intent = new Intent(getContext(), UserHomePageActivity.class);
-                    intent.putExtra("REQUEST_CODE", "chat_loader");
-                    intent.putExtra("TITLE", userDetails.getName());
-                    intent.putExtra("UID", userDetails.getuId());
-                    startActivity(intent);
+                case R.id.root_user:
+
+                    controller.openUserLoaderPage(userDetails);
+
+//                    Intent intent = new Intent(getContext(), UserHomePageActivity.class);
+//                    intent.putExtra("REQUEST_CODE", "chat_loader");
+//                    intent.putExtra("TITLE", userDetails.getName());
+//                    intent.putExtra("UID", userDetails.getuId());
+//                    startActivity(intent);
                     break;
 
                 case R.id.btn_follow_following:
-                    followFollowerBtnClick();
+
+                    switch (followBtn.getText().toString().toLowerCase()) {
+                        case "follow":
+                            controller.sendFollowRequest(userDetails.getuId());
+                            break;
+                        case "following":
+                            onFollowingBtnClick(userDetails.getuId(), userDetails.getName());
+                            break;
+                        case "accept":
+                            controller.acceptFollowingRequest(userDetails.getuId());
+                            break;
+                        case "requested":
+                            onRequestedBtnClick(userDetails.getuId(), userDetails.getName());
+                            break;
+                        case "suggest":
+                            controller.suggestInstitutionToFriend(userDetails.getuId(), institutionId);
+                            break;
+                    }
+
                     break;
 
                 default:
@@ -366,14 +353,153 @@ public class UserMainFragment extends Fragment implements UserMainInterface {
 
         }
 
-        private void followFollowerBtnClick() {
-            if (intentFromSuggestFriend) {
-                controller.suggestInstitutionToFriend(userDetails.getuId(), institutionId);
-            }
+        private void onFollowingBtnClick(final String friendId, String name) {
+
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+
+            // Dialog title
+            alertDialog.setTitle(name.toUpperCase());
+
+            // Dialog message
+            alertDialog.setMessage("Do you want to stop following " + name );
+
+            // On pressing setting button
+            alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    controller.stopFollowing(friendId);
+                }
+            });
+
+            // On pressing cancel button
+            alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+
+            // Show alert
+            alertDialog.show();
+
+        }
+
+        private void onRequestedBtnClick(final String friendId, String name) {
+
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+
+            // Dialog title
+            alertDialog.setTitle(name.toUpperCase());
+
+            // Dialog message
+            alertDialog.setMessage("Do you want to cancel following request to " + name );
+
+            // On pressing setting button
+            alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    controller.cancelFollowingRequest(friendId);
+                }
+            });
+
+            // On pressing cancel button
+            alertDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+
+            // Show alert
+            alertDialog.show();
+
         }
 
     }
 
+    private String getUserType(String userType) {
+
+        String type = null;
+
+        switch (userType) {
+            case "1":
+                type = getString(R.string.typeStudent);
+                break;
+            case "2":
+                type = getString(R.string.typeTeacher);
+                break;
+            case "3":
+                type = getString(R.string.typeInstitution);
+                break;
+        }
+
+        return type;
+    }
+
+    private void changeButtonBehaviourAllUser(String uId, CircularProgressButton button) {
+
+        HashMap<String, Boolean> following = NavigationDrawerFragment.followingList;
+
+        if (following.containsKey(uId) && following.get(uId)) {
+            button.setBackground(ContextCompat.getDrawable(Objects.requireNonNull(getContext()), R.drawable.rounded_bg));
+            button.setText(R.string.following);
+            button.setTextColor(Color.parseColor("#E9E9E9"));
+        } else if (following.containsKey(uId) && !following.get(uId)) {
+            button.setText(R.string.requested);
+        }
+
+    }
+
+    private void changeButtonBehaviour(HashMap<String, Boolean> userList, String uId, CircularProgressButton button) {
+
+        // If user is there in list key and value is true then set button as following
+        // True means user is followed by current user
+        if (userList.get(uId) != null && userList.get(uId)) {
+
+            switch (category) {
+
+                case "followers":
+                    if (NavigationDrawerFragment.followingList.containsKey(uId) && NavigationDrawerFragment.followingList.get(uId)) {
+                        button.setBackground(ContextCompat.getDrawable(Objects.requireNonNull(getContext()), R.drawable.rounded_bg));
+                        button.setText(R.string.following);
+                        button.setTextColor(Color.parseColor("#E9E9E9"));
+                    }
+                    break;
+
+                case "following":
+                    button.setBackground(ContextCompat.getDrawable(Objects.requireNonNull(getContext()), R.drawable.rounded_bg));
+                    button.setText(R.string.following);
+                    button.setTextColor(Color.parseColor("#E9E9E9"));
+                    break;
+
+                case "suggest":
+                    button.setText(R.string.suggest);
+                    break;
+
+            }
+
+            // if user value in list is false then set button as requested.
+            // Once request accepted button will be converted to following
+        } else if (userList.get(uId) != null && !userList.get(uId)) {
+
+            switch (category) {
+
+                case "followers":
+                    button.setBackground(ContextCompat.getDrawable(Objects.requireNonNull(getContext()), R.drawable.rounded_bg));
+                    button.setText(R.string.accept);
+                    button.setTextColor(Color.parseColor("#E9E9E9"));
+                    break;
+
+                case "following":
+                    button.setText(R.string.requested);
+                    break;
+
+            }
+
+
+        }
+
+    }
 
     @Override
     public void showSpinner() {

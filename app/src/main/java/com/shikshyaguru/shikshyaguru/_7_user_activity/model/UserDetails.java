@@ -8,6 +8,7 @@ package com.shikshyaguru.shikshyaguru._7_user_activity.model;
 public class UserDetails {
 
     private String uId, name, userName, userType, institution, imageUrl;
+    private String email, followers, following, questions, answers;
 
     public UserDetails() {
         // For firebase
@@ -59,6 +60,46 @@ public class UserDetails {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(String followers) {
+        this.followers = followers;
+    }
+
+    public String getFollowing() {
+        return following;
+    }
+
+    public void setFollowing(String following) {
+        this.following = following;
+    }
+
+    public String getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(String questions) {
+        this.questions = questions;
+    }
+
+    public String getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(String answers) {
+        this.answers = answers;
     }
 
 }

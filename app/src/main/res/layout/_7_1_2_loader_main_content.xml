@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/dragView"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/transparent"
     android:focusable="false"
     android:orientation="vertical">
@@ -12,7 +12,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:clipToPadding="false"
         android:focusable="false"
         android:orientation="vertical"
@@ -242,7 +242,6 @@
                         android:text="@string/pankaj_email"
                         android:textSize="12sp" />
 
-
                 </RelativeLayout>
 
             </android.support.v7.widget.CardView>
@@ -257,71 +256,43 @@
                 app:siBorderColor="#FAFAFA"
                 app:siBorderWidth="2dp" />
 
-            <RelativeLayout
+            <LinearLayout
+                android:id="@+id/name1"
                 android:layout_width="match_parent"
-                android:layout_height="1000dp"
+                android:layout_height="60dp"
                 android:layout_below="@+id/iv_user_loader_profile_bg"
-                android:background="#E6FAFAFA">
+                android:orientation="horizontal"
+                android:weightSum="2">
 
-                <LinearLayout
-                    android:id="@+id/name1"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:orientation="horizontal"
-                    android:weightSum="2">
+                <TextView
+                    android:id="@+id/btn_user_loader_ask_question"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_pressed_no_round"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:text="@string/ask_question"
+                    android:textColor="#CCFAFAFA"
+                    android:textSize="20sp" />
 
-                    <TextView
-                        android:id="@+id/btn_user_loader_ask_question"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@drawable/button_pressed_no_round"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:gravity="center"
-                        android:text="@string/ask_question"
-                        android:textColor="#CCFAFAFA"
-                        android:textSize="20sp" />
+                <TextView
+                    android:id="@+id/btn_user_loader_send_message"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_pressed_no_round"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:text="@string/send_message"
+                    android:textColor="#CCFAFAFA"
+                    android:textSize="20sp" />
 
-                    <TextView
-                        android:id="@+id/btn_user_loader_send_message"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@drawable/button_pressed_no_round"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:gravity="center"
-                        android:text="@string/send_message"
-                        android:textColor="#CCFAFAFA"
-                        android:textSize="20sp" />
+            </LinearLayout>
 
-                </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/name2"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_below="@+id/name1"
-                    android:background="#E6FAFAFA"
-                    android:orientation="horizontal"
-                    android:weightSum="2">
-
-                    <TextView
-                        android:id="@+id/btn_user_loader_all_user"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/button_pressed_no_round"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:gravity="center"
-                        android:text="@string/see_peoples"
-                        android:textColor="#CCFAFAFA"
-                        android:textSize="20sp" />
-
-                </LinearLayout>
-
-            </RelativeLayout>
 
         </RelativeLayout>
 

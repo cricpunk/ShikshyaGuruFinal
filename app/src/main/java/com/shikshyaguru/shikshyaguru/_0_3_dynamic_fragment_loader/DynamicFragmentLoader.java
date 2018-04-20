@@ -18,7 +18,7 @@ import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionL
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionMainFragment;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerGalleryLoader;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerGalleryLoaderImageLoader;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerProgrammesCoursesLoader;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerProgrammesCoursesFragment;
 import com.shikshyaguru.shikshyaguru._7_user_activity.views.ChatFragment;
 import com.shikshyaguru.shikshyaguru._7_user_activity.views.MessageFragment;
 import com.shikshyaguru.shikshyaguru._7_user_activity.views.QuestionsFragment;
@@ -112,8 +112,8 @@ public class DynamicFragmentLoader {
         return institutionLoaderFragment;
     }
 
-    private static ViewPagerProgrammesCoursesLoader openCourseLoader(Bundle bundle) {
-        ViewPagerProgrammesCoursesLoader coursesLoader = new ViewPagerProgrammesCoursesLoader();
+    private static ViewPagerProgrammesCoursesFragment openCourseLoader(Bundle bundle) {
+        ViewPagerProgrammesCoursesFragment coursesLoader = new ViewPagerProgrammesCoursesFragment();
         coursesLoader.setArguments(bundle);
         return coursesLoader;
     }

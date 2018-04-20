@@ -16,8 +16,8 @@
         android:background="@drawable/courses_bg">
 
         <TextView
-            android:id="@+id/lbl_inst_loader_vp_programmes_courses_name"
-            android:layout_width="200dp"
+            android:id="@+id/lbl_inst_loader_vp_programmes_faculty_name"
+            android:layout_width="match_parent"
             android:layout_height="200dp"
             android:background="#B3000000"
             android:gravity="center"

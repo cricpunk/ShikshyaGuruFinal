@@ -43,6 +43,7 @@ import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.DataSourceHomeP
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.DrawerListItem;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.presenter.HomePageController;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionsHomePageActivity;
+import com.shikshyaguru.shikshyaguru._7_user_activity.model.UserDetails;
 import com.shikshyaguru.shikshyaguru._7_user_activity.views.UserHomePageActivity;
 import com.squareup.picasso.Picasso;
 
@@ -51,7 +52,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-public class NavigationDrawerFragment extends Fragment implements DrawerInterface, View.OnClickListener {
+public class NavigationDrawerFragment extends Fragment implements NavigationDrawerInterface {
 
     private View rootView;
     public static final String PREF_FILE_NAME = "testPref";
@@ -65,13 +66,14 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
     private List<DrawerListItem> listOfDrawerHeader;
 
     private ArrayList<String> favInstList = new ArrayList<>();
-    private HashMap<String, Boolean> followersList = new HashMap<>();
+    public static HashMap<String, Boolean> followersList = new HashMap<>();
     public static HashMap<String, Boolean> followingList = new HashMap<>();
 
     private HomePageController controller;
 
     private FirebaseAuth mAuth;
     public static FirebaseUser currentUser;
+    public static UserDetails userDetailsFromAuthProvider;
 
     public NavigationDrawerFragment() {
         //Required empty public constructor
@@ -90,7 +92,6 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
         }
 
         mAuth = FirebaseAuth.getInstance();
-        currentUser = mAuth.getCurrentUser();
 
         navigationDrawerSection();
         controller = new HomePageController(this, new DataSourceHomePageHomePage());
@@ -104,23 +105,48 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
     }
 
     private void navigationDrawerSection() {
-        ImageView userProfile = rootView.findViewById(R.id.iv_nav_drawer_user_profile_pic);
+
+        ImageView userImageIcon = rootView.findViewById(R.id.iv_nav_drawer_user_profile_pic);
         TextView userName = rootView.findViewById(R.id.lbl_nav_drawer_user_name);
         TextView userEmail = rootView.findViewById(R.id.lbl_nav_drawer_user_email);
 
-        if (currentUser != null) {
+        Picasso.get()
+                .load(currentUser.getPhotoUrl())
+                .fit()
+                .centerCrop()
+                .placeholder(R.drawable.ic_user)
+                .into(userImageIcon);
 
-            Picasso.get()
-                    .load(currentUser.getPhotoUrl())
-                    .fit()
-                    .centerCrop()
-                    .placeholder(R.drawable.ic_user)
-                    .into(userProfile);
+        userName.setText(currentUser.getDisplayName());
+        userEmail.setText(currentUser.getEmail());
 
-            userName.setText(currentUser.getDisplayName());
-            userEmail.setText(currentUser.getEmail());
-        }
-        userProfile.setOnClickListener(this);
+
+        userImageIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                userIconProfileClick();
+            }
+        });
+
+    }
+
+    private void userIconProfileClick() {
+
+        Intent intent = new Intent(getContext(), UserHomePageActivity.class);
+        intent.putExtra("REQUEST_CODE", "user_loader");
+        intent.putExtra("UID", currentUser.getUid());
+        intent.putExtra("IMAGE", Objects.requireNonNull(currentUser.getPhotoUrl()).toString());
+        intent.putExtra("NAME", currentUser.getDisplayName());
+        intent.putExtra("EMAIL", currentUser.getEmail());
+        intent.putExtra("FOLLOWERS", String.valueOf(followersList.size()));
+        intent.putExtra("FOLLOWING", String.valueOf(followingList.size()));
+        String[] emailArr = Objects.requireNonNull(currentUser.getEmail()).split("@");
+        String userName = emailArr[0];
+
+        intent.putExtra("USER_NAME", userName);
+        //        intent.putExtra("TYPE", userDetails.getUserType());
+        //        intent.putExtra("INSTITUTION", userDetails.getInstitution());
+        startActivity(intent);
 
     }
 
@@ -207,30 +233,7 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
 
     @Override
     public void followingList(HashMap<String, Boolean> following) {
-        this.followingList = following;
-    }
-
-    @Override
-    public void onUserProfileClickListener() {
-        Intent intent = new Intent(getContext(), UserHomePageActivity.class);
-        intent.putExtra("REQUEST_CODE", "user_loader");
-        intent.putExtra("UID", currentUser.getUid());
-        intent.putExtra("IMAGE", currentUser.getPhotoUrl());
-        intent.putExtra("NAME", currentUser.getDisplayName());
-
-        String[] emailArr = Objects.requireNonNull(currentUser.getEmail()).split("@");
-        String userName = emailArr[0];
-
-        intent.putExtra("USER_NAME", userName);
-//        intent.putExtra("TYPE", userDetails.getUserType());
-//        intent.putExtra("INSTITUTION", userDetails.getInstitution());
-        startActivity(intent);
-
-    }
-
-    @Override
-    public void onClick(View v) {
-        controller.onUserProfileClick();
+        followingList = following;
     }
 
     private class DrawerHeaderAdapter extends RecyclerView.Adapter<DrawerHeaderAdapter.DrawerHeaderViewHolder> {
@@ -251,7 +254,7 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
             switch (position) {
                 // Favourites
                 case 2:
-                    if (favInstList.size() != 0 ) {
+                    if (favInstList.size() != 0) {
                         holder.mDrawerNotiCounter.setVisibility(View.VISIBLE);
                         holder.mDrawerNotiCounter.setText(String.valueOf(favInstList.size()));
                     }
@@ -259,7 +262,7 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
 
                 // Followers
                 case 3:
-                    if (followersList.size() != 0 ) {
+                    if (followersList.size() != 0) {
                         holder.mDrawerNotiCounter.setVisibility(View.VISIBLE);
                         holder.mDrawerNotiCounter.setText(String.valueOf(followersList.size()));
                     }
@@ -267,7 +270,7 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
 
                 // Following
                 case 4:
-                    if (followingList.size() != 0 ) {
+                    if (followingList.size() != 0) {
                         holder.mDrawerNotiCounter.setVisibility(View.VISIBLE);
                         holder.mDrawerNotiCounter.setText(String.valueOf(followingList.size()));
                     }
@@ -310,7 +313,7 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
 
                     // Profile
                     case 0:
-                        onUserProfileClickListener();
+                        userIconProfileClick();
                         break;
 
                     // Messages
@@ -436,8 +439,6 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
                 }
 
 
-
-
             }
 
             private void updateUi() {
@@ -447,6 +448,7 @@ public class NavigationDrawerFragment extends Fragment implements DrawerInterfac
                 startActivity(new Intent(getContext(), AuthenticationActivity.class));
                 Objects.requireNonNull(getActivity()).finish();
             }
+
 
         }
     }

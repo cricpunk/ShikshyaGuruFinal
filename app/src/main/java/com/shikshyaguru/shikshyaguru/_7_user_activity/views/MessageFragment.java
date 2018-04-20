@@ -19,7 +19,9 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.shikshyaguru.shikshyaguru.R;
 import com.shikshyaguru.shikshyaguru._0_6_widgets.StatusBar;
 import com.shikshyaguru.shikshyaguru._0_6_widgets.Toolbars;
+import com.shikshyaguru.shikshyaguru._7_user_activity.model.UserDataSource;
 import com.shikshyaguru.shikshyaguru._7_user_activity.model.UserDetails;
+import com.shikshyaguru.shikshyaguru._7_user_activity.presenter.UserController;
 
 import java.util.Objects;
 
@@ -30,9 +32,10 @@ import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
  * Kathmandu, Nepal
  * Koiralapankaj007@gmail.com
  */
-public class MessageFragment extends Fragment {
+public class MessageFragment extends Fragment implements MessageInterface {
 
     private LayoutInflater inflater;
+    private UserController controller;
 
     @Nullable
     @Override
@@ -48,6 +51,10 @@ public class MessageFragment extends Fragment {
         Toolbars.setUpToolbar(toolbar, getActivity(), "Messages");
         // To make onOptionItemSelected working we have to setHasOptionsMenu true in fragment.
         setHasOptionsMenu(true);
+
+        controller = new UserController(this, new UserDataSource());
+
+        controller.displayAllMessages();
 
         return view;
     }

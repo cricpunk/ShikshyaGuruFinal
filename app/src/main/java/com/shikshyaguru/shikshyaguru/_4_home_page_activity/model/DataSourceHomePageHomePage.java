@@ -12,7 +12,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.shikshyaguru.shikshyaguru.R;
-import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.DrawerInterface;
+import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.NavigationDrawerInterface;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.NavigationDrawerFragment;
 
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ public class DataSourceHomePageHomePage implements DataSourceHomePageInterface, 
     private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
     private String uId = NavigationDrawerFragment.currentUser.getUid();
 
-    private DrawerInterface drawerInterface;
+    private NavigationDrawerInterface navigationDrawerInterface;
 
     private final int[] DRAWER_MAIN_HEADER_ICONS = {
             R.drawable.ic_nd_user_home,
@@ -93,9 +93,9 @@ public class DataSourceHomePageHomePage implements DataSourceHomePageInterface, 
     }
 
     @Override
-    public void setUpDrawerWithData(DrawerInterface drawerInterface) {
+    public void setUpDrawerWithData(NavigationDrawerInterface navigationDrawerInterface) {
 
-        this.drawerInterface = drawerInterface;
+        this.navigationDrawerInterface = navigationDrawerInterface;
 
         DatabaseReference favourites = mDatabase.getReference().child("users").child(uId).child("favourites");
         DatabaseReference followers = mDatabase.getReference().child("users").child(uId).child("followers");
@@ -118,7 +118,7 @@ public class DataSourceHomePageHomePage implements DataSourceHomePageInterface, 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     favInstitution.add(snapshot.getKey());
                 }
-                drawerInterface.favouriteInstitutionList(favInstitution);
+                navigationDrawerInterface.favouriteInstitutionList(favInstitution);
                 break;
 
             case "followers":
@@ -127,7 +127,7 @@ public class DataSourceHomePageHomePage implements DataSourceHomePageInterface, 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     followers.put(snapshot.getKey(), snapshot.child("status").getValue(Boolean.class));
                 }
-                drawerInterface.followerList(followers);
+                navigationDrawerInterface.followerList(followers);
                 break;
 
             case "following":
@@ -136,13 +136,13 @@ public class DataSourceHomePageHomePage implements DataSourceHomePageInterface, 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     following.put(snapshot.getKey(), snapshot.child("status").getValue(Boolean.class));
                 }
-                drawerInterface.followingList(following);
+                navigationDrawerInterface.followingList(following);
                 break;
 
         }
 
         //after getting all data display drawer items
-        drawerInterface.setUpDrawerMainHeader(getListOfDrawerMainHeader());
+        navigationDrawerInterface.setUpDrawerMainHeader(getListOfDrawerMainHeader());
     }
 
     @Override

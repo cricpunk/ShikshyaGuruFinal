@@ -197,6 +197,9 @@ Quam libero nulla netus eu porta curae, ut nulla bibendum facilisis et urna sed,
     <string name="locationTo">Localização Enviada</string>
     <string name="sendPhoto">Photo Camera</string>
     <string name="message_hint">Message ...</string>
+    <string name="accept">Accept</string>
+    <string name="peoples">Peoples</string>
+    <string name="update_profile">Update profile</string>
 
 
 </resources>

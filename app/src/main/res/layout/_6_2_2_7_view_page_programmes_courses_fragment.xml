@@ -17,12 +17,12 @@
             android:layout_height="wrap_content"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-            <include layout="@layout/toolbar_black" />
+            <include layout="@layout/toolbar_blue" />
 
         </android.support.design.widget.AppBarLayout>
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/rec_user_messages"
+            android:id="@+id/rec_inst_loader_vp_courses"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorBackground"

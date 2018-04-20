@@ -5,8 +5,8 @@ import android.app.ActivityOptions;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.DataSourceHomePageInterface;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.InstitutionsListItemParent;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.NewsListItem;
-import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.DrawerInterface;
-import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.ViewInterface;
+import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.NavigationDrawerInterface;
+import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.HomePageInterface;
 
 /**
  * Created by cricpunk on 8/30/17.
@@ -16,11 +16,11 @@ import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.ViewInterface;
 
 public class HomePageController {
 
-    private ViewInterface view;
+    private HomePageInterface view;
     private DataSourceHomePageInterface dataSource;
-    private DrawerInterface drawerInterface;
+    private NavigationDrawerInterface navigationDrawerInterface;
 
-    public HomePageController(ViewInterface view, DataSourceHomePageInterface dataSource) {
+    public HomePageController(HomePageInterface view, DataSourceHomePageInterface dataSource) {
         this.view = view;
         this.dataSource = dataSource;
 
@@ -31,15 +31,10 @@ public class HomePageController {
 
     }
 
-    public HomePageController(DrawerInterface drawerInterface, DataSourceHomePageInterface dataSource) {
+    public HomePageController(NavigationDrawerInterface navigationDrawerInterface, DataSourceHomePageInterface dataSource) {
         this.dataSource = dataSource;
-        this.drawerInterface = drawerInterface;
-        dataSource.setUpDrawerWithData(drawerInterface);
-    }
-
-
-    public void onUserProfileClick() {
-        drawerInterface.onUserProfileClickListener();
+        this.navigationDrawerInterface = navigationDrawerInterface;
+        dataSource.setUpDrawerWithData(navigationDrawerInterface);
     }
 
     private void setUpSliderWithData() {

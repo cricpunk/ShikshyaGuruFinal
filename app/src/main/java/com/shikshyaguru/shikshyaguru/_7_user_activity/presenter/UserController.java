@@ -3,6 +3,7 @@ package com.shikshyaguru.shikshyaguru._7_user_activity.presenter;
 import com.shikshyaguru.shikshyaguru._7_user_activity.model.UserDataSourceInterface;
 import com.shikshyaguru.shikshyaguru._7_user_activity.model.UserDetails;
 import com.shikshyaguru.shikshyaguru._7_user_activity.views.ChatInterface;
+import com.shikshyaguru.shikshyaguru._7_user_activity.views.MessageInterface;
 import com.shikshyaguru.shikshyaguru._7_user_activity.views.UserLoaderInterface;
 import com.shikshyaguru.shikshyaguru._7_user_activity.views.UserMainInterface;
 
@@ -18,6 +19,7 @@ public class UserController {
     private UserLoaderInterface loaderInterface;
     private UserMainInterface mainInterface;
     private ChatInterface chatInterface;
+    private MessageInterface messageInterface;
     private UserDataSourceInterface dataSource;
 
     public UserController(UserMainInterface mainInterface, UserDataSourceInterface dataSource) {
@@ -35,6 +37,11 @@ public class UserController {
         this.dataSource = dataSource;
     }
 
+    public UserController(MessageInterface messageInterface, UserDataSourceInterface dataSource) {
+        this.messageInterface = messageInterface;
+        this.dataSource = dataSource;
+    }
+
     public void displayAllUser(String category) {
         mainInterface.showSpinner();
         mainInterface.setUpUsersAdapter(dataSource.getAllUsers(mainInterface, category));
@@ -42,7 +49,7 @@ public class UserController {
 
 
     public void openUserLoaderPage(UserDetails userDetails) {
-        mainInterface.openUserLoaderPage(userDetails);
+        dataSource.loadUserFullPage(mainInterface, userDetails);
     }
 
     public void setUserProfile(String uId) {
@@ -61,4 +68,29 @@ public class UserController {
     public void displayAllChats(String friendUID) {
         dataSource.getChatDetails(chatInterface, friendUID);
     }
+
+    public void displayAllMessages() {
+        dataSource.getAllMessages(messageInterface);
+    }
+
+    public void sendMessage(String friendUID, String message) {
+        dataSource.sendMessage(friendUID, message);
+    }
+
+    public void sendFollowRequest(String friendId) {
+        dataSource.sendFollowRequest(mainInterface, friendId);
+    }
+
+    public void acceptFollowingRequest(String friendId) {
+        dataSource.acceptFollowingRequest(mainInterface, friendId);
+    }
+
+    public void stopFollowing(String friendId) {
+        dataSource.stopFollowing(mainInterface, friendId);
+    }
+
+    public void cancelFollowingRequest(String friendId) {
+        dataSource.cancelFollowingRequest(mainInterface, friendId);
+    }
+
 }

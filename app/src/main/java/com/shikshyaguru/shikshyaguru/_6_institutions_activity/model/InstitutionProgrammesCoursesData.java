@@ -49,4 +49,5 @@ public class InstitutionProgrammesCoursesData {
     public void setSubjectOptionsCollectionXii(List<String[]> subjectOptionsCollectionXii) {
         this.subjectOptionsCollectionXii = subjectOptionsCollectionXii;
     }
+
 }

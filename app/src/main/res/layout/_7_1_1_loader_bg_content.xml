@@ -10,12 +10,9 @@
         android:id="@+id/iv_user_loader_profile_bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:focusable="false"
-        android:focusableInTouchMode="true"
         android:gravity="center"
         android:scaleType="centerCrop"
         android:src="@drawable/model2"
-        android:textSize="16sp"
         tools:ignore="ContentDescription" />
 
     <RelativeLayout

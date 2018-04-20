@@ -14,9 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.shikshyaguru.shikshyaguru.R;
-import com.shikshyaguru.shikshyaguru._7_user_activity.model.UserdataSource;
+import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.NavigationDrawerFragment;
+import com.shikshyaguru.shikshyaguru._7_user_activity.model.UserDataSource;
 import com.shikshyaguru.shikshyaguru._7_user_activity.presenter.UserController;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.squareup.picasso.Picasso;
@@ -39,11 +41,11 @@ public class UserLoaderFragment extends Fragment implements View.OnClickListener
 
     private ImageView fUserProfilePic;
     private TextView fName, fType, fInstitution, fQuestion, fAnswer, fFollower, fFollowing, fMail;
-    private TextView fBtnFollow, fBtnSendMessage, fBtnAskQuestion, fBtnSeeAllPeople;
+    private TextView fBtnFollow, fBtnSendMessage, fBtnAskQuestion;
 
     private UserController controller;
 
-    private String uId, image, name, uName, type, institution;
+    private String uId, image, name, email, uName, type, institution, followers, following;
 
     @Nullable
     @Override
@@ -55,8 +57,11 @@ public class UserLoaderFragment extends Fragment implements View.OnClickListener
             this.uId = getArguments().getString("UID");
             this.image = getArguments().getString("IMAGE");
             this.name = getArguments().getString("NAME");
+            this.email = getArguments().getString("EMAIL");
             this.uName = getArguments().getString("USER_NAME");
             this.type = getArguments().getString("TYPE");
+            this.followers = getArguments().getString("FOLLOWERS");
+            this.following = getArguments().getString("FOLLOWING");
             this.institution = getArguments().getString("INSTITUTION");
 
         }
@@ -66,7 +71,7 @@ public class UserLoaderFragment extends Fragment implements View.OnClickListener
         initToolbarAndLayout();
         initSlidingPanel();
 
-        controller = new UserController(this, new UserdataSource());
+        controller = new UserController(this, new UserDataSource());
 
         controller.setUserProfile(uId);
 
@@ -78,7 +83,7 @@ public class UserLoaderFragment extends Fragment implements View.OnClickListener
         super.onViewCreated(view, savedInstanceState);
     }
 
-    private void initComponents(View view ) {
+    private void initComponents(View view) {
 
         mainLayout = view.findViewById(R.id.sliding_layout);
         bgLayout = view.findViewById(R.id.include_background_content);
@@ -105,11 +110,16 @@ public class UserLoaderFragment extends Fragment implements View.OnClickListener
         fBtnFollow = frontLayout.findViewById(R.id.btn_user_loader_follow_btn);
         fBtnSendMessage = frontLayout.findViewById(R.id.btn_user_loader_send_message);
         fBtnAskQuestion = frontLayout.findViewById(R.id.btn_user_loader_ask_question);
-        fBtnSeeAllPeople = frontLayout.findViewById(R.id.btn_user_loader_all_user);
 
         fBtnSendMessage.setOnClickListener(this);
         fBtnAskQuestion.setOnClickListener(this);
-        fBtnSeeAllPeople.setOnClickListener(this);
+
+        // Dent show follow button for ourselves
+        if (uId.equals(NavigationDrawerFragment.currentUser.getUid())) {
+            fBtnFollow.setVisibility(View.INVISIBLE);
+            fBtnAskQuestion.setText(R.string.peoples);
+            fBtnSendMessage.setText(R.string.update_profile);
+        }
 
     }
 
@@ -117,7 +127,7 @@ public class UserLoaderFragment extends Fragment implements View.OnClickListener
         Toolbar toolbar = bgLayout.findViewById(R.id.tb_user_loader_frag);
         ((AppCompatActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(toolbar);
 
-        ActionBar getSupportActionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        ActionBar getSupportActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         if (getSupportActionBar != null) {
             getSupportActionBar.setDisplayHomeAsUpEnabled(false);
             getSupportActionBar.setDisplayShowTitleEnabled(false);
@@ -166,6 +176,8 @@ public class UserLoaderFragment extends Fragment implements View.OnClickListener
                 .into(fUserProfilePic);
 
         fName.setText(name);
+        fMail.setText(email);
+
         if (type != null) {
             switch (type) {
                 case "1":
@@ -182,6 +194,8 @@ public class UserLoaderFragment extends Fragment implements View.OnClickListener
 
             }
         }
+        fFollower.setText(followers);
+        fFollowing.setText(following);
         fInstitution.setText(institution);
 
     }
@@ -192,18 +206,30 @@ public class UserLoaderFragment extends Fragment implements View.OnClickListener
         switch (v.getId()) {
 
             case R.id.btn_user_loader_send_message:
+
+                if (fBtnSendMessage.getText().toString().toLowerCase().equals("update profile")) {
+                    Toast.makeText(getContext(), "Update profile", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "Send Message", Toast.LENGTH_SHORT).show();
+                }
                 break;
 
             case R.id.btn_user_loader_ask_question:
+
+                if (fBtnAskQuestion.getText().toString().toLowerCase().equals("peoples")) {
+
+                    Toast.makeText(getContext(), "Peoples", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getContext(), UserHomePageActivity.class);
+                    intent.putExtra("REQUEST_CODE", "user_main");
+                    intent.putExtra("TITLE", "Users");
+                    intent.putExtra("CATEGORY", "all");
+                    startActivity(intent);
+
+                } else {
+                    Toast.makeText(getContext(), "Ask Question", Toast.LENGTH_SHORT).show();
+                }
                 break;
 
-            case R.id.btn_user_loader_all_user:
-                Intent intent = new Intent(getContext(), UserHomePageActivity.class);
-                intent.putExtra("REQUEST_CODE", "user_main");
-                intent.putExtra("TITLE", "Users");
-                intent.putExtra("CATEGORY", "all");
-                startActivity(intent);
-                break;
 
         }
     }

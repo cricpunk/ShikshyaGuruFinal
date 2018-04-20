@@ -11,9 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public interface DrawerInterface {
-
-    void onUserProfileClickListener();
+public interface NavigationDrawerInterface {
 
     void setUpDrawerMainHeader(List<DrawerListItem> drawerListItems);
 

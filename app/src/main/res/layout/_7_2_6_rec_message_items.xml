@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_user"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/cardview_light_background"
+    android:orientation="vertical">
+
+    <com.github.siyamed.shapeimageview.CircularImageView
+        android:id="@+id/iv_user_icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="@dimen/margin_short"
+        android:scaleType="centerCrop"
+        android:src="@drawable/me"
+        android:transitionName="userIcon"
+        app:siBorderColor="#222222"
+        app:siBorderWidth="2dp" />
+
+    <RelativeLayout
+        android:id="@+id/l_institutions_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="@dimen/margin_short"
+        android:layout_marginStart="@dimen/margin_extra_short"
+        android:layout_toEndOf="@+id/iv_user_icon">
+
+        <TextView
+            android:id="@+id/lbl_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#212121"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            tools:text="Pankaj Koirala" />
+
+        <TextView
+            android:id="@+id/lbl_last_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lbl_user_name"
+            android:textColor="#616161"
+            tools:ignore="SmallSp"
+            tools:text="This is last message" />
+
+    </RelativeLayout>
+
+</RelativeLayout>
+
+

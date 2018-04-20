@@ -21,8 +21,8 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rec_user_messages"
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/rec_user_question"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorBackground"
@@ -31,7 +31,16 @@
             android:paddingEnd="@dimen/margin_short"
             android:paddingStart="@dimen/margin_short"
             android:paddingTop="6dp"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+            </RelativeLayout>
+
+        </android.support.v4.widget.NestedScrollView>
 
     </android.support.design.widget.CoordinatorLayout>
 

@@ -7,9 +7,9 @@ package com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_f
 
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionProgrammesData;
 
-public interface ViewPagerProgrammesInterface {
+public interface ViewPagerProgrammesLevelInterface {
 
     void setUpProgrammesLevel(InstitutionProgrammesData programmesData);
 
-    void onCoursesClickListener(String courseName);
+    void onCoursesClickListener(String levelName, String courseName);
 }

@@ -40,7 +40,7 @@ import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fr
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerGalleryFragment;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerHomeFragment;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerManagementFragment;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerProgrammesFragment;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerProgrammesLevelFragment;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerReviewsFragment;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerStaffFragment;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerStudentsFragment;
@@ -50,6 +50,8 @@ import com.shikshyaguru.shikshyaguru._8_map_activitiy.GPSTracker;
 import com.shikshyaguru.shikshyaguru._8_map_activitiy.MapsActivity;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class InstitutionLoaderFragment extends Fragment implements InstitutionLoaderInterface{
@@ -143,7 +145,7 @@ public class InstitutionLoaderFragment extends Fragment implements InstitutionLo
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
                 getFragmentManager(), FragmentPagerItems.with(getContext())
                 .add("Home", ViewPagerHomeFragment.class)
-                .add("Programmes", ViewPagerProgrammesFragment.class)
+                .add("Programmes", ViewPagerProgrammesLevelFragment.class)
                 .add("Students", ViewPagerStudentsFragment.class)
                 .add("Management", ViewPagerManagementFragment.class)
                 .add("Gallery", ViewPagerGalleryFragment.class)
@@ -268,13 +270,25 @@ public class InstitutionLoaderFragment extends Fragment implements InstitutionLo
 
     @Override
     public void suggestFriends() {
+
+        HashMap<String, Boolean> suggestFriendList = new HashMap<>();
+
+        // Only get following users. Following requested doesn't count as friends
+        for (Map.Entry<String, Boolean> user : NavigationDrawerFragment.followingList.entrySet()) {
+
+            if (user.getValue()) {
+                suggestFriendList.put(user.getKey(), user.getValue());
+            }
+
+        }
+
         Intent intent = new Intent(getContext(), UserHomePageActivity.class);
         intent.putExtra("REQUEST_CODE", "user_main");
         intent.putExtra("TITLE", "Suggest " + name);
-        intent.putExtra("CATEGORY", "following");
+        intent.putExtra("CATEGORY", "suggest");
         intent.putExtra("SUGGEST_FRIEND", true);
         intent.putExtra("INSTITUTION_ID", id);
-        intent.putExtra("LIST", NavigationDrawerFragment.followingList);
+        intent.putExtra("LIST", suggestFriendList);
         startActivity(intent);
     }
 

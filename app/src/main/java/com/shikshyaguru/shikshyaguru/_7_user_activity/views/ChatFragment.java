@@ -26,7 +26,7 @@ import com.shikshyaguru.shikshyaguru._0_6_widgets.StatusBar;
 import com.shikshyaguru.shikshyaguru._0_6_widgets.Toolbars;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.NavigationDrawerFragment;
 import com.shikshyaguru.shikshyaguru._7_user_activity.model.ChatMessage;
-import com.shikshyaguru.shikshyaguru._7_user_activity.model.UserdataSource;
+import com.shikshyaguru.shikshyaguru._7_user_activity.model.UserDataSource;
 import com.shikshyaguru.shikshyaguru._7_user_activity.presenter.UserController;
 
 import java.util.ArrayList;
@@ -82,8 +82,8 @@ public class ChatFragment extends Fragment implements ChatInterface {
 
         initComponents(view);
 
-        controller = new UserController(this, new UserdataSource());
-        controller.displayAllChats(friendUID);
+        controller = new UserController(this, new UserDataSource());
+        //controller.displayAllChats(friendUID);
 
         return view;
     }
@@ -109,7 +109,8 @@ public class ChatFragment extends Fragment implements ChatInterface {
                     Toast.makeText(getContext(), "You must enter a message", Toast.LENGTH_SHORT).show();
                 } else {
                     //message is entered, send
-                    sendMessageToFirebase(NavigationDrawerFragment.currentUser.getUid(), friendUID, message);
+                    //sendMessageToFirebase(NavigationDrawerFragment.currentUser.getUid(), friendUID, message);
+                    controller.sendMessage(friendUID, message);
                 }
             }
         });
