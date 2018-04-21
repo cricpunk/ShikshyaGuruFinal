@@ -5,7 +5,6 @@ package com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_f
  * Koiralapankaj007@gmail.com
  */
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -21,43 +20,45 @@ import android.widget.TextView;
 
 import com.shikshyaguru.shikshyaguru.R;
 import com.shikshyaguru.shikshyaguru._0_6_widgets.Toolbars;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionDataSource;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionProgrammesData;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter.VPProgrammesController;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionLoaderFragment;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionsHomePageActivity;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
-public class ViewPagerProgrammesCoursesFragment extends Fragment implements ViewPagerProgrammesCoursesFragmentInterface{
+public class ViewPagerProgrammesFeeStructure extends Fragment {
 
     private LayoutInflater inflater;
     private View rootView;
-    private InstitutionProgrammesData programmesData;
 
-    private String level, faculty;
+    private String level, faculty, programme, opt_sem;
+    private List<HashMap<String, String>> fees;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout._6_2_2_7_view_page_programmes_courses_fragment, container, false);
+        View view = inflater.inflate(R.layout._6_2_2_12_view_pager_programmes_fee_structure, container, false);
         this.inflater = inflater;
         this.rootView = view;
 
         if (getArguments() != null) {
+
             this.level = getArguments().getString("LEVEL_NAME");
             this.faculty = getArguments().getString("FACULTY_NAME");
+            this.programme = getArguments().getString("COURSE_NAME");
+            this.opt_sem = getArguments().getString("OPT_SEM");
+            //noinspection unchecked
+            this.fees = (List<HashMap<String, String>>) getArguments().getSerializable("FEE_LIST");
+
         }
 
-        String title = level.toUpperCase()+" / "+faculty.toUpperCase();
+        String title = opt_sem.toUpperCase()+" - Fee structure ";
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         Toolbars.setUpToolbar(toolbar, getActivity(), title);
         // To make onOptionItemSelected working we have to setHasOptionsMenu true in fragment.
         setHasOptionsMenu(true);
 
-        VPProgrammesController controller = new VPProgrammesController(this, new InstitutionDataSource());
 
-        controller.setUpProgrammesCourses(InstitutionLoaderFragment.id, level, faculty);
+        setUpFeeStructure();
 
         return view;
     }
@@ -65,7 +66,6 @@ public class ViewPagerProgrammesCoursesFragment extends Fragment implements View
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
     }
 
     @Override
@@ -83,15 +83,11 @@ public class ViewPagerProgrammesCoursesFragment extends Fragment implements View
         }
     }
 
-    @Override
-    public void setUpProgrammesCourses(InstitutionProgrammesData programmesData) {
-
-        this.programmesData = programmesData;
-        RecyclerView programmesLevelRecyclerView = rootView.findViewById(R.id.rec_inst_loader_vp_courses);
+    public void setUpFeeStructure() {
+        RecyclerView programmesLevelRecyclerView = rootView.findViewById(R.id.rec_inst_loader_vp_programmes_fee_structure);
         ProgrammesLevelAdapter adapter = new ProgrammesLevelAdapter();
         programmesLevelRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         programmesLevelRecyclerView.setAdapter(adapter);
-
     }
 
     private class ProgrammesLevelAdapter extends RecyclerView.Adapter<ProgrammesLevelAdapter.ProgrammesLevelViewHolder> {
@@ -99,48 +95,41 @@ public class ViewPagerProgrammesCoursesFragment extends Fragment implements View
         @NonNull
         @Override
         public ProgrammesLevelViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = inflater.inflate(R.layout._6_2_2_6_rec_vp_offers_courses_item, parent, false);
+            View view = inflater.inflate(R.layout._6_2_2_11_fee_structure_item, parent, false);
             return new ProgrammesLevelViewHolder(view);
         }
 
         @Override
         public void onBindViewHolder(@NonNull final ProgrammesLevelViewHolder holder, int position) {
 
-            String courseName = programmesData.getProgrammesCourses().get(position);
-            holder.coursesName.setText(courseName);
+            HashMap<String, String> currentItem = fees.get(position);
+
+            holder.feeName.setText(currentItem.get("type"));
+            holder.amount.setText(currentItem.get("amount"));
 
         }
 
         @Override
         public int getItemCount() {
-            return programmesData.getProgrammesCourses().size();
+            return fees.size();
         }
 
-        class ProgrammesLevelViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        class ProgrammesLevelViewHolder extends RecyclerView.ViewHolder {
 
-            private TextView coursesName;
-            private ViewGroup coursesRootView;
+            private TextView feeName, amount;
 
             ProgrammesLevelViewHolder(View itemView) {
                 super(itemView);
-                coursesName = itemView.findViewById(R.id.lbl_inst_loader_vp_programmes_faculty_name);
-                coursesRootView = itemView.findViewById(R.id.root_inst_loader_vp_programmes_courses);
-                coursesRootView.setOnClickListener(this);
+
+                this.feeName = itemView.findViewById(R.id.lbl_fee_name);
+                this.amount = itemView.findViewById(R.id.lbl_amount);
 
             }
 
-            @Override
-            public void onClick(View v) {
 
-                Intent intent = new Intent(getContext(), InstitutionsHomePageActivity.class);
-                intent.putExtra("REQUEST_CODE", "courses_opener");
-                intent.putExtra("LEVEL_NAME", level);
-                intent.putExtra("FACULTY_NAME", faculty);
-                intent.putExtra("COURSE_NAME", coursesName.getText().toString());
-                startActivity(intent);
-
-            }
         }
+
     }
+
 
 }

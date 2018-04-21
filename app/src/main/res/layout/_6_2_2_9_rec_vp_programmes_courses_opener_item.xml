@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_inst_loader_vp_programmes_courses"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -19,7 +20,7 @@
         android:drawablePadding="@dimen/margin_standard"
         android:drawableStart="@drawable/ic_courses_subject"
         android:paddingTop="@dimen/margin_short"
-        android:text="Compulsory math"
+        tools:text="Compulsory math"
         android:textColor="#222222"
         android:textSize="18sp" />
 
@@ -31,7 +32,7 @@
         android:drawablePadding="@dimen/margin_standard"
         android:drawableStart="@drawable/ic_courses_code"
         android:paddingBottom="@dimen/margin_short"
-        android:text="COM125" />
+        tools:text="COM125" />
 
     <TextView
         android:id="@+id/lbl_teacher_name"
@@ -43,8 +44,9 @@
         android:drawableEnd="@drawable/ic_courses_teacher"
         android:drawablePadding="@dimen/margin_standard"
         android:paddingTop="@dimen/margin_short"
-        android:text="Pankaj koirala"
-        android:textColor="#212121" />
+        tools:text="Pankaj koirala"
+        android:textColor="#212121"
+        tools:ignore="RelativeOverlap" />
 
     <TextView
         android:id="@+id/lbl_schedule"
@@ -54,7 +56,7 @@
         android:layout_below="@+id/lbl_teacher_name"
         android:drawableEnd="@drawable/ic_courses_timing"
         android:drawablePadding="@dimen/margin_standard"
-        android:text="07am - 08am" />
+        tools:text="07am - 08am" />
 
     <View
         android:layout_width="match_parent"

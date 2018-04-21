@@ -20,6 +20,7 @@ import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fr
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerGalleryLoaderImageLoader;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerProgrammesCoursesFragment;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerProgrammesCoursesLoaderFragment;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerProgrammesFeeStructure;
 import com.shikshyaguru.shikshyaguru._7_user_activity.views.ChatFragment;
 import com.shikshyaguru.shikshyaguru._7_user_activity.views.MessageFragment;
 import com.shikshyaguru.shikshyaguru._7_user_activity.views.QuestionsFragment;
@@ -60,6 +61,9 @@ public class DynamicFragmentLoader {
                     case "courses_opener":
                         showFragment(openCourseOpener(bundle), fragHolderId, fragmentManager);
                         break;
+                    case "fee_loader":
+                        showFragment(openFeeLoader(bundle), fragHolderId, fragmentManager);
+                        break;
                     case "gallery_loader":
                         showFragment(openGalleryLoader(bundle), fragHolderId, fragmentManager);
                         break;
@@ -91,7 +95,6 @@ public class DynamicFragmentLoader {
             showFragment(defaultFrag, fragHolderId, fragmentManager);
         }
     }
-
 
     private static void showFragment(Fragment fragment, int fragHolderId, FragmentManager fragmentManager) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -128,6 +131,13 @@ public class DynamicFragmentLoader {
         coursesLoader.setArguments(bundle);
         return coursesLoader;
     }
+
+    private static ViewPagerProgrammesFeeStructure openFeeLoader(Bundle bundle) {
+        ViewPagerProgrammesFeeStructure feeStructure = new ViewPagerProgrammesFeeStructure();
+        feeStructure.setArguments(bundle);
+        return feeStructure;
+    }
+
 
     private static ViewPagerGalleryLoader openGalleryLoader(Bundle bundle) {
         ViewPagerGalleryLoader galleryLoader = new ViewPagerGalleryLoader();

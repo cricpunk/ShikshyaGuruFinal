@@ -273,7 +273,7 @@ public class InstitutionDataSource implements InstitutionDataSourceInterface {
                     for (DataSnapshot fees : optSem.child("fees").getChildren()) {
                         HashMap<String, String> fee = new HashMap<>();
 
-                        fee.put("typ", fees.child("fee_type").getValue(String.class));
+                        fee.put("type", fees.child("fee_type").getValue(String.class));
                         fee.put("amount", fees.child("amount").getValue(String.class));
 
                         feeList.add(fee);
@@ -303,6 +303,7 @@ public class InstitutionDataSource implements InstitutionDataSourceInterface {
             public void onCancelled(DatabaseError databaseError) {
 
             }
+
         });
 
     }

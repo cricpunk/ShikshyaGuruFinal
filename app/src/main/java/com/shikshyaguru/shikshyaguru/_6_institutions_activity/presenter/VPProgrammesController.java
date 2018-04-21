@@ -1,11 +1,8 @@
 package com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter;
 
-import android.widget.Button;
-
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionDataSourceInterface;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerProgrammesCoursesFragmentInterface;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerProgrammesCoursesLoaderFragmentInterface;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerProgrammesCoursesLoaderInterface;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerProgrammesLevelInterface;
 
 /**
@@ -18,7 +15,6 @@ import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fr
 public class VPProgrammesController {
 
     private ViewPagerProgrammesLevelInterface programmesInterface;
-    private ViewPagerProgrammesCoursesLoaderInterface coursesLoaderInterface;
     private ViewPagerProgrammesCoursesFragmentInterface coursesFragmentInterface;
     private ViewPagerProgrammesCoursesLoaderFragmentInterface coursesLoaderFragmentInterface;
 
@@ -29,11 +25,6 @@ public class VPProgrammesController {
         this.dataSource = dataSource;
 
         setUpProgrammesLevel();
-    }
-
-    public VPProgrammesController(ViewPagerProgrammesCoursesLoaderInterface coursesLoaderInterface, InstitutionDataSourceInterface dataSource) {
-        this.coursesLoaderInterface = coursesLoaderInterface;
-        this.dataSource = dataSource;
     }
 
     public VPProgrammesController(ViewPagerProgrammesCoursesFragmentInterface coursesFragmentInterface, InstitutionDataSourceInterface dataSource) {
@@ -52,18 +43,6 @@ public class VPProgrammesController {
 
     public void onCoursesClickListener(String levelName, String courseName) {
         programmesInterface.onCoursesClickListener(levelName, courseName);
-    }
-
-    public void setUpCoursesAdapter() {
-        coursesLoaderInterface.setUpOptionsAdapter(dataSource.getInstitutionCoursesData());
-    }
-
-    public void onYearBtnClickListener(String year) {
-        coursesLoaderInterface.onYearBtnClickListener(year);
-    }
-
-    public void onMoreIconClickListener(Button button) {
-        coursesLoaderInterface.onMoreIconClickListener(button);
     }
 
     public void setUpProgrammesCourses(String id, String level, String faculty) {

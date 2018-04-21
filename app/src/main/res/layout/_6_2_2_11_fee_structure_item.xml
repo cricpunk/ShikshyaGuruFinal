@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_inst_loader_vp_programmes_courses"
+    android:layout_width="match_parent"
+    android:layout_height="45dp"
+    android:layout_marginBottom="2dp"
+    android:layout_marginLeft="1dp"
+    android:layout_marginRight="1dp"
+    android:background="#E9E9E9"
+    android:orientation="horizontal"
+    android:paddingEnd="@dimen/margin_standard"
+    android:paddingStart="@dimen/margin_standard">
+
+    <TextView
+        android:id="@+id/lbl_fee_name"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:drawablePadding="@dimen/margin_short"
+        android:drawableStart="@drawable/ic_dot"
+        android:gravity="center_vertical"
+        android:textColor="#222222"
+        android:textSize="18sp"
+        tools:text="Annual fee" />
+
+
+    <TextView
+        android:id="@+id/lbl_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:drawablePadding="@dimen/margin_short"
+        android:drawableStart="@drawable/ic_rupee"
+        android:gravity="center_vertical"
+        android:textColor="#212121"
+        tools:ignore="RelativeOverlap"
+        tools:text="15000" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:layout_below="@+id/lbl_fee_name"
+        android:background="#50000000" />
+
+
+</RelativeLayout>

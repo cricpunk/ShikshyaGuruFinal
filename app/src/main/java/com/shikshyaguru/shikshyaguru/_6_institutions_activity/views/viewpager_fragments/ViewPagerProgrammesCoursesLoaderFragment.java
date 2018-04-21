@@ -11,28 +11,35 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.shikshyaguru.shikshyaguru.R;
+import com.shikshyaguru.shikshyaguru._0_6_widgets.Toolbars;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionDataSource;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionProgrammesData;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter.VPProgrammesController;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionsHomePageActivity;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class ViewPagerProgrammesCoursesLoaderFragment extends Fragment implements ViewPagerProgrammesCoursesLoaderFragmentInterface {
 
     private LayoutInflater inflater;
     private View rootView;
     private InstitutionProgrammesData programmesData;
-    private VPProgrammesController controller;
 
     private String level, faculty, programme;
 
@@ -51,7 +58,14 @@ public class ViewPagerProgrammesCoursesLoaderFragment extends Fragment implement
 
         }
 
-        controller = new VPProgrammesController(this, new InstitutionDataSource());
+        String title = level.toUpperCase()+" / "+faculty.toUpperCase()+" / "+programme.toUpperCase();
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        Toolbars.setUpToolbar(toolbar, getActivity(), title);
+        // To make onOptionItemSelected working we have to setHasOptionsMenu true in fragment.
+        setHasOptionsMenu(true);
+
+
+        VPProgrammesController controller = new VPProgrammesController(this, new InstitutionDataSource());
 
         controller.setUpCoursesLoader(level, faculty, programme);
 
@@ -63,13 +77,21 @@ public class ViewPagerProgrammesCoursesLoaderFragment extends Fragment implement
         super.onViewCreated(view, savedInstanceState);
     }
 
-    public void onCoursesClickListener(String levelName, String courseName) {
-        Intent intent = new Intent(getContext(), InstitutionsHomePageActivity.class);
-        intent.putExtra("REQUEST_CODE", "courses_loader");
-        intent.putExtra("LEVEL_NAME", levelName);
-        intent.putExtra("FACULTY_NAME", courseName);
-        startActivity(intent);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+
+            case android.R.id.home:
+                Objects.requireNonNull(getActivity()).onBackPressed();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
     }
+
 
     @Override
     public void setUpProgrammesCourses(InstitutionProgrammesData programmesData) {
@@ -94,6 +116,7 @@ public class ViewPagerProgrammesCoursesLoaderFragment extends Fragment implement
 
             String programmeName = programmesData.getOptionSemList().get(position);
 
+            holder.fees = programmesData.getFeeCollection().get(programmeName);
             holder.programmesLevelName.setText(programmeName);
 
             holder.recProgrammesLabel.setNestedScrollingEnabled(false);
@@ -127,6 +150,8 @@ public class ViewPagerProgrammesCoursesLoaderFragment extends Fragment implement
             private LinearLayout layoutLevel;
             private View anchorView;
 
+            private List<HashMap<String, String>> fees;
+
             ProgrammesLevelViewHolder(View itemView) {
                 super(itemView);
                 layoutLevel = itemView.findViewById(R.id.l_programmes_level);
@@ -134,6 +159,46 @@ public class ViewPagerProgrammesCoursesLoaderFragment extends Fragment implement
                 programmesLevelName = itemView.findViewById(R.id.lbl_inst_loader_vp_programmes_label_name);
                 recProgrammesLabel = itemView.findViewById(R.id.rec_inst_loader_vp_programmes_courses);
 
+                programmesLevelName.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onMoreIconClickListener(programmesLevelName);
+                    }
+                });
+
+            }
+
+            void onMoreIconClickListener(TextView textView) {
+                //Context contextWrapper = new android.view.ContextThemeWrapper(activity, R.style.teachersBusinessCardPopup);
+                PopupMenu popupMenu = new PopupMenu(Objects.requireNonNull(getContext()), textView, Gravity.END);
+                popupMenu.getMenuInflater().inflate(R.menu.courses_options_popup, popupMenu.getMenu());
+
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+
+                        switch (item.getItemId()) {
+                            case R.id.courses_option_fee_structure:
+                                Intent intent = new Intent(getContext(), InstitutionsHomePageActivity.class);
+                                intent.putExtra("REQUEST_CODE", "fee_loader");
+                                intent.putExtra("LEVEL_NAME", level);
+                                intent.putExtra("FACULTY_NAME", faculty);
+                                intent.putExtra("COURSE_NAME", programme);
+                                intent.putExtra("OPT_SEM", programmesLevelName.getText().toString());
+                                intent.putExtra("FEE_LIST", (Serializable) fees);
+                                startActivity(intent);
+                                break;
+                            case R.id.courses_option_routine:
+                                Toast.makeText(getContext(), "Will be updated soon..", Toast.LENGTH_SHORT).show();
+                                break;
+                            default:
+                                break;
+                        }
+
+                        return true;
+                    }
+                });
+                popupMenu.show();
             }
 
         }
@@ -161,15 +226,18 @@ public class ViewPagerProgrammesCoursesLoaderFragment extends Fragment implement
 
         @Override
         public void onBindViewHolder(@NonNull ProgrammesCoursesViewHolder holder, int position) {
-//            holder.coursesName.setText(facultyName.get(position));
+            HashMap<String, String> currentItem = subjects.get(position);
+
+            holder.subjectName.setText(currentItem.get("subject"));
+            holder.subjectCode.setText(currentItem.get("code"));
+            holder.teacher.setText(currentItem.get("teacher"));
+            holder.timing.setText(currentItem.get("timing"));
         }
 
         @Override
         public int getItemCount() {
             return subjects.size();
         }
-
-
 
         class ProgrammesCoursesViewHolder extends RecyclerView.ViewHolder{
 

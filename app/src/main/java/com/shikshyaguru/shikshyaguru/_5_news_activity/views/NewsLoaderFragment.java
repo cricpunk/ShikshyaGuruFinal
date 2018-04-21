@@ -51,6 +51,7 @@ public class NewsLoaderFragment extends Fragment implements View.OnClickListener
         // To make onOptionItemSelected working we have to setHasOptionsMenu true in fragment.
         setHasOptionsMenu(true);
 
+
         return view;
     }
 
