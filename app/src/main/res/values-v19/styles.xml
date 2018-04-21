@@ -12,9 +12,6 @@
     </style>
 
     <!--Theme 3.    Observable scroll blue_toolbar theme-->
-    <style name="Toolbar" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowTranslucentNavigation">true</item>
-    </style>
 
     <style name="UserProfileTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@color/colorAppMain</item>

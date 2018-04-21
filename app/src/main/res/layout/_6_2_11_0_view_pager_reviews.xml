@@ -100,7 +100,6 @@
                     android:weightSum="5">
 
                     <TextView
-                        android:id="@+id/lbl_inst_loader_vp_review_five_star"
                         style="@style/ratingTextView"
                         android:layout_width="0dp"
                         android:layout_height="20dp"
@@ -134,7 +133,6 @@
                     android:weightSum="5">
 
                     <TextView
-                        android:id="@+id/lbl_inst_loader_vp_review_four_star"
                         style="@style/ratingTextView"
                         android:layout_width="0dp"
                         android:layout_height="20dp"
@@ -168,7 +166,6 @@
                     android:weightSum="5">
 
                     <TextView
-                        android:id="@+id/lbl_inst_loader_vp_review_three_star"
                         style="@style/ratingTextView"
                         android:layout_width="0dp"
                         android:layout_height="20dp"
@@ -202,7 +199,6 @@
                     android:weightSum="5">
 
                     <TextView
-                        android:id="@+id/lbl_inst_loader_vp_review_two_star"
                         style="@style/ratingTextView"
                         android:layout_width="0dp"
                         android:layout_height="20dp"
@@ -236,7 +232,6 @@
                     android:weightSum="5">
 
                     <TextView
-                        android:id="@+id/lbl_inst_loader_vp_review_one_star"
                         style="@style/ratingTextView"
                         android:layout_width="0dp"
                         android:layout_height="20dp"
@@ -309,7 +304,6 @@
                     tools:text="4.3" />
 
                 <TextView
-                    android:id="@+id/lbl_inst_loader_vp_review_education"
                     style="@style/circularRatingHeading"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -348,7 +342,6 @@
                     tools:text="4.3" />
 
                 <TextView
-                    android:id="@+id/lbl_inst_loader_vp_review_infrastructure"
                     style="@style/circularRatingHeading"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -387,7 +380,6 @@
                     tools:text="4.3" />
 
                 <TextView
-                    android:id="@+id/lbl_inst_loader_vp_review_teachers"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/cpb_inst_loader_vp_reviews_tec"
@@ -431,7 +423,6 @@
                     tools:text="4.3" />
 
                 <TextView
-                    android:id="@+id/lbl_inst_loader_vp_reviews_mgmt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/cpb_inst_loader_vp_reviews_mgt"

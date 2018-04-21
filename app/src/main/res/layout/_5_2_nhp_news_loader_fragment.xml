@@ -8,7 +8,6 @@
     android:background="#FFFFFF">
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/abl_inst_loader_frag"
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:clipToPadding="false"

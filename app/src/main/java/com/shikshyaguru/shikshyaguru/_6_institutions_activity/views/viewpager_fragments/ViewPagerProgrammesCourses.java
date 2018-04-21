@@ -29,7 +29,7 @@ import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.Institutions
 
 import java.util.Objects;
 
-public class ViewPagerProgrammesCoursesFragment extends Fragment implements ViewPagerProgrammesCoursesFragmentInterface{
+public class ViewPagerProgrammesCourses extends Fragment implements ViewPagerProgrammesCoursesInterface {
 
     private LayoutInflater inflater;
     private View rootView;
@@ -107,7 +107,7 @@ public class ViewPagerProgrammesCoursesFragment extends Fragment implements View
         public void onBindViewHolder(@NonNull final ProgrammesLevelViewHolder holder, int position) {
 
             String courseName = programmesData.getProgrammesCourses().get(position);
-            holder.coursesName.setText(courseName);
+            holder.coursesName.setText(courseName.toUpperCase());
 
         }
 
@@ -136,7 +136,7 @@ public class ViewPagerProgrammesCoursesFragment extends Fragment implements View
                 intent.putExtra("REQUEST_CODE", "courses_opener");
                 intent.putExtra("LEVEL_NAME", level);
                 intent.putExtra("FACULTY_NAME", faculty);
-                intent.putExtra("COURSE_NAME", coursesName.getText().toString());
+                intent.putExtra("COURSE_NAME", coursesName.getText().toString().toLowerCase());
                 startActivity(intent);
 
             }

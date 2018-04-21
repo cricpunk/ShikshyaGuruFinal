@@ -12,7 +12,6 @@
         android:background="@color/colorBackground">
 
         <android.support.design.widget.AppBarLayout
-            android:id="@+id/abl_inst_loader_vp_programmes_courses_loader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
@@ -34,7 +33,6 @@
                 android:layout_marginBottom="60dp" />
 
             <RelativeLayout
-                android:id="@+id/l_et_message"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"

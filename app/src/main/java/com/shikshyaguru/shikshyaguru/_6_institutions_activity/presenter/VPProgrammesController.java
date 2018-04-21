@@ -1,8 +1,8 @@
 package com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter;
 
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionDataSourceInterface;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerProgrammesCoursesFragmentInterface;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerProgrammesCoursesLoaderFragmentInterface;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerProgrammesCoursesInterface;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerProgrammesCoursesLoaderInterface;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerProgrammesLevelInterface;
 
 /**
@@ -15,8 +15,8 @@ import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fr
 public class VPProgrammesController {
 
     private ViewPagerProgrammesLevelInterface programmesInterface;
-    private ViewPagerProgrammesCoursesFragmentInterface coursesFragmentInterface;
-    private ViewPagerProgrammesCoursesLoaderFragmentInterface coursesLoaderFragmentInterface;
+    private ViewPagerProgrammesCoursesInterface coursesFragmentInterface;
+    private ViewPagerProgrammesCoursesLoaderInterface coursesLoaderFragmentInterface;
 
     private InstitutionDataSourceInterface dataSource;
 
@@ -27,12 +27,12 @@ public class VPProgrammesController {
         setUpProgrammesLevel();
     }
 
-    public VPProgrammesController(ViewPagerProgrammesCoursesFragmentInterface coursesFragmentInterface, InstitutionDataSourceInterface dataSource) {
+    public VPProgrammesController(ViewPagerProgrammesCoursesInterface coursesFragmentInterface, InstitutionDataSourceInterface dataSource) {
         this.coursesFragmentInterface = coursesFragmentInterface;
         this.dataSource = dataSource;
     }
 
-    public VPProgrammesController(ViewPagerProgrammesCoursesLoaderFragmentInterface coursesLoaderFragmentInterface, InstitutionDataSourceInterface dataSource) {
+    public VPProgrammesController(ViewPagerProgrammesCoursesLoaderInterface coursesLoaderFragmentInterface, InstitutionDataSourceInterface dataSource) {
         this.coursesLoaderFragmentInterface = coursesLoaderFragmentInterface;
         this.dataSource = dataSource;
     }

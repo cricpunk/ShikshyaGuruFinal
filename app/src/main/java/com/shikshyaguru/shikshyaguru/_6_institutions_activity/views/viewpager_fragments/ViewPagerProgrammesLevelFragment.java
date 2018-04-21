@@ -79,12 +79,12 @@ public class ViewPagerProgrammesLevelFragment extends Fragment implements ViewPa
 
         @Override
         public void onBindViewHolder(@NonNull final ProgrammesLevelViewHolder holder, int position) {
-//            String programmesLabelName = programmesData.getProgrammesLevelName()[position];
             String programmesLabelName = programmesData.getProgrammesLevelNameList().get(position);
-            holder.programmesLevelName.setText(programmesLabelName);
 
+            holder.programmesLevelName.setText(programmesLabelName.toUpperCase());
             holder.recProgrammesLabel.setNestedScrollingEnabled(false);
             holder.recProgrammesLabel.setHasFixedSize(false);
+
             final GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
             holder.recProgrammesLabel.setLayoutManager(gridLayoutManager);
             ProgrammesFacultiesAdapter adapter = new ProgrammesFacultiesAdapter();
@@ -147,7 +147,7 @@ public class ViewPagerProgrammesLevelFragment extends Fragment implements ViewPa
 
         @Override
         public void onBindViewHolder(@NonNull ProgrammesCoursesViewHolder holder, int position) {
-            holder.coursesName.setText(facultyName.get(position));
+            holder.coursesName.setText(facultyName.get(position).toUpperCase());
         }
 
         @Override
@@ -171,8 +171,9 @@ public class ViewPagerProgrammesLevelFragment extends Fragment implements ViewPa
 
             @Override
             public void onClick(View v) {
-                controller.onCoursesClickListener(levelName, String.valueOf(coursesName.getText()));
+                controller.onCoursesClickListener(levelName, coursesName.getText().toString().toLowerCase());
             }
         }
     }
+
 }

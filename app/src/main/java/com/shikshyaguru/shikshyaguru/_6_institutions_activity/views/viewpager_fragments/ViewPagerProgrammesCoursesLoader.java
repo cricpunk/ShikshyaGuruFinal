@@ -35,7 +35,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-public class ViewPagerProgrammesCoursesLoaderFragment extends Fragment implements ViewPagerProgrammesCoursesLoaderFragmentInterface {
+public class ViewPagerProgrammesCoursesLoader extends Fragment implements ViewPagerProgrammesCoursesLoaderInterface {
 
     private LayoutInflater inflater;
     private View rootView;
@@ -117,7 +117,7 @@ public class ViewPagerProgrammesCoursesLoaderFragment extends Fragment implement
             String programmeName = programmesData.getOptionSemList().get(position);
 
             holder.fees = programmesData.getFeeCollection().get(programmeName);
-            holder.programmesLevelName.setText(programmeName);
+            holder.programmesLevelName.setText(programmeName.toUpperCase());
 
             holder.recProgrammesLabel.setNestedScrollingEnabled(false);
             holder.recProgrammesLabel.setHasFixedSize(false);
@@ -127,8 +127,6 @@ public class ViewPagerProgrammesCoursesLoaderFragment extends Fragment implement
 
             //Setting value in another adapter
             adapter.setSubjects(programmesData.getSubjectCollection().get(programmeName));
-            adapter.setFees(programmesData.getFeeCollection().get(programmeName));
-
 
             holder.recProgrammesLabel.setAdapter(adapter);
 
@@ -207,14 +205,10 @@ public class ViewPagerProgrammesCoursesLoaderFragment extends Fragment implement
 
     private class ProgrammesFacultiesAdapter extends RecyclerView.Adapter<ProgrammesFacultiesAdapter.ProgrammesCoursesViewHolder> {
 
-        private List<HashMap<String, String>> subjects, fees;
+        private List<HashMap<String, String>> subjects;
 
         public void setSubjects(List<HashMap<String, String>> subjectsAndFees) {
             this.subjects = subjectsAndFees;
-        }
-
-        public void setFees(List<HashMap<String, String>> fees) {
-            this.fees = fees;
         }
 
         @NonNull

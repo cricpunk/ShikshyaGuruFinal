@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="cardViewMargin">
-        <item name="android:layout_marginLeft">@dimen/margin_short</item>
-        <item name="android:layout_marginStart">@dimen/margin_short</item>
-        <item name="android:layout_marginEnd">@dimen/margin_short</item>
-        <item name="android:layout_marginRight">@dimen/margin_short</item>
-        <item name="android:layout_marginTop">@dimen/margin_standard</item>
-    </style>
-
     <style name="textPadding">
         <item name="android:paddingLeft">@dimen/margin_standard</item>
         <item name="android:paddingRight">@dimen/margin_standard</item>
@@ -29,13 +21,6 @@
         <item name="android:paddingStart">@dimen/margin_short</item>
         <item name="android:textColor">#222222</item>
         <item name="android:textSize">12sp</item>
-    </style>
-
-    <style name="ratingProgressBar">
-        <item name="android:layout_gravity">center_vertical</item>
-        <item name="android:layout_marginRight">@dimen/margin_short</item>
-        <item name="android:layout_marginEnd">@dimen/margin_short</item>
-        <item name="android:background">@drawable/linear_rating_bar</item>
     </style>
 
     <style name="circularRatingHeading">

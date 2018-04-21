@@ -8,8 +8,6 @@
     <string name="fb_login_protocol_scheme">fb1920163144685238</string>
 
     <!--Twitter authentication-->
-    <string name="twitter_consumer_key">S4RKfOsIvkP2aUcSP8XoCfRBB</string>
-    <string name="twitter_consumer_secret">tJVMmUOERhUcYc1Lg6l2pM7yCyGbDSE403StCj3Y8O3bvkW8RN</string>
 
     <!--Splash screen-->
     <string name="splash_logo_desc">Organization logo for splash screen</string>
@@ -65,7 +63,6 @@
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
     <string name="action_voice_rec">action voice rec</string>
-    <string name="slide_to_unlock"><![CDATA[Slide to unlock >>]]></string>
 
     <string name="demo_text">Lorem ipsum dolor sit amet, ut duis lorem provident sed felis blandit, condimentum donec lectus ipsum et mauris, morbi porttitor interdum feugiat nulla donec sodales, vestibulum nisl primis a molestie vestibulum quam, sapien mauris metus risus suspendisse magnis. Augue viverra nulla faucibus egestas eu, a etiam id congue rutrum ante, arcu tincidunt donec quam felis at ornare, iaculis ligula sodales venenatis commodo volutpat neque, suspendisse elit praesent tellus felis mi amet. Inceptos amet tempor lectus lorem est non, ac donec ac libero neque mauris, tellus ante metus eget leo consequat. Scelerisque dolor curabitur pretium blandit ut feugiat, amet lacus pulvinar justo convallis ut, sed natoque ipsum urna posuere nibh eu. Sed at sed vulputate sit orci, facilisis a aliquam tellus quam aliquam, eu aliquam donec at molestie ante, pellentesque mauris lorem ultrices libero faucibus porta, imperdiet adipiscing sit hac diam ut nulla. Lacus enim elit pulvinar donec vehicula dapibus, accumsan purus officia cursus dolor sapien, eu amet dis mauris mi nulla ut. Non accusamus etiam pede non urna tempus, vestibulum aliquam tortor eget pharetra sodales, in vestibulum ut justo orci nulla, lobortis purus sem semper consectetuer magni purus. Dolor a leo vestibulum amet ut sit, arcu ut eaque urna fusce aliquet turpis, sed fermentum sed vestibulum nisl pede, tristique enim lorem posuere in laborum ut. Vestibulum id id justo leo nulla, magna lobortis ullamcorper et dignissim pellentesque, duis suspendisse quis id lorem ante. Vivamus a nullam ante adipiscing amet, mi vel consectetuer nunc aenean pede quisque, eget rhoncus dis porttitor habitant nunc vivamus, duis cubilia blandit non donec justo dictumst, praesent vitae nulla nam pulvinar urna. Adipiscing adipiscing justo urna pulvinar imperdiet nullam, vitae fusce rhoncus proin nonummy suscipit, ullamcorper amet et non potenti platea ultrices, mauris nullam sapien nunc justo vel, eu semper pellentesque arcu fusce augue. Malesuada mauris nibh sit a a scelerisque, velit sem lectus tellus convallis consectetuer, ultricies auctor a ante eros amet sed.\n\n
 Risus lacus duis leo platea wisi, felis maecenas rutrum in id in donec, non id a potenti libero eget, posuere elit ea sed pellentesque quis. Sunt lacus urna lorem elit duis, nibh donec purus quisque consectetuer dolor, neque vestibulum proin ornare eros nonummy phasellus. Iaculis cras eu at egestas dolor montes, viverra quisque malesuada consectetuer semper maecenas, a sed vitae donec tempor aliqua metus, ornare mollis suscipit et erat fusce, sit orci aut auctor elementum fames aliquam. Platea dui integer magnis non metus, minus dignissimos ante massa nostra et, rutrum sapien egestas quis sapien donec donec. Erat sit a eros aenean natoque, quam libero id lorem enim proin, lorem ipsum fermentum mattis metus et. Aliquam aliquet suscipit purus conubia at neque, platea vivamus vestibulum nulla quibusdam senectus, et morbi lectus malesuada gravida donec, elementum sit convallis pellentesque velit amet. Et eveniet viverra vehicula consectetuer justo, provident sed commodo non lacinia velit, tempor phasellus vel leo nisl cras, vivamus et arcu interdum dui eu amet. Volutpat wisi rhoncus vel turpis diam quibusdam, dapibus elit est quisque cubilia mauris, nulla elit magna tempor accumsan bibendum, lorem varius sed interdum eget mattis, scelerisque egestas feugiat donec dui molestie. Leo facilisis nisl sit montes ligula sed, enim commodo consectetuer nunc est et, ut sed vehicula dolor luctus elit. Fermentum cras donec eget nibh est vel, sed justo risus et pharetra diam, eu vivamus egestas ligula risus diam, sed justo eget hac ut mauris. Vestibulum diam nec vitae mi eget suspendisse, aenean arcu purus facilisis purus class in, id aliquam sit id scelerisque sapien etiam. Ut nullam sit sed at mauris lobortis, consequat dolor autem ipsum euismod nulla, elit quis proin eget conubia varius, erat arcu massa mus in mauris, scelerisque ut eu sollicitudin libero leo urna.\n\n
@@ -89,9 +86,6 @@ Quam libero nulla netus eu porta curae, ut nulla bibendum facilisis et urna sed,
     <string name="address">Kamal Marg, Kamal Pokhari, Kathmandu, Nepal</string>
     <string name="telephone_number">Tel : 441-2929, 980-1022446</string>
     <string name="email_id">Email : info@islington.edu.np</string>
-    <string name="like_us">Like Us</string>
-    <string name="follow_us">Follow Us</string>
-    <string name="subscribe_us">Subscribe Us</string>
     <string name="website">www.http://islington.edu.np</string>
     <string name="_5">5</string>
     <string name="_4">4</string>
@@ -112,7 +106,6 @@ Quam libero nulla netus eu porta curae, ut nulla bibendum facilisis et urna sed,
     <string name="rate_us">Rate Us</string>
     <string name="hated_it">Hated it</string>
     <string name="your_short_review">Your short review</string>
-    <string name="finish">Finish</string>
     <string name="education_quality">Education quality</string>
     <string name="infrastructure_quality">Infrastructure quality</string>
     <string name="teachers_quality">Teachers quality</string>
@@ -123,26 +116,20 @@ Quam libero nulla netus eu porta curae, ut nulla bibendum facilisis et urna sed,
     <string name="management">Management</string>
     <string name="ratings_and_reviews"><![CDATA[Ratings & Reviews]]></string>
     <string name="reviews_highlights">Reviews highlights</string>
-    <string name="total_ratings">ratings and</string>
     <string name="submit">Submit</string>
     <string name="pankaj">Pankaj Koirala</string>
     <string name="lecturer_tutor">Lecturer / Tutor</string>
-    <string name="demo">This is demo text</string>
     <string name="phone_no">977 0123-456-789</string>
     <string name="visit_profile">Visit profile</string>
     <string name="send_message">Send message</string>
     <string name="rating">Rating</string>
-    <string name="science">Science</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="fee_structure">Fee structure</string>
-    <string name="class_shift">Class shift</string>
     <string name="routine">Routine</string>
     <string name="executive_chairman">Executive Chairman</string>
     <string name="designation">CEO, Google</string>
     <string name="pankaj_email">koiralapankaj007@gmail.com</string>
-    <string name="saying">Don\'t promise when you\'re happy. Don\'t reply when you\'re andry and don\'t decide when you\'re sad.</string>
     <string name="islington_college">Islington College</string>
     <string name="follow">Follow</string>
     <string name="student_1">Student</string>
@@ -158,8 +145,6 @@ Quam libero nulla netus eu porta curae, ut nulla bibendum facilisis et urna sed,
     <string name="categories">Categories</string>
     <string name="student_life">Student Life</string>
     <string name="_25">25</string>
-    <string name="xi">XI</string>
-    <string name="xii">XII</string>
     <string name="news_events">News and Events</string>
 
     <string name="gallery_image_counter">%1$d / %2$d</string>
@@ -170,14 +155,12 @@ Quam libero nulla netus eu porta curae, ut nulla bibendum facilisis et urna sed,
     <string name="forget_password">Forget password</string>
     <string name="or">or</string>
     <string name="sign_in">Sign In</string>
-    <string name="login_info_msg">Please login to access this feature.</string>
     <string name="one_star">Hated it</string>
     <string name="two_star">bad</string>
     <string name="three_star">Not bad</string>
     <string name="four_star">Good</string>
     <string name="five_star">Super</string>
     <string name="btn_finish">Finish</string>
-    <string name="see_peoples">See peoples</string>
     <string name="check_internet_connection">Please check your internet connection.</string>
     <string name="retry">Retry</string>
     <string name="typeStudent">( Student )</string>
@@ -188,14 +171,6 @@ Quam libero nulla netus eu porta curae, ut nulla bibendum facilisis et urna sed,
     <string name="suggest">Suggest</string>
 
 
-
-    <string name="sign_out">Sign Out</string>
-    <string name="select_picture_title">Get Photo From</string>
-    <string name="sendPhotoGallery">Photo Gallery</string>
-    <string name="api_key_google_places">AIzaSyAjtK7AX_7jIKJvVtA1U4-8G5balokGKy8</string>
-    <string name="sendLocation">Send Location</string>
-    <string name="locationTo">Localização Enviada</string>
-    <string name="sendPhoto">Photo Camera</string>
     <string name="message_hint">Message ...</string>
     <string name="accept">Accept</string>
     <string name="peoples">Peoples</string>

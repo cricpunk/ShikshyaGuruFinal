@@ -18,8 +18,8 @@ import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionL
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionMainFragment;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerGalleryLoader;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerGalleryLoaderImageLoader;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerProgrammesCoursesFragment;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerProgrammesCoursesLoaderFragment;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerProgrammesCourses;
+import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerProgrammesCoursesLoader;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerProgrammesFeeStructure;
 import com.shikshyaguru.shikshyaguru._7_user_activity.views.ChatFragment;
 import com.shikshyaguru.shikshyaguru._7_user_activity.views.MessageFragment;
@@ -120,14 +120,14 @@ public class DynamicFragmentLoader {
         return institutionLoaderFragment;
     }
 
-    private static ViewPagerProgrammesCoursesFragment openCourseLoader(Bundle bundle) {
-        ViewPagerProgrammesCoursesFragment coursesLoader = new ViewPagerProgrammesCoursesFragment();
+    private static ViewPagerProgrammesCourses openCourseLoader(Bundle bundle) {
+        ViewPagerProgrammesCourses coursesLoader = new ViewPagerProgrammesCourses();
         coursesLoader.setArguments(bundle);
         return coursesLoader;
     }
 
-    private static ViewPagerProgrammesCoursesLoaderFragment openCourseOpener(Bundle bundle) {
-        ViewPagerProgrammesCoursesLoaderFragment coursesLoader = new ViewPagerProgrammesCoursesLoaderFragment();
+    private static ViewPagerProgrammesCoursesLoader openCourseOpener(Bundle bundle) {
+        ViewPagerProgrammesCoursesLoader coursesLoader = new ViewPagerProgrammesCoursesLoader();
         coursesLoader.setArguments(bundle);
         return coursesLoader;
     }

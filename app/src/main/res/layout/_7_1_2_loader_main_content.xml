@@ -257,7 +257,6 @@
                 app:siBorderWidth="2dp" />
 
             <LinearLayout
-                android:id="@+id/name1"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_below="@+id/iv_user_loader_profile_bg"

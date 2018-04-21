@@ -7,7 +7,7 @@ import com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionP
  * Email Id     => koiralapankaj007@gmail.com
  */
 
-public interface ViewPagerProgrammesCoursesFragmentInterface {
+public interface ViewPagerProgrammesCoursesInterface {
 
 
     void setUpProgrammesCourses(InstitutionProgrammesData programmesData);

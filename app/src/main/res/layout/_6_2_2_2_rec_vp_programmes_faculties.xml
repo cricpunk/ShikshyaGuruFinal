@@ -11,16 +11,22 @@
     android:orientation="horizontal">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/courses_bg">
+        android:layout_width="200dp"
+        android:layout_height="200dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/tumblr"
+            android:scaleType="centerCrop"
+            tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/lbl_inst_loader_vp_programmes_faculty_name"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:background="#B3000000"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:gravity="center"
+            android:background="#80000000"
             android:textColor="#FFFFFF"
             android:textSize="28sp"
             tools:text="+2 Management" />

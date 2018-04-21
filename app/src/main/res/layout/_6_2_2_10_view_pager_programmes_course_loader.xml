@@ -12,7 +12,6 @@ android:fitsSystemWindows="true">
     android:background="@color/colorBackground">
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/abl_inst_loader_vp_programmes_courses_loader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">

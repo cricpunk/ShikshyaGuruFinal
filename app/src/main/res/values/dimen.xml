@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
 
     <dimen name="margin_2dp">2dp</dimen>
     <dimen name="margin_extra_short">4dp</dimen>
     <dimen name="margin_short">8dp</dimen>
-    <dimen name="margin_avg_srt_std">12dp</dimen>
     <dimen name="margin_standard">16dp</dimen>
     <dimen name="margin_28dp">28dp</dimen>
 
@@ -29,9 +26,5 @@
 
 
     <!-- Default screen margins, per the Android Design guidelines. -->
-
-    <dimen name="size_avatar_toolbar">40dp</dimen>
-    <dimen name="spacing_double">16dp</dimen>
-    <dimen name="elevation_header">4dp</dimen>
 
 </resources>

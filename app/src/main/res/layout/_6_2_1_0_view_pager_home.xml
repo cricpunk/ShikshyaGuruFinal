@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/root_inst_vp_nested_scroll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorBackground">
@@ -10,7 +9,6 @@
         android:layout_height="wrap_content">
 
         <View
-            android:id="@+id/anchor_news_bg"
             android:layout_width="match_parent"
             android:layout_height="435dp"
             android:layout_marginTop="@dimen/margin_standard"
