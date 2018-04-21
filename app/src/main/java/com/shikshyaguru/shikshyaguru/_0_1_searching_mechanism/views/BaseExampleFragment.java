@@ -38,4 +38,5 @@ public abstract class BaseExampleFragment extends Fragment {
     }
 
     public abstract boolean onActivityBackPress();
+
 }

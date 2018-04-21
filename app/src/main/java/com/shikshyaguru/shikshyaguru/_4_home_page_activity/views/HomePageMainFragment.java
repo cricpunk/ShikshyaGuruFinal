@@ -39,7 +39,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.shikshyaguru.shikshyaguru.R;
-import com.shikshyaguru.shikshyaguru._0_1_searching_mechanism.model.ColorWrapper;
 import com.shikshyaguru.shikshyaguru._0_1_searching_mechanism.model.DataHelper;
 import com.shikshyaguru.shikshyaguru._0_1_searching_mechanism.model.InstitutionsSuggestion;
 import com.shikshyaguru.shikshyaguru._0_1_searching_mechanism.views.BaseExampleFragment;
@@ -56,8 +55,8 @@ import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.Institutions
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 /*
  * Created by Pankaj Koirala on 9/24/2017.
@@ -152,12 +151,12 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
     private void newsSection(View view) {
         //ConstraintLayout rootNewsSection = (ConstraintLayout) view.findViewById(R.id.root_news_section);
         //View newsHeaderBG = view.findViewById(R.id.v_news_header_bg);
-        TextView news = (TextView) view.findViewById(R.id.lbl_news);
+        TextView news = view.findViewById(R.id.lbl_news);
         news.setText(R.string.news);
-        TextView allNews = (TextView) view.findViewById(R.id.lbl_all_news);
+        TextView allNews = view.findViewById(R.id.lbl_all_news);
         allNews.setText(R.string.allNews);
         allNews.setOnClickListener(this);
-        recyclerViewNews = (RecyclerView) view.findViewById(R.id.rec_news);
+        recyclerViewNews = view.findViewById(R.id.rec_news);
     }
 
     private void institutionsCollectionSection(View view) {
@@ -331,190 +330,6 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
 
 //  ############################# VIEW INTERFACE IMPLEMENTATIONS END #############################
 
-    private void setupDrawer() {
-        attachSearchViewActivityDrawer(mSearchView);
-    }
-
-    private void setupSearchBar() {
-
-        mSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
-
-            @Override
-            public void onSearchTextChanged(String oldQuery, final String newQuery) {
-
-                if (!oldQuery.equals("") && newQuery.equals("")) {
-                    mSearchView.clearSuggestions();
-                } else {
-
-                    //this shows the top left circular progress
-                    //you can call it where ever you want, but
-                    //it makes sense to do it when loading something in
-                    //the background.
-                    mSearchView.showProgress();
-
-                    //simulates a query call to a data source
-                    //with a new query.
-                    DataHelper.findSuggestions(getActivity(), newQuery, 5,
-                            FIND_SUGGESTION_SIMULATED_DELAY, new DataHelper.OnFindSuggestionsListener() {
-
-                                @Override
-                                public void onResults(List<InstitutionsSuggestion> results) {
-
-                                    //this will swap the data and
-                                    //render the collapse/expand animations as necessary
-                                    mSearchView.swapSuggestions(results);
-
-                                    //let the users know that the background
-                                    //process has completed
-                                    mSearchView.hideProgress();
-                                }
-                            });
-                }
-
-                Log.d(TAG, "onSearchTextChanged()");
-            }
-        });
-
-        mSearchView.setOnSearchListener(new FloatingSearchView.OnSearchListener() {
-            @Override
-            public void onSuggestionClicked(final SearchSuggestion searchSuggestion) {
-
-                InstitutionsSuggestion institutionsSuggestion = (InstitutionsSuggestion) searchSuggestion;
-                DataHelper.findColors(getActivity(), institutionsSuggestion.getBody(),
-                        new DataHelper.OnFindColorsListener() {
-
-                            @Override
-                            public void onResults(List<ColorWrapper> results) {
-                                //show search results
-                            }
-
-                        });
-                Log.d(TAG, "onSuggestionClicked()");
-
-                mLastQuery = searchSuggestion.getBody();
-            }
-
-            @Override
-            public void onSearchAction(String query) {
-                mLastQuery = query;
-
-                DataHelper.findColors(getActivity(), query,
-                        new DataHelper.OnFindColorsListener() {
-
-                            @Override
-                            public void onResults(List<ColorWrapper> results) {
-                                //show search results
-                            }
-
-                        });
-                Log.d(TAG, "onSearchAction()");
-            }
-        });
-
-        mSearchView.setOnFocusChangeListener(new FloatingSearchView.OnFocusChangeListener() {
-            @Override
-            public void onFocus() {
-
-                //show suggestions when search bar gains focus (typically history suggestions)
-                mSearchView.swapSuggestions(DataHelper.getHistory(getActivity(), 3));
-
-                Log.d(TAG, "onFocus()");
-            }
-
-            @Override
-            public void onFocusCleared() {
-
-                //set the title of the bar so that when focus is returned a new query begins
-                mSearchView.setSearchBarTitle(mLastQuery);
-
-                //you can also set setSearchText(...) to make keep the query there when not focused and when focus returns
-                //mSearchView.setSearchText(searchSuggestion.getBody());
-
-                Log.d(TAG, "onFocusCleared()");
-            }
-        });
-
-
-        //handle menu clicks the same way as you would
-        //in a regular activity
-        mSearchView.setOnMenuItemClickListener(new FloatingSearchView.OnMenuItemClickListener() {
-            @Override
-            public void onActionMenuItemSelected(MenuItem item) {
-
-                if (item.getItemId() == R.id.action_voice_rec) {
-                    Toast.makeText(getActivity().getApplicationContext(), item.getTitle(),
-                            Toast.LENGTH_SHORT).show();
-                } else {
-
-                    //just print action
-                    Toast.makeText(getActivity().getApplicationContext(), item.getTitle(),
-                            Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        });
-
-        //use this listener to listen to menu clicks when app:floatingSearch_leftAction="showHome"
-        mSearchView.setOnHomeActionClickListener(new FloatingSearchView.OnHomeActionClickListener() {
-            @Override
-            public void onHomeClicked() {
-
-                Log.d(TAG, "onHomeClicked()");
-            }
-        });
-
-        /*
-         * Here you have access to the left icon and the text of a given suggestion
-         * item after as it is bound to the suggestion list. You can utilize this
-         * callback to change some properties of the left icon and the text. For example, you
-         * can load the left icon images using your favorite image loading library, or change text color.
-         *
-         *
-         * Important:
-         * Keep in mind that the suggestion list is a RecyclerView, so views are reused for different
-         * items in the list.
-         */
-        mSearchView.setOnBindSuggestionCallback(new SearchSuggestionsAdapter.OnBindSuggestionCallback() {
-            @Override
-            public void onBindSuggestion(View suggestionView, ImageView leftIcon,
-                                         TextView textView, SearchSuggestion item, int itemPosition) {
-                InstitutionsSuggestion institutionsSuggestion = (InstitutionsSuggestion) item;
-
-                String textColor = mIsDarkSearchTheme ? "#ffffff" : "#000000";
-                String textLight = mIsDarkSearchTheme ? "#bfbfbf" : "#787878";
-
-                if (institutionsSuggestion.getIsHistory()) {
-                    leftIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(),
-                            R.drawable.ic_history_black_24dp, null));
-
-                    Util.setIconColor(leftIcon, Color.parseColor(textColor));
-                    leftIcon.setAlpha(.36f);
-                } else {
-                    leftIcon.setAlpha(0.0f);
-                    leftIcon.setImageDrawable(null);
-                }
-
-                textView.setTextColor(Color.parseColor(textColor));
-                String text = institutionsSuggestion.getBody()
-                        .replaceFirst(mSearchView.getQuery(),
-                                "<font color=\"" + textLight + "\">" + mSearchView.getQuery() + "</font>");
-                textView.setText(fromHtml(text));
-            }
-
-        });
-    }
-
-    @SuppressWarnings("deprecation")
-    public static Spanned fromHtml(String html) {
-        Spanned result;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            result = Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY);
-        } else {
-            result = Html.fromHtml(html);
-        }
-        return result;
-    }
-
     private class SponsorSliderAdapter extends FirebaseRecyclerAdapter<HomePageSliderListItem, SponsorSliderAdapter.SponsorViewHolder> {
 
         /*
@@ -654,9 +469,28 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
 
 
 
+                String search = "pri";
+                System.out.println("=========================================================");
+                System.out.println("Searching for" + search);
+                Query query = mDatabase.getReference().child("clients").orderByChild("profile/name").startAt(search).endAt(search+ "\uf8ff");
 
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        //String result = (String) dataSnapshot.getValue();
 
+//                        Toast.makeText(getContext(), result, Toast.LENGTH_SHORT).show();
+                        for (DataSnapshot clients : dataSnapshot.getChildren()) {
+                            System.out.println(clients.getKey());
+                            System.out.println(clients.child("profile/name").getValue());
+                        }
+                    }
 
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
 
 
 
@@ -941,6 +775,210 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
             }
         }
 
+    }
+
+
+
+    private void setupDrawer() {
+        attachSearchViewActivityDrawer(mSearchView);
+    }
+
+    private void setupSearchBar() {
+
+        mSearchView.setOnQueryChangeListener(new FloatingSearchView.OnQueryChangeListener() {
+
+            @Override
+            public void onSearchTextChanged(String oldQuery, final String newQuery) {
+
+                if (!oldQuery.equals("") && newQuery.equals("")) {
+                    mSearchView.clearSuggestions();
+                } else {
+
+                    //this shows the top left circular progress
+                    //you can call it where ever you want, but
+                    //it makes sense to do it when loading something in
+                    //the background.
+                    mSearchView.showProgress();
+
+                    FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
+                    Query query = mDatabase.getReference().child("clients").orderByChild("profile/name").startAt(newQuery).endAt(newQuery+ "\uf8ff");
+
+                    query.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                            List<SearchSuggestion> suggestions = new ArrayList<>();
+
+                            for (DataSnapshot clients : dataSnapshot.getChildren()) {
+
+                                String id = clients.getKey();
+                                String instName = clients.child("profile/name").getValue(String.class);
+
+                                InstitutionsSuggestion suggestion = new InstitutionsSuggestion(id, instName);
+
+                                suggestions.add(suggestion);
+
+                            }
+
+                            mSearchView.swapSuggestions(suggestions);
+                            mSearchView.hideProgress();
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+
+                    });
+
+                }
+
+                Log.d(TAG, "onSearchTextChanged()");
+            }
+        });
+
+        mSearchView.setOnSearchListener(new FloatingSearchView.OnSearchListener() {
+
+            @Override
+            public void onSuggestionClicked(final SearchSuggestion searchSuggestion) {
+
+                InstitutionsSuggestion institutionsSuggestion = (InstitutionsSuggestion) searchSuggestion;
+
+                Intent intent = new Intent(getContext(), InstitutionsHomePageActivity.class);
+                intent.putExtra("REQUEST_CODE", "institutions_loader");
+                intent.putExtra("ID", institutionsSuggestion.getInstId());
+                intent.putExtra("NAME", institutionsSuggestion.getBody());
+
+                startActivity(intent);
+
+//                mLastQuery = searchSuggestion.getBody();
+            }
+
+            @Override
+            public void onSearchAction(String query) {
+                mLastQuery = query;
+
+//                DataHelper.findColors(getActivity(), query,
+//                        new DataHelper.OnFindColorsListener() {
+//
+//                            @Override
+//                            public void onResults(List<ColorWrapper> results) {
+//                                //show search results
+//                                Intent intent = new Intent(getContext(), HomePageActivity.class);
+//                                intent.putExtra("REQUEST_CODE", "search_result");
+//                                intent.putExtra("RESULT", (Serializable) results);
+//                                startActivity(intent);
+//                                //mSearchResultsAdapter.swapData(results);
+//
+//                            }
+//
+//                        });
+                Log.d(TAG, "onSearchAction()");
+            }
+        });
+
+        mSearchView.setOnFocusChangeListener(new FloatingSearchView.OnFocusChangeListener() {
+            @Override
+            public void onFocus() {
+
+                //show suggestions when search bar gains focus (typically history suggestions)
+                mSearchView.swapSuggestions(DataHelper.getHistory(getActivity(), 3));
+
+                Log.d(TAG, "onFocus()");
+            }
+
+            @Override
+            public void onFocusCleared() {
+
+                //set the title of the bar so that when focus is returned a new query begins
+                mSearchView.setSearchBarTitle(mLastQuery);
+
+                //you can also set setSearchText(...) to make keep the query there when not focused and when focus returns
+                //mSearchView.setSearchText(searchSuggestion.getBody());
+
+                Log.d(TAG, "onFocusCleared()");
+            }
+        });
+
+
+        //handle menu clicks the same way as you would
+        //in a regular activity
+        mSearchView.setOnMenuItemClickListener(new FloatingSearchView.OnMenuItemClickListener() {
+            @Override
+            public void onActionMenuItemSelected(MenuItem item) {
+
+                if (item.getItemId() == R.id.action_voice_rec) {
+                    Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), item.getTitle(),
+                            Toast.LENGTH_SHORT).show();
+                } else {
+
+                    //just print action
+                    Toast.makeText(Objects.requireNonNull(getActivity()).getApplicationContext(), item.getTitle(),
+                            Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+        //use this listener to listen to menu clicks when app:floatingSearch_leftAction="showHome"
+        mSearchView.setOnHomeActionClickListener(new FloatingSearchView.OnHomeActionClickListener() {
+            @Override
+            public void onHomeClicked() {
+                Log.d(TAG, "onHomeClicked()");
+            }
+        });
+
+        /*
+         * Here you have access to the left icon and the text of a given suggestion
+         * item after as it is bound to the suggestion list. You can utilize this
+         * callback to change some properties of the left icon and the text. For example, you
+         * can load the left icon images using your favorite image loading library, or change text color.
+         *
+         *
+         * Important:
+         * Keep in mind that the suggestion list is a RecyclerView, so views are reused for different
+         * items in the list.
+         */
+        mSearchView.setOnBindSuggestionCallback(new SearchSuggestionsAdapter.OnBindSuggestionCallback() {
+            @Override
+            public void onBindSuggestion(View suggestionView, ImageView leftIcon,
+                                         TextView textView, SearchSuggestion item, int itemPosition) {
+                InstitutionsSuggestion institutionsSuggestion = (InstitutionsSuggestion) item;
+
+                String textColor = mIsDarkSearchTheme ? "#ffffff" : "#000000";
+                String textLight = mIsDarkSearchTheme ? "#bfbfbf" : "#787878";
+
+                if (institutionsSuggestion.getIsHistory()) {
+                    leftIcon.setImageDrawable(ResourcesCompat.getDrawable(getResources(),
+                            R.drawable.ic_history_black_24dp, null));
+
+                    Util.setIconColor(leftIcon, Color.parseColor(textColor));
+                    leftIcon.setAlpha(.36f);
+                } else {
+                    leftIcon.setAlpha(0.0f);
+                    leftIcon.setImageDrawable(null);
+                }
+
+                textView.setTextColor(Color.parseColor(textColor));
+                String text = institutionsSuggestion.getBody()
+                        .replaceFirst(mSearchView.getQuery(),
+                                "<font color=\"" + textLight + "\">" + mSearchView.getQuery() + "</font>");
+                textView.setText(fromHtml(text));
+            }
+
+        });
+    }
+
+
+    @SuppressWarnings("deprecation")
+    public static Spanned fromHtml(String html) {
+        Spanned result;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            result = Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY);
+        } else {
+            result = Html.fromHtml(html);
+        }
+        return result;
     }
 
 }

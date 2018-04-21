@@ -96,6 +96,7 @@ public class DynamicFragmentLoader {
         }
     }
 
+
     private static void showFragment(Fragment fragment, int fragHolderId, FragmentManager fragmentManager) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(fragHolderId, fragment);

@@ -43,7 +43,6 @@ import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fr
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerProgrammesLevelFragment;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerReviewsFragment;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerStaffFragment;
-import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerStudentsFragment;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments.ViewPagerTeachersFragment;
 import com.shikshyaguru.shikshyaguru._7_user_activity.views.UserHomePageActivity;
 import com.shikshyaguru.shikshyaguru._8_map_activitiy.GPSTracker;
@@ -146,7 +145,7 @@ public class InstitutionLoaderFragment extends Fragment implements InstitutionLo
                 getFragmentManager(), FragmentPagerItems.with(getContext())
                 .add("Home", ViewPagerHomeFragment.class)
                 .add("Programmes", ViewPagerProgrammesLevelFragment.class)
-                .add("Students", ViewPagerStudentsFragment.class)
+//                .add("Students", ViewPagerStudentsFragment.class)
                 .add("Management", ViewPagerManagementFragment.class)
                 .add("Gallery", ViewPagerGalleryFragment.class)
                 .add("Teachers", ViewPagerTeachersFragment.class)
@@ -173,7 +172,7 @@ public class InstitutionLoaderFragment extends Fragment implements InstitutionLo
 
         @Override
         public void onPageSelected(int position) {
-            if (position == 2 || position == 3 || position == 4 || position == 5 || position == 6) {
+            if (position == 2 || position == 3 || position == 4 || position == 5) {
                 viewPagerTab.setBackgroundColor(ContextCompat.getColor(Objects.requireNonNull(getContext()), R.color.black_toolbar));
                 collapsingToolbar.setContentScrimColor(ContextCompat.getColor(getContext(), R.color.black_toolbar));
                 collapsingToolbar.setStatusBarScrimColor(ContextCompat.getColor(getContext(), R.color.black_toolbar));

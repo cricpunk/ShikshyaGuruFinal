@@ -1,30 +1,10 @@
 package com.shikshyaguru.shikshyaguru._0_1_searching_mechanism.model;
 
-/**
- * Copyright (C) 2015 Ari C.
- * <p/>
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * <p/>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p/>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 import android.content.Context;
 import android.widget.Filter;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -35,7 +15,7 @@ public class DataHelper {
 
     private static final String COLORS_FILE_NAME = "colors.json";
 
-    private static List<ColorWrapper> sColorWrappers = new ArrayList<>();
+//    private static List<ColorWrapper> sColorWrappers = new ArrayList<>();
 
     private static List<InstitutionsSuggestion> sInstitutionsSuggestions =
             new ArrayList<>(Arrays.asList(
@@ -58,8 +38,11 @@ public class DataHelper {
                     new InstitutionsSuggestion("Red"),
                     new InstitutionsSuggestion("Orchid")));
 
+
+
+
     public interface OnFindColorsListener {
-        void onResults(List<ColorWrapper> results);
+//        void onResults(List<ColorWrapper> results);
     }
 
     public interface OnFindSuggestionsListener {
@@ -81,7 +64,7 @@ public class DataHelper {
         return suggestionList;
     }
 
-    public static void resetSuggestionsHistory() {
+    private static void resetSuggestionsHistory() {
         for (InstitutionsSuggestion institutionsSuggestion : sInstitutionsSuggestions) {
             institutionsSuggestion.setIsHistory(false);
         }
@@ -141,54 +124,54 @@ public class DataHelper {
     }
 
 
-    public static void findColors(Context context, String query, final OnFindColorsListener listener) {
-        initColorWrapperList(context);
+//    public static void findColors(Context context, String query, final OnFindColorsListener listener) {
+//        initColorWrapperList(context);
+//
+//        new Filter() {
+//
+//            @Override
+//            protected FilterResults performFiltering(CharSequence constraint) {
+//
+//
+//                List<ColorWrapper> suggestionList = new ArrayList<>();
+//
+//                if (!(constraint == null || constraint.length() == 0)) {
+//
+//                    for (ColorWrapper color : sColorWrappers) {
+//                        if (color.getName().toUpperCase()
+//                                .startsWith(constraint.toString().toUpperCase())) {
+//
+//                            suggestionList.add(color);
+//                        }
+//                    }
+//
+//                }
+//
+//                FilterResults results = new FilterResults();
+//                results.values = suggestionList;
+//                results.count = suggestionList.size();
+//
+//                return results;
+//            }
+//
+//            @Override
+//            protected void publishResults(CharSequence constraint, FilterResults results) {
+//
+//                if (listener != null) {
+//                    listener.onResults((List<ColorWrapper>) results.values);
+//                }
+//            }
+//        }.filter(query);
+//
+//    }
 
-        new Filter() {
-
-            @Override
-            protected FilterResults performFiltering(CharSequence constraint) {
-
-
-                List<ColorWrapper> suggestionList = new ArrayList<>();
-
-                if (!(constraint == null || constraint.length() == 0)) {
-
-                    for (ColorWrapper color : sColorWrappers) {
-                        if (color.getName().toUpperCase()
-                                .startsWith(constraint.toString().toUpperCase())) {
-
-                            suggestionList.add(color);
-                        }
-                    }
-
-                }
-
-                FilterResults results = new FilterResults();
-                results.values = suggestionList;
-                results.count = suggestionList.size();
-
-                return results;
-            }
-
-            @Override
-            protected void publishResults(CharSequence constraint, FilterResults results) {
-
-                if (listener != null) {
-                    listener.onResults((List<ColorWrapper>) results.values);
-                }
-            }
-        }.filter(query);
-
-    }
-
-    private static void initColorWrapperList(Context context) {
-
-        if (sColorWrappers.isEmpty()) {
-            String jsonString = loadJson(context);
-            sColorWrappers = deserializeColors(jsonString);
-        }
-    }
+//    private static void initColorWrapperList(Context context) {
+//
+//        if (sColorWrappers.isEmpty()) {
+//            String jsonString = loadJson(context);
+//            sColorWrappers = deserializeColors(jsonString);
+//        }
+//    }
 
     private static String loadJson(Context context) {
 
@@ -209,13 +192,13 @@ public class DataHelper {
         return jsonString;
     }
 
-    private static List<ColorWrapper> deserializeColors(String jsonString) {
-
-        Gson gson = new Gson();
-
-        Type collectionType = new TypeToken<List<ColorWrapper>>() {
-        }.getType();
-        return gson.fromJson(jsonString, collectionType);
-    }
+//    private static List<ColorWrapper> deserializeColors(String jsonString) {
+//
+//        Gson gson = new Gson();
+//
+//        Type collectionType = new TypeToken<List<ColorWrapper>>() {
+//        }.getType();
+//        return gson.fromJson(jsonString, collectionType);
+//    }
 
 }

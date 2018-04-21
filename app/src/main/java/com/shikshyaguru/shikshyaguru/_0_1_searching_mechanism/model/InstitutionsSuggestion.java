@@ -6,14 +6,21 @@ import com.arlib.floatingsearchview.suggestions.model.SearchSuggestion;
 
 public class InstitutionsSuggestion implements SearchSuggestion {
 
+    private String instId;
     private String institutionName;
     private boolean mIsHistory = false;
+
+
+    public InstitutionsSuggestion(String instId, String institutionName) {
+        this.instId = instId;
+        this.institutionName = institutionName;
+    }
 
     public InstitutionsSuggestion(String suggestion) {
         this.institutionName = suggestion.toLowerCase();
     }
 
-    public InstitutionsSuggestion(Parcel source) {
+    private InstitutionsSuggestion(Parcel source) {
         this.institutionName = source.readString();
         this.mIsHistory = source.readInt() != 0;
     }
@@ -31,7 +38,12 @@ public class InstitutionsSuggestion implements SearchSuggestion {
         return institutionName;
     }
 
+    public String getInstId() {
+        return instId;
+    }
+
     public static final Creator<InstitutionsSuggestion> CREATOR = new Creator<InstitutionsSuggestion>() {
+
         @Override
         public InstitutionsSuggestion createFromParcel(Parcel in) {
             return new InstitutionsSuggestion(in);
@@ -41,6 +53,7 @@ public class InstitutionsSuggestion implements SearchSuggestion {
         public InstitutionsSuggestion[] newArray(int size) {
             return new InstitutionsSuggestion[size];
         }
+
     };
 
     @Override
@@ -53,4 +66,5 @@ public class InstitutionsSuggestion implements SearchSuggestion {
         dest.writeString(institutionName);
         dest.writeInt(mIsHistory ? 1 : 0);
     }
+
 }
