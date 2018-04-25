@@ -20,6 +20,8 @@ public class PrefManager {
     private static final String IS_FIRST_TIME_LAUNCH = "IsFirstTimeLaunch";
     private static final String IS_USER_LOGGED_IN = "isUserLoggedIn";
     private static final String IS_USER_TYPE_SET = "isUserTypeSet";
+    private static final String SERVICE_PROVIDER = "custom";
+    private static final String CURRENT_UID = "currentUID";
 
     public PrefManager(Context context, String preferenceName) {
         //this._context = context;
@@ -59,6 +61,24 @@ public class PrefManager {
     // Check either user type is set or not
     public boolean isUserTypeSet() {
         return pref.getBoolean(IS_USER_TYPE_SET, false);
+    }
+
+    public void setServiceProvider(String serviceProvider) {
+        editor.putString(SERVICE_PROVIDER, serviceProvider);
+        editor.commit();
+    }
+
+    public String getServiceProvider() {
+        return pref.getString(SERVICE_PROVIDER, null);
+    }
+
+    public void setCurrentUID(String uid) {
+        editor.putString(CURRENT_UID, uid);
+        editor.commit();
+    }
+
+    public String getCurrentUID() {
+        return pref.getString(CURRENT_UID, null);
     }
 
 }

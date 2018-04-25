@@ -75,6 +75,8 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
     public static FirebaseUser currentUser;
     public static UserDetails userDetailsFromAuthProvider;
 
+    private PrefManager prefManager;
+
     public NavigationDrawerFragment() {
         //Required empty public constructor
     }
@@ -85,6 +87,8 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         View view = inflater.inflate(R.layout._4_6_navigation_drawer_fragment, container, false);
         this.rootView = view;
         this.layoutInflater = inflater;
+
+        prefManager = new PrefManager(Objects.requireNonNull(getContext()), LoginFragment.PREF_NAME);
 
         mUserLearnedDrawer = Boolean.valueOf(readFromPreferences(Objects.requireNonNull(getActivity()), USER_LEARNED_DRAWER));
         if (savedInstanceState != null) {
@@ -106,27 +110,31 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
 
     private void navigationDrawerSection() {
 
-        ImageView userImageIcon = rootView.findViewById(R.id.iv_nav_drawer_user_profile_pic);
-        TextView userName = rootView.findViewById(R.id.lbl_nav_drawer_user_name);
-        TextView userEmail = rootView.findViewById(R.id.lbl_nav_drawer_user_email);
+        try {
+            ImageView userImageIcon = rootView.findViewById(R.id.iv_nav_drawer_user_profile_pic);
+            TextView userName = rootView.findViewById(R.id.lbl_nav_drawer_user_name);
+            TextView userEmail = rootView.findViewById(R.id.lbl_nav_drawer_user_email);
 
-        Picasso.get()
-                .load(currentUser.getPhotoUrl())
-                .fit()
-                .centerCrop()
-                .placeholder(R.drawable.ic_user)
-                .into(userImageIcon);
+            Picasso.get()
+                    .load(currentUser.getPhotoUrl())
+                    .fit()
+                    .centerCrop()
+                    .placeholder(R.drawable.ic_user)
+                    .into(userImageIcon);
 
-        userName.setText(currentUser.getDisplayName());
-        userEmail.setText(currentUser.getEmail());
+            userName.setText(currentUser.getDisplayName());
+            userEmail.setText(currentUser.getEmail());
 
 
-        userImageIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                userIconProfileClick();
-            }
-        });
+            userImageIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    userIconProfileClick();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -396,22 +404,27 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
 
             private void logout() {
 
-                switch (LoginFragment.USER_PROVIDER) {
+                System.out.println("logout action : " + prefManager.getServiceProvider());
 
-                    case "facebook.com":
+                switch (prefManager.getServiceProvider()) {
+
+
+
+                    case LoginFragment.FACEBOOK_USER:
                         //Log out from facebook
                         mAuth.signOut();
                         LoginManager.getInstance().logOut();
                         updateUi();
                         break;
 
-                    case "twitter.com":
+                    case LoginFragment.TWITTER_USER:
+                        // Logout from twitter
                         mAuth.signOut();
                         updateUi();
                         break;
 
-                    case "google.com":
-
+                    case LoginFragment.GOOGLE_USER:
+                        // Logout from google
                         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                                 .requestIdToken(getString(R.string.default_web_client_id))
                                 .requestEmail()
@@ -428,7 +441,8 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
                                 });
                         break;
 
-                    case "custom":
+                    case LoginFragment.CUSTOM_USER:
+                        // Logout as custom user
                         mAuth.signOut();
                         updateUi();
                         break;
@@ -442,7 +456,6 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
             }
 
             private void updateUi() {
-                PrefManager prefManager = new PrefManager(Objects.requireNonNull(getContext()), LoginFragment.PREF_NAME);
                 prefManager.setUserLoggedIn(false);
                 //Start login activity
                 startActivity(new Intent(getContext(), AuthenticationActivity.class));
@@ -451,6 +464,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
 
 
         }
+
     }
 
 }

@@ -24,25 +24,25 @@
     <!--Wellcome page 2-->
     <string name="image_desc_wcp_2">School building</string>
     <string name="heading_wcp_2"><![CDATA[Schools & Institutes]]></string>
-    <string name="content_wcp_2"><![CDATA[All the details about schools & institutes will be available]]></string>
+    <string name="content_wcp_2"><![CDATA[All the details about schools & institutes will be available.]]></string>
     <!--Wellcome page 2-->
 
     <!--Wellcome page 3-->
     <string name="image_desc_wcp_3">Graduate women</string>
     <string name="heading_wcp_3"><![CDATA[Colleges & Universities]]></string>
-    <string name="content_wcp_3"><![CDATA[Guide for choosing right colleges & universities to become a successful person]]></string>
+    <string name="content_wcp_3"><![CDATA[This can be grate guide for choosing right colleges & universities.]]></string>
     <!--Wellcome page 3-->
 
     <!--Wellcome page 4-->
     <string name="image_desc_wcp_4">Paper plane flying</string>
     <string name="heading_wcp_4"><![CDATA[Abroad Study]]></string>
-    <string name="content_wcp_4"><![CDATA[You can browse all consultancies right under your finger tips]]></string>
+    <string name="content_wcp_4"><![CDATA[You can browse all consultancies right under your finger tips.]]></string>
     <!--Wellcome page 4-->
 
     <!--Wellcome page 5-->
     <string name="image_desc_wcp_5">Success icon</string>
     <string name="heading_wcp_5">Wellcome</string>
-    <string name="content_wcp_5"><![CDATA[Lets join hand with us to discover this huge world of education]]></string>
+    <string name="content_wcp_5"><![CDATA[Lets join with us to discover grate world of education.]]></string>
     <string name="skip_button_icon">Skip button icon</string>
     <string name="next_button_icon">Next button icon</string>
     <string name="sign_up">Sign Up</string>
@@ -152,7 +152,7 @@ Quam libero nulla netus eu porta curae, ut nulla bibendum facilisis et urna sed,
     <string name="share">Share</string>
     <string name="csr">Corporate social responsibility</string>
     <string name="short_demo">This is demo and demo and demo and demo and demo and demo and demo and demo and demo and demo and demo</string>
-    <string name="forget_password">Forget password</string>
+    <string name="forget_password">Forget password ?</string>
     <string name="or">or</string>
     <string name="sign_in">Sign In</string>
     <string name="one_star">Hated it</string>
@@ -175,6 +175,7 @@ Quam libero nulla netus eu porta curae, ut nulla bibendum facilisis et urna sed,
     <string name="accept">Accept</string>
     <string name="peoples">Peoples</string>
     <string name="update_profile">Update profile</string>
+    <string name="defPassUser">defpassuser</string>
 
 
 </resources>

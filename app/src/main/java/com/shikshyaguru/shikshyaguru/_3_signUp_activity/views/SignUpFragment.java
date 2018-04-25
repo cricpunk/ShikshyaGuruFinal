@@ -1,7 +1,6 @@
 package com.shikshyaguru.shikshyaguru._3_signUp_activity.views;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -14,19 +13,13 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.shikshyaguru.shikshyaguru.R;
 import com.shikshyaguru.shikshyaguru._0_6_widgets.InternetConnection;
 import com.shikshyaguru.shikshyaguru._0_6_widgets.PopupCollections;
 import com.shikshyaguru.shikshyaguru._0_6_widgets.Styles;
 import com.shikshyaguru.shikshyaguru._0_7_shared_preferences.PrefManager;
-import com.shikshyaguru.shikshyaguru._0_8_validation.PerformValidation;
-import com.shikshyaguru.shikshyaguru._3_signUp_activity.model.NewUserData;
-import com.shikshyaguru.shikshyaguru._3_signUp_activity.model.AuthAuthUserDataSource;
+import com.shikshyaguru.shikshyaguru._3_signUp_activity.model.AuthUserDataSource;
 import com.shikshyaguru.shikshyaguru._3_signUp_activity.presenter.AuthenticationController;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.HomePageActivity;
 
@@ -55,8 +48,6 @@ public class SignUpFragment extends Fragment implements SignUpViewInterface, Vie
     CircularProgressButton signUpBtn;
     TextView signIn;
 
-    private FirebaseAuth mAuth;
-
     // Store instance variables based on arguments passed
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,15 +56,13 @@ public class SignUpFragment extends Fragment implements SignUpViewInterface, Vie
 
     // Inflate the view for the fragment based on layout XML
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout._3_6_sign_up_fragment_new, container, false);
         initComponents(view);
 
         prefManager = new PrefManager(Objects.requireNonNull(getContext()), LoginFragment.PREF_NAME);
-        mAuth = FirebaseAuth.getInstance();
 
-        controller = new AuthenticationController(this, new AuthAuthUserDataSource());
+        controller = new AuthenticationController(this, new AuthUserDataSource());
 
         return view;
     }
@@ -125,67 +114,6 @@ public class SignUpFragment extends Fragment implements SignUpViewInterface, Vie
     }
 
     @Override
-    public void signUpBtnClick() {
-
-        final String txtUserName = userName.getText().toString();
-        final String txtEmail = email.getText().toString();
-        final String txtPassword = password.getText().toString();
-        final String txtConfirmPassword = confirmPassword.getText().toString();
-
-        String uEmail = txtUserName.trim() + "@shikshyaguru.com";
-
-        if (InternetConnection.hasInternetConnection(Objects.requireNonNull(getContext()))) {
-
-            if (userType != 0) {
-
-                if (
-                        PerformValidation.userName(getActivity(), userName) &&
-                                PerformValidation.emailId(getActivity(), email) &&
-                                PerformValidation.passwords(getActivity(), password, confirmPassword)
-                        ) {
-
-                    signUpBtn.startAnimation();
-                    mAuth.createUserWithEmailAndPassword(uEmail, txtConfirmPassword)
-                            .addOnCompleteListener(Objects.requireNonNull(getActivity()), new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-
-                                    if (task.isSuccessful()) {
-                                        // Sign in success, update UI with the signed-in user's information
-                                        Log.d(TAG, "createUserWithEmail:success");
-                                        FirebaseUser user = mAuth.getCurrentUser();
-                                        if (user != null) {
-                                            LoginFragment.USER_PROVIDER = LoginFragment.CUSTOM_USER_PROVIDER;
-                                            NewUserData newUserData = new NewUserData("", txtUserName, txtEmail, txtPassword, String.valueOf(userType));
-                                            controller.createNewUser(user.getUid(), newUserData);
-                                            signUpBtn.setDoneColor(Color.parseColor(LoginFragment.COLOR_GREEN));
-                                            signUpBtn.revertAnimation();
-                                            updateUI(user);
-                                        }
-                                    } else {
-                                        // If sign in fails, display a message to the user.
-                                        Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                        //updateUI(null);
-                                        signUpBtn.revertAnimation();
-                                        PopupCollections.simpleSnackBar(currentLayout, Objects.requireNonNull(task.getException()).getLocalizedMessage(), LoginFragment.COLOR_RED);
-                                    }
-
-                                }
-                            });
-
-                }
-            } else {
-                PopupCollections.tooltipMessage(Objects.requireNonNull(getActivity()), studentIcon, "Please select best matching icon for you !").show();
-            }
-        } else {
-            PopupCollections.simpleSnackBar(currentLayout, LoginFragment.NO_INTERNET_CONNECTION, LoginFragment.COLOR_GREEN);
-        }
-
-
-
-    }
-
-    @Override
     public void signInClick() {
         startActivity(new Intent(getContext(), AuthenticationActivity.class));
         Objects.requireNonNull(getActivity()).finish();
@@ -209,12 +137,34 @@ public class SignUpFragment extends Fragment implements SignUpViewInterface, Vie
                 break;
 
             case R.id.btn_sign_up:
-                controller.onSignUpBtnClick();
+                signUpBtnClick();
                 break;
 
             case R.id.lbl_sign_in:
                 controller.onSignInClick();
                 break;
+        }
+
+    }
+
+    public void signUpBtnClick() {
+
+        if (InternetConnection.hasInternetConnection(Objects.requireNonNull(getContext()))) {
+
+            if (userType != 0) {
+
+                controller.onSignUpBtnClick(getActivity(), userType, userName, email, password, confirmPassword, signUpBtn);
+
+            } else {
+
+                PopupCollections.tooltipMessage(Objects.requireNonNull(getActivity()), studentIcon, "Please select best matching icon for you !").show();
+
+            }
+
+        } else {
+
+            PopupCollections.simpleSnackBar(currentLayout, LoginFragment.NO_INTERNET_CONNECTION, LoginFragment.COLOR_GREEN);
+
         }
 
     }
@@ -243,22 +193,34 @@ public class SignUpFragment extends Fragment implements SignUpViewInterface, Vie
 
     }
 
-    private void updateUI(FirebaseUser currentUser) {
+    @Override
+    public void updateUI(FirebaseUser currentUser) {
 
         if (currentUser != null) {
             // Set login status true
             prefManager.setUserLoggedIn(true);
+            // Set service provider name
+            prefManager.setServiceProvider("custom");
+            // Set user id
+            prefManager.setCurrentUID(currentUser.getUid());
             // Start homepage activity
             startActivity(new Intent(getContext(), HomePageActivity.class));
             // Finish current activity
             Objects.requireNonNull(getActivity()).finish();
         } else {
             prefManager.setUserLoggedIn(false);
+            prefManager.setServiceProvider(null);
+            prefManager.setCurrentUID(null);
             Objects.requireNonNull(getActivity()).finish();
             startActivity(new Intent(getContext(), AuthenticationActivity.class));
             Log.w(TAG, "No user");
         }
 
+    }
+
+    @Override
+    public void showSnackBar(String localizedMessage) {
+        PopupCollections.simpleSnackBar(currentLayout, localizedMessage, LoginFragment.COLOR_RED);
     }
 
 

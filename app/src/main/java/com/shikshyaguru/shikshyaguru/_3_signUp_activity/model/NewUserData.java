@@ -7,30 +7,10 @@ package com.shikshyaguru.shikshyaguru._3_signUp_activity.model;
  */
 public class NewUserData {
 
-    private String name, user_name, email, password, type;
+    private String name, user_name, email, password, image;
+    private int type;
 
     public NewUserData() {
-    }
-
-    public NewUserData(String name, String user_name, String type) {
-        this.name = name;
-        this.user_name = user_name;
-        this.type = type;
-    }
-
-    public NewUserData(String name, String user_name, String email, String type) {
-        this.name = name;
-        this.user_name = user_name;
-        this.email = email;
-        this.type = type;
-    }
-
-    public NewUserData(String name, String user_name, String email, String password, String type) {
-        this.name = name;
-        this.user_name = user_name;
-        this.email = email;
-        this.password = password;
-        this.type = type;
     }
 
     public String getName() {
@@ -65,11 +45,20 @@ public class NewUserData {
         this.password = password;
     }
 
-    public String getType() {
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public int getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(int type) {
         this.type = type;
     }
+
 }

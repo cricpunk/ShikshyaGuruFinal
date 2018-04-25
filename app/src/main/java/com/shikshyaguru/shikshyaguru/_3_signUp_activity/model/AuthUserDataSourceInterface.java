@@ -5,7 +5,20 @@ package com.shikshyaguru.shikshyaguru._3_signUp_activity.model;
  * Koiralapankaj007@gmail.com
  */
 
+import android.support.v4.app.FragmentActivity;
+import android.widget.EditText;
+
+import com.shikshyaguru.shikshyaguru._3_signUp_activity.views.LoginViewInterface;
+import com.shikshyaguru.shikshyaguru._3_signUp_activity.views.SignUpViewInterface;
+
+import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
+
 public interface AuthUserDataSourceInterface {
+
+
+    void loginBtnClick(LoginViewInterface loginViewInterface, FragmentActivity activity, CircularProgressButton loginBtn, EditText userName, EditText password);
+
+    void signUpBtnClick(SignUpViewInterface signUpViewInterface, FragmentActivity activity, int userType, EditText userName, EditText email, EditText password, EditText confirmPassword, CircularProgressButton signUpBtn);
 
     void createNewUser(String uId, NewUserData newUserData);
 

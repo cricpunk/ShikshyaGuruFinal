@@ -1,0 +1,65 @@
+<html>
+<head>
+<title>NewsHomePageActivity.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #606366; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(204,120,50); }
+.s1 { color: rgb(169,183,198); }
+.s2 { color: rgb(128,128,128); }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+NewsHomePageActivity.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<a name="l1"><span class="ln">1    </span></a><span class="s0">package </span><span class="s1">com.shikshyaguru.shikshyaguru._5_news_activity.views</span><span class="s0">;</span><span class="s1"> 
+<a name="l2"><span class="ln">2    </span></a> 
+<a name="l3"><span class="ln">3    </span></a></span><span class="s0">import </span><span class="s1">android.content.Intent</span><span class="s0">;</span><span class="s1"> 
+<a name="l4"><span class="ln">4    </span></a></span><span class="s0">import </span><span class="s1">android.os.Bundle</span><span class="s0">;</span><span class="s1"> 
+<a name="l5"><span class="ln">5    </span></a></span><span class="s0">import </span><span class="s1">android.support.annotation.Nullable</span><span class="s0">;</span><span class="s1"> 
+<a name="l6"><span class="ln">6    </span></a></span><span class="s0">import </span><span class="s1">android.support.v7.app.AppCompatActivity</span><span class="s0">;</span><span class="s1"> 
+<a name="l7"><span class="ln">7    </span></a> 
+<a name="l8"><span class="ln">8    </span></a></span><span class="s0">import </span><span class="s1">com.shikshyaguru.shikshyaguru.R</span><span class="s0">;</span><span class="s1"> 
+<a name="l9"><span class="ln">9    </span></a></span><span class="s0">import <a href="../../../../../com/shikshyaguru/shikshyaguru/_0_3_dynamic_fragment_loader/DynamicFragmentLoader.java.html">com.shikshyaguru.shikshyaguru._0_3_dynamic_fragment_loader.DynamicFragmentLoader</a>;</span><span class="s1"> 
+<a name="l10"><span class="ln">10   </span></a> 
+<a name="l11"><span class="ln">11   </span></a> </span><span class="s2">/* 
+<a name="l12"><span class="ln">12   </span></a>  * Created by cricpunk on 9/13/17. 
+<a name="l13"><span class="ln">13   </span></a>  * Pankaj Koirala 
+<a name="l14"><span class="ln">14   </span></a>  * Kathmandu Nepal 
+<a name="l15"><span class="ln">15   </span></a>  * 
+<a name="l16"><span class="ln">16   </span></a>  ################################################################################################## 
+<a name="l17"><span class="ln">17   </span></a>  ##==&gt;  NewsHomePageActivity.class triggers when news headlines and all news is clicked from the ## 
+<a name="l18"><span class="ln">18   </span></a>  ##     HomePageActivity.class for now.                                                          ## 
+<a name="l19"><span class="ln">19   </span></a>  ##==&gt;  If application needs to load news section from any other activities then this class will ## 
+<a name="l20"><span class="ln">20   </span></a>  ##     handle all those requests.                                                               ## 
+<a name="l21"><span class="ln">21   </span></a>  ################################################################################################## 
+<a name="l22"><span class="ln">22   </span></a>  * 
+<a name="l23"><span class="ln">23   </span></a>  */</span><span class="s1"> 
+<a name="l24"><span class="ln">24   </span></a> 
+<a name="l25"><span class="ln">25   </span></a></span><span class="s0">public class </span><span class="s1">NewsHomePageActivity </span><span class="s0">extends </span><span class="s1">AppCompatActivity { 
+<a name="l26"><span class="ln">26   </span></a> 
+<a name="l27"><span class="ln">27   </span></a> 
+<a name="l28"><span class="ln">28   </span></a>    @Override 
+<a name="l29"><span class="ln">29   </span></a>    </span><span class="s0">protected void </span><span class="s1">onCreate(@Nullable Bundle savedInstanceState) { 
+<a name="l30"><span class="ln">30   </span></a>        </span><span class="s0">super</span><span class="s1">.onCreate(savedInstanceState)</span><span class="s0">;</span><span class="s1"> 
+<a name="l31"><span class="ln">31   </span></a>        setContentView(R.layout._5_0_news_home_page_activity)</span><span class="s0">;</span><span class="s1"> 
+<a name="l32"><span class="ln">32   </span></a> 
+<a name="l33"><span class="ln">33   </span></a>        Intent intent = getIntent()</span><span class="s0">;</span><span class="s1"> 
+<a name="l34"><span class="ln">34   </span></a>        Bundle bundle = intent.getExtras()</span><span class="s0">;</span><span class="s1"> 
+<a name="l35"><span class="ln">35   </span></a>        <a href="../../../../../com/shikshyaguru/shikshyaguru/_0_3_dynamic_fragment_loader/DynamicFragmentLoader.java.html">DynamicFragmentLoader</a>.loadFragment( 
+<a name="l36"><span class="ln">36   </span></a>                </span><span class="s0">new <a href="NewsMainFragment.java.html">NewsMainFragment</a></span><span class="s1">()</span><span class="s0">,</span><span class="s1"> 
+<a name="l37"><span class="ln">37   </span></a>                bundle</span><span class="s0">,</span><span class="s1"> 
+<a name="l38"><span class="ln">38   </span></a>                R.id.news_home_page_fragment_holder</span><span class="s0">,</span><span class="s1"> 
+<a name="l39"><span class="ln">39   </span></a>                getSupportFragmentManager())</span><span class="s0">;</span><span class="s1"> 
+<a name="l40"><span class="ln">40   </span></a> 
+<a name="l41"><span class="ln">41   </span></a>    } 
+<a name="l42"><span class="ln">42   </span></a> 
+<a name="l43"><span class="ln">43   </span></a> 
+<a name="l44"><span class="ln">44   </span></a>} 
+<a name="l45"><span class="ln">45   </span></a></span></pre>
+</body>
+</html>

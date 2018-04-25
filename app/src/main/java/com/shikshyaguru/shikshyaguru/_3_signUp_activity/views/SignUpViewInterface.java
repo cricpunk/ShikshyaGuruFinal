@@ -1,5 +1,7 @@
 package com.shikshyaguru.shikshyaguru._3_signUp_activity.views;
 
+import com.google.firebase.auth.FirebaseUser;
+
 /*
  * Created by Pankaj Koirala on 4/3/2018.
  * Kathmandu, Nepal
@@ -13,8 +15,10 @@ public interface SignUpViewInterface {
 
     void institutionIconClick();
 
-    void signUpBtnClick();
-
     void signInClick();
+
+    void updateUI(FirebaseUser currentUser);
+
+    void showSnackBar(String localizedMessage);
 
 }

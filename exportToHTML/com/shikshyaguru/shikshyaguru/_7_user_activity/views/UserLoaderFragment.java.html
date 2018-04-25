@@ -1,0 +1,260 @@
+<html>
+<head>
+<title>UserLoaderFragment.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #606366; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(204,120,50); }
+.s1 { color: rgb(169,183,198); }
+.s2 { color: rgb(128,128,128); }
+.s3 { color: rgb(106,135,89); }
+.s4 { color: rgb(104,151,187); }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+UserLoaderFragment.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<a name="l1"><span class="ln">1    </span></a><span class="s0">package </span><span class="s1">com.shikshyaguru.shikshyaguru._7_user_activity.views</span><span class="s0">;</span><span class="s1"> 
+<a name="l2"><span class="ln">2    </span></a> 
+<a name="l3"><span class="ln">3    </span></a></span><span class="s0">import </span><span class="s1">android.content.Intent</span><span class="s0">;</span><span class="s1"> 
+<a name="l4"><span class="ln">4    </span></a></span><span class="s0">import </span><span class="s1">android.os.Bundle</span><span class="s0">;</span><span class="s1"> 
+<a name="l5"><span class="ln">5    </span></a></span><span class="s0">import </span><span class="s1">android.support.annotation.NonNull</span><span class="s0">;</span><span class="s1"> 
+<a name="l6"><span class="ln">6    </span></a></span><span class="s0">import </span><span class="s1">android.support.annotation.Nullable</span><span class="s0">;</span><span class="s1"> 
+<a name="l7"><span class="ln">7    </span></a></span><span class="s0">import </span><span class="s1">android.support.v4.app.Fragment</span><span class="s0">;</span><span class="s1"> 
+<a name="l8"><span class="ln">8    </span></a></span><span class="s0">import </span><span class="s1">android.support.v7.app.ActionBar</span><span class="s0">;</span><span class="s1"> 
+<a name="l9"><span class="ln">9    </span></a></span><span class="s0">import </span><span class="s1">android.support.v7.app.AppCompatActivity</span><span class="s0">;</span><span class="s1"> 
+<a name="l10"><span class="ln">10   </span></a></span><span class="s0">import </span><span class="s1">android.support.v7.widget.Toolbar</span><span class="s0">;</span><span class="s1"> 
+<a name="l11"><span class="ln">11   </span></a></span><span class="s0">import </span><span class="s1">android.util.Log</span><span class="s0">;</span><span class="s1"> 
+<a name="l12"><span class="ln">12   </span></a></span><span class="s0">import </span><span class="s1">android.view.LayoutInflater</span><span class="s0">;</span><span class="s1"> 
+<a name="l13"><span class="ln">13   </span></a></span><span class="s0">import </span><span class="s1">android.view.View</span><span class="s0">;</span><span class="s1"> 
+<a name="l14"><span class="ln">14   </span></a></span><span class="s0">import </span><span class="s1">android.view.ViewGroup</span><span class="s0">;</span><span class="s1"> 
+<a name="l15"><span class="ln">15   </span></a></span><span class="s0">import </span><span class="s1">android.widget.ImageView</span><span class="s0">;</span><span class="s1"> 
+<a name="l16"><span class="ln">16   </span></a></span><span class="s0">import </span><span class="s1">android.widget.TextView</span><span class="s0">;</span><span class="s1"> 
+<a name="l17"><span class="ln">17   </span></a></span><span class="s0">import </span><span class="s1">android.widget.Toast</span><span class="s0">;</span><span class="s1"> 
+<a name="l18"><span class="ln">18   </span></a> 
+<a name="l19"><span class="ln">19   </span></a></span><span class="s0">import </span><span class="s1">com.shikshyaguru.shikshyaguru.R</span><span class="s0">;</span><span class="s1"> 
+<a name="l20"><span class="ln">20   </span></a></span><span class="s0">import <a href="../../../../../com/shikshyaguru/shikshyaguru/_4_home_page_activity/views/NavigationDrawerFragment.java.html">com.shikshyaguru.shikshyaguru._4_home_page_activity.views.NavigationDrawerFragment</a>;</span><span class="s1"> 
+<a name="l21"><span class="ln">21   </span></a></span><span class="s0">import <a href="../../../../../com/shikshyaguru/shikshyaguru/_7_user_activity/model/UserDataSource.java.html">com.shikshyaguru.shikshyaguru._7_user_activity.model.UserDataSource</a>;</span><span class="s1"> 
+<a name="l22"><span class="ln">22   </span></a></span><span class="s0">import <a href="../../../../../com/shikshyaguru/shikshyaguru/_7_user_activity/presenter/UserController.java.html">com.shikshyaguru.shikshyaguru._7_user_activity.presenter.UserController</a>;</span><span class="s1"> 
+<a name="l23"><span class="ln">23   </span></a></span><span class="s0">import </span><span class="s1">com.sothree.slidinguppanel.SlidingUpPanelLayout</span><span class="s0">;</span><span class="s1"> 
+<a name="l24"><span class="ln">24   </span></a></span><span class="s0">import </span><span class="s1">com.squareup.picasso.Picasso</span><span class="s0">;</span><span class="s1"> 
+<a name="l25"><span class="ln">25   </span></a> 
+<a name="l26"><span class="ln">26   </span></a></span><span class="s0">import </span><span class="s1">java.util.Objects</span><span class="s0">;</span><span class="s1"> 
+<a name="l27"><span class="ln">27   </span></a> 
+<a name="l28"><span class="ln">28   </span></a></span><span class="s2">/* 
+<a name="l29"><span class="ln">29   </span></a> * Created by Pankaj Koirala on 9/30/2017. 
+<a name="l30"><span class="ln">30   </span></a> * Kathmandu, Nepal 
+<a name="l31"><span class="ln">31   </span></a> * Koiralapankaj007@gmail.com 
+<a name="l32"><span class="ln">32   </span></a> */</span><span class="s1"> 
+<a name="l33"><span class="ln">33   </span></a> 
+<a name="l34"><span class="ln">34   </span></a></span><span class="s0">public class </span><span class="s1">UserLoaderFragment </span><span class="s0">extends </span><span class="s1">Fragment </span><span class="s0">implements </span><span class="s1">View.OnClickListener</span><span class="s0">, <a href="UserLoaderInterface.java.html">UserLoaderInterface</a> </span><span class="s1">{ 
+<a name="l35"><span class="ln">35   </span></a> 
+<a name="l36"><span class="ln">36   </span></a>    </span><span class="s0">private </span><span class="s1">SlidingUpPanelLayout mainLayout</span><span class="s0">;</span><span class="s1"> 
+<a name="l37"><span class="ln">37   </span></a>    </span><span class="s0">private </span><span class="s1">View frontLayout</span><span class="s0">;</span><span class="s1"> 
+<a name="l38"><span class="ln">38   </span></a>    </span><span class="s0">private </span><span class="s1">View bgLayout</span><span class="s0">;</span><span class="s1"> 
+<a name="l39"><span class="ln">39   </span></a> 
+<a name="l40"><span class="ln">40   </span></a>    </span><span class="s0">private </span><span class="s1">ImageView bProfileBg</span><span class="s0">, </span><span class="s1">bBtnMenu</span><span class="s0">, </span><span class="s1">bBtnMoreIcon</span><span class="s0">;</span><span class="s1"> 
+<a name="l41"><span class="ln">41   </span></a> 
+<a name="l42"><span class="ln">42   </span></a>    </span><span class="s0">private </span><span class="s1">ImageView fUserProfilePic</span><span class="s0">;</span><span class="s1"> 
+<a name="l43"><span class="ln">43   </span></a>    </span><span class="s0">private </span><span class="s1">TextView fName</span><span class="s0">, </span><span class="s1">fType</span><span class="s0">, </span><span class="s1">fInstitution</span><span class="s0">, </span><span class="s1">fQuestion</span><span class="s0">, </span><span class="s1">fAnswer</span><span class="s0">, </span><span class="s1">fFollower</span><span class="s0">, </span><span class="s1">fFollowing</span><span class="s0">, </span><span class="s1">fMail</span><span class="s0">;</span><span class="s1"> 
+<a name="l44"><span class="ln">44   </span></a>    </span><span class="s0">private </span><span class="s1">TextView fBtnFollow</span><span class="s0">, </span><span class="s1">fBtnSendMessage</span><span class="s0">, </span><span class="s1">fBtnAskQuestion</span><span class="s0">;</span><span class="s1"> 
+<a name="l45"><span class="ln">45   </span></a> 
+<a name="l46"><span class="ln">46   </span></a>    </span><span class="s0">private <a href="../../../../../com/shikshyaguru/shikshyaguru/_7_user_activity/presenter/UserController.java.html">UserController</a> </span><span class="s1">controller</span><span class="s0">;</span><span class="s1"> 
+<a name="l47"><span class="ln">47   </span></a> 
+<a name="l48"><span class="ln">48   </span></a>    </span><span class="s0">private </span><span class="s1">String uId</span><span class="s0">, </span><span class="s1">image</span><span class="s0">, </span><span class="s1">name</span><span class="s0">, </span><span class="s1">email</span><span class="s0">, </span><span class="s1">uName</span><span class="s0">, </span><span class="s1">type</span><span class="s0">, </span><span class="s1">institution</span><span class="s0">, </span><span class="s1">followers</span><span class="s0">, </span><span class="s1">following</span><span class="s0">;</span><span class="s1"> 
+<a name="l49"><span class="ln">49   </span></a> 
+<a name="l50"><span class="ln">50   </span></a>    @Nullable 
+<a name="l51"><span class="ln">51   </span></a>    @Override 
+<a name="l52"><span class="ln">52   </span></a>    </span><span class="s0">public </span><span class="s1">View onCreateView(@NonNull LayoutInflater inflater</span><span class="s0">, </span><span class="s1">@Nullable ViewGroup container</span><span class="s0">, </span><span class="s1">@Nullable Bundle savedInstanceState) { 
+<a name="l53"><span class="ln">53   </span></a>        View view = inflater.inflate(R.layout._7_1_0_user_loader_fragment</span><span class="s0">, </span><span class="s1">container</span><span class="s0">, false</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+<a name="l54"><span class="ln">54   </span></a> 
+<a name="l55"><span class="ln">55   </span></a>        </span><span class="s0">if </span><span class="s1">(getArguments() != </span><span class="s0">null</span><span class="s1">) { 
+<a name="l56"><span class="ln">56   </span></a> 
+<a name="l57"><span class="ln">57   </span></a>            </span><span class="s0">this</span><span class="s1">.uId = getArguments().getString(</span><span class="s3">&quot;UID&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+<a name="l58"><span class="ln">58   </span></a>            </span><span class="s0">this</span><span class="s1">.image = getArguments().getString(</span><span class="s3">&quot;IMAGE&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+<a name="l59"><span class="ln">59   </span></a>            </span><span class="s0">this</span><span class="s1">.name = getArguments().getString(</span><span class="s3">&quot;NAME&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+<a name="l60"><span class="ln">60   </span></a>            </span><span class="s0">this</span><span class="s1">.email = getArguments().getString(</span><span class="s3">&quot;EMAIL&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+<a name="l61"><span class="ln">61   </span></a>            </span><span class="s0">this</span><span class="s1">.uName = getArguments().getString(</span><span class="s3">&quot;USER_NAME&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+<a name="l62"><span class="ln">62   </span></a>            </span><span class="s0">this</span><span class="s1">.type = getArguments().getString(</span><span class="s3">&quot;TYPE&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+<a name="l63"><span class="ln">63   </span></a>            </span><span class="s0">this</span><span class="s1">.followers = getArguments().getString(</span><span class="s3">&quot;FOLLOWERS&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+<a name="l64"><span class="ln">64   </span></a>            </span><span class="s0">this</span><span class="s1">.following = getArguments().getString(</span><span class="s3">&quot;FOLLOWING&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+<a name="l65"><span class="ln">65   </span></a>            </span><span class="s0">this</span><span class="s1">.institution = getArguments().getString(</span><span class="s3">&quot;INSTITUTION&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+<a name="l66"><span class="ln">66   </span></a> 
+<a name="l67"><span class="ln">67   </span></a>        } 
+<a name="l68"><span class="ln">68   </span></a> 
+<a name="l69"><span class="ln">69   </span></a> 
+<a name="l70"><span class="ln">70   </span></a>        initComponents(view)</span><span class="s0">;</span><span class="s1"> 
+<a name="l71"><span class="ln">71   </span></a>        initToolbarAndLayout()</span><span class="s0">;</span><span class="s1"> 
+<a name="l72"><span class="ln">72   </span></a>        initSlidingPanel()</span><span class="s0">;</span><span class="s1"> 
+<a name="l73"><span class="ln">73   </span></a> 
+<a name="l74"><span class="ln">74   </span></a>        controller = </span><span class="s0">new <a href="../../../../../com/shikshyaguru/shikshyaguru/_7_user_activity/presenter/UserController.java.html">UserController</a></span><span class="s1">(</span><span class="s0">this, new <a href="../../../../../com/shikshyaguru/shikshyaguru/_7_user_activity/model/UserDataSource.java.html">UserDataSource</a></span><span class="s1">())</span><span class="s0">;</span><span class="s1"> 
+<a name="l75"><span class="ln">75   </span></a> 
+<a name="l76"><span class="ln">76   </span></a>        controller.setUserProfile(uId)</span><span class="s0">;</span><span class="s1"> 
+<a name="l77"><span class="ln">77   </span></a> 
+<a name="l78"><span class="ln">78   </span></a>        </span><span class="s0">return </span><span class="s1">view</span><span class="s0">;</span><span class="s1"> 
+<a name="l79"><span class="ln">79   </span></a>    } 
+<a name="l80"><span class="ln">80   </span></a> 
+<a name="l81"><span class="ln">81   </span></a>    @Override 
+<a name="l82"><span class="ln">82   </span></a>    </span><span class="s0">public void </span><span class="s1">onViewCreated(@NonNull View view</span><span class="s0">, </span><span class="s1">@Nullable Bundle savedInstanceState) { 
+<a name="l83"><span class="ln">83   </span></a>        </span><span class="s0">super</span><span class="s1">.onViewCreated(view</span><span class="s0">, </span><span class="s1">savedInstanceState)</span><span class="s0">;</span><span class="s1"> 
+<a name="l84"><span class="ln">84   </span></a>    } 
+<a name="l85"><span class="ln">85   </span></a> 
+<a name="l86"><span class="ln">86   </span></a>    </span><span class="s0">private void </span><span class="s1">initComponents(View view) { 
+<a name="l87"><span class="ln">87   </span></a> 
+<a name="l88"><span class="ln">88   </span></a>        mainLayout = view.findViewById(R.id.sliding_layout)</span><span class="s0">;</span><span class="s1"> 
+<a name="l89"><span class="ln">89   </span></a>        bgLayout = view.findViewById(R.id.include_background_content)</span><span class="s0">;</span><span class="s1"> 
+<a name="l90"><span class="ln">90   </span></a>        frontLayout = view.findViewById(R.id.include_main_content)</span><span class="s0">;</span><span class="s1"> 
+<a name="l91"><span class="ln">91   </span></a> 
+<a name="l92"><span class="ln">92   </span></a>        bProfileBg = bgLayout.findViewById(R.id.iv_user_loader_profile_bg)</span><span class="s0">;</span><span class="s1"> 
+<a name="l93"><span class="ln">93   </span></a>        bBtnMenu = bgLayout.findViewById(R.id.iv_user_loader_menu)</span><span class="s0">;</span><span class="s1"> 
+<a name="l94"><span class="ln">94   </span></a>        bBtnMoreIcon = bgLayout.findViewById(R.id.iv_user_loader_more_icon)</span><span class="s0">;</span><span class="s1"> 
+<a name="l95"><span class="ln">95   </span></a> 
+<a name="l96"><span class="ln">96   </span></a></span><span class="s2">//        private ImageView fUserProfilePic;</span><span class="s1"> 
+<a name="l97"><span class="ln">97   </span></a></span><span class="s2">//        private TextView fName, fType, fInstitution, fQuestion, fAnswer, fFollower, fFollowing, Fmail;</span><span class="s1"> 
+<a name="l98"><span class="ln">98   </span></a></span><span class="s2">//        private TextView fBtnFollow, fBtnSendMessage, fBtnAskQuestion, fBtnSeeAllPeople;</span><span class="s1"> 
+<a name="l99"><span class="ln">99   </span></a> 
+<a name="l100"><span class="ln">100  </span></a>        fUserProfilePic = frontLayout.findViewById(R.id.iv_user_loader_profile_pic)</span><span class="s0">;</span><span class="s1"> 
+<a name="l101"><span class="ln">101  </span></a>        fName = frontLayout.findViewById(R.id.lbl_user_loader_name)</span><span class="s0">;</span><span class="s1"> 
+<a name="l102"><span class="ln">102  </span></a>        fType = frontLayout.findViewById(R.id.lbl_user_loader_user_type)</span><span class="s0">;</span><span class="s1"> 
+<a name="l103"><span class="ln">103  </span></a>        fInstitution = frontLayout.findViewById(R.id.lbl_user_loader_institution_name)</span><span class="s0">;</span><span class="s1"> 
+<a name="l104"><span class="ln">104  </span></a>        fQuestion = frontLayout.findViewById(R.id.lbl_user_loader_question)</span><span class="s0">;</span><span class="s1"> 
+<a name="l105"><span class="ln">105  </span></a>        fAnswer = frontLayout.findViewById(R.id.lbl_user_loader_answer)</span><span class="s0">;</span><span class="s1"> 
+<a name="l106"><span class="ln">106  </span></a>        fFollower = frontLayout.findViewById(R.id.lbl_user_loader_follower)</span><span class="s0">;</span><span class="s1"> 
+<a name="l107"><span class="ln">107  </span></a>        fFollowing = frontLayout.findViewById(R.id.lbl_user_loader_following)</span><span class="s0">;</span><span class="s1"> 
+<a name="l108"><span class="ln">108  </span></a>        fMail = frontLayout.findViewById(R.id.lbl_user_loader_email)</span><span class="s0">;</span><span class="s1"> 
+<a name="l109"><span class="ln">109  </span></a> 
+<a name="l110"><span class="ln">110  </span></a>        fBtnFollow = frontLayout.findViewById(R.id.btn_user_loader_follow_btn)</span><span class="s0">;</span><span class="s1"> 
+<a name="l111"><span class="ln">111  </span></a>        fBtnSendMessage = frontLayout.findViewById(R.id.btn_user_loader_send_message)</span><span class="s0">;</span><span class="s1"> 
+<a name="l112"><span class="ln">112  </span></a>        fBtnAskQuestion = frontLayout.findViewById(R.id.btn_user_loader_ask_question)</span><span class="s0">;</span><span class="s1"> 
+<a name="l113"><span class="ln">113  </span></a> 
+<a name="l114"><span class="ln">114  </span></a>        fBtnSendMessage.setOnClickListener(</span><span class="s0">this</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+<a name="l115"><span class="ln">115  </span></a>        fBtnAskQuestion.setOnClickListener(</span><span class="s0">this</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+<a name="l116"><span class="ln">116  </span></a> 
+<a name="l117"><span class="ln">117  </span></a>        </span><span class="s2">// Dent show follow button for ourselves</span><span class="s1"> 
+<a name="l118"><span class="ln">118  </span></a>        </span><span class="s0">if </span><span class="s1">(uId.equals(<a href="../../../../../com/shikshyaguru/shikshyaguru/_4_home_page_activity/views/NavigationDrawerFragment.java.html">NavigationDrawerFragment</a>.currentUser.getUid())) { 
+<a name="l119"><span class="ln">119  </span></a>            fBtnFollow.setVisibility(View.INVISIBLE)</span><span class="s0">;</span><span class="s1"> 
+<a name="l120"><span class="ln">120  </span></a>            fBtnAskQuestion.setText(R.string.peoples)</span><span class="s0">;</span><span class="s1"> 
+<a name="l121"><span class="ln">121  </span></a>            fBtnSendMessage.setText(R.string.update_profile)</span><span class="s0">;</span><span class="s1"> 
+<a name="l122"><span class="ln">122  </span></a>        } 
+<a name="l123"><span class="ln">123  </span></a> 
+<a name="l124"><span class="ln">124  </span></a>    } 
+<a name="l125"><span class="ln">125  </span></a> 
+<a name="l126"><span class="ln">126  </span></a>    </span><span class="s0">private void </span><span class="s1">initToolbarAndLayout() { 
+<a name="l127"><span class="ln">127  </span></a>        Toolbar toolbar = bgLayout.findViewById(R.id.tb_user_loader_frag)</span><span class="s0">;</span><span class="s1"> 
+<a name="l128"><span class="ln">128  </span></a>        ((AppCompatActivity) Objects.requireNonNull(getActivity())).setSupportActionBar(toolbar)</span><span class="s0">;</span><span class="s1"> 
+<a name="l129"><span class="ln">129  </span></a> 
+<a name="l130"><span class="ln">130  </span></a>        ActionBar getSupportActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar()</span><span class="s0">;</span><span class="s1"> 
+<a name="l131"><span class="ln">131  </span></a>        </span><span class="s0">if </span><span class="s1">(getSupportActionBar != </span><span class="s0">null</span><span class="s1">) { 
+<a name="l132"><span class="ln">132  </span></a>            getSupportActionBar.setDisplayHomeAsUpEnabled(</span><span class="s0">false</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+<a name="l133"><span class="ln">133  </span></a>            getSupportActionBar.setDisplayShowTitleEnabled(</span><span class="s0">false</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+<a name="l134"><span class="ln">134  </span></a>        } 
+<a name="l135"><span class="ln">135  </span></a> 
+<a name="l136"><span class="ln">136  </span></a>    } 
+<a name="l137"><span class="ln">137  </span></a> 
+<a name="l138"><span class="ln">138  </span></a>    </span><span class="s0">private void </span><span class="s1">initSlidingPanel() { 
+<a name="l139"><span class="ln">139  </span></a> 
+<a name="l140"><span class="ln">140  </span></a>        mainLayout.addPanelSlideListener(</span><span class="s0">new </span><span class="s1">SlidingUpPanelLayout.PanelSlideListener() { 
+<a name="l141"><span class="ln">141  </span></a>            @Override 
+<a name="l142"><span class="ln">142  </span></a>            </span><span class="s0">public void </span><span class="s1">onPanelSlide(View panel</span><span class="s0">, float </span><span class="s1">slideOffset) { 
+<a name="l143"><span class="ln">143  </span></a>                Log.i(</span><span class="s3">&quot;Sliding Up&quot;</span><span class="s0">, </span><span class="s3">&quot;onPanelSlide, offset &quot; </span><span class="s1">+ slideOffset)</span><span class="s0">;</span><span class="s1"> 
+<a name="l144"><span class="ln">144  </span></a>                </span><span class="s0">if </span><span class="s1">(mainLayout != </span><span class="s0">null</span><span class="s1">) { 
+<a name="l145"><span class="ln">145  </span></a>                    </span><span class="s0">if </span><span class="s1">(mainLayout.getAnchorPoint() == </span><span class="s4">1.0f</span><span class="s1">) { 
+<a name="l146"><span class="ln">146  </span></a>                        mainLayout.setAnchorPoint(</span><span class="s4">0.19f</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+<a name="l147"><span class="ln">147  </span></a>                        mainLayout.setPanelState(SlidingUpPanelLayout.PanelState.ANCHORED)</span><span class="s0">;</span><span class="s1"> 
+<a name="l148"><span class="ln">148  </span></a>                    } 
+<a name="l149"><span class="ln">149  </span></a>                } 
+<a name="l150"><span class="ln">150  </span></a> 
+<a name="l151"><span class="ln">151  </span></a>            } 
+<a name="l152"><span class="ln">152  </span></a> 
+<a name="l153"><span class="ln">153  </span></a>            @Override 
+<a name="l154"><span class="ln">154  </span></a>            </span><span class="s0">public void </span><span class="s1">onPanelStateChanged(View panel</span><span class="s0">, </span><span class="s1">SlidingUpPanelLayout.PanelState previousState</span><span class="s0">, </span><span class="s1">SlidingUpPanelLayout.PanelState newState) { 
+<a name="l155"><span class="ln">155  </span></a>                Log.i(</span><span class="s3">&quot;Sliding Up&quot;</span><span class="s0">, </span><span class="s3">&quot;onPanelStateChanged &quot; </span><span class="s1">+ newState)</span><span class="s0">;</span><span class="s1"> 
+<a name="l156"><span class="ln">156  </span></a>            } 
+<a name="l157"><span class="ln">157  </span></a>        })</span><span class="s0">;</span><span class="s1"> 
+<a name="l158"><span class="ln">158  </span></a> 
+<a name="l159"><span class="ln">159  </span></a></span><span class="s2">//        mainLayout.setFadeOnClickListener(new View.OnClickListener() {</span><span class="s1"> 
+<a name="l160"><span class="ln">160  </span></a></span><span class="s2">//            @Override</span><span class="s1"> 
+<a name="l161"><span class="ln">161  </span></a></span><span class="s2">//            public void onClick(View view) {</span><span class="s1"> 
+<a name="l162"><span class="ln">162  </span></a></span><span class="s2">//                mainLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);</span><span class="s1"> 
+<a name="l163"><span class="ln">163  </span></a></span><span class="s2">//            }</span><span class="s1"> 
+<a name="l164"><span class="ln">164  </span></a></span><span class="s2">//        });</span><span class="s1"> 
+<a name="l165"><span class="ln">165  </span></a> 
+<a name="l166"><span class="ln">166  </span></a>    } 
+<a name="l167"><span class="ln">167  </span></a> 
+<a name="l168"><span class="ln">168  </span></a>    @Override 
+<a name="l169"><span class="ln">169  </span></a>    </span><span class="s0">public void </span><span class="s1">setUserProfile(Object userProfileDetails) { 
+<a name="l170"><span class="ln">170  </span></a> 
+<a name="l171"><span class="ln">171  </span></a>        Picasso.get() 
+<a name="l172"><span class="ln">172  </span></a>                .load(image) 
+<a name="l173"><span class="ln">173  </span></a>                .fit() 
+<a name="l174"><span class="ln">174  </span></a>                .centerCrop() 
+<a name="l175"><span class="ln">175  </span></a>                .placeholder(R.drawable.ic_user) 
+<a name="l176"><span class="ln">176  </span></a>                .into(fUserProfilePic)</span><span class="s0">;</span><span class="s1"> 
+<a name="l177"><span class="ln">177  </span></a> 
+<a name="l178"><span class="ln">178  </span></a>        fName.setText(name)</span><span class="s0">;</span><span class="s1"> 
+<a name="l179"><span class="ln">179  </span></a>        fMail.setText(email)</span><span class="s0">;</span><span class="s1"> 
+<a name="l180"><span class="ln">180  </span></a> 
+<a name="l181"><span class="ln">181  </span></a>        </span><span class="s0">if </span><span class="s1">(type != </span><span class="s0">null</span><span class="s1">) { 
+<a name="l182"><span class="ln">182  </span></a>            </span><span class="s0">switch </span><span class="s1">(type) { 
+<a name="l183"><span class="ln">183  </span></a>                </span><span class="s0">case </span><span class="s3">&quot;1&quot;</span><span class="s1">: 
+<a name="l184"><span class="ln">184  </span></a>                    fType.setText(R.string.typeStudent)</span><span class="s0">;</span><span class="s1"> 
+<a name="l185"><span class="ln">185  </span></a>                    </span><span class="s0">break;</span><span class="s1"> 
+<a name="l186"><span class="ln">186  </span></a>                </span><span class="s0">case </span><span class="s3">&quot;2&quot;</span><span class="s1">: 
+<a name="l187"><span class="ln">187  </span></a>                    fType.setText(R.string.typeTeacher)</span><span class="s0">;</span><span class="s1"> 
+<a name="l188"><span class="ln">188  </span></a>                    </span><span class="s0">break;</span><span class="s1"> 
+<a name="l189"><span class="ln">189  </span></a>                </span><span class="s0">case </span><span class="s3">&quot;3&quot;</span><span class="s1">: 
+<a name="l190"><span class="ln">190  </span></a>                    fType.setText(R.string.typeInstitution)</span><span class="s0">;</span><span class="s1"> 
+<a name="l191"><span class="ln">191  </span></a>                    </span><span class="s0">break;</span><span class="s1"> 
+<a name="l192"><span class="ln">192  </span></a>                </span><span class="s0">default</span><span class="s1">: 
+<a name="l193"><span class="ln">193  </span></a>                    </span><span class="s0">break;</span><span class="s1"> 
+<a name="l194"><span class="ln">194  </span></a> 
+<a name="l195"><span class="ln">195  </span></a>            } 
+<a name="l196"><span class="ln">196  </span></a>        } 
+<a name="l197"><span class="ln">197  </span></a>        fFollower.setText(followers)</span><span class="s0">;</span><span class="s1"> 
+<a name="l198"><span class="ln">198  </span></a>        fFollowing.setText(following)</span><span class="s0">;</span><span class="s1"> 
+<a name="l199"><span class="ln">199  </span></a>        fInstitution.setText(institution)</span><span class="s0">;</span><span class="s1"> 
+<a name="l200"><span class="ln">200  </span></a> 
+<a name="l201"><span class="ln">201  </span></a>    } 
+<a name="l202"><span class="ln">202  </span></a> 
+<a name="l203"><span class="ln">203  </span></a>    @Override 
+<a name="l204"><span class="ln">204  </span></a>    </span><span class="s0">public void </span><span class="s1">onClick(View v) { 
+<a name="l205"><span class="ln">205  </span></a> 
+<a name="l206"><span class="ln">206  </span></a>        </span><span class="s0">switch </span><span class="s1">(v.getId()) { 
+<a name="l207"><span class="ln">207  </span></a> 
+<a name="l208"><span class="ln">208  </span></a>            </span><span class="s0">case </span><span class="s1">R.id.btn_user_loader_send_message: 
+<a name="l209"><span class="ln">209  </span></a> 
+<a name="l210"><span class="ln">210  </span></a>                </span><span class="s0">if </span><span class="s1">(fBtnSendMessage.getText().toString().toLowerCase().equals(</span><span class="s3">&quot;update profile&quot;</span><span class="s1">)) { 
+<a name="l211"><span class="ln">211  </span></a>                    Toast.makeText(getContext()</span><span class="s0">, </span><span class="s3">&quot;Update profile&quot;</span><span class="s0">, </span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span><span class="s1"> 
+<a name="l212"><span class="ln">212  </span></a>                } </span><span class="s0">else </span><span class="s1">{ 
+<a name="l213"><span class="ln">213  </span></a>                    Toast.makeText(getContext()</span><span class="s0">, </span><span class="s3">&quot;Send Message&quot;</span><span class="s0">, </span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span><span class="s1"> 
+<a name="l214"><span class="ln">214  </span></a>                } 
+<a name="l215"><span class="ln">215  </span></a>                </span><span class="s0">break;</span><span class="s1"> 
+<a name="l216"><span class="ln">216  </span></a> 
+<a name="l217"><span class="ln">217  </span></a>            </span><span class="s0">case </span><span class="s1">R.id.btn_user_loader_ask_question: 
+<a name="l218"><span class="ln">218  </span></a> 
+<a name="l219"><span class="ln">219  </span></a>                </span><span class="s0">if </span><span class="s1">(fBtnAskQuestion.getText().toString().toLowerCase().equals(</span><span class="s3">&quot;peoples&quot;</span><span class="s1">)) { 
+<a name="l220"><span class="ln">220  </span></a> 
+<a name="l221"><span class="ln">221  </span></a>                    Toast.makeText(getContext()</span><span class="s0">, </span><span class="s3">&quot;Peoples&quot;</span><span class="s0">, </span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span><span class="s1"> 
+<a name="l222"><span class="ln">222  </span></a>                    Intent intent = </span><span class="s0">new </span><span class="s1">Intent(getContext()</span><span class="s0">, <a href="UserHomePageActivity.java.html">UserHomePageActivity</a></span><span class="s1">.</span><span class="s0">class</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+<a name="l223"><span class="ln">223  </span></a>                    intent.putExtra(</span><span class="s3">&quot;REQUEST_CODE&quot;</span><span class="s0">, </span><span class="s3">&quot;user_main&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+<a name="l224"><span class="ln">224  </span></a>                    intent.putExtra(</span><span class="s3">&quot;TITLE&quot;</span><span class="s0">, </span><span class="s3">&quot;Users&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+<a name="l225"><span class="ln">225  </span></a>                    intent.putExtra(</span><span class="s3">&quot;CATEGORY&quot;</span><span class="s0">, </span><span class="s3">&quot;all&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+<a name="l226"><span class="ln">226  </span></a>                    startActivity(intent)</span><span class="s0">;</span><span class="s1"> 
+<a name="l227"><span class="ln">227  </span></a> 
+<a name="l228"><span class="ln">228  </span></a>                } </span><span class="s0">else </span><span class="s1">{ 
+<a name="l229"><span class="ln">229  </span></a>                    Toast.makeText(getContext()</span><span class="s0">, </span><span class="s3">&quot;Ask Question&quot;</span><span class="s0">, </span><span class="s1">Toast.LENGTH_SHORT).show()</span><span class="s0">;</span><span class="s1"> 
+<a name="l230"><span class="ln">230  </span></a>                } 
+<a name="l231"><span class="ln">231  </span></a>                </span><span class="s0">break;</span><span class="s1"> 
+<a name="l232"><span class="ln">232  </span></a> 
+<a name="l233"><span class="ln">233  </span></a> 
+<a name="l234"><span class="ln">234  </span></a>        } 
+<a name="l235"><span class="ln">235  </span></a>    } 
+<a name="l236"><span class="ln">236  </span></a> 
+<a name="l237"><span class="ln">237  </span></a>} 
+<a name="l238"><span class="ln">238  </span></a></span></pre>
+</body>
+</html>

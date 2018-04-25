@@ -42,9 +42,7 @@
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
-        android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:srcCompat="@drawable/ic_fast_forward"
@@ -56,12 +54,12 @@
         android:layout_height="35dp"
         android:layout_marginBottom="9dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:srcCompat="@drawable/ic_right_arrow"
-        android:contentDescription="@string/next_button_icon" />
+        android:contentDescription="@string/next_button_icon"
+        android:focusable="true" />
 
 
 </android.support.constraint.ConstraintLayout>

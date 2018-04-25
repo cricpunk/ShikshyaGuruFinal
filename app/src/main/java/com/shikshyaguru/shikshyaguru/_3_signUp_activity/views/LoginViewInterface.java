@@ -5,24 +5,12 @@ package com.shikshyaguru.shikshyaguru._3_signUp_activity.views;
  * Koiralapankaj007@gmail.com
  */
 
+import com.google.firebase.auth.FirebaseUser;
+
 public interface LoginViewInterface {
-    
-    void loginBtnClick();
 
-    void signUpClick();
+    void updateUI(FirebaseUser user, String serviceProvider);
 
-    void forgetPasswordClick();
-
-    void studentIconClick();
-
-    void teacherIconClick();
-
-    void institutionIconClick();
-
-    void facebookIconClick();
-
-    void twitterIconClick();
-
-    void googleIconClick();
+    void showSnackBar(String message, String color);
 
 }

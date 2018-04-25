@@ -41,8 +41,8 @@ import com.shikshyaguru.shikshyaguru._0_6_widgets.InternetConnection;
 import com.shikshyaguru.shikshyaguru._0_6_widgets.PopupCollections;
 import com.shikshyaguru.shikshyaguru._0_6_widgets.Styles;
 import com.shikshyaguru.shikshyaguru._0_7_shared_preferences.PrefManager;
+import com.shikshyaguru.shikshyaguru._3_signUp_activity.model.AuthUserDataSource;
 import com.shikshyaguru.shikshyaguru._3_signUp_activity.model.NewUserData;
-import com.shikshyaguru.shikshyaguru._3_signUp_activity.model.AuthAuthUserDataSource;
 import com.shikshyaguru.shikshyaguru._3_signUp_activity.presenter.AuthenticationController;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.HomePageActivity;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.NavigationDrawerFragment;
@@ -69,7 +69,10 @@ import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 public class LoginFragment extends Fragment implements LoginViewInterface, View.OnClickListener{
 
     public static String USER_PROVIDER = null;
-    public static final String CUSTOM_USER_PROVIDER = "custom";
+    public static final String FACEBOOK_USER = "facebook.com";
+    public static final String TWITTER_USER = "twitter.com";
+    public static final String GOOGLE_USER = "google.com";
+    public static final String CUSTOM_USER = "custom";
 
     public static final String NO_INTERNET_CONNECTION = "Please check your internet connection !";
     public static final String SELECT_USER_TYPE = "Please select from icons which define you most (Student/Teacher/Institution).";
@@ -118,15 +121,15 @@ public class LoginFragment extends Fragment implements LoginViewInterface, View.
 
         if (prefManager.isUserLoggedIn()) {
             // If user is already logged in then update UI
-            updateUI(mAuth.getCurrentUser());
+            updateUI(mAuth.getCurrentUser(), prefManager.getServiceProvider());
         }
 
-        if (prefManager.isUserTypeSet()) {
-            userTypeCardView.setVisibility(View.GONE);
-            // Set top margin for social type cardview
-            socialTypeCardView.setLayoutParams(Styles.sSetMargin(socialTypeCardView, 0, 100, 0, 0));
-
-        }
+//        if (prefManager.isUserTypeSet()) {
+//            userTypeCardView.setVisibility(View.GONE);
+//            // Set top margin for social type cardview
+//            socialTypeCardView.setLayoutParams(Styles.sSetMargin(socialTypeCardView, 0, 100, 0, 0));
+//
+//        }
 
         return view;
     }
@@ -135,7 +138,7 @@ public class LoginFragment extends Fragment implements LoginViewInterface, View.
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        controller = new AuthenticationController(this, new AuthAuthUserDataSource());
+        controller = new AuthenticationController(this, new AuthUserDataSource());
     }
 
     // Initialize views
@@ -207,39 +210,42 @@ public class LoginFragment extends Fragment implements LoginViewInterface, View.
         switch (v.getId()) {
 
             case R.id.btn_login :
-                controller.onLoginBtnClick();
+                controller.onLoginBtnClick(getActivity(), loginBtn, userName, password);
                 break;
 
             case R.id.lbl_sign_up :
-                controller.onSignUpClick();
+                Intent intent = new Intent(getContext(), AuthenticationActivity.class);
+                intent.putExtra("REQUEST_CODE", "sign_up");
+                startActivity(intent);
+                Objects.requireNonNull(getActivity()).finish();
                 break;
 
             case R.id.lbl_forget_password :
-                controller.onForgetPasswordClick();
+
                 break;
 
             case R.id.ico_student :
-                controller.onStudentIconClick();
+                selectedUserType(studentIcon);
                 break;
 
             case R.id.ico_teacher :
-                controller.onTeacherIconClick();
+                selectedUserType(teacherIcon);
                 break;
 
             case R.id.ico_institution :
-                controller.onInstitutionIconClick();
+                selectedUserType(institutionIcon);
                 break;
 
             case R.id.ico_facebook :
-                controller.onFacebookIconClick();
+                facebookIconClick();
                 break;
 
             case R.id.ico_twitter :
-                controller.onTwitterIconClick();
+                twitterIconClick();
                 break;
 
             case R.id.ico_google_plus :
-                controller.onGoogleIconClick();
+                googleIconClick();
                 break;
 
             default:
@@ -247,115 +253,19 @@ public class LoginFragment extends Fragment implements LoginViewInterface, View.
         }
     }
 
-    // Click handlers, implemented LoginViewInterface
-    @Override
-    public void loginBtnClick() {
-
-        String un = userName.getText().toString();
-        String email = userName.getText().toString() + "@shikshyaguru.com";
-        String pass = password.getText().toString();
-
-        if (!(un.trim().equals("")) && !(pass.trim().equals(""))) {
-
-            loginBtn.startAnimation();
-            mAuth.signInWithEmailAndPassword(email, pass)
-                    .addOnCompleteListener(Objects.requireNonNull(getActivity()), new OnCompleteListener<AuthResult>() {
-
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-
-                            if (task.isSuccessful()) {
-                                // Sign in success, update UI with the signed-in user's information
-                                Log.d(TAG, "signInWithEmail:success");
-                                FirebaseUser user = mAuth.getCurrentUser();
-                                USER_PROVIDER = CUSTOM_USER_PROVIDER;
-                                updateUI(user);
-                            } else {
-                                // If sign in fails, display a message to the user.
-                                Log.w(TAG, "signInWithEmail:failure", task.getException());
-                                //updateUI(null);
-                                loginBtn.revertAnimation();
-                                PopupCollections.simpleSnackBar(currentLayout, Objects.requireNonNull(task.getException()).getLocalizedMessage(), COLOR_RED);
-                            }
-                        }
-
-                    });
-        } else {
-            PopupCollections.simpleSnackBar(currentLayout, "Fields cannot be empty !", COLOR_GREEN);
-        }
-
-    }
-
-    @Override
-    public void signUpClick() {
-        Intent intent = new Intent(getContext(), AuthenticationActivity.class);
-        intent.putExtra("REQUEST_CODE", "sign_up");
-        startActivity(intent);
-        Objects.requireNonNull(getActivity()).finish();
-    }
-
-    @Override
-    public void forgetPasswordClick() {
-
-    }
-
-    @Override
-    public void studentIconClick() {
-        selectedUserType(studentIcon);
-    }
-
-    @Override
-    public void teacherIconClick() {
-        selectedUserType(teacherIcon);
-    }
-
-    @Override
-    public void institutionIconClick() {
-        selectedUserType(institutionIcon);
-    }
-
-    @Override
+    // Facebook login click
     public void facebookIconClick() {
 
         // Check internet connectivity
         if (InternetConnection.hasInternetConnection(Objects.requireNonNull(getContext()))) {
 
-            if (prefManager.isUserTypeSet()) {
-
-                LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("email", "public_profile"));
-                LoginManager.getInstance().registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
-                    @Override
-                    public void onSuccess(LoginResult loginResult) {
-                        Log.d(TAG, "facebook:onSuccess:" + loginResult);
-                        //Display progress dialogue
-                        PopupCollections.authenticationProgress(getContext()).show();
-                        handleFacebookAccessToken(loginResult.getAccessToken());
-                    }
-
-                    @Override
-                    public void onCancel() {
-                        Log.d(TAG, "facebook:onCancel");
-                        updateUI(null);
-                        PopupCollections.simpleSnackBar(currentLayout, "Cancel login process..", COLOR_GREEN);
-                    }
-
-                    @Override
-                    public void onError(FacebookException error) {
-                        Log.d(TAG, "facebook:onError", error);
-                        updateUI(null);
-                        PopupCollections.simpleSnackBar(currentLayout, error.getMessage(), COLOR_RED);
-                    }
-
-                });
-
-            } else if (userType != 0 ) {
+            if (userType != 0 ) {
                 // This part will called only once. If user type is not set then this part will be trigger
                 // Insert data from this part into firebase database
                 LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("email", "public_profile"));
                 LoginManager.getInstance().registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
-                        Log.d(TAG, "facebook:onSuccess:" + loginResult);
                         //Display progress dialogue
                         PopupCollections.authenticationProgress(getContext()).show();
                         handleFacebookAccessToken(loginResult.getAccessToken());
@@ -363,15 +273,11 @@ public class LoginFragment extends Fragment implements LoginViewInterface, View.
 
                     @Override
                     public void onCancel() {
-                        Log.d(TAG, "facebook:onCancel");
-                        updateUI(null);
                         PopupCollections.simpleSnackBar(currentLayout, "Cancel login process..", COLOR_GREEN);
                     }
 
                     @Override
                     public void onError(FacebookException error) {
-                        Log.d(TAG, "facebook:onError", error);
-                        updateUI(null);
                         PopupCollections.simpleSnackBar(currentLayout, error.getMessage(), COLOR_RED);
                     }
 
@@ -386,33 +292,13 @@ public class LoginFragment extends Fragment implements LoginViewInterface, View.
 
     }
 
-    @Override
+    // Twitter login click
     public void twitterIconClick() {
 
         // Check internet connectivity
         if (InternetConnection.hasInternetConnection(Objects.requireNonNull(getContext()))) {
 
-            // If user type is set there is no need to validate user type icon selection
-            if (prefManager.isUserTypeSet()) {
-                mTwitterAuthClient = new TwitterAuthClient();
-                mTwitterAuthClient.authorize(Objects.requireNonNull(getActivity()), new Callback<TwitterSession>() {
-
-                    @Override
-                    public void success(Result<TwitterSession> result) {
-                        Log.d(TAG, "twitterLogin:success" + result);
-                        // Display authentication progress bar
-                        PopupCollections.authenticationProgress(getContext()).show();
-                        handleTwitterSession(result.data);
-                    }
-
-                    @Override
-                    public void failure(TwitterException exception) {
-                        Log.w(TAG, "twitterLogin:failure", exception);
-                        updateUI(null);
-                        PopupCollections.simpleSnackBar(currentLayout, exception.getMessage(), COLOR_RED);
-                    }
-                });
-            } else if (userType != 0 ) {
+            if (userType != 0 ) {
                 // This part will called only once. If user type is not set then this part will be trigger
                 // Insert data from this part into firebase database
                 mTwitterAuthClient = new TwitterAuthClient();
@@ -420,7 +306,6 @@ public class LoginFragment extends Fragment implements LoginViewInterface, View.
 
                     @Override
                     public void success(Result<TwitterSession> result) {
-                        Log.d(TAG, "twitterLogin:success" + result);
                         // Display authentication progress bar
                         PopupCollections.authenticationProgress(getContext()).show();
                         handleTwitterSession(result.data);
@@ -428,8 +313,6 @@ public class LoginFragment extends Fragment implements LoginViewInterface, View.
 
                     @Override
                     public void failure(TwitterException exception) {
-                        Log.w(TAG, "twitterLogin:failure", exception);
-                        updateUI(null);
                         PopupCollections.simpleSnackBar(currentLayout, exception.getMessage(), COLOR_RED);
                     }
                 });
@@ -443,16 +326,12 @@ public class LoginFragment extends Fragment implements LoginViewInterface, View.
 
     }
 
-    @Override
+    // Google login click
     public void googleIconClick() {
 
         if (InternetConnection.hasInternetConnection(Objects.requireNonNull(getContext()))) {
 
-            // If user type is set there is no need to validate user type icon selection
-            if (prefManager.isUserTypeSet()) {
-                Intent googleSignInIntent = mGoogleSignInClient.getSignInIntent();
-                startActivityForResult(googleSignInIntent, GOOGLE_SIGN_IN);
-            } else if (userType != 0 ) {
+            if (userType != 0 ) {
                 // This part will called only once. If user type is not set then this part will be trigger
                 // Insert data from this part into firebase database
                 Intent googleSignInIntent = mGoogleSignInClient.getSignInIntent();
@@ -465,9 +344,9 @@ public class LoginFragment extends Fragment implements LoginViewInterface, View.
             PopupCollections.simpleSnackBar(currentLayout, NO_INTERNET_CONNECTION, COLOR_GREEN);
         }
 
-
     }
 
+    // Overriding onActivityResult method for google and twitter login
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -486,8 +365,6 @@ public class LoginFragment extends Fragment implements LoginViewInterface, View.
                 firebaseAuthWithGoogle(account);
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
-                Log.w(TAG, "Google sign in failed", e);
-                updateUI(null);
                 PopupCollections.simpleSnackBar(currentLayout, e.getMessage(), COLOR_RED);
             }
 
@@ -509,15 +386,12 @@ public class LoginFragment extends Fragment implements LoginViewInterface, View.
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            USER_PROVIDER = "facebook.com";
+                            USER_PROVIDER = FACEBOOK_USER;
                             createNewUser(user);
-                            updateUI(user);
+                            updateUI(user, FACEBOOK_USER);
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            updateUI(null);
                             PopupCollections.simpleSnackBar(currentLayout, String.valueOf(task.getException()), COLOR_RED);
                         }
 
@@ -528,7 +402,6 @@ public class LoginFragment extends Fragment implements LoginViewInterface, View.
 
     // Twitter authentication
     private void handleTwitterSession(TwitterSession session) {
-        Log.d(TAG, "handleTwitterSession:" + session);
 
         AuthCredential credential = TwitterAuthProvider.getCredential(
                 session.getAuthToken().token,
@@ -540,15 +413,12 @@ public class LoginFragment extends Fragment implements LoginViewInterface, View.
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            USER_PROVIDER = "twitter.com";
+                            USER_PROVIDER = TWITTER_USER;
                             createNewUser(user);
-                            updateUI(user);
+                            updateUI(user, TWITTER_USER);
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            updateUI(null);
                             PopupCollections.simpleSnackBar(currentLayout, String.valueOf(task.getException()), COLOR_RED);
 
                         }
@@ -560,7 +430,6 @@ public class LoginFragment extends Fragment implements LoginViewInterface, View.
 
     // Google authentication
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential)
@@ -569,15 +438,12 @@ public class LoginFragment extends Fragment implements LoginViewInterface, View.
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            USER_PROVIDER = "google.com";
+                            USER_PROVIDER = GOOGLE_USER;
                             createNewUser(user);
-                            updateUI(user);
+                            updateUI(user, GOOGLE_USER);
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            updateUI(null);
                             PopupCollections.simpleSnackBar(currentLayout, String.valueOf(task.getException()), COLOR_RED);
                         }
 
@@ -586,28 +452,7 @@ public class LoginFragment extends Fragment implements LoginViewInterface, View.
                 });
     }
 
-    private void updateUI(FirebaseUser currentUser) {
-
-        if (currentUser != null) {
-            // Set current user
-            NavigationDrawerFragment.currentUser = currentUser;
-            // Set login status true
-            prefManager.setUserLoggedIn(true);
-            // Set user type selection true
-            prefManager.setUserType(true);
-            // Start homepage activity
-            startActivity(new Intent(getContext(), HomePageActivity.class));
-            // Finish current activity
-            Objects.requireNonNull(getActivity()).finish();
-        } else {
-            prefManager.setUserLoggedIn(false);
-            Objects.requireNonNull(getActivity()).finish();
-            startActivity(new Intent(getContext(), AuthenticationActivity.class));
-            Log.w(TAG, "No user");
-        }
-
-    }
-
+    // Get User Type
     private void selectedUserType(ImageView imageView) {
 
         if (imageView == studentIcon) {
@@ -632,33 +477,86 @@ public class LoginFragment extends Fragment implements LoginViewInterface, View.
 
     }
 
+    // Create new user
     private void createNewUser(FirebaseUser user) {
 
-        if (userTypeCardView.getVisibility() != View.GONE  && !USER_PROVIDER.equals("twitter.com")) {
+        // If user are not twitter user
+        if (!USER_PROVIDER.equals(TWITTER_USER)) {
 
             if (user != null) {
 
                 String[] emailArr = Objects.requireNonNull(user.getEmail()).split("@");
                 String userName = emailArr[0];
-                String txtEmail = user.getEmail();
 
-                NewUserData newUserData = new NewUserData(user.getDisplayName(), userName, txtEmail, String.valueOf(userType));
+                NewUserData newUserData = new NewUserData();
+                newUserData.setName(user.getDisplayName());
+                newUserData.setUser_name(userName);
+                newUserData.setEmail(user.getEmail());
+                newUserData.setPassword(getString(R.string.defPassUser));
+                newUserData.setImage(Objects.requireNonNull(user.getPhotoUrl()).toString());
+                newUserData.setType(userType);
+
                 controller.createNewUser(user.getUid(), newUserData);
 
             }
 
-        } else if (userTypeCardView.getVisibility() != View.GONE  && USER_PROVIDER.equals("twitter.com")) {
+            // If user are twitter user
+        } else if (USER_PROVIDER.equals(TWITTER_USER)) {
 
             if (user != null) {
 
                 String userName = Objects.requireNonNull(user.getDisplayName()).replaceAll(" ", ".");
-                NewUserData newUserData = new NewUserData(user.getDisplayName(), userName, String.valueOf(userType));
+
+                NewUserData newUserData = new NewUserData();
+                newUserData.setName(user.getDisplayName());
+                newUserData.setUser_name(userName);
+                newUserData.setPassword(getString(R.string.defPassUser));
+                newUserData.setImage(Objects.requireNonNull(user.getPhotoUrl()).toString());
+                newUserData.setType(userType);
+
                 controller.createNewUser(user.getUid(), newUserData);
 
             }
 
         }
 
+    }
+
+    // Update UI
+    @Override
+    public void updateUI(FirebaseUser currentUser, String serviceProvider) {
+
+        if (currentUser != null) {
+            // Set current user
+            NavigationDrawerFragment.currentUser = currentUser;
+            // Set login status true
+            prefManager.setUserLoggedIn(true);
+            // Set user type selection true
+            prefManager.setUserType(true);
+            // Set service provider will use to separate logout action
+            prefManager.setServiceProvider(serviceProvider);
+            // UID will be used to filter user type icon action
+            prefManager.setCurrentUID(currentUser.getUid());
+            // Start homepage activity
+            startActivity(new Intent(getContext(), HomePageActivity.class));
+            // Finish current activity
+            Objects.requireNonNull(getActivity()).finish();
+        } else {
+            prefManager.setUserLoggedIn(false);
+            prefManager.setUserType(false);
+            prefManager.setServiceProvider(null);
+            prefManager.setCurrentUID(null);
+            Objects.requireNonNull(getActivity()).finish();
+            startActivity(new Intent(getContext(), AuthenticationActivity.class));
+            Log.w(TAG, "No user");
+        }
+
+    }
+
+    // Show snack bar to display information
+    @Override
+    public void showSnackBar(String message, String color) {
+        PopupCollections.simpleSnackBar(currentLayout, message, color);
     }
 
 }

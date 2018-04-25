@@ -37,6 +37,7 @@ public class InstitutionDataSource implements InstitutionDataSourceInterface {
     private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
     private String uId = NavigationDrawerFragment.currentUser.getUid();
 
+
     @SuppressLint("SimpleDateFormat")
     private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
     private String currentTime = dateFormat.format(Calendar.getInstance().getTime());

@@ -5,10 +5,15 @@ package com.shikshyaguru.shikshyaguru._3_signUp_activity.presenter;
  * Koiralapankaj007@gmail.com
  */
 
-import com.shikshyaguru.shikshyaguru._3_signUp_activity.model.NewUserData;
+import android.support.v4.app.FragmentActivity;
+import android.widget.EditText;
+
 import com.shikshyaguru.shikshyaguru._3_signUp_activity.model.AuthUserDataSourceInterface;
+import com.shikshyaguru.shikshyaguru._3_signUp_activity.model.NewUserData;
 import com.shikshyaguru.shikshyaguru._3_signUp_activity.views.LoginViewInterface;
 import com.shikshyaguru.shikshyaguru._3_signUp_activity.views.SignUpViewInterface;
+
+import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 
 public class AuthenticationController {
 
@@ -26,40 +31,9 @@ public class AuthenticationController {
         this.dataSource = dataSource;
     }
 
-    public void onLoginBtnClick() {
-        loginViewInterface.loginBtnClick();
-    }
-
-    public void onSignUpClick() {
-        loginViewInterface.signUpClick();
-    }
-
-    public void onForgetPasswordClick() {
-        loginViewInterface.forgetPasswordClick();
-    }
-
-    public void onStudentIconClick() {
-        loginViewInterface.studentIconClick();
-    }
-
-    public void onTeacherIconClick() {
-        loginViewInterface.teacherIconClick();
-    }
-
-    public void onInstitutionIconClick() {
-        loginViewInterface.institutionIconClick();
-    }
-
-    public void onFacebookIconClick() {
-        loginViewInterface.facebookIconClick();
-    }
-
-    public void onTwitterIconClick() {
-        loginViewInterface.twitterIconClick();
-    }
-
-    public void onGoogleIconClick() {
-        loginViewInterface.googleIconClick();
+    public void onLoginBtnClick(FragmentActivity activity, CircularProgressButton loginBtn, EditText userName, EditText password) {
+        //loginViewInterface.loginBtnClick();
+        dataSource.loginBtnClick(loginViewInterface, activity, loginBtn, userName, password);
     }
 
     public void onStudentIconClickSU() {
@@ -74,8 +48,8 @@ public class AuthenticationController {
         signUpViewInterface.institutionIconClick();
     }
 
-    public void onSignUpBtnClick() {
-        signUpViewInterface.signUpBtnClick();
+    public void onSignUpBtnClick(FragmentActivity activity, int userType, EditText userName, EditText email, EditText password, EditText confirmPassword, CircularProgressButton signUpBtn) {
+        dataSource.signUpBtnClick(signUpViewInterface, activity, userType, userName, email, password, confirmPassword, signUpBtn);
     }
 
     public void onSignInClick() {
@@ -85,5 +59,7 @@ public class AuthenticationController {
     public void createNewUser(String uId, NewUserData newUserData) {
         dataSource.createNewUser(uId, newUserData);
     }
+
+
 
 }

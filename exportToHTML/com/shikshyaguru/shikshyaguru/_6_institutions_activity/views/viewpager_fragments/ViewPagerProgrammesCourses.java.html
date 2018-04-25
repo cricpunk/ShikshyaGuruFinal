@@ -1,0 +1,168 @@
+<html>
+<head>
+<title>ViewPagerProgrammesCourses.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: #606366; font-weight: normal; font-style: normal; }
+.s0 { color: rgb(204,120,50); }
+.s1 { color: rgb(169,183,198); }
+.s2 { color: rgb(128,128,128); }
+.s3 { color: rgb(106,135,89); }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+ViewPagerProgrammesCourses.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<a name="l1"><span class="ln">1    </span></a><span class="s0">package </span><span class="s1">com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fragments</span><span class="s0">;</span><span class="s1"> 
+<a name="l2"><span class="ln">2    </span></a></span><span class="s2">/* 
+<a name="l3"><span class="ln">3    </span></a> * Created by Pankaj Koirala on 10/8/2017. 
+<a name="l4"><span class="ln">4    </span></a> * Kathmandu, Nepal 
+<a name="l5"><span class="ln">5    </span></a> * Koiralapankaj007@gmail.com 
+<a name="l6"><span class="ln">6    </span></a> */</span><span class="s1"> 
+<a name="l7"><span class="ln">7    </span></a> 
+<a name="l8"><span class="ln">8    </span></a></span><span class="s0">import </span><span class="s1">android.content.Intent</span><span class="s0">;</span><span class="s1"> 
+<a name="l9"><span class="ln">9    </span></a></span><span class="s0">import </span><span class="s1">android.os.Bundle</span><span class="s0">;</span><span class="s1"> 
+<a name="l10"><span class="ln">10   </span></a></span><span class="s0">import </span><span class="s1">android.support.annotation.NonNull</span><span class="s0">;</span><span class="s1"> 
+<a name="l11"><span class="ln">11   </span></a></span><span class="s0">import </span><span class="s1">android.support.annotation.Nullable</span><span class="s0">;</span><span class="s1"> 
+<a name="l12"><span class="ln">12   </span></a></span><span class="s0">import </span><span class="s1">android.support.v4.app.Fragment</span><span class="s0">;</span><span class="s1"> 
+<a name="l13"><span class="ln">13   </span></a></span><span class="s0">import </span><span class="s1">android.support.v7.widget.LinearLayoutManager</span><span class="s0">;</span><span class="s1"> 
+<a name="l14"><span class="ln">14   </span></a></span><span class="s0">import </span><span class="s1">android.support.v7.widget.RecyclerView</span><span class="s0">;</span><span class="s1"> 
+<a name="l15"><span class="ln">15   </span></a></span><span class="s0">import </span><span class="s1">android.support.v7.widget.Toolbar</span><span class="s0">;</span><span class="s1"> 
+<a name="l16"><span class="ln">16   </span></a></span><span class="s0">import </span><span class="s1">android.view.LayoutInflater</span><span class="s0">;</span><span class="s1"> 
+<a name="l17"><span class="ln">17   </span></a></span><span class="s0">import </span><span class="s1">android.view.MenuItem</span><span class="s0">;</span><span class="s1"> 
+<a name="l18"><span class="ln">18   </span></a></span><span class="s0">import </span><span class="s1">android.view.View</span><span class="s0">;</span><span class="s1"> 
+<a name="l19"><span class="ln">19   </span></a></span><span class="s0">import </span><span class="s1">android.view.ViewGroup</span><span class="s0">;</span><span class="s1"> 
+<a name="l20"><span class="ln">20   </span></a></span><span class="s0">import </span><span class="s1">android.widget.TextView</span><span class="s0">;</span><span class="s1"> 
+<a name="l21"><span class="ln">21   </span></a> 
+<a name="l22"><span class="ln">22   </span></a></span><span class="s0">import </span><span class="s1">com.shikshyaguru.shikshyaguru.R</span><span class="s0">;</span><span class="s1"> 
+<a name="l23"><span class="ln">23   </span></a></span><span class="s0">import <a href="../../../../../../com/shikshyaguru/shikshyaguru/_0_6_widgets/Toolbars.java.html">com.shikshyaguru.shikshyaguru._0_6_widgets.Toolbars</a>;</span><span class="s1"> 
+<a name="l24"><span class="ln">24   </span></a></span><span class="s0">import <a href="../../../../../../com/shikshyaguru/shikshyaguru/_6_institutions_activity/model/InstitutionDataSource.java.html">com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionDataSource</a>;</span><span class="s1"> 
+<a name="l25"><span class="ln">25   </span></a></span><span class="s0">import <a href="../../../../../../com/shikshyaguru/shikshyaguru/_6_institutions_activity/model/InstitutionProgrammesData.java.html">com.shikshyaguru.shikshyaguru._6_institutions_activity.model.InstitutionProgrammesData</a>;</span><span class="s1"> 
+<a name="l26"><span class="ln">26   </span></a></span><span class="s0">import <a href="../../../../../../com/shikshyaguru/shikshyaguru/_6_institutions_activity/presenter/VPProgrammesController.java.html">com.shikshyaguru.shikshyaguru._6_institutions_activity.presenter.VPProgrammesController</a>;</span><span class="s1"> 
+<a name="l27"><span class="ln">27   </span></a></span><span class="s0">import <a href="../../../../../../com/shikshyaguru/shikshyaguru/_6_institutions_activity/views/InstitutionLoaderFragment.java.html">com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionLoaderFragment</a>;</span><span class="s1"> 
+<a name="l28"><span class="ln">28   </span></a></span><span class="s0">import <a href="../../../../../../com/shikshyaguru/shikshyaguru/_6_institutions_activity/views/InstitutionsHomePageActivity.java.html">com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionsHomePageActivity</a>;</span><span class="s1"> 
+<a name="l29"><span class="ln">29   </span></a> 
+<a name="l30"><span class="ln">30   </span></a></span><span class="s0">import </span><span class="s1">java.util.Objects</span><span class="s0">;</span><span class="s1"> 
+<a name="l31"><span class="ln">31   </span></a> 
+<a name="l32"><span class="ln">32   </span></a></span><span class="s0">public class </span><span class="s1">ViewPagerProgrammesCourses </span><span class="s0">extends </span><span class="s1">Fragment </span><span class="s0">implements <a href="ViewPagerProgrammesCoursesInterface.java.html">ViewPagerProgrammesCoursesInterface</a> </span><span class="s1">{ 
+<a name="l33"><span class="ln">33   </span></a> 
+<a name="l34"><span class="ln">34   </span></a>    </span><span class="s0">private </span><span class="s1">LayoutInflater inflater</span><span class="s0">;</span><span class="s1"> 
+<a name="l35"><span class="ln">35   </span></a>    </span><span class="s0">private </span><span class="s1">View rootView</span><span class="s0">;</span><span class="s1"> 
+<a name="l36"><span class="ln">36   </span></a>    </span><span class="s0">private <a href="../../../../../../com/shikshyaguru/shikshyaguru/_6_institutions_activity/model/InstitutionProgrammesData.java.html">InstitutionProgrammesData</a> </span><span class="s1">programmesData</span><span class="s0">;</span><span class="s1"> 
+<a name="l37"><span class="ln">37   </span></a> 
+<a name="l38"><span class="ln">38   </span></a>    </span><span class="s0">private </span><span class="s1">String level</span><span class="s0">, </span><span class="s1">faculty</span><span class="s0">;</span><span class="s1"> 
+<a name="l39"><span class="ln">39   </span></a> 
+<a name="l40"><span class="ln">40   </span></a>    @Nullable 
+<a name="l41"><span class="ln">41   </span></a>    @Override 
+<a name="l42"><span class="ln">42   </span></a>    </span><span class="s0">public </span><span class="s1">View onCreateView(@NonNull LayoutInflater inflater</span><span class="s0">, </span><span class="s1">@Nullable ViewGroup container</span><span class="s0">, </span><span class="s1">@Nullable Bundle savedInstanceState) { 
+<a name="l43"><span class="ln">43   </span></a>        View view = inflater.inflate(R.layout._6_2_2_7_view_page_programmes_courses_fragment</span><span class="s0">, </span><span class="s1">container</span><span class="s0">, false</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+<a name="l44"><span class="ln">44   </span></a>        </span><span class="s0">this</span><span class="s1">.inflater = inflater</span><span class="s0">;</span><span class="s1"> 
+<a name="l45"><span class="ln">45   </span></a>        </span><span class="s0">this</span><span class="s1">.rootView = view</span><span class="s0">;</span><span class="s1"> 
+<a name="l46"><span class="ln">46   </span></a> 
+<a name="l47"><span class="ln">47   </span></a>        </span><span class="s0">if </span><span class="s1">(getArguments() != </span><span class="s0">null</span><span class="s1">) { 
+<a name="l48"><span class="ln">48   </span></a>            </span><span class="s0">this</span><span class="s1">.level = getArguments().getString(</span><span class="s3">&quot;LEVEL_NAME&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+<a name="l49"><span class="ln">49   </span></a>            </span><span class="s0">this</span><span class="s1">.faculty = getArguments().getString(</span><span class="s3">&quot;FACULTY_NAME&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+<a name="l50"><span class="ln">50   </span></a>        } 
+<a name="l51"><span class="ln">51   </span></a> 
+<a name="l52"><span class="ln">52   </span></a>        String title = level.toUpperCase()+</span><span class="s3">&quot; / &quot;</span><span class="s1">+faculty.toUpperCase()</span><span class="s0">;</span><span class="s1"> 
+<a name="l53"><span class="ln">53   </span></a>        Toolbar toolbar = view.findViewById(R.id.toolbar)</span><span class="s0">;</span><span class="s1"> 
+<a name="l54"><span class="ln">54   </span></a>        <a href="../../../../../../com/shikshyaguru/shikshyaguru/_0_6_widgets/Toolbars.java.html">Toolbars</a>.setUpToolbar(toolbar</span><span class="s0">, </span><span class="s1">getActivity()</span><span class="s0">, </span><span class="s1">title)</span><span class="s0">;</span><span class="s1"> 
+<a name="l55"><span class="ln">55   </span></a>        </span><span class="s2">// To make onOptionItemSelected working we have to setHasOptionsMenu true in fragment.</span><span class="s1"> 
+<a name="l56"><span class="ln">56   </span></a>        setHasOptionsMenu(</span><span class="s0">true</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+<a name="l57"><span class="ln">57   </span></a> 
+<a name="l58"><span class="ln">58   </span></a>        <a href="../../../../../../com/shikshyaguru/shikshyaguru/_6_institutions_activity/presenter/VPProgrammesController.java.html">VPProgrammesController</a> controller = </span><span class="s0">new <a href="../../../../../../com/shikshyaguru/shikshyaguru/_6_institutions_activity/presenter/VPProgrammesController.java.html">VPProgrammesController</a></span><span class="s1">(</span><span class="s0">this, new <a href="../../../../../../com/shikshyaguru/shikshyaguru/_6_institutions_activity/model/InstitutionDataSource.java.html">InstitutionDataSource</a></span><span class="s1">())</span><span class="s0">;</span><span class="s1"> 
+<a name="l59"><span class="ln">59   </span></a> 
+<a name="l60"><span class="ln">60   </span></a>        controller.setUpProgrammesCourses(<a href="../../../../../../com/shikshyaguru/shikshyaguru/_6_institutions_activity/views/InstitutionLoaderFragment.java.html">InstitutionLoaderFragment</a>.id</span><span class="s0">, </span><span class="s1">level</span><span class="s0">, </span><span class="s1">faculty)</span><span class="s0">;</span><span class="s1"> 
+<a name="l61"><span class="ln">61   </span></a> 
+<a name="l62"><span class="ln">62   </span></a>        </span><span class="s0">return </span><span class="s1">view</span><span class="s0">;</span><span class="s1"> 
+<a name="l63"><span class="ln">63   </span></a>    } 
+<a name="l64"><span class="ln">64   </span></a> 
+<a name="l65"><span class="ln">65   </span></a>    @Override 
+<a name="l66"><span class="ln">66   </span></a>    </span><span class="s0">public void </span><span class="s1">onViewCreated(@NonNull View view</span><span class="s0">, </span><span class="s1">@Nullable Bundle savedInstanceState) { 
+<a name="l67"><span class="ln">67   </span></a>        </span><span class="s0">super</span><span class="s1">.onViewCreated(view</span><span class="s0">, </span><span class="s1">savedInstanceState)</span><span class="s0">;</span><span class="s1"> 
+<a name="l68"><span class="ln">68   </span></a> 
+<a name="l69"><span class="ln">69   </span></a>    } 
+<a name="l70"><span class="ln">70   </span></a> 
+<a name="l71"><span class="ln">71   </span></a>    @Override 
+<a name="l72"><span class="ln">72   </span></a>    </span><span class="s0">public boolean </span><span class="s1">onOptionsItemSelected(MenuItem item) { 
+<a name="l73"><span class="ln">73   </span></a> 
+<a name="l74"><span class="ln">74   </span></a>        </span><span class="s0">switch </span><span class="s1">(item.getItemId()) { 
+<a name="l75"><span class="ln">75   </span></a> 
+<a name="l76"><span class="ln">76   </span></a>            </span><span class="s0">case </span><span class="s1">android.R.id.home: 
+<a name="l77"><span class="ln">77   </span></a>                Objects.requireNonNull(getActivity()).onBackPressed()</span><span class="s0">;</span><span class="s1"> 
+<a name="l78"><span class="ln">78   </span></a>                </span><span class="s0">return true;</span><span class="s1"> 
+<a name="l79"><span class="ln">79   </span></a> 
+<a name="l80"><span class="ln">80   </span></a>            </span><span class="s0">default</span><span class="s1">: 
+<a name="l81"><span class="ln">81   </span></a>                </span><span class="s0">return super</span><span class="s1">.onOptionsItemSelected(item)</span><span class="s0">;</span><span class="s1"> 
+<a name="l82"><span class="ln">82   </span></a> 
+<a name="l83"><span class="ln">83   </span></a>        } 
+<a name="l84"><span class="ln">84   </span></a>    } 
+<a name="l85"><span class="ln">85   </span></a> 
+<a name="l86"><span class="ln">86   </span></a>    @Override 
+<a name="l87"><span class="ln">87   </span></a>    </span><span class="s0">public void </span><span class="s1">setUpProgrammesCourses(<a href="../../../../../../com/shikshyaguru/shikshyaguru/_6_institutions_activity/model/InstitutionProgrammesData.java.html">InstitutionProgrammesData</a> programmesData) { 
+<a name="l88"><span class="ln">88   </span></a> 
+<a name="l89"><span class="ln">89   </span></a>        </span><span class="s0">this</span><span class="s1">.programmesData = programmesData</span><span class="s0">;</span><span class="s1"> 
+<a name="l90"><span class="ln">90   </span></a>        RecyclerView programmesLevelRecyclerView = rootView.findViewById(R.id.rec_inst_loader_vp_courses)</span><span class="s0">;</span><span class="s1"> 
+<a name="l91"><span class="ln">91   </span></a>        ProgrammesLevelAdapter adapter = </span><span class="s0">new </span><span class="s1">ProgrammesLevelAdapter()</span><span class="s0">;</span><span class="s1"> 
+<a name="l92"><span class="ln">92   </span></a>        programmesLevelRecyclerView.setLayoutManager(</span><span class="s0">new </span><span class="s1">LinearLayoutManager(getContext()))</span><span class="s0">;</span><span class="s1"> 
+<a name="l93"><span class="ln">93   </span></a>        programmesLevelRecyclerView.setAdapter(adapter)</span><span class="s0">;</span><span class="s1"> 
+<a name="l94"><span class="ln">94   </span></a> 
+<a name="l95"><span class="ln">95   </span></a>    } 
+<a name="l96"><span class="ln">96   </span></a> 
+<a name="l97"><span class="ln">97   </span></a>    </span><span class="s0">private class </span><span class="s1">ProgrammesLevelAdapter </span><span class="s0">extends </span><span class="s1">RecyclerView.Adapter&lt;ProgrammesLevelAdapter.ProgrammesLevelViewHolder&gt; { 
+<a name="l98"><span class="ln">98   </span></a> 
+<a name="l99"><span class="ln">99   </span></a>        @NonNull 
+<a name="l100"><span class="ln">100  </span></a>        @Override 
+<a name="l101"><span class="ln">101  </span></a>        </span><span class="s0">public </span><span class="s1">ProgrammesLevelViewHolder onCreateViewHolder(@NonNull ViewGroup parent</span><span class="s0">, int </span><span class="s1">viewType) { 
+<a name="l102"><span class="ln">102  </span></a>            View view = inflater.inflate(R.layout._6_2_2_6_rec_vp_offers_courses_item</span><span class="s0">, </span><span class="s1">parent</span><span class="s0">, false</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+<a name="l103"><span class="ln">103  </span></a>            </span><span class="s0">return new </span><span class="s1">ProgrammesLevelViewHolder(view)</span><span class="s0">;</span><span class="s1"> 
+<a name="l104"><span class="ln">104  </span></a>        } 
+<a name="l105"><span class="ln">105  </span></a> 
+<a name="l106"><span class="ln">106  </span></a>        @Override 
+<a name="l107"><span class="ln">107  </span></a>        </span><span class="s0">public void </span><span class="s1">onBindViewHolder(@NonNull </span><span class="s0">final </span><span class="s1">ProgrammesLevelViewHolder holder</span><span class="s0">, int </span><span class="s1">position) { 
+<a name="l108"><span class="ln">108  </span></a> 
+<a name="l109"><span class="ln">109  </span></a>            String courseName = programmesData.getProgrammesCourses().get(position)</span><span class="s0">;</span><span class="s1"> 
+<a name="l110"><span class="ln">110  </span></a>            holder.coursesName.setText(courseName.toUpperCase())</span><span class="s0">;</span><span class="s1"> 
+<a name="l111"><span class="ln">111  </span></a> 
+<a name="l112"><span class="ln">112  </span></a>        } 
+<a name="l113"><span class="ln">113  </span></a> 
+<a name="l114"><span class="ln">114  </span></a>        @Override 
+<a name="l115"><span class="ln">115  </span></a>        </span><span class="s0">public int </span><span class="s1">getItemCount() { 
+<a name="l116"><span class="ln">116  </span></a>            </span><span class="s0">return </span><span class="s1">programmesData.getProgrammesCourses().size()</span><span class="s0">;</span><span class="s1"> 
+<a name="l117"><span class="ln">117  </span></a>        } 
+<a name="l118"><span class="ln">118  </span></a> 
+<a name="l119"><span class="ln">119  </span></a>        </span><span class="s0">class </span><span class="s1">ProgrammesLevelViewHolder </span><span class="s0">extends </span><span class="s1">RecyclerView.ViewHolder </span><span class="s0">implements </span><span class="s1">View.OnClickListener{ 
+<a name="l120"><span class="ln">120  </span></a> 
+<a name="l121"><span class="ln">121  </span></a>            </span><span class="s0">private </span><span class="s1">TextView coursesName</span><span class="s0">;</span><span class="s1"> 
+<a name="l122"><span class="ln">122  </span></a>            </span><span class="s0">private </span><span class="s1">ViewGroup coursesRootView</span><span class="s0">;</span><span class="s1"> 
+<a name="l123"><span class="ln">123  </span></a> 
+<a name="l124"><span class="ln">124  </span></a>            ProgrammesLevelViewHolder(View itemView) { 
+<a name="l125"><span class="ln">125  </span></a>                </span><span class="s0">super</span><span class="s1">(itemView)</span><span class="s0">;</span><span class="s1"> 
+<a name="l126"><span class="ln">126  </span></a>                coursesName = itemView.findViewById(R.id.lbl_inst_loader_vp_programmes_faculty_name)</span><span class="s0">;</span><span class="s1"> 
+<a name="l127"><span class="ln">127  </span></a>                coursesRootView = itemView.findViewById(R.id.root_inst_loader_vp_programmes_courses)</span><span class="s0">;</span><span class="s1"> 
+<a name="l128"><span class="ln">128  </span></a>                coursesRootView.setOnClickListener(</span><span class="s0">this</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+<a name="l129"><span class="ln">129  </span></a> 
+<a name="l130"><span class="ln">130  </span></a>            } 
+<a name="l131"><span class="ln">131  </span></a> 
+<a name="l132"><span class="ln">132  </span></a>            @Override 
+<a name="l133"><span class="ln">133  </span></a>            </span><span class="s0">public void </span><span class="s1">onClick(View v) { 
+<a name="l134"><span class="ln">134  </span></a> 
+<a name="l135"><span class="ln">135  </span></a>                Intent intent = </span><span class="s0">new </span><span class="s1">Intent(getContext()</span><span class="s0">, <a href="../../../../../../com/shikshyaguru/shikshyaguru/_6_institutions_activity/views/InstitutionsHomePageActivity.java.html">InstitutionsHomePageActivity</a></span><span class="s1">.</span><span class="s0">class</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+<a name="l136"><span class="ln">136  </span></a>                intent.putExtra(</span><span class="s3">&quot;REQUEST_CODE&quot;</span><span class="s0">, </span><span class="s3">&quot;courses_opener&quot;</span><span class="s1">)</span><span class="s0">;</span><span class="s1"> 
+<a name="l137"><span class="ln">137  </span></a>                intent.putExtra(</span><span class="s3">&quot;LEVEL_NAME&quot;</span><span class="s0">, </span><span class="s1">level)</span><span class="s0">;</span><span class="s1"> 
+<a name="l138"><span class="ln">138  </span></a>                intent.putExtra(</span><span class="s3">&quot;FACULTY_NAME&quot;</span><span class="s0">, </span><span class="s1">faculty)</span><span class="s0">;</span><span class="s1"> 
+<a name="l139"><span class="ln">139  </span></a>                intent.putExtra(</span><span class="s3">&quot;COURSE_NAME&quot;</span><span class="s0">, </span><span class="s1">coursesName.getText().toString().toLowerCase())</span><span class="s0">;</span><span class="s1"> 
+<a name="l140"><span class="ln">140  </span></a>                startActivity(intent)</span><span class="s0">;</span><span class="s1"> 
+<a name="l141"><span class="ln">141  </span></a> 
+<a name="l142"><span class="ln">142  </span></a>            } 
+<a name="l143"><span class="ln">143  </span></a>        } 
+<a name="l144"><span class="ln">144  </span></a>    } 
+<a name="l145"><span class="ln">145  </span></a> 
+<a name="l146"><span class="ln">146  </span></a>} 
+<a name="l147"><span class="ln">147  </span></a></span></pre>
+</body>
+</html>
