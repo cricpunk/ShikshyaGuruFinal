@@ -208,9 +208,15 @@ public class UserLoaderFragment extends Fragment implements View.OnClickListener
             case R.id.btn_user_loader_send_message:
 
                 if (fBtnSendMessage.getText().toString().toLowerCase().equals("update profile")) {
+                    // Update profile
                     Toast.makeText(getContext(), "Update profile", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getContext(), "Send Message", Toast.LENGTH_SHORT).show();
+                    // Send message
+                    Intent intent = new Intent(getContext(), UserHomePageActivity.class);
+                    intent.putExtra("REQUEST_CODE", "chat_loader");
+                    intent.putExtra("TITLE", name);
+                    intent.putExtra("UID", uId);
+                    startActivity(intent);
                 }
                 break;
 
@@ -218,6 +224,7 @@ public class UserLoaderFragment extends Fragment implements View.OnClickListener
 
                 if (fBtnAskQuestion.getText().toString().toLowerCase().equals("peoples")) {
 
+                    // Peoples
                     Intent intent = new Intent(getContext(), UserHomePageActivity.class);
                     intent.putExtra("REQUEST_CODE", "user_main");
                     intent.putExtra("TITLE", "Users");
@@ -225,6 +232,7 @@ public class UserLoaderFragment extends Fragment implements View.OnClickListener
                     startActivity(intent);
 
                 } else {
+                    // Ask questions
                     Toast.makeText(getContext(), "Ask Question", Toast.LENGTH_SHORT).show();
                 }
                 break;

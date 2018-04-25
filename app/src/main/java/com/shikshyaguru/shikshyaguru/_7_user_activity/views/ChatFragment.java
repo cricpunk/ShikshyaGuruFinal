@@ -71,6 +71,7 @@ public class ChatFragment extends Fragment implements ChatInterface {
             this.title = getArguments().getString("TITLE");
             this.friendUID = getArguments().getString("UID");
         }
+
         // Change status bar color always from inside onCreateView
         StatusBar.changeStatusBarColor(getContext(), Objects.requireNonNull(getActivity()).getWindow(), R.color.black_toolbar);
 
@@ -83,7 +84,7 @@ public class ChatFragment extends Fragment implements ChatInterface {
         initComponents(view);
 
         controller = new UserController(this, new UserDataSource());
-        //controller.displayAllChats(friendUID);
+        controller.displayAllChats(friendUID);
 
         return view;
     }

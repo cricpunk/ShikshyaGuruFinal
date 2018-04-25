@@ -314,14 +314,7 @@ public class UserMainFragment extends Fragment implements UserMainInterface {
             switch (v.getId()) {
 
                 case R.id.root_user:
-
                     controller.openUserLoaderPage(userDetails);
-
-//                    Intent intent = new Intent(getContext(), UserHomePageActivity.class);
-//                    intent.putExtra("REQUEST_CODE", "chat_loader");
-//                    intent.putExtra("TITLE", userDetails.getName());
-//                    intent.putExtra("UID", userDetails.getuId());
-//                    startActivity(intent);
                     break;
 
                 case R.id.btn_follow_following:

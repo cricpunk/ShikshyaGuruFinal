@@ -5,6 +5,8 @@ import android.support.annotation.NonNull;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.database.SnapshotParser;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,7 +34,7 @@ import java.util.Objects;
  */
 public class UserDataSource implements UserDataSourceInterface {
 
-    public static final String CHAT_ID_SPLITTER = "@@##@@";
+    private static final String CHAT_ID_SPLITTER = "@@@@";
 
     private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
     private String uId = NavigationDrawerFragment.currentUser.getUid();
@@ -185,34 +187,58 @@ public class UserDataSource implements UserDataSourceInterface {
 
     }
 
+
+
+    // This method will identify right chat id and send message
     @Override
-    public void getChatDetails(final ChatInterface chatInterface, final String friendUID) {
+    public void sendMessage(final String friendUID, String message) {
 
-        DatabaseReference chatRef = mDatabase.getReference().child("messages");
+        final DatabaseReference messageRef = mDatabase.getReference().child("messages");
+        final ChatMessage newMsg = new ChatMessage(uId, friendUID, message);
 
-        chatRef.addValueEventListener(new ValueEventListener() {
+        // Possible two chat id for conversation
+        final String chatIdSender = uId + CHAT_ID_SPLITTER + friendUID;
+        final String chatIdReceiver = friendUID + CHAT_ID_SPLITTER + uId;
+
+        Query query1 = messageRef.child(chatIdSender);
+        final Query query2 = messageRef.child(chatIdReceiver);
+
+        query1.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                List<ChatMessage> chatList = new ArrayList<>();
+                // If first id exist
+                if (dataSnapshot.exists()) {
+                    //Send message
+                    sendMessageToFirebase(messageRef.child(dataSnapshot.getKey()), newMsg);
+                } else {
 
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    // If first id does not exist in database search second id
+                    query2.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot snapshot) {
 
-                    System.out.println(snapshot.getKey());
-                    ChatMessage message = snapshot.getValue(ChatMessage.class);
+                            // If second id exist then send message
+                            if (snapshot.exists()) {
+                                //Send message
+                                sendMessageToFirebase(messageRef.child(snapshot.getKey()), newMsg);
 
-                    System.out.println("Sender" + ": " + message.getSender());
-                    System.out.println("Receiver" + ": " + message.getReceiver());
+                            } else {
+                                // Both id does not exist that means this if first chat
+                                // So create new chat id and push message into that id
+                                //Send message
+                                sendMessageToFirebase(messageRef.child(chatIdSender), newMsg);
+                            }
 
-                    if (message.getSender().equals(uId) && message.getReceiver().equals(friendUID) ||
-                            message.getSender().equals(friendUID) && message.getReceiver().equals(uId)
-                            ) {
-                        chatList.add(message);
-                    }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
 
                 }
-
-                chatInterface.setUpChatAdapter(chatList);
 
             }
 
@@ -223,6 +249,98 @@ public class UserDataSource implements UserDataSourceInterface {
         });
 
     }
+
+    // To omit code repetition this method has been generated.
+    private void sendMessageToFirebase(DatabaseReference chatRef, ChatMessage newMsg) {
+
+        chatRef.push().setValue(newMsg).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+
+                if (!task.isSuccessful()) {
+                    //error
+                } else {
+                    // Success
+                }
+
+            }
+        });
+
+    }
+
+    // Display messages between two users
+    @Override
+    public void getChatDetails(final ChatInterface chatInterface, final String friendUID) {
+
+        final DatabaseReference messageRef = mDatabase.getReference().child("messages");
+
+        // Possible two chat id for conversation
+        final String chatIdSender = uId + CHAT_ID_SPLITTER + friendUID;
+        final String chatIdReceiver = friendUID + CHAT_ID_SPLITTER + uId;
+
+        Query query1 = messageRef.child(chatIdSender);
+        final Query query2 = messageRef.child(chatIdReceiver);
+
+        final List<ChatMessage> chatList = new ArrayList<>();
+
+        query1.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                System.out.println("CheckingResult : " + dataSnapshot.getKey());
+                // If first id exist
+                if (dataSnapshot.exists()) {
+                    //Get messages
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        chatList.add(snapshot.getValue(ChatMessage.class));
+                        System.out.println("CheckingResult : " + chatList);
+                    }
+
+                } else {
+
+                    // If first id does not exist in database search second id
+                    query2.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot postSnapshot) {
+
+                            System.out.println("CheckingResult post: " + postSnapshot.getKey());
+                            // If second id exist then send message
+                            if (postSnapshot.exists()) {
+                                //Get messages
+                                for (DataSnapshot snapshot : postSnapshot.getChildren()) {
+                                    chatList.add(snapshot.getValue(ChatMessage.class));
+                                    System.out.println("CheckingResult post: " + chatList);
+                                }
+
+                            }
+
+                            chatInterface.setUpChatAdapter(chatList);
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+                }
+
+                chatInterface.setUpChatAdapter(chatList);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+
+        });
+
+
+
+
+    }
+
 
     @Override
     public FirebaseRecyclerOptions<ChatMessage> getAllMessages(MessageInterface messageInterface) {
@@ -234,9 +352,7 @@ public class UserDataSource implements UserDataSourceInterface {
             @Override
             public ChatMessage parseSnapshot(@NonNull DataSnapshot snapshot) {
 
-                ChatMessage userDetails = new ChatMessage();
-
-                return userDetails;
+                return new ChatMessage();
 
             }
         };
@@ -245,84 +361,6 @@ public class UserDataSource implements UserDataSourceInterface {
 
     }
 
-    @Override
-    public void sendMessage(final String friendUID, String message) {
-        //chatList.clear();
-
-        // Example sender@user
-        final String chatId1 = uId + CHAT_ID_SPLITTER + friendUID;
-        final String chatId2 = friendUID + CHAT_ID_SPLITTER + uId;
-
-        // Set sender, receiver and message
-        ChatMessage newMsg = new ChatMessage(uId, friendUID, message);
-
-
-        mDatabase.getReference().child("messages").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    System.out.println("=====================Exist===========================");
-                    System.out.println(snapshot.getKey());
-
-                    String id = snapshot.getKey();
-
-                    if (id.contains("@")) {
-                        String[] split = id.split("@");
-
-                        String userOne = split[0];
-                        String userTwo = split[1];
-
-                        if ((userOne.equals(uId) && userTwo.equals(friendUID)) || (userOne.equals(friendUID) && userTwo.equals(uId))) {
-                            // Insert here
-                        } else {
-                            // Create chat
-                        }
-
-                        System.out.println(split[0]);
-                        System.out.println(split[1]);
-                    }
-
-
-                }
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-//        mDatabase.getReference().child("messages").child(chatId).addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//
-//                if (dataSnapshot.exists()) {
-//
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-
-//        mDatabase.getReference().child("messages").child(chatId).push().setValue(newMsg).addOnCompleteListener(new OnCompleteListener<Void>() {
-//            @Override
-//            public void onComplete(@NonNull Task<Void> task) {
-//                if (!task.isSuccessful()) {
-//                    //error
-//                    //Toast.makeText(getContext(), "Error " + task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-//                } else {
-//                    //Toast.makeText(getContext(), "Message sent successfully!", Toast.LENGTH_SHORT).show();
-//                    //messageEditText.setText(null);
-//                    //hideSoftKeyboard();
-//                }
-//            }
-//        });
-    }
 
     @Override
     public void sendFollowRequest(final UserMainInterface mainInterface, String friendId) {
