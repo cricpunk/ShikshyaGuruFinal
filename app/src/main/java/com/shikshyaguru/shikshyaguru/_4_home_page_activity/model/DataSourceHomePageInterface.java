@@ -1,6 +1,7 @@
 package com.shikshyaguru.shikshyaguru._4_home_page_activity.model;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.HomePageInterface;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.NavigationDrawerInterface;
 
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.List;
 public interface DataSourceHomePageInterface {
 
     // Get details of candidates for home page slider
-    FirebaseRecyclerOptions<HomePageSliderListItem> getSponsorDetail();
+    FirebaseRecyclerOptions<HomePageSliderListItem> getSponsorDetail(HomePageInterface view);
 
     // Get details of candidates for home page slider
     FirebaseRecyclerOptions<NewsListItem> getNewsDetails();
@@ -49,5 +50,7 @@ public interface DataSourceHomePageInterface {
     String getSlogan(String id);
 
     void setUpDrawerWithData(NavigationDrawerInterface navigationDrawerInterface);
+
+    void getUserDetails(NavigationDrawerInterface navigationDrawerInterface);
 
 }

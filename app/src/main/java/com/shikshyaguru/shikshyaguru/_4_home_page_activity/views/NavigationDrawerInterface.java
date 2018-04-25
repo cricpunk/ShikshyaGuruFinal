@@ -5,6 +5,7 @@ package com.shikshyaguru.shikshyaguru._4_home_page_activity.views;
  * Koiralapankaj007@gmail.com
  */
 
+import com.shikshyaguru.shikshyaguru._3_signUp_activity.model.NewUserData;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.DrawerListItem;
 
 import java.util.ArrayList;
@@ -20,5 +21,7 @@ public interface NavigationDrawerInterface {
     void followerList(HashMap<String, Boolean> followers);
 
     void followingList(HashMap<String, Boolean> following);
+
+    void settingUpUserProfile(NewUserData userData);
 
 }

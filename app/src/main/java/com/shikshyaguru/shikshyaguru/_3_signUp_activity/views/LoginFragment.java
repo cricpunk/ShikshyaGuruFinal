@@ -510,11 +510,13 @@ public class LoginFragment extends Fragment implements LoginViewInterface, View.
                 NewUserData newUserData = new NewUserData();
                 newUserData.setName(user.getDisplayName());
                 newUserData.setUser_name(userName);
+                newUserData.setEmail(userName+"@shikshyaguru.com");
                 newUserData.setPassword(getString(R.string.defPassUser));
                 newUserData.setImage(Objects.requireNonNull(user.getPhotoUrl()).toString());
                 newUserData.setType(userType);
 
                 controller.createNewUser(user.getUid(), newUserData);
+
 
             }
 

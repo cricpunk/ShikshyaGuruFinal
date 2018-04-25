@@ -37,13 +37,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.shikshyaguru.shikshyaguru.R;
 import com.shikshyaguru.shikshyaguru._0_7_shared_preferences.PrefManager;
+import com.shikshyaguru.shikshyaguru._3_signUp_activity.model.NewUserData;
 import com.shikshyaguru.shikshyaguru._3_signUp_activity.views.AuthenticationActivity;
 import com.shikshyaguru.shikshyaguru._3_signUp_activity.views.LoginFragment;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.DataSourceHomePageHomePage;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.DrawerListItem;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.presenter.HomePageController;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionsHomePageActivity;
-import com.shikshyaguru.shikshyaguru._7_user_activity.model.UserDetails;
 import com.shikshyaguru.shikshyaguru._7_user_activity.views.UserHomePageActivity;
 import com.squareup.picasso.Picasso;
 
@@ -69,11 +69,11 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
     public static HashMap<String, Boolean> followersList = new HashMap<>();
     public static HashMap<String, Boolean> followingList = new HashMap<>();
 
-    private HomePageController controller;
+    // Data tha came from database profile node for the current user
+    private NewUserData userData;
 
     private FirebaseAuth mAuth;
     public static FirebaseUser currentUser;
-    public static UserDetails userDetailsFromAuthProvider;
 
     private PrefManager prefManager;
 
@@ -97,8 +97,9 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
 
         mAuth = FirebaseAuth.getInstance();
 
-        navigationDrawerSection();
-        controller = new HomePageController(this, new DataSourceHomePageHomePage());
+        //navigationDrawerSection();
+        HomePageController controller = new HomePageController(this, new DataSourceHomePageHomePage());
+        controller.getUserDetails();
 
         return view;
     }
@@ -108,52 +109,54 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         super.onViewCreated(view, savedInstanceState);
     }
 
-    private void navigationDrawerSection() {
 
+    @Override
+    public void settingUpUserProfile(NewUserData data) {
+
+        this.userData = data;
         try {
             ImageView userImageIcon = rootView.findViewById(R.id.iv_nav_drawer_user_profile_pic);
             TextView userName = rootView.findViewById(R.id.lbl_nav_drawer_user_name);
             TextView userEmail = rootView.findViewById(R.id.lbl_nav_drawer_user_email);
 
             Picasso.get()
-                    .load(currentUser.getPhotoUrl())
+                    .load(userData.getImage())
                     .fit()
                     .centerCrop()
                     .placeholder(R.drawable.ic_user)
                     .into(userImageIcon);
 
-            userName.setText(currentUser.getDisplayName());
-            userEmail.setText(currentUser.getEmail());
+            userName.setText(userData.getName());
+            userEmail.setText(userData.getEmail());
 
 
             userImageIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    userIconProfileClick();
+
+                    userProfileClick();
+
                 }
             });
+
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
-    private void userIconProfileClick() {
+    private void userProfileClick() {
 
         Intent intent = new Intent(getContext(), UserHomePageActivity.class);
         intent.putExtra("REQUEST_CODE", "user_loader");
         intent.putExtra("UID", currentUser.getUid());
-        intent.putExtra("IMAGE", Objects.requireNonNull(currentUser.getPhotoUrl()).toString());
-        intent.putExtra("NAME", currentUser.getDisplayName());
-        intent.putExtra("EMAIL", currentUser.getEmail());
+        intent.putExtra("IMAGE", userData.getImage());
+        intent.putExtra("NAME", userData.getName());
+        intent.putExtra("EMAIL", userData.getEmail());
         intent.putExtra("FOLLOWERS", String.valueOf(followersList.size()));
         intent.putExtra("FOLLOWING", String.valueOf(followingList.size()));
-        String[] emailArr = Objects.requireNonNull(currentUser.getEmail()).split("@");
-        String userName = emailArr[0];
-
-        intent.putExtra("USER_NAME", userName);
-        //        intent.putExtra("TYPE", userDetails.getUserType());
-        //        intent.putExtra("INSTITUTION", userDetails.getInstitution());
+        intent.putExtra("USER_NAME", userData.getUser_name());
+        intent.putExtra("TYPE", userData.getType());
         startActivity(intent);
 
     }
@@ -213,11 +216,6 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         return sharedPreferences.getString(preferenceName, "false");
     }
 
-//    public static String readFromPreferences(Context context, String preferenceName, String preferenceValue) {
-//        SharedPreferences sharedPreferences = context.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE);
-//        return sharedPreferences.getString(preferenceName, preferenceValue);
-//    }
-
     @Override
     public void setUpDrawerMainHeader(List<DrawerListItem> drawerListItems) {
 
@@ -236,13 +234,15 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
 
     @Override
     public void followerList(HashMap<String, Boolean> followers) {
-        this.followersList = followers;
+        followersList = followers;
     }
 
     @Override
     public void followingList(HashMap<String, Boolean> following) {
         followingList = following;
     }
+
+
 
     private class DrawerHeaderAdapter extends RecyclerView.Adapter<DrawerHeaderAdapter.DrawerHeaderViewHolder> {
 
@@ -321,7 +321,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
 
                     // Profile
                     case 0:
-                        userIconProfileClick();
+                        userProfileClick();
                         break;
 
                     // Messages

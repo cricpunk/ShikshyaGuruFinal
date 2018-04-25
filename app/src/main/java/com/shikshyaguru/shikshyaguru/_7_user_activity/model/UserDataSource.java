@@ -55,14 +55,14 @@ public class UserDataSource implements UserDataSourceInterface {
 
                 try {
 
-                    Long userType = snapshot.child("profile").child("type").getValue(Long.class);
-
                     userDetails.setuId(snapshot.getKey());
+                    Long userType = snapshot.child("profile").child("type").getValue(Long.class);
                     userDetails.setName(snapshot.child("profile").child("name").getValue(String.class));
                     assert userType != null;
                     userDetails.setUserType(String.valueOf(userType.intValue()));
                     userDetails.setUserName(snapshot.child("profile").child("user_name").getValue(String.class));
                     userDetails.setInstitution(snapshot.child("profile").child("institution").getValue(String.class));
+                    userDetails.setImageUrl(snapshot.child("profile").child("image").getValue(String.class));
 
                 } catch (Exception e) {
                     mainInterface.showSnackbar(e.getMessage());

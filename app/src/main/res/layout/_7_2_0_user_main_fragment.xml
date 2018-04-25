@@ -36,12 +36,12 @@
                 android:paddingStart="@dimen/margin_short"
                 android:paddingTop="6dp" />
 
-            <include
-                layout="@layout/progress_bar_layout"/>
-
         </RelativeLayout>
 
 
     </android.support.design.widget.CoordinatorLayout>
+
+    <include
+        layout="@layout/progress_bar_layout"/>
 
 </RelativeLayout>

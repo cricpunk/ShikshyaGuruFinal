@@ -12,6 +12,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.shikshyaguru.shikshyaguru.R;
+import com.shikshyaguru.shikshyaguru._3_signUp_activity.model.NewUserData;
+import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.HomePageInterface;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.NavigationDrawerInterface;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.NavigationDrawerFragment;
 
@@ -90,6 +92,24 @@ public class DataSourceHomePageHomePage implements DataSourceHomePageInterface, 
         }
 
         return listOfData;
+    }
+
+    @Override
+    public void getUserDetails(final NavigationDrawerInterface navigationDrawerInterface) {
+
+        Query query = mDatabase.getReference().child("users/"+uId+"/profile");
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                NewUserData userData = dataSnapshot.getValue(NewUserData.class);
+                navigationDrawerInterface.settingUpUserProfile(userData);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override
@@ -185,7 +205,7 @@ public class DataSourceHomePageHomePage implements DataSourceHomePageInterface, 
     }
 
     @Override
-    public FirebaseRecyclerOptions<HomePageSliderListItem> getSponsorDetail() {
+    public FirebaseRecyclerOptions<HomePageSliderListItem> getSponsorDetail(final HomePageInterface view) {
 
         Query query = mDatabase.getReference().child("clients").orderByChild("profile/slider_candidate").equalTo(1);
 
@@ -201,9 +221,22 @@ public class DataSourceHomePageHomePage implements DataSourceHomePageInterface, 
                 sliderListItem.setSlogan(snapshot.child("profile/slogan").getValue(String.class));
                 sliderListItem.setCity(snapshot.child("address").child("city").getValue(String.class));
 
+
                 return sliderListItem;
             }
         };
+
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                view.removeSpinner();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         return new FirebaseRecyclerOptions.Builder<HomePageSliderListItem>().setQuery(query, snapshotParser).build();
     }

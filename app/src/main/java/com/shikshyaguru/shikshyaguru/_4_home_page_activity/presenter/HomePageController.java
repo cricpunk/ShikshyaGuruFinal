@@ -3,10 +3,9 @@ package com.shikshyaguru.shikshyaguru._4_home_page_activity.presenter;
 import android.app.ActivityOptions;
 
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.DataSourceHomePageInterface;
-import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.InstitutionsListItemParent;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.NewsListItem;
-import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.NavigationDrawerInterface;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.HomePageInterface;
+import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.NavigationDrawerInterface;
 
 /**
  * Created by cricpunk on 8/30/17.
@@ -38,7 +37,7 @@ public class HomePageController {
     }
 
     private void setUpSliderWithData() {
-        view.setUpSliderAdapterAndView(dataSource.getSponsorDetail());
+        view.setUpSliderAdapterAndView(dataSource.getSponsorDetail(view));
     }
 
     public void onInstitutionItemClick(String id, String image, String name, String place, String slogan, ActivityOptions options) {
@@ -73,10 +72,8 @@ public class HomePageController {
         view.openInstitutionsMainFragment(instCategory, title);
     }
 
-    public void onInstitutionsItemClick(InstitutionsListItemParent il) {
-        view.openInstitutionsLoaderFragment1(il.getIcon_image(), il.getName(), il.getRating(), il.getCity());
+    public void getUserDetails() {
+        dataSource.getUserDetails(navigationDrawerInterface);
     }
-
-
 
 }

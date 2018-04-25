@@ -31,11 +31,13 @@
         </android.support.design.widget.AppBarLayout>
 
         <android.support.v4.widget.NestedScrollView
+            android:id="@+id/nested_scroll_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:scrollbars="none"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -98,6 +100,7 @@
 
     </android.support.design.widget.CoordinatorLayout>
 
+
     <com.arlib.floatingsearchview.FloatingSearchView
         android:id="@+id/floating_search_view"
         android:layout_width="match_parent"
@@ -113,6 +116,9 @@
         app:floatingSearch_searchHint="Shikshya Guru"
         app:floatingSearch_showSearchKey="true"
         app:floatingSearch_suggestionsListAnimDuration="250" />
+
+    <include
+        layout="@layout/progress_bar_layout"/>
 
 </RelativeLayout>
 

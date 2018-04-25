@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.content.res.ResourcesCompat;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PagerSnapHelper;
@@ -22,7 +23,10 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +37,7 @@ import com.arlib.floatingsearchview.util.Util;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.github.rubensousa.gravitysnaphelper.GravitySnapHelper;
+import com.github.ybq.android.spinkit.style.ChasingDots;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -43,6 +48,7 @@ import com.shikshyaguru.shikshyaguru._0_1_searching_mechanism.model.DataHelper;
 import com.shikshyaguru.shikshyaguru._0_1_searching_mechanism.model.InstitutionsSuggestion;
 import com.shikshyaguru.shikshyaguru._0_1_searching_mechanism.views.BaseExampleFragment;
 import com.shikshyaguru.shikshyaguru._0_2_recyclerview_slider_effect.RecyclerViewSliderEffect;
+import com.shikshyaguru.shikshyaguru._0_6_widgets.InternetConnection;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.DataSourceHomePageHomePage;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.HomePageOptionsListItem;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.HomePageSliderListItem;
@@ -74,6 +80,11 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
 //  ####################### ROOT SECTION #######################
     private final String TAG = "HOME PAGE MAIN FRAGMENT";
     private LayoutInflater inflater;
+    private RelativeLayout spinnerLayout;
+    private ProgressBar progressBar;
+    private TextView checkInternet;
+    private Button btnRetry;
+    private NestedScrollView nestedScrollView;
 
 //  ####################### SEARCH BAR SECTION #######################
     public static final long FIND_SUGGESTION_SIMULATED_DELAY = 250;
@@ -114,6 +125,10 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
         View view = inflater.inflate(R.layout._4_1_hp_main_fragment, container, false);
         mDatabase = FirebaseDatabase.getInstance();
 
+        spinnerSetup(view);
+        // Display spinner
+        showSpinner();
+
         searchBarSection(view);
         sliderSection(view);
         optionsSection(view);
@@ -129,6 +144,17 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+    }
+
+    private void spinnerSetup(View view) {
+        nestedScrollView = view.findViewById(R.id.nested_scroll_view);
+        spinnerLayout = view.findViewById(R.id.l_progress_bar);
+        progressBar = view.findViewById(R.id.pg_loading);
+        checkInternet = view.findViewById(R.id.lbl_no_internet_connection);
+        btnRetry = view.findViewById(R.id.btn_retry);
+
+        ChasingDots chasingDots = new ChasingDots();
+        progressBar.setIndeterminateDrawable(chasingDots);
 
     }
 
@@ -280,6 +306,7 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
         });
 
         newsAdapter.startListening();
+
     }
 
     @Override
@@ -310,6 +337,7 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
         recyclerViewInstitutionsCollection.setLayoutManager(new LinearLayoutManager(getContext()));
         InstitutionsCollectionAdapter institutionsCollectionAdapter = new InstitutionsCollectionAdapter();
         recyclerViewInstitutionsCollection.setAdapter(institutionsCollectionAdapter);
+
     }
 
     @Override
@@ -777,8 +805,6 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
 
     }
 
-
-
     private void setupDrawer() {
         attachSearchViewActivityDrawer(mSearchView);
     }
@@ -980,5 +1006,43 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
         }
         return result;
     }
+
+    @Override
+    public void showSpinner() {
+
+        if (InternetConnection.hasInternetConnection(Objects.requireNonNull(getContext()))) {
+
+            spinnerLayout.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
+
+        } else {
+
+            spinnerLayout.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.GONE);
+            checkInternet.setVisibility(View.VISIBLE);
+            btnRetry.setVisibility(View.VISIBLE);
+
+            btnRetry.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    checkInternet.setVisibility(View.GONE);
+                    btnRetry.setVisibility(View.GONE);
+                    startActivity(new Intent(getContext(), HomePageActivity.class));
+                }
+            });
+
+        }
+
+    }
+
+    @Override
+    public void removeSpinner() {
+
+        nestedScrollView.setVisibility(View.VISIBLE);
+        spinnerLayout.setVisibility(View.GONE);
+        progressBar.setVisibility(View.GONE);
+
+    }
+
 
 }

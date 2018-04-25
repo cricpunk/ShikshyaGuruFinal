@@ -55,4 +55,8 @@ public interface HomePageInterface {
 
     void openInstitutionsMainFragment(int instCategory, String title);
 
+    void showSpinner();
+
+    void removeSpinner();
+
 }

@@ -3,17 +3,21 @@
     android:id="@+id/l_progress_bar"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black_main_bg"
+    android:background="@color/colorAppMain"
     android:gravity="center"
-    android:visibility="gone">
+    android:visibility="visible">
 
-    <ProgressBar
+
+    <com.github.ybq.android.spinkit.SpinKitView
         android:id="@+id/pg_loading"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        style="@style/SpinKitView.Large.ChasingDots"
         android:layout_centerHorizontal="true"
-        android:progressDrawable="@drawable/progress_bar"
-        android:visibility="gone" />
+        android:layout_width="wrap_content"
+        android:padding="@dimen/margin_standard"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:SpinKit_Color="#FFFFFF" />
 
     <TextView
         android:id="@+id/lbl_no_internet_connection"
@@ -25,7 +29,7 @@
         android:layout_marginStart="48dp"
         android:text="@string/check_internet_connection"
         android:textAlignment="center"
-        android:textColor="#E9E9E9"
+        android:textColor="#222222"
         android:textSize="20sp"
         android:visibility="gone" />
 
@@ -36,12 +40,12 @@
         android:layout_below="@+id/lbl_no_internet_connection"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/margin_short"
-        android:background="@drawable/rounded_bg"
+        android:background="@drawable/background_radius"
         android:paddingEnd="48dp"
         android:paddingStart="48dp"
         android:text="@string/retry"
         android:textAllCaps="false"
-        android:textColor="#E9E9E9"
+        android:textColor="#222222"
         android:textSize="20sp"
         android:visibility="gone" />
 

@@ -59,7 +59,7 @@ public class UserLoaderFragment extends Fragment implements View.OnClickListener
             this.name = getArguments().getString("NAME");
             this.email = getArguments().getString("EMAIL");
             this.uName = getArguments().getString("USER_NAME");
-            this.type = getArguments().getString("TYPE");
+            this.type = String.valueOf(getArguments().getInt("TYPE"));
             this.followers = getArguments().getString("FOLLOWERS");
             this.following = getArguments().getString("FOLLOWING");
             this.institution = getArguments().getString("INSTITUTION");
@@ -218,7 +218,6 @@ public class UserLoaderFragment extends Fragment implements View.OnClickListener
 
                 if (fBtnAskQuestion.getText().toString().toLowerCase().equals("peoples")) {
 
-                    Toast.makeText(getContext(), "Peoples", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getContext(), UserHomePageActivity.class);
                     intent.putExtra("REQUEST_CODE", "user_main");
                     intent.putExtra("TITLE", "Users");
