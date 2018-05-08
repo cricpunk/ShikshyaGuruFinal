@@ -7,8 +7,9 @@ package com.shikshyaguru.shikshyaguru._7_user_activity.model;
  */
 public class UserDetails {
 
-    private String uId, name, userName, userType, institution, imageUrl;
-    private String email, followers, following, questions, answers;
+    private String uId, name, user_name, institution, image, bg_image;
+    private int type;
+    private String email, phone, address, followers, following, questions, answers;
 
     public UserDetails() {
         // For firebase
@@ -30,20 +31,20 @@ public class UserDetails {
         this.name = name;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUser_name() {
+        return user_name;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
     }
 
-    public String getUserType() {
-        return userType;
+    public int getType() {
+        return type;
     }
 
-    public void setUserType(String userType) {
-        this.userType = userType;
+    public void setType(int type) {
+        this.type = type;
     }
 
     public String getInstitution() {
@@ -54,12 +55,12 @@ public class UserDetails {
         this.institution = institution;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getImage() {
+        return image;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getEmail() {
@@ -100,6 +101,30 @@ public class UserDetails {
 
     public void setAnswers(String answers) {
         this.answers = answers;
+    }
+
+    public String getBg_image() {
+        return bg_image;
+    }
+
+    public void setBg_image(String bg_image) {
+        this.bg_image = bg_image;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
 }

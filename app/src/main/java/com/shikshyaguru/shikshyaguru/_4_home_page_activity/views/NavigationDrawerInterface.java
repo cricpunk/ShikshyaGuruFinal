@@ -7,6 +7,7 @@ package com.shikshyaguru.shikshyaguru._4_home_page_activity.views;
 
 import com.shikshyaguru.shikshyaguru._3_signUp_activity.model.NewUserData;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.DrawerListItem;
+import com.shikshyaguru.shikshyaguru._7_user_activity.model.UserDetails;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,6 +23,6 @@ public interface NavigationDrawerInterface {
 
     void followingList(HashMap<String, Boolean> following);
 
-    void settingUpUserProfile(NewUserData userData);
+    void settingUpUserProfile(UserDetails userData);
 
 }

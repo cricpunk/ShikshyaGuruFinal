@@ -1,11 +1,18 @@
 package com.shikshyaguru.shikshyaguru._7_user_activity.model;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.net.Uri;
+import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.database.SnapshotParser;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -13,6 +20,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.shikshyaguru.shikshyaguru.R;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.NavigationDrawerFragment;
 import com.shikshyaguru.shikshyaguru._7_user_activity.views.ChatInterface;
 import com.shikshyaguru.shikshyaguru._7_user_activity.views.MessageInterface;
@@ -25,6 +36,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /*
@@ -36,7 +48,11 @@ public class UserDataSource implements UserDataSourceInterface {
 
     private static final String CHAT_ID_SPLITTER = "@@@@";
 
+    private ProgressDialog progressDialog;
+    private Context mContext;
+
     private FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
+    private FirebaseStorage mStorage = FirebaseStorage.getInstance();
     private String uId = NavigationDrawerFragment.currentUser.getUid();
 
     @SuppressLint("SimpleDateFormat")
@@ -61,10 +77,13 @@ public class UserDataSource implements UserDataSourceInterface {
                     Long userType = snapshot.child("profile").child("type").getValue(Long.class);
                     userDetails.setName(snapshot.child("profile").child("name").getValue(String.class));
                     assert userType != null;
-                    userDetails.setUserType(String.valueOf(userType.intValue()));
-                    userDetails.setUserName(snapshot.child("profile").child("user_name").getValue(String.class));
+                    userDetails.setType(userType.intValue());
+                    userDetails.setUser_name(snapshot.child("profile").child("user_name").getValue(String.class));
                     userDetails.setInstitution(snapshot.child("profile").child("institution").getValue(String.class));
-                    userDetails.setImageUrl(snapshot.child("profile").child("image").getValue(String.class));
+                    userDetails.setImage(snapshot.child("profile").child("image").getValue(String.class));
+                    userDetails.setBg_image(snapshot.child("profile/bg_image").getValue(String.class));
+                    userDetails.setPhone(snapshot.child("profile/phone").getValue(String.class));
+                    userDetails.setAddress(snapshot.child("profile/address").getValue(String.class));
 
                 } catch (Exception e) {
                     mainInterface.showSnackbar(e.getMessage());
@@ -85,44 +104,50 @@ public class UserDataSource implements UserDataSourceInterface {
 
         final ArrayList<UserDetails> followersFollowing = new ArrayList<>();
 
-        for (final String uId : list.keySet()) {
+        if (!list.isEmpty()) {
 
-            DatabaseReference userRef = mDatabase.getReference().child("users").child(uId).child("profile");
+            for (final String uId : list.keySet()) {
 
-            userRef.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
+                DatabaseReference userRef = mDatabase.getReference().child("users").child(uId).child("profile");
 
-                    try {
+                userRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
 
-                        UserDetails userDetails = new UserDetails();
+                        try {
 
-                        Long userType = dataSnapshot.child("type").getValue(Long.class);
-                        userDetails.setuId(uId);
-                        userDetails.setName(dataSnapshot.child("name").getValue(String.class));
-                        assert userType != null;
-                        userDetails.setUserType(String.valueOf(userType.intValue()));
-                        userDetails.setUserName(dataSnapshot.child("user_name").getValue(String.class));
-                        userDetails.setInstitution(dataSnapshot.child("institution").getValue(String.class));
+                            UserDetails userDetails = new UserDetails();
 
-                        followersFollowing.add(userDetails);
+                            Long userType = dataSnapshot.child("type").getValue(Long.class);
+                            userDetails.setuId(uId);
+                            userDetails.setName(dataSnapshot.child("name").getValue(String.class));
+                            assert userType != null;
+                            userDetails.setType(userType.intValue());
+                            userDetails.setUser_name(dataSnapshot.child("user_name").getValue(String.class));
+                            userDetails.setInstitution(dataSnapshot.child("institution").getValue(String.class));
 
-                        mainInterface.setUpFollowersFollowing(followersFollowing);
-                        mainInterface.removeSpinner();
+                            followersFollowing.add(userDetails);
+
+                            mainInterface.setUpFollowersFollowing(followersFollowing);
+                            mainInterface.removeSpinner();
 
 
-                    } catch (Exception e) {
-                        mainInterface.showSnackbar(e.getMessage());
+                        } catch (Exception e) {
+                            mainInterface.showSnackbar(e.getMessage());
+                        }
+
                     }
 
-                }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
 
-                }
-            });
+            }
 
+        } else {
+            mainInterface.removeSpinnerWithMessage();
         }
 
     }
@@ -186,8 +211,6 @@ public class UserDataSource implements UserDataSourceInterface {
 
 
     }
-
-
 
     // This method will identify right chat id and send message
     @Override
@@ -460,6 +483,94 @@ public class UserDataSource implements UserDataSourceInterface {
     @Override
     public void loadUserFullPage(UserMainInterface mainInterface, UserDetails userDetails) {
         mainInterface.openUserLoaderPage(userDetails);
+    }
+
+    @Override
+    public void updateUserProfile(final HashMap<String, Object> userDetails, String backgroundImageName, Context context) {
+
+        try {
+
+            this.mContext = context;
+
+            progressDialog = new ProgressDialog(context, R.style.DarkDialog);
+            progressDialog.setIndeterminate(true);
+
+            if (backgroundImageName != null) {
+
+                progressDialog.setMessage("Uploading image ...");
+                progressDialog.show();
+
+                StorageReference uProfileRef = mStorage.getReference().child("users/" + uId + "/profile/" + backgroundImageName);
+
+//                final UploadTask uploadTask = uProfileRef.putFile(Uri.parse(userDetails.get("bg_image")));
+                String image = userDetails.get("bg_image").toString();
+                final UploadTask uploadTask = uProfileRef.putFile(Uri.parse(image));
+
+                uploadTask.addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Handle unsuccessful uploads
+
+                        progressDialog.setMessage("Update failed !");
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                progressDialog.dismiss();
+                            }
+                        }, 1500);
+
+                    }
+
+                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                        progressDialog.setMessage("Updating profile... !");
+                        //userDetails.setBg_image(Objects.requireNonNull(taskSnapshot.getDownloadUrl()).toString());
+                        userDetails.put("bg_image", Objects.requireNonNull(taskSnapshot.getDownloadUrl()).toString());
+
+                        updateDatabase(userDetails);
+
+                    }
+                });
+
+            } else {
+
+                updateDatabase(userDetails);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            progressDialog.setMessage("Unexpected error !");
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    progressDialog.dismiss();
+                }
+            }, 1500);
+        }
+
+    }
+
+    private void updateDatabase(HashMap<String, Object> data) {
+
+        mDatabase.getReference().child("users/" + uId + "/profile/").updateChildren(data).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+
+                UserDataSource.this.progressDialog.setProgressDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_done_white));
+                UserDataSource.this.progressDialog.setMessage("Update success !");
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        UserDataSource.this.progressDialog.dismiss();
+                    }
+                }, 1500);
+
+            }
+        });
+
     }
 
 }

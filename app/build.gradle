@@ -132,7 +132,13 @@ dependencies {
     implementation 'com.akexorcist:googledirectionlibrary:1.1.1'
 
     // Progress bar
-    compile 'com.github.ybq:Android-SpinKit:1.1.0'
+    implementation 'com.github.ybq:Android-SpinKit:1.1.0'
+
+    //Spinner
+    implementation 'com.jaredrummler:material-spinner:1.2.5'
+
+    // Pictures
+    implementation 'com.github.jkwiecien:EasyImage:1.3.1'
 
     testImplementation 'junit:junit:4.12'
 

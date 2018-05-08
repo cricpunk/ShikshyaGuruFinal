@@ -9,9 +9,10 @@ import android.support.v4.app.FragmentActivity;
 import android.widget.EditText;
 
 import com.shikshyaguru.shikshyaguru._3_signUp_activity.model.AuthUserDataSourceInterface;
-import com.shikshyaguru.shikshyaguru._3_signUp_activity.model.NewUserData;
 import com.shikshyaguru.shikshyaguru._3_signUp_activity.views.LoginViewInterface;
 import com.shikshyaguru.shikshyaguru._3_signUp_activity.views.SignUpViewInterface;
+
+import java.util.Map;
 
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 
@@ -56,7 +57,7 @@ public class AuthenticationController {
         signUpViewInterface.signInClick();
     }
 
-    public void createNewUser(String uId, NewUserData newUserData) {
+    public void createNewUser(String uId, Map<String, Object> newUserData) {
         dataSource.createNewUser(uId, newUserData);
     }
 

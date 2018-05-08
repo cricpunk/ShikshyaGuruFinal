@@ -11,6 +11,8 @@ import android.widget.EditText;
 import com.shikshyaguru.shikshyaguru._3_signUp_activity.views.LoginViewInterface;
 import com.shikshyaguru.shikshyaguru._3_signUp_activity.views.SignUpViewInterface;
 
+import java.util.Map;
+
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 
 public interface AuthUserDataSourceInterface {
@@ -20,6 +22,6 @@ public interface AuthUserDataSourceInterface {
 
     void signUpBtnClick(SignUpViewInterface signUpViewInterface, FragmentActivity activity, int userType, EditText userName, EditText email, EditText password, EditText confirmPassword, CircularProgressButton signUpBtn);
 
-    void createNewUser(String uId, NewUserData newUserData);
+    void createNewUser(String uId, Map<String, Object> newUserData);
 
 }

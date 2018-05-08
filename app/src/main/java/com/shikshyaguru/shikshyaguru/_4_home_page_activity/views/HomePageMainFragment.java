@@ -138,6 +138,11 @@ public class  HomePageMainFragment extends BaseExampleFragment implements
         // THIS IS DEPENDENCY INJECTION FOR CONTROLLER CLASS
         homePageController = new HomePageController(this, new DataSourceHomePageHomePage());
 
+        homePageController.setUpSliderWithData();
+        homePageController.setUpOptionsWithData();
+        homePageController.setUpNewsHeadlinesWithData();
+        homePageController.setUpInstitutionsCollectionWithData();
+
         return view;
     }
 

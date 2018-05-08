@@ -21,12 +21,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.shikshyaguru.shikshyaguru.R;
 import com.shikshyaguru.shikshyaguru._0_6_widgets.PopupCollections;
 import com.shikshyaguru.shikshyaguru._0_8_validation.PerformValidation;
 import com.shikshyaguru.shikshyaguru._3_signUp_activity.views.LoginFragment;
 import com.shikshyaguru.shikshyaguru._3_signUp_activity.views.LoginViewInterface;
 import com.shikshyaguru.shikshyaguru._3_signUp_activity.views.SignUpViewInterface;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
@@ -182,7 +185,6 @@ public class AuthUserDataSource implements AuthUserDataSourceInterface {
 
         String uEmail = txtUserName.trim() + "@shikshyaguru.com";
         System.out.println("print this result : " + txtUserName + txtEmail + txtPassword + txtConfirmPassword + uEmail);
-
         mAuth.createUserWithEmailAndPassword(uEmail, txtConfirmPassword)
                 .addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -196,15 +198,28 @@ public class AuthUserDataSource implements AuthUserDataSourceInterface {
                                 //LoginFragment.USER_PROVIDER = LoginFragment.CUSTOM_USER_PROVIDER;
                                 //NewUserData newUserData = new NewUserData("New user", txtUserName, txtEmail, txtPassword, userType);
 
-                                NewUserData newUserData = new NewUserData();
-                                newUserData.setName("New user");
-                                newUserData.setUser_name(txtUserName);
-                                newUserData.setEmail(txtEmail);
-                                newUserData.setPassword(txtPassword);
-                                newUserData.setImage("https://firebasestorage.googleapis.com/v0/b/shikshyaguru-182814.appspot.com/o/users%2Fdefault%2Fman.svg?alt=media&token=14128d70-3f29-419e-8282-a5dc51efc4b7");
-                                newUserData.setType(userType);
+                                Map<String, Object> userData = new HashMap<>();
 
-                                createNewUser(user.getUid(), newUserData);
+                                userData.put("name", "New User");
+                                userData.put("user_name", txtUserName);
+                                userData.put("email", txtEmail);
+                                userData.put("password", txtPassword);
+                                userData.put("image", activity.getString(R.string.default_image_url));
+                                userData.put("type", userType);
+
+
+//                                NewUserData newUserData = new NewUserData();
+//                                newUserData.setName("New user");
+//                                newUserData.setUser_name(txtUserName);
+//                                newUserData.setEmail(txtEmail);
+//                                newUserData.setPassword(txtPassword);
+//                                newUserData.setImage("https://firebasestorage.googleapis.com/v0/b/shikshyaguru-182814.appspot.com/o/users%2Fdefault%2Fman.svg?alt=media&token=14128d70-3f29-419e-8282-a5dc51efc4b7");
+//                                newUserData.setType(userType);
+
+//                                createNewUser(user.getUid(), newUserData);
+
+                                createNewUser(user.getUid(), userData);
+
                                 signUpBtn.setDoneColor(Color.parseColor(LoginFragment.COLOR_GREEN));
                                 signUpBtn.revertAnimation();
                                 signUpViewInterface.updateUI(user);
@@ -221,10 +236,11 @@ public class AuthUserDataSource implements AuthUserDataSourceInterface {
     }
 
     @Override
-    public void createNewUser(String uId, NewUserData newUserData) {
+    public void createNewUser(String uId, Map<String, Object> newUserData) {
 
-        mDatabase.getReference().child("users").child(uId).child("profile").setValue(newUserData);
+        mDatabase.getReference().child("users/"+ uId +"/profile/").updateChildren(newUserData);
 
     }
+
 
 }

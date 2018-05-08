@@ -39,11 +39,11 @@ public class PopupCollections {
         snackbar.show();
     }
 
-    public static ProgressDialog authenticationProgress(Context context) {
+    public static ProgressDialog progressNotifier(Context context, String message) {
 
         ProgressDialog progressDialog = new ProgressDialog(context, R.style.DarkDialog);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Authenticating...");
+        progressDialog.setMessage(message);
 
         return progressDialog;
 

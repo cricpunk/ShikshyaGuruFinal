@@ -16,6 +16,7 @@ import com.shikshyaguru.shikshyaguru._3_signUp_activity.model.NewUserData;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.HomePageInterface;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.NavigationDrawerInterface;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.views.NavigationDrawerFragment;
+import com.shikshyaguru.shikshyaguru._7_user_activity.model.UserDetails;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -101,7 +102,7 @@ public class DataSourceHomePageHomePage implements DataSourceHomePageInterface, 
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                NewUserData userData = dataSnapshot.getValue(NewUserData.class);
+                UserDetails userData = dataSnapshot.getValue(UserDetails.class);
                 navigationDrawerInterface.settingUpUserProfile(userData);
             }
 

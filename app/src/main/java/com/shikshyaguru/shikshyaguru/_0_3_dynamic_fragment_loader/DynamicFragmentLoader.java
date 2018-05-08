@@ -24,6 +24,7 @@ import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.viewpager_fr
 import com.shikshyaguru.shikshyaguru._7_user_activity.views.ChatFragment;
 import com.shikshyaguru.shikshyaguru._7_user_activity.views.MessageFragment;
 import com.shikshyaguru.shikshyaguru._7_user_activity.views.QuestionsFragment;
+import com.shikshyaguru.shikshyaguru._7_user_activity.views.UpdateProfileFragment;
 import com.shikshyaguru.shikshyaguru._7_user_activity.views.UserLoaderFragment;
 import com.shikshyaguru.shikshyaguru._7_user_activity.views.UserMainFragment;
 
@@ -84,6 +85,9 @@ public class DynamicFragmentLoader {
                         break;
                     case "question_loader":
                         showFragment(new QuestionsFragment(), fragHolderId, fragmentManager);
+                        break;
+                    case "update_profile":
+                        showFragment(openUpdateProfileFragment(bundle), fragHolderId, fragmentManager);
                         break;
                     default:
                         break;
@@ -168,6 +172,12 @@ public class DynamicFragmentLoader {
         ChatFragment chatFragment = new ChatFragment();
         chatFragment.setArguments(bundle);
         return chatFragment;
+    }
+
+    private static Fragment openUpdateProfileFragment(Bundle bundle) {
+        UpdateProfileFragment updateProfileFragment = new UpdateProfileFragment();
+        updateProfileFragment.setArguments(bundle);
+        return updateProfileFragment;
     }
 
 }

@@ -29,6 +29,7 @@ import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.github.ybq.android.spinkit.style.ChasingDots;
 import com.shikshyaguru.shikshyaguru.R;
 import com.shikshyaguru.shikshyaguru._0_6_widgets.InternetConnection;
 import com.shikshyaguru.shikshyaguru._0_6_widgets.PopupCollections;
@@ -145,6 +146,9 @@ public class UserMainFragment extends Fragment implements UserMainInterface {
         checkInternet = view.findViewById(R.id.lbl_no_internet_connection);
         btnRetry = view.findViewById(R.id.btn_retry);
 
+        ChasingDots chasingDots = new ChasingDots();
+        progressBar.setIndeterminateDrawable(chasingDots);
+
     }
 
     @Override
@@ -172,11 +176,15 @@ public class UserMainFragment extends Fragment implements UserMainInterface {
         Intent intent = new Intent(getContext(), UserHomePageActivity.class);
         intent.putExtra("REQUEST_CODE", "user_loader");
         intent.putExtra("UID", userDetails.getuId());
-        intent.putExtra("IMAGE", userDetails.getImageUrl());
+        intent.putExtra("IMAGE", userDetails.getImage());
+        intent.putExtra("BG_IMAGE", userDetails.getBg_image());
         intent.putExtra("NAME", userDetails.getName());
-        intent.putExtra("USER_NAME", userDetails.getUserName());
-        intent.putExtra("TYPE", userDetails.getUserType());
+        intent.putExtra("USER_NAME", userDetails.getUser_name());
+        intent.putExtra("TYPE", userDetails.getType());
         intent.putExtra("INSTITUTION", userDetails.getInstitution());
+        intent.putExtra("EMAIL", userDetails.getEmail());
+        intent.putExtra("ADDRESS", userDetails.getAddress());
+        intent.putExtra("PHONE", userDetails.getPhone());
 
         startActivity(intent);
     }
@@ -199,18 +207,18 @@ public class UserMainFragment extends Fragment implements UserMainInterface {
             try {
 
                 Picasso.get()
-                        .load(model.getImageUrl())
+                        .load(model.getImage())
                         .fit()
                         .centerCrop()
                         .placeholder(R.drawable.ic_user)
                         .into(holder.userIcon);
                 holder.userName.setText(model.getName());
 
-                if (model.getUserType() != null) {
-                    holder.userType.setText(getUserType(model.getUserType()));
-                }
+                //if (model.getType() != null) {
+                    holder.userType.setText(getUserType(model.getType()));
+                //}
 
-                holder.userUserName.setText(String.format("@%s", model.getUserName()));
+                holder.userUserName.setText(String.format("@%s", model.getUser_name()));
                 holder.userInstitution.setText(model.getInstitution());
                 changeButtonBehaviourAllUser(model.getuId(), holder.followBtn);
 
@@ -248,17 +256,17 @@ public class UserMainFragment extends Fragment implements UserMainInterface {
             try {
 
                 Picasso.get()
-                        .load(model.getImageUrl())
+                        .load(model.getImage())
                         .fit()
                         .centerCrop()
                         .placeholder(R.drawable.ic_user)
                         .into(holder.userIcon);
                 holder.userName.setText(model.getName());
-                if (model.getUserType() != null) {
-                    holder.userType.setText(getUserType(model.getUserType()));
-                }
+                //if (model.getType() != null) {
+                    holder.userType.setText(getUserType(model.getType()));
+               // }
 
-                holder.userUserName.setText(String.format("@%s", model.getUserName()));
+                holder.userUserName.setText(String.format("@%s", model.getUser_name()));
                 holder.userInstitution.setText(model.getInstitution());
 
                 // Current user details setting for view holder
@@ -410,18 +418,18 @@ public class UserMainFragment extends Fragment implements UserMainInterface {
 
     }
 
-    private String getUserType(String userType) {
+    private String getUserType(int userType) {
 
         String type = null;
 
         switch (userType) {
-            case "1":
+            case 1:
                 type = getString(R.string.typeStudent);
                 break;
-            case "2":
+            case 2:
                 type = getString(R.string.typeTeacher);
                 break;
-            case "3":
+            case 3:
                 type = getString(R.string.typeInstitution);
                 break;
         }
@@ -527,6 +535,15 @@ public class UserMainFragment extends Fragment implements UserMainInterface {
         spinnerLayout.setVisibility(View.GONE);
         progressBar.setVisibility(View.GONE);
     }
+
+    @Override
+    public void removeSpinnerWithMessage() {
+        spinnerLayout.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.GONE);
+        checkInternet.setVisibility(View.VISIBLE);
+        checkInternet.setText(R.string.dont_have_friends);
+    }
+
 
     @Override
     public void showSnackbar(String message) {

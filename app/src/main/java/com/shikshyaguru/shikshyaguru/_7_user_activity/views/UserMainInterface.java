@@ -16,6 +16,8 @@ public interface UserMainInterface {
 
     void removeSpinner();
 
+    void removeSpinnerWithMessage();
+
     void showSnackbar(String message);
 
     void setUpUsersAdapter(FirebaseRecyclerOptions<UserDetails> options);

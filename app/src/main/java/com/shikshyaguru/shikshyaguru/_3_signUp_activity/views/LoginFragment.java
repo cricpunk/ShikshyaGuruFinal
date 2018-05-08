@@ -56,6 +56,8 @@ import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
@@ -67,6 +69,8 @@ import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
  */
 
 public class LoginFragment extends Fragment implements LoginViewInterface, View.OnClickListener{
+
+    public static final String AUTHENTICATING = "Authenticating...";
 
     public static String USER_PROVIDER = null;
     public static final String FACEBOOK_USER = "facebook.com";
@@ -267,7 +271,7 @@ public class LoginFragment extends Fragment implements LoginViewInterface, View.
                     @Override
                     public void onSuccess(LoginResult loginResult) {
                         //Display progress dialogue
-                        PopupCollections.authenticationProgress(getContext()).show();
+                        PopupCollections.progressNotifier(getContext(), AUTHENTICATING).show();
                         handleFacebookAccessToken(loginResult.getAccessToken());
                     }
 
@@ -307,7 +311,7 @@ public class LoginFragment extends Fragment implements LoginViewInterface, View.
                     @Override
                     public void success(Result<TwitterSession> result) {
                         // Display authentication progress bar
-                        PopupCollections.authenticationProgress(getContext()).show();
+                        PopupCollections.progressNotifier(getContext(), AUTHENTICATING).show();
                         handleTwitterSession(result.data);
                     }
 
@@ -361,7 +365,7 @@ public class LoginFragment extends Fragment implements LoginViewInterface, View.
             try {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
-                PopupCollections.authenticationProgress(getContext()).show();
+                PopupCollections.progressNotifier(getContext(), AUTHENTICATING).show();
                 firebaseAuthWithGoogle(account);
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
@@ -395,7 +399,7 @@ public class LoginFragment extends Fragment implements LoginViewInterface, View.
                             PopupCollections.simpleSnackBar(currentLayout, String.valueOf(task.getException()), COLOR_RED);
                         }
 
-                        PopupCollections.authenticationProgress(getContext()).dismiss();
+                        PopupCollections.progressNotifier(getContext(), AUTHENTICATING).dismiss();
                     }
                 });
     }
@@ -423,7 +427,7 @@ public class LoginFragment extends Fragment implements LoginViewInterface, View.
 
                         }
 
-                        PopupCollections.authenticationProgress(getContext()).dismiss();
+                        PopupCollections.progressNotifier(getContext(), AUTHENTICATING).dismiss();
                     }
                 });
     }
@@ -447,7 +451,7 @@ public class LoginFragment extends Fragment implements LoginViewInterface, View.
                             PopupCollections.simpleSnackBar(currentLayout, String.valueOf(task.getException()), COLOR_RED);
                         }
 
-                        PopupCollections.authenticationProgress(getContext()).dismiss();
+                        PopupCollections.progressNotifier(getContext(), AUTHENTICATING).dismiss();
                     }
                 });
     }
@@ -488,15 +492,26 @@ public class LoginFragment extends Fragment implements LoginViewInterface, View.
                 String[] emailArr = Objects.requireNonNull(user.getEmail()).split("@");
                 String userName = emailArr[0];
 
-                NewUserData newUserData = new NewUserData();
-                newUserData.setName(user.getDisplayName());
-                newUserData.setUser_name(userName);
-                newUserData.setEmail(user.getEmail());
-                newUserData.setPassword(getString(R.string.defPassUser));
-                newUserData.setImage(Objects.requireNonNull(user.getPhotoUrl()).toString());
-                newUserData.setType(userType);
+                Map<String, Object> userData = new HashMap<>();
 
-                controller.createNewUser(user.getUid(), newUserData);
+                userData.put("name", user.getDisplayName());
+                userData.put("user_name", userName);
+                userData.put("email", user.getEmail());
+                userData.put("password", getString(R.string.defPassUser));
+                userData.put("image", Objects.requireNonNull(user.getPhotoUrl()).toString());
+                userData.put("type", userType);
+
+//                NewUserData newUserData = new NewUserData();
+//                newUserData.setName(user.getDisplayName());
+//                newUserData.setUser_name(userName);
+//                newUserData.setEmail(user.getEmail());
+//                newUserData.setPassword(getString(R.string.defPassUser));
+//                newUserData.setImage(Objects.requireNonNull(user.getPhotoUrl()).toString());
+//                newUserData.setType(userType);
+
+                //controller.createNewUser(user.getUid(), newUserData);
+
+                controller.createNewUser(user.getUid(), userData);
 
             }
 
@@ -507,21 +522,29 @@ public class LoginFragment extends Fragment implements LoginViewInterface, View.
 
                 String userName = Objects.requireNonNull(user.getDisplayName()).replaceAll(" ", ".");
 
-                NewUserData newUserData = new NewUserData();
-                newUserData.setName(user.getDisplayName());
-                newUserData.setUser_name(userName);
-                newUserData.setEmail(userName+"@shikshyaguru.com");
-                newUserData.setPassword(getString(R.string.defPassUser));
-                newUserData.setImage(Objects.requireNonNull(user.getPhotoUrl()).toString());
-                newUserData.setType(userType);
+                Map<String, Object> userData = new HashMap<>();
 
-                controller.createNewUser(user.getUid(), newUserData);
+                userData.put("name", user.getDisplayName());
+                userData.put("user_name", userName);
+                userData.put("email", userName+"@shikshyaguru.com");
+                userData.put("password", getString(R.string.defPassUser));
+                userData.put("image", Objects.requireNonNull(user.getPhotoUrl()).toString());
+                userData.put("type", userType);
 
+//                NewUserData newUserData = new NewUserData();
+//                newUserData.setName(user.getDisplayName());
+//                newUserData.setUser_name(userName);
+//                newUserData.setEmail(userName+"@shikshyaguru.com");
+//                newUserData.setPassword(getString(R.string.defPassUser));
+//                newUserData.setImage(Objects.requireNonNull(user.getPhotoUrl()).toString());
+//                newUserData.setType(userType);
+
+                //controller.createNewUser(user.getUid(), newUserData);
+
+                controller.createNewUser(user.getUid(), userData);
 
             }
-
         }
-
     }
 
     // Update UI

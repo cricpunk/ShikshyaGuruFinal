@@ -59,13 +59,15 @@ public class NewsMainFragment extends Fragment implements NewsViewInterface {
         // To make onOptionItemSelected working we have to setHasOptionsMenu true in fragment.
         setHasOptionsMenu(true);
 
+        controller = new NewsController(this, new NewsDataSource());
+
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        controller = new NewsController(this, new NewsDataSource());
+
     }
 
     @Override

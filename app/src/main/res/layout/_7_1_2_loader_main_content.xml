@@ -1,6 +1,7 @@
 <!-- MAIN LAYOUT -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/dragView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -63,7 +64,7 @@
                         android:paddingBottom="@dimen/margin_extra_short"
                         android:paddingLeft="@dimen/margin_standard"
                         android:paddingRight="@dimen/margin_standard"
-                        android:text="@string/student_1"
+                        tools:text="Student"
                         android:textColor="#B3222222"
                         android:textSize="14sp" />
 
@@ -76,7 +77,7 @@
                         android:paddingBottom="@dimen/margin_extra_short"
                         android:paddingLeft="@dimen/margin_standard"
                         android:paddingRight="@dimen/margin_standard"
-                        android:text="@string/islington_college"
+                        tools:text="Islington College"
                         android:textColor="#B3222222"
                         android:textSize="14sp" />
 
@@ -136,7 +137,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
-                                android:text="@string/_687"
+                                tools:text="0"
                                 android:textColor="#BF000000"
                                 android:textSize="28sp" />
 
@@ -163,7 +164,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
-                                android:text="@string/_356"
+                                tools:text="0"
                                 android:textColor="#BF000000"
                                 android:textSize="28sp" />
 
@@ -190,7 +191,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
-                                android:text="@string/_1025"
+                                tools:text="0"
                                 android:textColor="#BF000000"
                                 android:textSize="28sp" />
 
@@ -217,7 +218,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
-                                android:text="@string/_2057"
+                                tools:text="0"
                                 android:textColor="#BF000000"
                                 android:textSize="28sp" />
 
@@ -239,7 +240,7 @@
                         android:layout_height="match_parent"
                         android:layout_below="@+id/v_bottom"
                         android:gravity="center"
-                        android:text="@string/pankaj_email"
+                        tools:text="koiralapanakj@gmail.com"
                         android:textSize="12sp" />
 
                 </RelativeLayout>
@@ -255,6 +256,37 @@
                 android:src="@drawable/model6"
                 app:siBorderColor="#FAFAFA"
                 app:siBorderWidth="2dp" />
+
+            <LinearLayout
+                android:layout_marginStart="32dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:visibility="invisible"
+                android:gravity="bottom|center_horizontal"
+                android:background="@drawable/circle_perfect"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginEnd="10dp"
+                    android:clickable="true"
+                    android:layout_marginBottom="16dp"
+                    android:src="@drawable/ic_camera"
+                    android:focusable="true"
+                    tools:ignore="ContentDescription" />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:clickable="true"
+                    android:layout_marginBottom="16dp"
+                    android:src="@drawable/vector_drawable_gallery"
+                    android:focusable="true"
+                    tools:ignore="ContentDescription" />
+
+            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -290,8 +322,6 @@
                     android:textSize="20sp" />
 
             </LinearLayout>
-
-
 
         </RelativeLayout>
 

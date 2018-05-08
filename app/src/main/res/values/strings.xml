@@ -134,12 +134,12 @@ Quam libero nulla netus eu porta curae, ut nulla bibendum facilisis et urna sed,
     <string name="follow">Follow</string>
     <string name="student_1">Student</string>
     <string name="question_s">Question\'s</string>
-    <string name="_687">687</string>
+    <string name="_687">0</string>
     <string name="following">Following</string>
     <string name="_2057">2057</string>
     <string name="_1025">1025</string>
     <string name="followers">Follower\'s</string>
-    <string name="_356">356</string>
+    <string name="_356">0</string>
     <string name="answers">Answer\'s</string>
     <string name="ask_question">Ask Question</string>
     <string name="categories">Categories</string>
@@ -176,6 +176,8 @@ Quam libero nulla netus eu porta curae, ut nulla bibendum facilisis et urna sed,
     <string name="peoples">Peoples</string>
     <string name="update_profile">Update profile</string>
     <string name="defPassUser">defpassuser</string>
+    <string name="dont_have_friends">Oops.. You don\'t have any friend to suggest.</string>
+    <string name="default_image_url"><![CDATA[\"https://firebasestorage.googleapis.com/v0/b/shikshyaguru-182814.appspot.com/o/users%2Fdefault%2Fman.svg?alt=media&token=14128d70-3f29-419e-8282-a5dc51efc4b7\"]]></string>
 
 
 </resources>

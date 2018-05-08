@@ -45,7 +45,8 @@ public class UserLoaderFragment extends Fragment implements View.OnClickListener
 
     private UserController controller;
 
-    private String uId, image, name, email, uName, type, institution, followers, following;
+    private String uId, image, bgImage, name, email, uName, address, phone, institution, followers, following;
+    private int type;
 
     @Nullable
     @Override
@@ -59,10 +60,13 @@ public class UserLoaderFragment extends Fragment implements View.OnClickListener
             this.name = getArguments().getString("NAME");
             this.email = getArguments().getString("EMAIL");
             this.uName = getArguments().getString("USER_NAME");
-            this.type = String.valueOf(getArguments().getInt("TYPE"));
+            this.type = getArguments().getInt("TYPE");
             this.followers = getArguments().getString("FOLLOWERS");
             this.following = getArguments().getString("FOLLOWING");
             this.institution = getArguments().getString("INSTITUTION");
+            this.bgImage = getArguments().getString("BG_IMAGE");
+            this.address = getArguments().getString("ADDRESS");
+            this.phone = getArguments().getString("PHONE");
 
         }
 
@@ -178,25 +182,31 @@ public class UserLoaderFragment extends Fragment implements View.OnClickListener
         fName.setText(name);
         fMail.setText(email);
 
-        if (type != null) {
-            switch (type) {
-                case "1":
-                    fType.setText(R.string.typeStudent);
-                    break;
-                case "2":
-                    fType.setText(R.string.typeTeacher);
-                    break;
-                case "3":
-                    fType.setText(R.string.typeInstitution);
-                    break;
-                default:
-                    break;
+        switch (type) {
+            case 1:
+                fType.setText(R.string.typeStudent);
+                break;
+            case 2:
+                fType.setText(R.string.typeTeacher);
+                break;
+            case 3:
+                fType.setText(R.string.typeInstitution);
+                break;
+            default:
+                break;
 
-            }
         }
+
         fFollower.setText(followers);
         fFollowing.setText(following);
         fInstitution.setText(institution);
+
+        Picasso.get()
+                .load(bgImage)
+                .fit()
+                .centerCrop()
+                .placeholder(R.drawable.tumblr)
+                .into(bProfileBg);
 
     }
 
@@ -209,7 +219,18 @@ public class UserLoaderFragment extends Fragment implements View.OnClickListener
 
                 if (fBtnSendMessage.getText().toString().toLowerCase().equals("update profile")) {
                     // Update profile
-                    Toast.makeText(getContext(), "Update profile", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(), "Update profile", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getContext(), UserHomePageActivity.class);
+                    intent.putExtra("REQUEST_CODE", "update_profile");
+                    intent.putExtra("UID", uId);
+                    intent.putExtra("NAME", name);
+                    intent.putExtra("USER_NAME", uName);
+                    intent.putExtra("EMAIL", email);
+                    intent.putExtra("INSTITUTION", institution);
+                    intent.putExtra("TYPE", type);
+                    intent.putExtra("PHONE", phone);
+                    intent.putExtra("ADDRESS", address);
+                    startActivity(intent);
                 } else {
                     // Send message
                     Intent intent = new Intent(getContext(), UserHomePageActivity.class);

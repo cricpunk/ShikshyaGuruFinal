@@ -23,10 +23,10 @@ public class HomePageController {
         this.view = view;
         this.dataSource = dataSource;
 
-        setUpSliderWithData();
-        setUpOptionsWithData();
-        setUpNewsHeadlinesWithData();
-        setUpInstitutionsCollectionWithData();
+//        setUpSliderWithData();
+//        setUpOptionsWithData();
+//        setUpNewsHeadlinesWithData();
+//        setUpInstitutionsCollectionWithData();
 
     }
 
@@ -36,7 +36,7 @@ public class HomePageController {
         dataSource.setUpDrawerWithData(navigationDrawerInterface);
     }
 
-    private void setUpSliderWithData() {
+    public void setUpSliderWithData() {
         view.setUpSliderAdapterAndView(dataSource.getSponsorDetail(view));
     }
 
@@ -48,11 +48,11 @@ public class HomePageController {
         return dataSource.getSlogan(id);
     }
 
-    private void setUpOptionsWithData() {
+    public void setUpOptionsWithData() {
         view.setUpOptionsAdapterAndView(dataSource.getListOfOptions());
     }
 
-    private void setUpNewsHeadlinesWithData() {
+    public void setUpNewsHeadlinesWithData() {
         view.setupNewsHeadlinesAdapterAndView(dataSource.getNewsDetails());
     }
 
@@ -64,7 +64,7 @@ public class HomePageController {
         view.openNewsLoaderFragment(newsListItem, options);
     }
 
-    private void setUpInstitutionsCollectionWithData() {
+    public void setUpInstitutionsCollectionWithData() {
         view.setupInstitutionsCollectionAdapterAndView(dataSource.getTotalInstitutionsHeading());
     }
 

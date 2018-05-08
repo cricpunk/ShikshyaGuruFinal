@@ -1,5 +1,7 @@
 package com.shikshyaguru.shikshyaguru._7_user_activity.model;
 
+import android.content.Context;
+
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.shikshyaguru.shikshyaguru._7_user_activity.views.ChatInterface;
 import com.shikshyaguru.shikshyaguru._7_user_activity.views.MessageInterface;
@@ -38,5 +40,7 @@ public interface UserDataSourceInterface {
     void cancelFollowingRequest(UserMainInterface mainInterface, String friendId);
 
     void loadUserFullPage(UserMainInterface mainInterface, UserDetails userDetails);
+
+    void updateUserProfile(HashMap<String, Object> userDetails, String backgroundImageName, Context context);
 
 }

@@ -1,5 +1,7 @@
 package com.shikshyaguru.shikshyaguru._7_user_activity.presenter;
 
+import android.content.Context;
+
 import com.shikshyaguru.shikshyaguru._7_user_activity.model.UserDataSourceInterface;
 import com.shikshyaguru.shikshyaguru._7_user_activity.model.UserDetails;
 import com.shikshyaguru.shikshyaguru._7_user_activity.views.ChatInterface;
@@ -39,6 +41,10 @@ public class UserController {
 
     public UserController(MessageInterface messageInterface, UserDataSourceInterface dataSource) {
         this.messageInterface = messageInterface;
+        this.dataSource = dataSource;
+    }
+
+    public UserController(UserDataSourceInterface dataSource) {
         this.dataSource = dataSource;
     }
 
@@ -91,6 +97,10 @@ public class UserController {
 
     public void cancelFollowingRequest(String friendId) {
         dataSource.cancelFollowingRequest(mainInterface, friendId);
+    }
+
+    public void updateUserProfile(HashMap<String, Object> userDetails, String backgroundImageName, Context context) {
+        dataSource.updateUserProfile(userDetails, backgroundImageName, context);
     }
 
 }

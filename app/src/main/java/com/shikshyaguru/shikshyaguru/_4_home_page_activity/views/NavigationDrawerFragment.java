@@ -44,6 +44,7 @@ import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.DataSourceHomeP
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.model.DrawerListItem;
 import com.shikshyaguru.shikshyaguru._4_home_page_activity.presenter.HomePageController;
 import com.shikshyaguru.shikshyaguru._6_institutions_activity.views.InstitutionsHomePageActivity;
+import com.shikshyaguru.shikshyaguru._7_user_activity.model.UserDetails;
 import com.shikshyaguru.shikshyaguru._7_user_activity.views.UserHomePageActivity;
 import com.squareup.picasso.Picasso;
 
@@ -70,7 +71,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
     public static HashMap<String, Boolean> followingList = new HashMap<>();
 
     // Data tha came from database profile node for the current user
-    private NewUserData userData;
+    private UserDetails userData;
 
     private FirebaseAuth mAuth;
     public static FirebaseUser currentUser;
@@ -111,7 +112,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
 
 
     @Override
-    public void settingUpUserProfile(NewUserData data) {
+    public void settingUpUserProfile(UserDetails data) {
 
         this.userData = data;
         try {
@@ -148,6 +149,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
     private void userProfileClick() {
 
         Intent intent = new Intent(getContext(), UserHomePageActivity.class);
+
         intent.putExtra("REQUEST_CODE", "user_loader");
         intent.putExtra("UID", currentUser.getUid());
         intent.putExtra("IMAGE", userData.getImage());
@@ -157,6 +159,10 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         intent.putExtra("FOLLOWING", String.valueOf(followingList.size()));
         intent.putExtra("USER_NAME", userData.getUser_name());
         intent.putExtra("TYPE", userData.getType());
+        intent.putExtra("BG_IMAGE", userData.getBg_image());
+        intent.putExtra("INSTITUTION", userData.getInstitution());
+        intent.putExtra("PHONE", userData.getPhone());
+        intent.putExtra("ADDRESS", userData.getAddress());
         startActivity(intent);
 
     }
